@@ -9,9 +9,12 @@ Status](https://travis-ci.org/nhejazi/haldensify.svg?branch=master)](https://tra
 Status](https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&svg=true)](https://ci.appveyor.com/project/nhejazi/haldensify)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![CRAN](http://www.r-pkg.org/badges/version/survsl3)](http://www.r-pkg.org/pkg/survsl3)
+[![CRAN
+downloads](https://cranlogs.r-pkg.org/badges/survsl3)](https://CRAN.R-project.org/package=survsl3)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![MIT
 license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
@@ -88,11 +91,11 @@ After using the `haldensify` R package, please cite the following:
 
 ## Related
 
-  - [R/`condensier`](https://github.com/osofr/condensier) - An R package
-    providing an independent implementation of the same core
-    methodology, though `condensier` allows for arbitrary selection of
+  - [R/`condensier`](https://github.com/osofr/condensier) - An
+    independent implementation of the same core methodology, though more
+    general in its making allowance for arbitrary selection of
     regression functions and a greater variety of hazard regression
-    strategies, thus making it more general.
+    strategies.
 
 -----
 
