@@ -19,4 +19,3 @@ mod_haldensify <- haldensify(
 
 # predictions to recover conditional density of A|W
 pred_haldensify <- predict(mod_haldensify, new_A = a, new_W = w)
-

@@ -128,7 +128,8 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
   # NOTE: pred_hazard = (1 - pred) if 0 in this bin * pred if 1 in this bin
   if (n_records > 1) {
     hazard_prefailure <- matrix(1 - hazard_pred_single_obs[-n_records, ],
-                                nrow = (n_records - 1))
+      nrow = (n_records - 1)
+    )
     hazard_at_failure <- hazard_pred_single_obs[n_records, ]
     hazard_predicted <- rbind(hazard_prefailure, hazard_at_failure)
     rownames(hazard_predicted) <- NULL

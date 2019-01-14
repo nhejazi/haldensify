@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/index.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/cv_haldensify.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/format_long_hazards.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/haldensify.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/map_hazard_to_density.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/predict.haldensify.html</loc>
+  </url>
+</urlset>
