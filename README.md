@@ -15,7 +15,8 @@ developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repo
 [![MIT
 license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-> Targeted Learning of the Causal Effects of Stochastic Interventions
+> Nonparametric Conditional Density Estimation with the Highly Adaptive
+> Lasso
 
 **Author:** [Nima Hejazi](https://nimahejazi.org)
 
