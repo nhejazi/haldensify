@@ -1,0 +1,81 @@
+# DO NOT CHANGE the "init" and "install" sections below
+
+# Download script file from GitHub
+init:
+  ps: |
+        $ErrorActionPreference = "Stop"
+        Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
+        Import-Module '..\appveyor-tool.ps1'
+
+install:
+  ps: Bootstrap
+
+cache:
+  - C:\RLibrary -> appveyor.yml
+
+# Adapt as necessary starting from here
+branches:
+  only:
+    - master
+    - devel
+
+environment:
+  global:
+    WARNINGS_ARE_ERRORS: 0
+    R_ARCH: x64
+    USE_RTOOLS: true
+    GITHUB_PAT:
+      secure: mW3puUbGi4Q8x4bRzDxlV8FWIIrCPzrg5QXzGKnEx+O092df4uUmbmfkQaFQ3DJY
+
+  matrix:
+    - R_VERSION: release
+
+build_script:
+  - travis-tool.sh install_deps
+  - travis-tool.sh install_github r-lib/devtools
+  - travis-tool.sh install_github Rdatatable/data.table
+  - travis-tool.sh install_github jimhester/covr
+  - travis-tool.sh install_github osofr/simcausal
+  - travis-tool.sh install_github osofr/condensier
+  - travis-tool.sh install_github tlverse/hal9001
+  - travis-tool.sh install_github tlverse/sl3
+
+test_script:
+  - travis-tool.sh run_tests
+
+on_failure:
+  - 7z a failure.zip *.Rcheck\*
+  - appveyor PushArtifact failure.zip
+
+on_success:
+  - Rscript -e "covr::codecov(line_exclusions = list('R/plots.R', 'R/utils.R'))"
+
+artifacts:
+  - path: '*.Rcheck\**\*.log'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.out'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.fail'
+    name: Logs
+
+  - path: '*.Rcheck\**\*.Rout'
+    name: Logs
+
+  - path: '\*_*.tar.gz'
+    name: Bits
+
+  - path: '\*_*.zip'
+    name: Bits
+
+notifications:
+ - provider: Email
+   to:
+     - nh@nimahejazi.org
+   subject: 'r-appveyor build {{status}}'
+   message: "https://ci.appveyor.com/project/nhejazi/haldensify"
+   on_build_success: true
+   on_build_failure: true
+   on_build_status_changed: true
+

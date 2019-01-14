@@ -1,0 +1,6 @@
+title: haldensify
+url: https://code.nimahejazi.org/haldensify
+template:
+  params:
+    bootswatch: readable
+

@@ -5,12 +5,40 @@ Authors@R:
     person(given = "Nima",
            family = "Hejazi",
            role = c("aut", "cre", "cph"),
-           email = "nh@nimahejazi.org")
-Description: What the package does (one paragraph).
-License: MIT + file LICENSE
+           email = "nh@nimahejazi.org",
+           comment = c(ORCID = "0000-0002-7127-2789"))
+Maintainer: Nima Hejazi <nh@nimahejazi.org>
+Description: Conditional density estimation is a longstanding and challenging
+    problem in statistical theory, and numerous proposals exist for optimally
+    estimating such complex functions. An algorithm for nonparametric estimation
+    of conditional densities based on a pooled hazard regression formulation is
+    implemented based on the highly adaptive lasso (HAL), an optimal algorithm
+    for efficient estimation guaranteeing fast convergence rates.
+Depends: R (>= 3.2.0)
+Imports:
+    stats,
+    dplyr,
+    ggplot2,
+    data.table,
+    future.apply,
+    assertthat,
+    hal9001,
+    origami,
+    Rdpack
 Suggests:
-    testthat
-Encoding: UTF-8
-LazyData: true
+    testthat,
+    knitr,
+    rmarkdown
+Remotes:
+    github::osofr/simcausal@master,
+    github::osofr/condensier@master,
+    github::tlverse/origami@master,
+    github::tlverse/hal9001@haldensify
+License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
+Encoding: UTF-8
+LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1
+RdMacros: Rdpack
