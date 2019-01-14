@@ -12,3 +12,5 @@ Suggests:
     testthat
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/nhejazi/test
+BugReports: https://github.com/nhejazi/test/issues
