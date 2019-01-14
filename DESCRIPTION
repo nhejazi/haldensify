@@ -1,16 +1,16 @@
-Package: test
-Title: What the Package Does (One Line, Title Case)
+Package: haldensify
+Title: Nonparametric Conditional Density Estimation with the Highly Adaptive Lasso
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com")
+Authors@R:
+    person(given = "Nima",
+           family = "Hejazi",
+           role = c("aut", "cre", "cph"),
+           email = "nh@nimahejazi.org")
 Description: What the package does (one paragraph).
-License: What license it uses
-Suggests: 
+License: MIT + file LICENSE
+Suggests:
     testthat
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/nhejazi/test
-BugReports: https://github.com/nhejazi/test/issues
+URL: https://github.com/nhejazi/haldensify
+BugReports: https://github.com/nhejazi/haldensify/issues
