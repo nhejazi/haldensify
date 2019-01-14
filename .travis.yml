@@ -31,12 +31,12 @@ r_github_packages:
   - jimhester/covr
   - osofr/simcausal
   - osofr/condensier
-  - tlverse/hal9001
-  - tlverse/sl3
+  - tlverse/origami
+  - tlverse/hal9001@haldensify
 
 after_success:
   ## coverage
-  - travis_wait 80 Rscript -e "covr::codecov(line_exclusions = list('R/utils.R'))"
+  - travis_wait 30 Rscript -e "covr::codecov(line_exclusions = list('R/utils.R'))"
 
 on_failure:
   - "./travis-tool.sh dump_logs"
