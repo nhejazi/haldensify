@@ -24,16 +24,19 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
     breaks = object$breaks
   )
   reformatted_output <- do.call(format_long_hazards, long_format_args)
-  long_data <- reformatted_output$data
+  long_data_pred <- reformatted_output$data
+  long_data_pred[, wts := NULL]
 
   # predict conditional density estimate from HAL fit on new long format data
-  hazard_pred <- stats::predict(object$hal_fit, new_data = long_data)
+  hazard_pred <-
+    stats::predict(object$hal_fit, new_data =
+                   long_data_pred[, 3:ncol(long_data_pred)])
 
   # compute hazard for a given observation by looping over individuals
   density_pred_each_obs <-
-    future.apply::future_lapply(unique(long_data$obs_id), function(id) {
+    future.apply::future_lapply(unique(long_data_pred$obs_id), function(id) {
       # get predictions for the current observation only
-      hazard_pred_this_obs <- matrix(hazard_pred[long_data$obs_id == id])
+      hazard_pred_this_obs <- matrix(hazard_pred[long_data_pred$obs_id == id])
 
       # map hazard to density for a single observation and return
       density_pred_this_obs <-
@@ -45,8 +48,8 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
 
   # aggregate predicted density at the level of observations
   density_pred_unscaled <- do.call(c, density_pred_each_obs)
-  density_pred_scaled <-
-    object$bin_sizes[long_data[in_bin == 1, bin_id]] * density_pred_unscaled
+  density_pred_scaled <- density_pred_unscaled /
+    object$bin_sizes[long_data_pred[in_bin == 1, bin_id]]
 
   # output
   return(density_pred_scaled)

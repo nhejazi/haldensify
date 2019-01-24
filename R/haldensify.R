@@ -170,7 +170,7 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
   density_pred_unscaled <- do.call(rbind, haldensity$preds)
   # re-scale predictions by multiplying by bin width for bin each fails in
   density_pred_scaled <- apply(density_pred_unscaled, 2, function(x) {
-    pred <- x * bin_sizes[long_data[in_bin == 1, bin_id]]
+    pred <- x / bin_sizes[long_data[in_bin == 1, bin_id]]
     return(pred)
   })
   obs_wts <- do.call(c, haldensity$wts)

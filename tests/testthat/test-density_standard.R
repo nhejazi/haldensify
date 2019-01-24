@@ -18,14 +18,15 @@ mod_haldensify <- haldensify(
 )
 
 # predictions to recover conditional density of A|W
-pred_haldensify <- predict(mod_haldensify, new_A = a, new_W = w)
+new_a <- seq(-2, 2, by = 0.1)
+new_w_neg <- rep(-1, length(new_a))
+new_w_pos <- rep(1, length(new_a))
+pred_haldensify_neg_mean <- predict(mod_haldensify,
+                                    new_A = new_a, new_W = new_w_neg)
+pred_haldensify_pos_mean <- predict(mod_haldensify,
+                                    new_A = new_a, new_W = new_w_pos)
 
 # organize data for visualization
-dat <- as.data.table(list(A = a, W = w, Pred = pred_haldensify))
-dat$sim_A <- dnorm(dat$A)
-dat_molten <- melt(dat, id = c("A"), measure = c("Pred", "sim_A"))
-p_dens <- dat_molten %>%
-  ggplot(aes(x = A, y = value, color = variable)) +
-  geom_point() +
-  theme_bw()
-p_dens
+plot(x = new_a, y = pred_haldensify_neg_mean, type = "l")
+lines(x = new_a, y = pred_haldensify_pos_mean)
+

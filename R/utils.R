@@ -37,10 +37,10 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
   if (is.null(breaks) & !is.null(n_bins)) {
     if (type == "equal_range") {
       bins <- ggplot2::cut_interval(A, n_bins, right = FALSE,
-                                    ordered_result = TRUE)
+                                    ordered_result = TRUE, dig.lab = 12)
     } else if (type == "equal_mass") {
       bins <- ggplot2::cut_number(A, n_bins, right = FALSE,
-                                  ordered_result = TRUE)
+                                  ordered_result = TRUE, dig.lab = 12)
     }
     #https://stackoverflow.com/questions/36581075/extract-the-breakpoints-from-cut
     breaks_left <- as.numeric(sub('.(.+),.+', '\\1', levels(bins)))
@@ -48,6 +48,7 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
     bin_length <- round(breaks_right - breaks_left, 3)
   # for predict method, only need to assign observations to existing intervals
   } else if (!is.null(breaks)) {
+    # NOTE: findInterval() and cut() might return slightly different results...
     bins <- findInterval(A, breaks)
   } else {
     stop("Combination of arguments `breaks`, `n_bins` incorrectly specified.")
