@@ -12,44 +12,52 @@
 #'  equal range, use "equal_range" and consider consulting the documentation of
 #'  \code{ggplot2::cut_interval} for more information. To ensure each bins has
 #'  the same number of points, use "equal_mass" and consult the documentation of
-#'  \code{ggplot2::cut_number} for details. If bins of equal width are desired,
-#'  use "equal_width" and consult \code{ggplot2::cut_width} as a reference.
+#'  \code{ggplot2::cut_number} for details.
 #' @param n_bins Only used if \code{type} is set to \code{"equal_range"} or
 #'  \code{"equal_mass"}. This \code{numeric} value indicates the number of bins
 #'  that the support of the intervention \code{A} is to be divided into.
-#' @param width Only used if \code{type} is set to \code{"equal_width"}. This
-#'  \code{numeric} provides the width of the bins to be produced along the
-#'  support of the observed values of the intervention \code{A}.
+#' @param breaks A \code{numeric} vector of break points to be used in dividing
+#'  up the support of \code{A}. This is passed as a \code{...} argument to
+#'  \code{base::cut.default} by either \code{cut_interval} or \code{cut_number}.
 #'
 #' @importFrom data.table as.data.table setnames
-#' @importFrom ggplot2 cut_interval cut_number cut_width
+#' @importFrom ggplot2 cut_interval cut_number
 #' @importFrom future.apply future_lapply
 #' @importFrom assertthat assert_that
 #
 format_long_hazards <- function(A, W, wts = rep(1, length(A)),
                                 type = c(
-                                  "equal_range", "equal_mass",
-                                  "equal_width"
+                                  "equal_range", "equal_mass"
                                 ),
-                                n_bins = 10, width = NULL) {
+                                n_bins = NULL, breaks = NULL) {
   # clean up arguments
   type <- match.arg(type)
 
   # set grid along A and find interval membership of observations along grid
-  if (type == "equal_range") {
-    bins <- ggplot2::cut_interval(A, n_bins, right = FALSE)
-  } else if (type == "equal_mass") {
-    bins <- ggplot2::cut_number(A, n_bins, right = FALSE)
+  if (is.null(breaks) & !is.null(n_bins)) {
+    if (type == "equal_range") {
+      bins <- ggplot2::cut_interval(A, n_bins, right = FALSE,
+                                    ordered_result = TRUE)
+    } else if (type == "equal_mass") {
+      bins <- ggplot2::cut_number(A, n_bins, right = FALSE,
+                                  ordered_result = TRUE)
+    }
+    #https://stackoverflow.com/questions/36581075/extract-the-breakpoints-from-cut
+    breaks_left <- as.numeric(sub('.(.+),.+', '\\1', levels(bins)))
+    breaks_right <- as.numeric(sub('.+,(.+).', '\\1', levels(bins)))
+    bin_length <- round(breaks_right - breaks_left, 3)
+  # for predict method, only need to assign observations to existing intervals
+  } else if (!is.null(breaks)) {
+    bins <- findInterval(A, breaks)
   } else {
-    assertthat::assert_that(!is.null(width))
-    bins <- ggplot2::cut_width(A, width, closed = "left")
+    stop("Combination of arguments `breaks`, `n_bins` incorrectly specified.")
   }
   bin_id <- as.numeric(bins)
 
   # loop over observations to create expanded set of records for each
   reformat_each_obs <- future.apply::future_lapply(seq_along(A), function(i) {
     # create repeating bin IDs for this subject (these map to intervals)
-    all_bins <- matrix(seq_along(levels(bins)), ncol = 1)
+    all_bins <- matrix(seq_along(unique(bin_id)), ncol = 1)
 
     # create indicator and "turn on" indicator for interval membership
     bin_indicator <- rep(0, nrow(all_bins))
@@ -100,7 +108,21 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
   })
 
   # combine observation-level hazards data into larger structure
-  out <- do.call(rbind, reformat_each_obs)
+  reformatted_data <- do.call(rbind, reformat_each_obs)
+  out <- list(data = reformatted_data,
+              breaks =
+                if (exists("breaks_left")) {
+                  breaks_left
+                } else {
+                  NULL
+                },
+              bin_length =
+                if (exists("bin_length")) {
+                  bin_length
+                } else {
+                  NULL
+                }
+              )
   return(out)
 }
 

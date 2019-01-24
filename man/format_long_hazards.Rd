@@ -5,8 +5,8 @@
 \title{Generate long format hazards data for conditional density estimation}
 \usage{
 format_long_hazards(A, W, wts = rep(1, length(A)),
-  type = c("equal_range", "equal_mass", "equal_width"), n_bins = 10,
-  width = NULL)
+  type = c("equal_range", "equal_mass"), n_bins = NULL,
+  breaks = NULL)
 }
 \arguments{
 \item{A}{The \code{numeric} vector or similar of the observed values of an
@@ -24,16 +24,15 @@ bins along the observed support of the intervention \code{A}. For bins of
 equal range, use "equal_range" and consider consulting the documentation of
 \code{ggplot2::cut_interval} for more information. To ensure each bins has
 the same number of points, use "equal_mass" and consult the documentation of
-\code{ggplot2::cut_number} for details. If bins of equal width are desired,
-use "equal_width" and consult \code{ggplot2::cut_width} as a reference.}
+\code{ggplot2::cut_number} for details.}
 
 \item{n_bins}{Only used if \code{type} is set to \code{"equal_range"} or
 \code{"equal_mass"}. This \code{numeric} value indicates the number of bins
 that the support of the intervention \code{A} is to be divided into.}
 
-\item{width}{Only used if \code{type} is set to \code{"equal_width"}. This
-\code{numeric} provides the width of the bins to be produced along the
-support of the observed values of the intervention \code{A}.}
+\item{breaks}{A \code{numeric} vector of break points to be used in dividing
+up the support of \code{A}. This is passed as a \code{...} argument to
+\code{base::cut.default} by either \code{cut_interval} or \code{cut_number}.}
 }
 \description{
 Generate long format hazards data for conditional density estimation

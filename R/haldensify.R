@@ -1,4 +1,4 @@
-utils::globalVariables(c(":="))
+utils::globalVariables(c(":=", "in_bin", "bin_id"))
 
 #' Conditional density estimation with HAL in a single cross-validation fold
 #'
@@ -117,14 +117,10 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  bins of equal range, use "equal_range", consulting the documentation of
 #'  \code{ggplot2::cut_interval} for more information. To ensure each bins has
 #'  the same number of points, use "equal_mass" and consult the documentation of
-#'  \code{ggplot2::cut_number} for details. If bins of equal width are desired,
-#'  use "equal_width" and consult \code{ggplot2::cut_width} as a reference.
+#'  \code{ggplot2::cut_number} for details.
 #' @param n_bins Only used if \code{type} is set to \code{"equal_range"} or
 #'  \code{"equal_mass"}. This \code{numeric} value indicates the number of bins
 #'  that the support of the intervention \code{A} is to be divided into.
-#' @param width Only used if \code{type} is set to \code{"equal_width"}. This
-#'  \code{numeric} provides the width of the bins to be produced along the
-#'  support of the observed values of the intervention \code{A}.
 #' @param lambda_seq A \code{numeric} sequence of values of the lambda tuning
 #'  parameter of the Lasso L1 regression, to be passed to \code{glmnet::glmnet}
 #'  through a call to \code{hal9001::fit_hal}.
@@ -136,20 +132,21 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #
 haldensify <- function(A, W, wts = rep(1, length(A)),
                        grid_type = c(
-                         "equal_range", "equal_mass",
-                         "equal_width"
+                         "equal_range", "equal_mass"
                        ),
-                       n_bins = 10, width = NULL,
+                       n_bins = 10,
                        lambda_seq = exp(seq(-1, -13, length = 1000))) {
   # catch input
   call <- match.call(expand.dots = TRUE)
 
   # re-format input data into long hazards structure
-  long_data <- format_long_hazards(
+  reformatted_output <- format_long_hazards(
     A = A, W = W, wts = wts,
-    type = grid_type, n_bins = n_bins,
-    width = width
+    type = grid_type, n_bins = n_bins
   )
+  long_data <- reformatted_output$data
+  breakpoints <- reformatted_output$breaks
+  bin_sizes <- reformatted_output$bin_length
 
   # extract weights from long format data structure
   wts_long <- long_data$wts
@@ -170,11 +167,16 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
   )
 
   # re-organize output cross-validation procedure
-  density_pred <- do.call(rbind, haldensity$preds)
+  density_pred_unscaled <- do.call(rbind, haldensity$preds)
+  # re-scale predictions by multiplying by bin width for bin each fails in
+  density_pred_scaled <- apply(density_pred_unscaled, 2, function(x) {
+    pred <- x * bin_sizes[long_data[in_bin == 1, bin_id]]
+    return(pred)
+  })
   obs_wts <- do.call(c, haldensity$wts)
 
   # compute loss for the given individual
-  density_loss <- apply(density_pred, 2, function(x) {
+  density_loss <- apply(density_pred_scaled, 2, function(x) {
     pred_weighted <- x * obs_wts
     loss_weighted <- -log(pred_weighted)
     return(loss_weighted)
@@ -194,14 +196,16 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
     return_lasso = TRUE,
     lambda = lambda_loss_min,
     fit_glmnet = TRUE,
-    standardize = FALSE, # pass to glmnet
-    weights = wts_long, # pass to glmnet
+    standardize = FALSE,  # pass to glmnet
+    weights = wts_long,   # pass to glmnet
     yolo = FALSE
   )
 
   # construct output
   out <- list(
     hal_fit = hal_fit,
+    breaks = breakpoints,
+    bin_sizes = bin_sizes,
     call = call
   )
   class(out) <- "haldensify"

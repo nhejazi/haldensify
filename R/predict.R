@@ -21,10 +21,10 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
     A = new_A,
     W = new_W,
     type = object$call$grid_type,
-    n_bins = object$call$n_bins,
-    width = object$call$width
+    breaks = object$breaks
   )
-  long_data <- do.call(format_long_hazards, long_format_args)
+  reformatted_output <- do.call(format_long_hazards, long_format_args)
+  long_data <- reformatted_output$data
 
   # predict conditional density estimate from HAL fit on new long format data
   hazard_pred <- stats::predict(object$hal_fit, new_data = long_data)
@@ -40,12 +40,14 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
         map_hazard_to_density(hazard_pred_single_obs = hazard_pred_this_obs)
 
       # return density for a single observation
-      return(density_pred_this_obs)
+      return(as.numeric(density_pred_this_obs))
     })
 
   # aggregate predicted density at the level of observations
-  density_pred <- do.call(c, density_pred_each_obs)
+  density_pred_unscaled <- do.call(c, density_pred_each_obs)
+  density_pred_scaled <-
+    object$bin_sizes[long_data[in_bin == 1, bin_id]] * density_pred_unscaled
 
   # output
-  return(density_pred)
+  return(density_pred_scaled)
 }
