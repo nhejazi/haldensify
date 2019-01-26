@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -114,8 +114,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>format_long_hazards</span>(<span class='no'>A</span>, <span class='no'>W</span>, <span class='kw'>wts</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>A</span>)),
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"equal_range"</span>, <span class='st'>"equal_mass"</span>, <span class='st'>"equal_width"</span>), <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"equal_range"</span>, <span class='st'>"equal_mass"</span>), <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,8 +143,7 @@ bins along the observed support of the intervention <code>A</code>. For bins of
 equal range, use "equal_range" and consider consulting the documentation of
 <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_interval</a></code> for more information. To ensure each bins has
 the same number of points, use "equal_mass" and consult the documentation of
-<code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_number</a></code> for details. If bins of equal width are desired,
-use "equal_width" and consult <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_width</a></code> as a reference.</p></td>
+<code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_number</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>n_bins</th>
@@ -153,10 +152,10 @@ use "equal_width" and consult <code><a href='https://ggplot2.tidyverse.org/refer
 that the support of the intervention <code>A</code> is to be divided into.</p></td>
     </tr>
     <tr>
-      <th>width</th>
-      <td><p>Only used if <code>type</code> is set to <code>"equal_width"</code>. This
-<code>numeric</code> provides the width of the bins to be produced along the
-support of the observed values of the intervention <code>A</code>.</p></td>
+      <th>breaks</th>
+      <td><p>A <code>numeric</code> vector of break points to be used in dividing
+up the support of <code>A</code>. This is passed as a <code>...</code> argument to
+<code><a href='https://www.rdocumentation.org/packages/base/topics/cut'>base::cut.default</a></code> by either <code>cut_interval</code> or <code>cut_number</code>.</p></td>
     </tr>
     </table>
     

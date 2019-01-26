@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
       </span>
     </div>
 
@@ -90,20 +90,69 @@
 <div id="whats-haldensify" class="section level2">
 <h2 class="hasAnchor">
 <a href="#whats-haldensify" class="anchor"></a>What’s <code>haldensify</code>?</h2>
-<p>The <code>haldensify</code> R package is designed to provide facilities for nonparametric conditional density estimation based on the procedure proposed by <span class="citation">Díaz and van der Laan (2011)</span>. The core procedure involves recovering conditional density estimates by performing pooled hazards regressions on a long format data set built from the input data. For the time being, <code>haldensify</code> is a minimal implementation of this density estimation strategy, though future generalization of the core routines may be possible.</p>
+<p>The <code>haldensify</code> R package is designed to provide facilities for nonparametric conditional density estimation based on the procedure proposed by <span class="citation">Díaz and van der Laan (2011)</span>. The core of the implemented methodology involves recovering conditional density estimates by performing pooled hazards regressions so as to assess the conditional hazard that an observation falls in a given bin over the support of the variable of interest. Such conditional density estimates are required to estimate the propensity score when the intervention variable considered is continuous <span class="citation">(Díaz and van der Laan 2012, <span class="citation">@diaz2018stochastic</span>, <span class="citation">@diaz2019causal</span>)</span>. Though future generalization of the core routines may be possible, for the time being, <code>haldensify</code> is a minimal implementation of this strategy for use only with the highly adaptive lasso <span class="citation">(Benkeser and van der Laan 2016, <span class="citation">@vdl2017generally</span>, <span class="citation">@vdl2018highly</span>, <span class="citation">@coyle2018hal9001</span>)</span>.</p>
 <hr>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the most recent <em>stable release</em> from GitHub via <a href="https://www.rstudio.com/products/rpackages/devtools/"><code>devtools</code></a>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"nhejazi/haldensify"</span>, <span class="dt">build_vignettes =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"nhejazi/haldensify"</span>)</a></code></pre></div>
 <hr>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>A simple example illustrates how <code>haldensify</code> may be used to construct conditional density estimates:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(data.table)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(hal9001)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(haldensify)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">76924</span>)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)</span></a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">n_train &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">w &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n_train, <span class="dv">1</span>, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">w[w <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="dv">-1</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">a &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n_train, w, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># learn relationship A|W using HAL-based density estimation procedure</span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">mod_haldensify &lt;-<span class="st"> </span><span class="kw"><a href="reference/haldensify.html">haldensify</a></span>(</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="dt">A =</span> a, <span class="dt">W =</span> w,</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="dt">grid_type =</span> <span class="st">"equal_range"</span>,</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">  <span class="dt">n_bins =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">  <span class="dt">lambda_seq =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-13</span>, <span class="dt">length =</span> <span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19">)</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co"># predictions to recover conditional density of A|W</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">new_a &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">new_w_neg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(new_a))</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">new_w_pos &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(new_a))</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">new_dat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/as.data.table">as.data.table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">a =</span> new_a, <span class="dt">w_neg =</span> new_w_neg, <span class="dt">w_pos =</span> new_w_pos))</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">new_dat<span class="op">$</span>pred_w_neg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(mod_haldensify,</a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">                              <span class="dt">new_A =</span> new_dat<span class="op">$</span>a, <span class="dt">new_W =</span> new_dat<span class="op">$</span>w_neg)</a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">new_dat<span class="op">$</span>pred_w_pos &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(mod_haldensify,</a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">                              <span class="dt">new_A =</span> new_dat<span class="op">$</span>a, <span class="dt">new_W =</span> new_dat<span class="op">$</span>w_pos)</a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">new_dat<span class="op">$</span>true_w_neg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">dnorm</a></span>(new_a, <span class="dt">mean =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/duplicated">unique</a></span>(new_w_neg), <span class="dt">sd =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb2-31" data-line-number="31">new_dat<span class="op">$</span>true_w_pos &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">dnorm</a></span>(new_a, <span class="dt">mean =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/duplicated">unique</a></span>(new_w_pos), <span class="dt">sd =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb2-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co"># visualize results</span></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34">p &lt;-<span class="st"> </span>new_dat <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/melt.data.table">melt</a></span>(<span class="dt">id =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>), <span class="dt">measure.vars =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"pred_w_pos"</span>, <span class="st">"pred_w_neg"</span>,</a>
+<a class="sourceLine" id="cb2-36" data-line-number="36">                                     <span class="st">"true_w_neg"</span>, <span class="st">"true_w_pos"</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="st">  </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb2-38" data-line-number="38">    <span class="dt">variable =</span> <span class="kw">str_remove</span>(variable, <span class="st">"pred_"</span>),</a>
+<a class="sourceLine" id="cb2-39" data-line-number="39">    <span class="dt">variable =</span> <span class="kw">str_remove</span>(variable, <span class="st">"true_"</span>)</a>
+<a class="sourceLine" id="cb2-40" data-line-number="40">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-41" data-line-number="41"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> a, <span class="dt">y =</span> value, <span class="dt">color =</span> variable)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Observed value"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Predicted probability"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-45" data-line-number="45"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Conditional density p(A|W)"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-46" data-line-number="46"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-47" data-line-number="47"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</a>
+<a class="sourceLine" id="cb2-48" data-line-number="48">p</a></code></pre></div>
+<p><img src="README-example-1.png" width="700"></p>
 <hr>
 </div>
 <div id="issues" class="section level2">
@@ -173,8 +222,29 @@ SOFTWARE.</code></pre>
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
 <div id="refs" class="references">
+<div id="ref-benkeser2016highly">
+<p>Benkeser, David, and Mark J van der Laan. 2016. “The Highly Adaptive Lasso Estimator.” In <em>Proceedings of the International Conference on Data Science and Advanced Analytics. IEEE International Conference on Data Science and Advanced Analytics</em>, 2016:689. NIH Public Access.</p>
+</div>
+<div id="ref-coyle2018hal9001">
+<p>Coyle, Jeremy R, and Nima S Hejazi. 2018. <em>hal9001: The Scalable Highly Adaptive LASSO</em>. <a href="https://github.com/tlverse/hal9001" class="uri">https://github.com/tlverse/hal9001</a>.</p>
+</div>
+<div id="ref-diaz2019causal">
+<p>Díaz, Iván, and Nima S Hejazi. 2019. “Causal Mediation Analysis for Stochastic Interventions.” <em>Submitted</em>. <a href="https://arxiv.org/abs/1901.02776" class="uri">https://arxiv.org/abs/1901.02776</a>.</p>
+</div>
 <div id="ref-diaz2011super">
 <p>Díaz, Iván, and Mark J van der Laan. 2011. “Super Learner Based Conditional Density Estimation with Application to Marginal Structural Models.” <em>The International Journal of Biostatistics</em> 7 (1). De Gruyter: 1–20.</p>
+</div>
+<div id="ref-diaz2012population">
+<p>———. 2012. “Population Intervention Causal Effects Based on Stochastic Interventions.” <em>Biometrics</em> 68 (2). Wiley Online Library: 541–49.</p>
+</div>
+<div id="ref-diaz2018stochastic">
+<p>———. 2018. “Stochastic Treatment Regimes.” In <em>Targeted Learning in Data Science: Causal Inference for Complex Longitudinal Studies</em>, 167–80. Springer Science &amp; Business Media.</p>
+</div>
+<div id="ref-vdl2017generally">
+<p>van der Laan, Mark J. 2017. “A Generally Efficient Targeted Minimum Loss Based Estimator Based on the Highly Adaptive Lasso.” <em>The International Journal of Biostatistics</em> 13 (2). De Gruyter.</p>
+</div>
+<div id="ref-vdl2018highly">
+<p>van der Laan, Mark J, and David Benkeser. 2018. “Highly Adaptive Lasso (Hal).” In <em>Targeted Learning in Data Science</em>, 77–94. Springer.</p>
 </div>
 </div>
 </div>
@@ -213,8 +283,8 @@ SOFTWARE.</code></pre>
 <li><a href="https://travis-ci.org/nhejazi/haldensify"><img src="https://travis-ci.org/nhejazi/haldensify.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/nhejazi/haldensify"><img src="https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
 <li><a href="https://codecov.io/github/nhejazi/haldensify?branch=master"><img src="https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg" alt="Coverage Status"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/survsl3"><img src="http://www.r-pkg.org/badges/version/survsl3" alt="CRAN"></a></li>
-<li><a href="https://CRAN.R-project.org/package=survsl3"><img src="https://cranlogs.r-pkg.org/badges/survsl3" alt="CRAN downloads"></a></li>
+<li><a href="http://www.r-pkg.org/pkg/haldensify"><img src="http://www.r-pkg.org/badges/version/haldensify" alt="CRAN"></a></li>
+<li><a href="https://CRAN.R-project.org/package=haldensify"><img src="https://cranlogs.r-pkg.org/badges/haldensify" alt="CRAN downloads"></a></li>
 <li><a href="https://www.repostatus.org/#wip"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a></li>
 <li><a href="http://opensource.org/licenses/MIT"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT license"></a></li>
 </ul>
