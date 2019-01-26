@@ -36,20 +36,24 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
   # set grid along A and find interval membership of observations along grid
   if (is.null(breaks) & !is.null(n_bins)) {
     if (type == "equal_range") {
-      bins <- ggplot2::cut_interval(A, n_bins, right = FALSE,
-                                    ordered_result = TRUE, dig.lab = 12)
+      bins <- ggplot2::cut_interval(A, n_bins,
+        right = FALSE,
+        ordered_result = TRUE, dig.lab = 12
+      )
     } else if (type == "equal_mass") {
-      bins <- ggplot2::cut_number(A, n_bins, right = FALSE,
-                                  ordered_result = TRUE, dig.lab = 12)
+      bins <- ggplot2::cut_number(A, n_bins,
+        right = FALSE,
+        ordered_result = TRUE, dig.lab = 12
+      )
     }
-    #https://stackoverflow.com/questions/36581075/extract-the-breakpoints-from-cut
-    breaks_left <- as.numeric(sub('.(.+),.+', '\\1', levels(bins)))
-    breaks_right <- as.numeric(sub('.+,(.+).', '\\1', levels(bins)))
+    # https://stackoverflow.com/questions/36581075/extract-the-breakpoints-from-cut
+    breaks_left <- as.numeric(sub(".(.+),.+", "\\1", levels(bins)))
+    breaks_right <- as.numeric(sub(".+,(.+).", "\\1", levels(bins)))
     bin_length <- round(breaks_right - breaks_left, 3)
-  # for predict method, only need to assign observations to existing intervals
+    # for predict method, only need to assign observations to existing intervals
   } else if (!is.null(breaks)) {
     # NOTE: findInterval() and cut() might return slightly different results...
-    bins <- findInterval(A, breaks)
+    bins <- findInterval(A, breaks, all.inside = TRUE)
   } else {
     stop("Combination of arguments `breaks`, `n_bins` incorrectly specified.")
   }
@@ -110,20 +114,21 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
 
   # combine observation-level hazards data into larger structure
   reformatted_data <- do.call(rbind, reformat_each_obs)
-  out <- list(data = reformatted_data,
-              breaks =
-                if (exists("breaks_left")) {
-                  breaks_left
-                } else {
-                  NULL
-                },
-              bin_length =
-                if (exists("bin_length")) {
-                  bin_length
-                } else {
-                  NULL
-                }
-              )
+  out <- list(
+    data = reformatted_data,
+    breaks =
+      if (exists("breaks_left")) {
+        breaks_left
+      } else {
+        NULL
+      },
+    bin_length =
+      if (exists("bin_length")) {
+        bin_length
+      } else {
+        NULL
+      }
+  )
   return(out)
 }
 

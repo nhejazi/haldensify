@@ -1,6 +1,6 @@
 Package: haldensify
 Title: Nonparametric Conditional Density Estimation with the Highly Adaptive Lasso
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),

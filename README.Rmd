@@ -20,8 +20,8 @@ knitr::opts_chunk$set(
 [![Travis-CI Build Status](https://travis-ci.org/nhejazi/haldensify.svg?branch=master)](https://travis-ci.org/nhejazi/haldensify)
 [![AppVeyor Build  Status](https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&svg=true)](https://ci.appveyor.com/project/nhejazi/haldensify)
 [![Coverage Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
-[![CRAN](http://www.r-pkg.org/badges/version/survsl3)](http://www.r-pkg.org/pkg/survsl3)
-[![CRAN downloads](https://cranlogs.r-pkg.org/badges/survsl3)](https://CRAN.R-project.org/package=survsl3)
+[![CRAN](http://www.r-pkg.org/badges/version/haldensify)](http://www.r-pkg.org/pkg/haldensify)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/haldensify)](https://CRAN.R-project.org/package=haldensify)
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
@@ -68,6 +68,8 @@ conditional density estimates:
 library(data.table)
 library(tidyverse)
 library(hal9001)
+library(haldensify)
+set.seed(76924)
 
 # simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)
 n_train <- 1000
@@ -84,17 +86,33 @@ mod_haldensify <- haldensify(
 )
 
 # predictions to recover conditional density of A|W
-new_a <- seq(-2, 2, by = 0.1)
+new_a <- seq(-2, 2, by = 0.01)
 new_w_neg <- rep(-1, length(new_a))
 new_w_pos <- rep(1, length(new_a))
-pred_haldensify_neg_mean <- predict(mod_haldensify,
-                                    new_A = new_a, new_W = new_w_neg)
-pred_haldensify_pos_mean <- predict(mod_haldensify,
-                                    new_A = new_a, new_W = new_w_pos)
+new_dat <- as.data.table(list(a = new_a, w_neg = new_w_neg, w_pos = new_w_pos))
+new_dat$pred_w_neg <- predict(mod_haldensify,
+                              new_A = new_dat$a, new_W = new_dat$w_neg)
+new_dat$pred_w_pos <- predict(mod_haldensify,
+                              new_A = new_dat$a, new_W = new_dat$w_pos)
+new_dat$true_w_neg <- dnorm(new_a, mean = unique(new_w_neg), sd = 0.5)
+new_dat$true_w_pos <- dnorm(new_a, mean = unique(new_w_pos), sd = 0.5)
 
-# organize data for visualization
-plot(x = new_a, y = pred_haldensify_neg_mean, type = "l")
-lines(x = new_a, y = pred_haldensify_pos_mean)
+# visualize results
+p <- new_dat %>%
+  melt(id = c("a"), measure.vars = c("pred_w_pos", "pred_w_neg",
+                                     "true_w_neg", "true_w_pos")) %>%
+  mutate(
+    variable = str_remove(variable, "pred_"),
+    variable = str_remove(variable, "true_")
+  ) %>%
+  ggplot(aes(x = a, y = value, color = variable)) +
+  geom_line() +
+  xlab("Observed value") +
+  ylab("Predicted probability") +
+  ggtitle("Conditional density p(A|W)") +
+  theme_bw() +
+  theme(legend.position = "none")
+p
 ```
 
 ---

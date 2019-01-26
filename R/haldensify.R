@@ -196,8 +196,8 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
     return_lasso = TRUE,
     lambda = lambda_loss_min,
     fit_glmnet = TRUE,
-    standardize = FALSE,  # pass to glmnet
-    weights = wts_long,   # pass to glmnet
+    standardize = FALSE, # pass to glmnet
+    weights = wts_long, # pass to glmnet
     yolo = FALSE
   )
 

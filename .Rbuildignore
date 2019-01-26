@@ -6,6 +6,7 @@
 ^README-norefs\.Rmd$
 ^README-refs\.bib$
 ^README-.*\.png$
+^README_cache$
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^codecov\.yml$

@@ -1,3 +1,5 @@
+utils::globalVariables(c("wts"))
+
 #' Prediction method for HAL-based conditional density estimation
 #'
 #' @param object An object of class \code{\link{haldensify}}, containing the
@@ -29,8 +31,10 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
 
   # predict conditional density estimate from HAL fit on new long format data
   hazard_pred <-
-    stats::predict(object$hal_fit, new_data =
-                   long_data_pred[, 3:ncol(long_data_pred)])
+    stats::predict(object$hal_fit,
+      new_data =
+        long_data_pred[, 3:ncol(long_data_pred)]
+    )
 
   # compute hazard for a given observation by looping over individuals
   density_pred_each_obs <-
