@@ -35,11 +35,16 @@ __Author:__ [Nima Hejazi](https://nimahejazi.org)
 
 The `haldensify` R package is designed to provide facilities for nonparametric
 conditional density estimation based on the procedure proposed by
-@diaz2011super. The core procedure involves recovering conditional density
-estimates by performing pooled hazards regressions on a long format data set
-built from the input data. For the time being, `haldensify` is a minimal
-implementation of this density estimation strategy, though future generalization
-of the core routines may be possible.
+@diaz2011super. The core of the implemented methodology involves recovering
+conditional density estimates by performing pooled hazards regressions so as to
+assess the conditional hazard that an observation falls in a given bin over the
+support of the variable of interest. Such conditional density estimates are
+required to estimate the propensity score when the intervention variable
+considered is continuous [@diaz2012population, @diaz2018stochastic,
+@diaz2019causal]. Though future generalization of the core routines may be
+possible, for the time being, `haldensify` is a minimal implementation of this
+strategy for use only with the highly adaptive lasso [@benkeser2016highly,
+@vdl2017generally, @vdl2018highly, @coyle2018hal9001].
 
 ---
 
@@ -49,7 +54,7 @@ Install the most recent _stable release_ from GitHub via
 [`devtools`](https://www.rstudio.com/products/rpackages/devtools/):
 
 ```{r gh-master-installation, eval = FALSE}
-devtools::install_github("nhejazi/haldensify", build_vignettes = FALSE)
+devtools::install_github("nhejazi/haldensify")
 ```
 
 ---
@@ -59,7 +64,37 @@ devtools::install_github("nhejazi/haldensify", build_vignettes = FALSE)
 A simple example illustrates how `haldensify` may be used to construct
 conditional density estimates:
 
-```{r example, message=FALSE, warning=FALSE}
+```{r example, message=FALSE, warning=FALSE, cache=TRUE}
+library(data.table)
+library(tidyverse)
+library(hal9001)
+
+# simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)
+n_train <- 1000
+w <- rbinom(n_train, 1, 0.5)
+w[w == 0] <- -1
+a <- rnorm(n_train, w, 0.5)
+
+# learn relationship A|W using HAL-based density estimation procedure
+mod_haldensify <- haldensify(
+  A = a, W = w,
+  grid_type = "equal_range",
+  n_bins = 10,
+  lambda_seq = exp(seq(-1, -13, length = 1000))
+)
+
+# predictions to recover conditional density of A|W
+new_a <- seq(-2, 2, by = 0.1)
+new_w_neg <- rep(-1, length(new_a))
+new_w_pos <- rep(1, length(new_a))
+pred_haldensify_neg_mean <- predict(mod_haldensify,
+                                    new_A = new_a, new_W = new_w_neg)
+pred_haldensify_pos_mean <- predict(mod_haldensify,
+                                    new_A = new_a, new_W = new_w_pos)
+
+# organize data for visualization
+plot(x = new_a, y = pred_haldensify_neg_mean, type = "l")
+lines(x = new_a, y = pred_haldensify_pos_mean)
 ```
 
 ---
