@@ -35,12 +35,12 @@ performing pooled hazards regressions so as to assess the conditional
 hazard that an observation falls in a given bin over the support of the
 variable of interest. Such conditional density estimates are required to
 estimate the propensity score when the intervention variable considered
-is continuous (Díaz and van der Laan 2012, @diaz2018stochastic,
-@diaz2019causal). Though future generalization of the core routines may
-be possible, for the time being, `haldensify` is a minimal
-implementation of this strategy for use only with the highly adaptive
-lasso (Benkeser and van der Laan 2016, @vdl2017generally,
-@vdl2018highly, @coyle2018hal9001).
+is continuous (Díaz and van der Laan 2012, 2018; Díaz and Hejazi 2019).
+Though future generalization of the core routines may be possible, for
+the time being, `haldensify` is a minimal implementation of this
+strategy for use only with the highly adaptive lasso (Benkeser and van
+der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle
+and Hejazi 2018).
 
 -----
 
@@ -252,7 +252,7 @@ Journal of Biostatistics* 13 (2). De Gruyter.
 <div id="ref-vdl2018highly">
 
 van der Laan, Mark J, and David Benkeser. 2018. “Highly Adaptive Lasso
-(Hal).” In *Targeted Learning in Data Science*, 77–94. Springer.
+(HAL).” In *Targeted Learning in Data Science*, 77–94. Springer.
 
 </div>
 

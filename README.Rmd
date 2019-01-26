@@ -40,11 +40,11 @@ conditional density estimates by performing pooled hazards regressions so as to
 assess the conditional hazard that an observation falls in a given bin over the
 support of the variable of interest. Such conditional density estimates are
 required to estimate the propensity score when the intervention variable
-considered is continuous [@diaz2012population, @diaz2018stochastic,
+considered is continuous [@diaz2012population; @diaz2018stochastic;
 @diaz2019causal]. Though future generalization of the core routines may be
 possible, for the time being, `haldensify` is a minimal implementation of this
-strategy for use only with the highly adaptive lasso [@benkeser2016highly,
-@vdl2017generally, @vdl2018highly, @coyle2018hal9001].
+strategy for use only with the highly adaptive lasso [@benkeser2016highly;
+@vdl2017generally; @vdl2018highly; @coyle2018hal9001].
 
 ---
 
