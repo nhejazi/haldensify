@@ -50,20 +50,21 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
     breaks_left <- as.numeric(sub(".(.+),.+", "\\1", levels(bins)))
     breaks_right <- as.numeric(sub(".+,(.+).", "\\1", levels(bins)))
     bin_length <- round(breaks_right - breaks_left, 3)
+    bin_id <- as.numeric(bins)
+    all_bins <- matrix(seq_along(bin_id), ncol = 1)
     # for predict method, only need to assign observations to existing intervals
   } else if (!is.null(breaks)) {
     # NOTE: findInterval() and cut() might return slightly different results...
-    bins <- findInterval(A, breaks, all.inside = TRUE)
+    bin_id <- findInterval(A, breaks, all.inside = TRUE)
+    all_bins <- matrix(seq_along(breaks), ncol = 1)
   } else {
     stop("Combination of arguments `breaks`, `n_bins` incorrectly specified.")
   }
-  bin_id <- as.numeric(bins)
 
+
+  
   # loop over observations to create expanded set of records for each
   reformat_each_obs <- future.apply::future_lapply(seq_along(A), function(i) {
-    # create repeating bin IDs for this subject (these map to intervals)
-    all_bins <- matrix(seq_along(unique(bin_id)), ncol = 1)
-
     # create indicator and "turn on" indicator for interval membership
     bin_indicator <- rep(0, nrow(all_bins))
     bin_indicator[bin_id[i]] <- 1
