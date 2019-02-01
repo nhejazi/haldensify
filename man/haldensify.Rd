@@ -5,8 +5,8 @@
 \title{Cross-validated conditional density estimation with HAL}
 \usage{
 haldensify(A, W, wts = rep(1, length(A)), grid_type = c("equal_range",
-  "equal_mass"), n_bins = 10, lambda_seq = exp(seq(-1, -13, length =
-  1000)))
+  "equal_mass"), n_bins = c(5, 10), lambda_seq = exp(seq(-1, -13,
+  length = 1000)), seed = 9001)
 }
 \arguments{
 \item{A}{The \code{numeric} vector or similar of the observed values of an
@@ -19,7 +19,8 @@ observed intervention values are provided in the previous argument.}
 \item{wts}{A \code{numeric} vector of observation-level weights. The default
 is to weight all observations equally.}
 
-\item{grid_type}{A \code{character} indicating the strategy to be used in
+\item{grid_type}{A \code{character} indicating the strategy (or strategies) 
+to be used in
 creating bins along the observed support of the intervention \code{A}. For
 bins of equal range, use "equal_range", consulting the documentation of
 \code{ggplot2::cut_interval} for more information. To ensure each bins has
@@ -27,12 +28,16 @@ the same number of points, use "equal_mass" and consult the documentation of
 \code{ggplot2::cut_number} for details.}
 
 \item{n_bins}{Only used if \code{type} is set to \code{"equal_range"} or
-\code{"equal_mass"}. This \code{numeric} value indicates the number of bins
+\code{"equal_mass"}. This \code{numeric} value indicates the number (or 
+numbers)of bins
 that the support of the intervention \code{A} is to be divided into.}
 
 \item{lambda_seq}{A \code{numeric} sequence of values of the lambda tuning
 parameter of the Lasso L1 regression, to be passed to \code{glmnet::glmnet}
 through a call to \code{hal9001::fit_hal}.}
+
+\item{seed}{Seed to set (needed to ensure proper alignment of CV folds across
+n_bins values).}
 }
 \description{
 Cross-validated conditional density estimation with HAL
