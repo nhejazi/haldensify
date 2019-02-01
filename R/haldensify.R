@@ -253,7 +253,8 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
     bin_sizes = bin_sizes,
     call = call,
     tune_select = tune_select, 
-    select_out = select_out
+    select_out = select_out,
+    range_a = range(A)
   )
   class(out) <- "haldensify"
   return(out)
