@@ -112,18 +112,22 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  observed intervention values are provided in the previous argument.
 #' @param wts A \code{numeric} vector of observation-level weights. The default
 #'  is to weight all observations equally.
-#' @param grid_type A \code{character} indicating the strategy to be used in
+#' @param grid_type A \code{character} indicating the strategy (or strategies) 
+#'  to be used in
 #'  creating bins along the observed support of the intervention \code{A}. For
 #'  bins of equal range, use "equal_range", consulting the documentation of
 #'  \code{ggplot2::cut_interval} for more information. To ensure each bins has
 #'  the same number of points, use "equal_mass" and consult the documentation of
 #'  \code{ggplot2::cut_number} for details.
 #' @param n_bins Only used if \code{type} is set to \code{"equal_range"} or
-#'  \code{"equal_mass"}. This \code{numeric} value indicates the number of bins
+#'  \code{"equal_mass"}. This \code{numeric} value indicates the number (or 
+#'  numbers)of bins
 #'  that the support of the intervention \code{A} is to be divided into.
 #' @param lambda_seq A \code{numeric} sequence of values of the lambda tuning
 #'  parameter of the Lasso L1 regression, to be passed to \code{glmnet::glmnet}
 #'  through a call to \code{hal9001::fit_hal}.
+#' @param seed Seed to set (needed to ensure proper alignment of CV folds across
+#' n_bins values).
 #'
 #' @importFrom origami make_folds cross_validate
 #' @importFrom hal9001 fit_hal
@@ -134,59 +138,97 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
                        grid_type = c(
                          "equal_range", "equal_mass"
                        ),
-                       n_bins = 10,
-                       lambda_seq = exp(seq(-1, -13, length = 1000))) {
+                       n_bins = c(5, 10),
+                       lambda_seq = exp(seq(-1, -13, length = 1000)),
+                       seed = 9001) {
   # catch input
   call <- match.call(expand.dots = TRUE)
 
+  run_one_tune <- function(n_bins, grid_type){
+    # re-format input data into long hazards structure
+    reformatted_output <- format_long_hazards(
+      A = A, W = W, wts = wts,
+      type = grid_type, n_bins = n_bins
+    )
+    long_data <- reformatted_output$data
+    breakpoints <- reformatted_output$breaks
+    bin_sizes <- reformatted_output$bin_length
+
+    # extract weights from long format data structure
+    wts_long <- long_data$wts
+    long_data[, wts := NULL]
+
+    # make folds with origami
+    set.seed(seed)
+    folds <- origami::make_folds(long_data, cluster_ids = long_data$obs_id)
+
+    # call cross_validate on cv_density function...
+    haldensity <- origami::cross_validate(
+      cv_fun = cv_haldensify,
+      folds = folds,
+      long_data = long_data,
+      wts = wts_long,
+      lambda_seq = lambda_seq,
+      use_future = FALSE,
+      .combine = FALSE
+    )
+
+    # re-organize output cross-validation procedure
+    density_pred_unscaled <- do.call(rbind, haldensity$preds)
+    # re-scale predictions by multiplying by bin width for bin each fails in
+    density_pred_scaled <- apply(density_pred_unscaled, 2, function(x) {
+      pred <- x / bin_sizes[long_data[in_bin == 1, bin_id]]
+      return(pred)
+    })
+    obs_wts <- do.call(c, haldensity$wts)
+
+    # compute loss for the given individual
+    density_loss <- apply(density_pred_scaled, 2, function(x) {
+      pred_weighted <- x * obs_wts
+      loss_weighted <- -log(pred_weighted)
+      return(loss_weighted)
+    })
+
+    # take column means to have average loss across sequence of lambdas
+    loss_mean <- colMeans(density_loss)
+    lambda_loss_min_idx <- which.min(loss_mean)
+    lambda_loss_min <- lambda_seq[lambda_loss_min_idx]
+
+    # format output 
+    out <- list(lambda_loss_min_idx = lambda_loss_min_idx,
+                lambda_loss_min = lambda_loss_min,
+                loss_mean = loss_mean)
+  }
+
+  # run CV hal for all bins X grid_type combos
+  tune_grid <- expand.grid(grid_type = grid_type, n_bins = n_bins,
+                           stringsAsFactors = FALSE)
+
+  # could replace with a future call. 
+  select_out <- mapply(grid_type = tune_grid$grid_type,
+                       n_bins = tune_grid$n_bins, 
+                       FUN = run_one_tune, SIMPLIFY = FALSE)
+
+  # extract n_bins idx with min loss
+  all_loss <- lapply(select_out, "[[", "loss_mean")
+  min_loss_idx <- lapply(all_loss, which.min)
+  min_loss <- lapply(all_loss, min)
+  tune_select <- tune_grid[which.min(min_loss), , drop = FALSE]
+  
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(
     A = A, W = W, wts = wts,
-    type = grid_type, n_bins = n_bins
+    type = tune_select$grid_type, 
+    n_bins = tune_select$n_bins
   )
   long_data <- reformatted_output$data
   breakpoints <- reformatted_output$breaks
   bin_sizes <- reformatted_output$bin_length
-
+  
   # extract weights from long format data structure
   wts_long <- long_data$wts
   long_data[, wts := NULL]
-
-  # make folds with origami
-  folds <- origami::make_folds(long_data, cluster_ids = long_data$obs_id)
-
-  # call cross_validate on cv_density function...
-  haldensity <- origami::cross_validate(
-    cv_fun = cv_haldensify,
-    folds = folds,
-    long_data = long_data,
-    wts = wts_long,
-    lambda_seq = lambda_seq,
-    use_future = FALSE,
-    .combine = FALSE
-  )
-
-  # re-organize output cross-validation procedure
-  density_pred_unscaled <- do.call(rbind, haldensity$preds)
-  # re-scale predictions by multiplying by bin width for bin each fails in
-  density_pred_scaled <- apply(density_pred_unscaled, 2, function(x) {
-    pred <- x / bin_sizes[long_data[in_bin == 1, bin_id]]
-    return(pred)
-  })
-  obs_wts <- do.call(c, haldensity$wts)
-
-  # compute loss for the given individual
-  density_loss <- apply(density_pred_scaled, 2, function(x) {
-    pred_weighted <- x * obs_wts
-    loss_weighted <- -log(pred_weighted)
-    return(loss_weighted)
-  })
-
-  # take column means to have average loss across sequence of lambdas
-  loss_mean <- colMeans(density_loss)
-  lambda_loss_min_idx <- which.min(loss_mean)
-  lambda_loss_min <- lambda_seq[lambda_loss_min_idx]
-
+  
   # fit a HAL regression on the full data set with the CV-selected lambda
   hal_fit <- hal9001::fit_hal(
     X = as.matrix(long_data[, -c(1, 2)]),
@@ -202,14 +244,17 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
     yolo = FALSE
   )
   # replace coefficients 
-  hal_fit$coefs <- hal_fit$coefs[,lambda_loss_min_idx]
-
+  hal_fit$coefs <- hal_fit$coefs[, select_out[[which.min(min_loss)]]$lambda_loss_min_idx]
+  
   # construct output
   out <- list(
     hal_fit = hal_fit,
     breaks = breakpoints,
     bin_sizes = bin_sizes,
-    call = call
+    call = call,
+    tune_select = tune_select, 
+    select_out = select_out,
+    range_a = range(A)
   )
   class(out) <- "haldensify"
   return(out)
