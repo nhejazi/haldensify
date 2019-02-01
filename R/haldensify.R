@@ -184,7 +184,8 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
 
   # take column means to have average loss across sequence of lambdas
   loss_mean <- colMeans(density_loss)
-  lambda_loss_min <- lambda_seq[which.min(loss_mean)]
+  lambda_loss_min_idx <- which.min(loss_mean)
+  lambda_loss_min <- lambda_seq[lambda_loss_min_idx]
 
   # fit a HAL regression on the full data set with the CV-selected lambda
   hal_fit <- hal9001::fit_hal(
@@ -194,12 +195,14 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
     use_min = TRUE,
     family = "binomial",
     return_lasso = TRUE,
-    lambda = lambda_loss_min,
+    lambda = lambda_seq,
     fit_glmnet = TRUE,
     standardize = FALSE, # pass to glmnet
     weights = wts_long, # pass to glmnet
     yolo = FALSE
   )
+  # replace coefficients 
+  hal_fit$coefs <- hal_fit$coefs[,lambda_loss_min_idx]
 
   # construct output
   out <- list(
