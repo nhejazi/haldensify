@@ -62,9 +62,9 @@ conditional density estimates:
 
 ``` r
 library(data.table)
-library(tidyverse)
 library(hal9001)
 library(haldensify)
+library(tidyverse)
 set.seed(76924)
 
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
@@ -97,8 +97,8 @@ p <- new_dat %>%
   melt(id = c("a"), measure.vars =
        c("pred_w_pos", "pred_w_null", "pred_w_neg")) %>%
   ggplot(aes(x = a, y = value, colour = variable)) +
-  geom_point() +
   geom_line() +
+  geom_area(aes(fill = variable), alpha = 0.25) +
   stat_function(fun = dnorm, args = list(mean = -2, sd = 0.5),
                 colour = "blue", linetype = "dashed") +
   stat_function(fun = dnorm, args = list(mean = 0, sd = 0.5),
