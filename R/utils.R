@@ -61,8 +61,6 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
     stop("Combination of arguments `breaks`, `n_bins` incorrectly specified.")
   }
 
-
-  
   # loop over observations to create expanded set of records for each
   reformat_each_obs <- future.apply::future_lapply(seq_along(A), function(i) {
     # create indicator and "turn on" indicator for interval membership

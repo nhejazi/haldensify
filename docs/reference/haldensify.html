@@ -114,8 +114,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>haldensify</span>(<span class='no'>A</span>, <span class='no'>W</span>, <span class='kw'>wts</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>A</span>)), <span class='kw'>grid_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"equal_range"</span>,
-  <span class='st'>"equal_mass"</span>), <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>exp</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>13</span>, <span class='kw'>length</span> <span class='kw'>=</span>
-  <span class='fl'>1000</span>)))</pre>
+  <span class='st'>"equal_mass"</span>), <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>), <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>exp</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>13</span>,
+  <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>1000</span>)), <span class='kw'>seed_int</span> <span class='kw'>=</span> <span class='fl'>9001L</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,7 +138,8 @@ is to weight all observations equally.</p></td>
     </tr>
     <tr>
       <th>grid_type</th>
-      <td><p>A <code>character</code> indicating the strategy to be used in
+      <td><p>A <code>character</code> indicating the strategy (or strategies)
+to be used in
 creating bins along the observed support of the intervention <code>A</code>. For
 bins of equal range, use "equal_range", consulting the documentation of
 <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_interval</a></code> for more information. To ensure each bins has
@@ -148,7 +149,8 @@ the same number of points, use "equal_mass" and consult the documentation of
     <tr>
       <th>n_bins</th>
       <td><p>Only used if <code>type</code> is set to <code>"equal_range"</code> or
-<code>"equal_mass"</code>. This <code>numeric</code> value indicates the number of bins
+<code>"equal_mass"</code>. This <code>numeric</code> value indicates the number (or
+numbers)of bins
 that the support of the intervention <code>A</code> is to be divided into.</p></td>
     </tr>
     <tr>
@@ -156,6 +158,12 @@ that the support of the intervention <code>A</code> is to be divided into.</p></
       <td><p>A <code>numeric</code> sequence of values of the lambda tuning
 parameter of the Lasso L1 regression, to be passed to <code><a href='https://www.rdocumentation.org/packages/glmnet/topics/glmnet'>glmnet::glmnet</a></code>
 through a call to <code><a href='https://www.rdocumentation.org/packages/hal9001/topics/fit_hal'>hal9001::fit_hal</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>seed_int</th>
+      <td><p>An integer used to set the seed in the cross-validation
+procedure used to select binning values. This <code>numeric</code> is passed
+directly to the <code>future.seed</code> argument of <code>future_mapply</code>.</p></td>
     </tr>
     </table>
     

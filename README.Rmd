@@ -71,42 +71,44 @@ library(hal9001)
 library(haldensify)
 set.seed(76924)
 
-# simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)
-n_train <- 1000
-w <- rbinom(n_train, 1, 0.5)
-w[w == 0] <- -1
+# simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
+n_train <- 100
+w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 
 # learn relationship A|W using HAL-based density estimation procedure
 mod_haldensify <- haldensify(
   A = a, W = w,
-  grid_type = "equal_range",
-  n_bins = 10,
-  lambda_seq = exp(seq(-1, -13, length = 1000))
+  lambda_seq = exp(seq(-1, -13, length = 100))
 )
 
 # predictions to recover conditional density of A|W
-new_a <- seq(-2, 2, by = 0.01)
-new_w_neg <- rep(-1, length(new_a))
-new_w_pos <- rep(1, length(new_a))
-new_dat <- as.data.table(list(a = new_a, w_neg = new_w_neg, w_pos = new_w_pos))
+new_a <- seq(-4, 4, by = 0.01)
+new_w_neg <- rep(-2, length(new_a))
+new_w_zero <- rep(0, length(new_a))
+new_w_pos <- rep(2, length(new_a))
+new_dat <- as.data.table(list(a = new_a, w_neg = new_w_neg,
+                              w_null = new_w_zero, w_pos = new_w_pos))
 new_dat$pred_w_neg <- predict(mod_haldensify,
                               new_A = new_dat$a, new_W = new_dat$w_neg)
+new_dat$pred_w_null <- predict(mod_haldensify,
+                               new_A = new_dat$a, new_W = new_dat$w_null)
 new_dat$pred_w_pos <- predict(mod_haldensify,
                               new_A = new_dat$a, new_W = new_dat$w_pos)
-new_dat$true_w_neg <- dnorm(new_a, mean = unique(new_w_neg), sd = 0.5)
-new_dat$true_w_pos <- dnorm(new_a, mean = unique(new_w_pos), sd = 0.5)
 
 # visualize results
 p <- new_dat %>%
-  melt(id = c("a"), measure.vars = c("pred_w_pos", "pred_w_neg",
-                                     "true_w_neg", "true_w_pos")) %>%
-  mutate(
-    variable = str_remove(variable, "pred_"),
-    variable = str_remove(variable, "true_")
-  ) %>%
-  ggplot(aes(x = a, y = value, color = variable)) +
+  melt(id = c("a"), measure.vars =
+       c("pred_w_pos", "pred_w_null", "pred_w_neg")) %>%
+  ggplot(aes(x = a, y = value, colour = variable)) +
+  geom_point() +
   geom_line() +
+  stat_function(fun = dnorm, args = list(mean = -2, sd = 0.5),
+                colour = "blue", linetype = "dashed") +
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 0.5),
+                colour = "darkgreen", linetype = "dashed") +
+  stat_function(fun = dnorm, args = list(mean = 2, sd = 0.5),
+                colour = "red", linetype = "dashed") +
   xlab("Observed value") +
   ylab("Predicted probability") +
   ggtitle("Conditional density p(A|W)") +
@@ -143,7 +145,7 @@ After using the `haldensify` R package, please cite the following:
             with the highly adaptive lasso in {R}},
           year  = {2019},
           url = {https://github.com/nhejazi/haldensify},
-          note = {R package version 0.0.1}
+          note = {R package version 0.0.2}
         }
 
 ---
