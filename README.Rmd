@@ -64,7 +64,7 @@ devtools::install_github("nhejazi/haldensify")
 A simple example illustrates how `haldensify` may be used to construct
 conditional density estimates:
 
-```{r example, message=FALSE, warning=FALSE, cache=TRUE}
+```{r example, message=FALSE, warning=FALSE}
 library(data.table)
 library(tidyverse)
 library(hal9001)

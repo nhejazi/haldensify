@@ -152,7 +152,6 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
     stringsAsFactors = FALSE
   )
 
-
   # apply grid of binning strategies and bin number over estimation routine to
   # select Lasso tuning parameter via cross-validated loss minimization
   select_out <-
