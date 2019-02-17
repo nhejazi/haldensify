@@ -16,9 +16,9 @@ utils::globalVariables(c(":=", "in_bin", "bin_id"))
 #'
 #' @importFrom stats aggregate plogis
 #' @importFrom origami training validation fold_index
-#' @importFrom future.apply future_lapply
 #' @importFrom assertthat assert_that
 #' @importFrom hal9001 fit_hal
+#' @importFrom Rdpack reprompt
 #
 cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
                           lambda_seq = exp(seq(-1, -13, length = 1000))) {
@@ -67,19 +67,18 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
   preds <- stats::plogis(as.matrix(preds_logit))
 
   # compute hazard for a given observation by looping over individuals
-  density_pred_each_obs <-
-    future.apply::future_lapply(unique(valid_set$obs_id), function(id) {
-      # get predictions for the current observation only
-      hazard_pred_this_obs <- matrix(preds[valid_set$obs_id == id, ],
-        ncol = length(lambda_seq)
-      )
+  density_pred_each_obs <- lapply(unique(valid_set$obs_id), function(id) {
+    # get predictions for the current observation only
+    hazard_pred_this_obs <- matrix(preds[valid_set$obs_id == id, ],
+      ncol = length(lambda_seq)
+    )
 
-      # map hazard to density for a single observation and return
-      density_pred_this_obs <-
-        map_hazard_to_density(hazard_pred_single_obs = hazard_pred_this_obs)
+    # map hazard to density for a single observation and return
+    density_pred_this_obs <-
+      map_hazard_to_density(hazard_pred_single_obs = hazard_pred_this_obs)
 
-      return(density_pred_this_obs)
-    })
+    return(density_pred_this_obs)
+  })
 
   # aggregate predictions across observations
   density_pred <- do.call(rbind, density_pred_each_obs)
