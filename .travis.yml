@@ -32,7 +32,7 @@ r_github_packages:
   - osofr/simcausal
   - osofr/condensier
   - tlverse/origami
-  - tlverse/hal9001@haldensify
+  - tlverse/hal9001
 
 after_success:
   ## coverage
