@@ -18,7 +18,7 @@ Description: Conditional density estimation is a longstanding and challenging
     estimating such complex functions. An algorithm for nonparametric estimation
     of conditional densities based on a pooled hazard regression formulation is
     implemented based on the highly adaptive lasso (HAL), an optimal algorithm
-    for efficient estimation guaranteeing fast convergence rates.
+    for efficient estimation with guarantees of fast convergence rates.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -33,7 +33,8 @@ Imports:
 Suggests:
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown,
+    future
 Remotes:
     github::osofr/simcausal@master,
     github::osofr/condensier@master,

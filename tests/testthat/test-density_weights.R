@@ -22,8 +22,6 @@ data_in <- sim_data_set()
 dens_lrn <- haldensify(
   A = data_in$A, W = data_in$W,
   # wts = data_in$Weights,
-  grid_type = "equal_range",
-  n_bins = 10,
   lambda_seq = exp(seq(-1, -13, length = 1000))
 )
 
