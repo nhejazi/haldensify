@@ -3,7 +3,7 @@ library(ggplot2)
 library(dplyr)
 library(hal9001)
 library(future)
-plan(sequential)
+plan(transparent)
 set.seed(76924)
 
 # simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)
