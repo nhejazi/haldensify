@@ -2,7 +2,6 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 library(hal9001)
-library(haldensify)
 library(future)
 plan(sequential)
 set.seed(76924)
@@ -16,9 +15,7 @@ a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 mod_haldensify <- haldensify(
   A = a, W = w,
-  grid_type = "equal_range",
-  n_bins = 50,
-  lambda_seq = exp(seq(-1, -13, length = 250))
+  lambda_seq = exp(seq(-1, -13, length = 100))
 )
 
 # predictions to recover conditional density of A|W

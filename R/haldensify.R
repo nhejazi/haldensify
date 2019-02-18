@@ -155,8 +155,6 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
   # select Lasso tuning parameter via cross-validated loss minimization
   select_out <-
     future.apply::future_mapply(
-      grid_type = tune_grid$grid_type,
-      n_bins = tune_grid$n_bins, SIMPLIFY = FALSE,
       FUN = function(n_bins, grid_type) {
         # re-format input data into long hazards structure
         reformatted_output <- format_long_hazards(
@@ -213,7 +211,12 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
           lambda_loss_min = lambda_loss_min,
           loss_mean = loss_mean
         )
-      }, future.seed = seed_int
+        return(out)
+      },
+      n_bins = tune_grid$n_bins,
+      grid_type = tune_grid$grid_type,
+      SIMPLIFY = FALSE,
+      future.seed = seed_int
     )
 
   # extract n_bins idx with min loss
