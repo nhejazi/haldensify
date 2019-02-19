@@ -81,7 +81,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
   })
 
   # aggregate predictions across observations
-  density_pred <- do.call(rbind, density_pred_each_obs)
+  density_pred <- do.call(rbind, as.list(density_pred_each_obs))
 
   # collapse weights to the observation level
   wts_valid_reduced <- stats::aggregate(
@@ -191,14 +191,14 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
         )
 
         # re-organize output cross-validation procedure
-        density_pred_unscaled <- do.call(rbind, haldensity$preds)
+        density_pred_unscaled <- do.call(rbind, as.list(haldensity$preds))
 
         # re-scale predictions by multiplying by bin width for bin each fails in
         density_pred_scaled <- apply(density_pred_unscaled, 2, function(x) {
           pred <- x / bin_sizes[long_data[in_bin == 1, bin_id]]
           return(pred)
         })
-        obs_wts <- do.call(c, haldensity$wts)
+        obs_wts <- do.call(c, as.list(haldensity$wts))
 
         # compute loss for the given individual
         density_loss <- apply(density_pred_scaled, 2, function(x) {
