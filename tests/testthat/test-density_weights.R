@@ -29,7 +29,7 @@ dens_lrn <- with(
     wts = Weights,
     n_bins = c(10, 15),
     lambda_seq = exp(seq(-1, -11, length = 300)),
-    use_future = TRUE
+    use_future = FALSE
   )
 )
 

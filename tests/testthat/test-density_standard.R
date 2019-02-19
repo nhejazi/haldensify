@@ -17,7 +17,7 @@ mod_haldensify <- haldensify(
   A = a, W = w,
   n_bins = c(5, 10, 15),
   lambda_seq = exp(seq(-1, -13, length = 200)),
-  use_future = TRUE
+  use_future = FALSE
 )
 
 # predictions to recover conditional density of A|W
