@@ -129,7 +129,6 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  procedure used to select binning values. This \code{numeric} is passed
 #'  directly to the \code{future.seed} argument of \code{future_mapply}.
 #'
-#' @importFrom future.apply future_mapply
 #' @importFrom origami make_folds cross_validate
 #' @importFrom hal9001 fit_hal
 #'
@@ -154,7 +153,7 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
   # apply grid of binning strategies and bin number over estimation routine to
   # select Lasso tuning parameter via cross-validated loss minimization
   select_out <-
-    future.apply::future_mapply(
+    mapply(
       FUN = function(n_bins, grid_type) {
         # re-format input data into long hazards structure
         reformatted_output <- format_long_hazards(
