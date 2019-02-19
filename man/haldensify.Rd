@@ -6,7 +6,7 @@
 \usage{
 haldensify(A, W, wts = rep(1, length(A)), grid_type = c("equal_range",
   "equal_mass"), n_bins = c(5, 10), lambda_seq = exp(seq(-1, -13,
-  length = 1000)), seed_int = 9001L)
+  length = 1000)), use_future = FALSE, seed_int = 9001L)
 }
 \arguments{
 \item{A}{The \code{numeric} vector or similar of the observed values of an
@@ -35,6 +35,13 @@ that the support of the intervention \code{A} is to be divided into.}
 \item{lambda_seq}{A \code{numeric} sequence of values of the lambda tuning
 parameter of the Lasso L1 regression, to be passed to \code{glmnet::glmnet}
 through a call to \code{hal9001::fit_hal}.}
+
+\item{use_future}{A \code{logical} indicating whether to attempt to use
+parallelization based on the \code{future} and \code{future.apply} packages.
+In particular, if set to \code{TRUE}, this will cause \code{future_mapply}
+to be used in place of \code{mapply}. If setting this to \code{TRUE}, an
+appropriate parallelization scheme ought to be set externally by using
+\code{future::plan}.}
 
 \item{seed_int}{An integer used to set the seed in the cross-validation
 procedure used to select binning values. This \code{numeric} is passed

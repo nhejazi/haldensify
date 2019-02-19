@@ -125,11 +125,18 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #' @param lambda_seq A \code{numeric} sequence of values of the lambda tuning
 #'  parameter of the Lasso L1 regression, to be passed to \code{glmnet::glmnet}
 #'  through a call to \code{hal9001::fit_hal}.
+#' @param use_future A \code{logical} indicating whether to attempt to use
+#'  parallelization based on the \code{future} and \code{future.apply} packages.
+#'  In particular, if set to \code{TRUE}, this will cause \code{future_mapply}
+#'  to be used in place of \code{mapply}. If setting this to \code{TRUE}, an
+#'  appropriate parallelization scheme ought to be set externally by using
+#'  \code{future::plan}.
 #' @param seed_int An integer used to set the seed in the cross-validation
 #'  procedure used to select binning values. This \code{numeric} is passed
 #'  directly to the \code{future.seed} argument of \code{future_mapply}.
 #'
 #' @importFrom origami make_folds cross_validate
+#' @importFrom future.apply future_mapply
 #' @importFrom hal9001 fit_hal
 #'
 #' @export
@@ -140,6 +147,7 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
                        ),
                        n_bins = c(5, 10),
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
+                       use_future = FALSE,
                        seed_int = 9001L) {
   # catch input
   call <- match.call(expand.dots = TRUE)
@@ -152,8 +160,8 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
 
   # apply grid of binning strategies and bin number over estimation routine to
   # select Lasso tuning parameter via cross-validated loss minimization
-  select_out <-
-    mapply(
+  args <-
+    list(
       FUN = function(n_bins, grid_type) {
         # re-format input data into long hazards structure
         reformatted_output <- format_long_hazards(
@@ -214,9 +222,19 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
       },
       n_bins = tune_grid$n_bins,
       grid_type = tune_grid$grid_type,
-      SIMPLIFY = FALSE,
-      future.seed = seed_int
+      SIMPLIFY = FALSE
     )
+
+  # tweak arguments to flexibly use future parallelization if so desired
+  if (use_future) {
+    mapply_fun <- future.apply::future_mapply
+    args$future.seed <- seed_int
+  } else {
+    mapply_fun <- mapply
+  }
+
+  # run procedure to select tuning parameters via cross-validation
+  select_out <- do.call(what = mapply_fun, args = args)
 
   # extract n_bins idx with min loss
   all_loss <- lapply(select_out, "[[", "loss_mean")
