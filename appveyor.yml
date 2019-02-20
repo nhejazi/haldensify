@@ -24,15 +24,12 @@ environment:
     WARNINGS_ARE_ERRORS: 0
     R_ARCH: x64
     USE_RTOOLS: true
-    GITHUB_PAT:
-      secure: mW3puUbGi4Q8x4bRzDxlV8FWIIrCPzrg5QXzGKnEx+O092df4uUmbmfkQaFQ3DJY
 
   matrix:
     - R_VERSION: release
 
 build_script:
   - travis-tool.sh install_deps
-  - travis-tool.sh install_github r-lib/devtools
   - travis-tool.sh install_github r-lib/sessioninfo
   - travis-tool.sh install_github Rdatatable/data.table
   - travis-tool.sh install_github jimhester/covr
@@ -49,7 +46,7 @@ on_failure:
   - appveyor PushArtifact failure.zip
 
 on_success:
-  - Rscript -e "covr::codecov(line_exclusions = list('R/plots.R', 'R/utils.R'))"
+  - Rscript -e "covr::codecov()"
 
 artifacts:
   - path: '*.Rcheck\**\*.log'

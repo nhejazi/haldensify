@@ -2,12 +2,16 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 library(hal9001)
+library(future)
+plan(transparent)
+set.seed(76921)
 
 # data simulation
 sim_data_set <- function(n_obs = 1000, w_prob = 0.5, shift_delta = 0.5) {
   w <- rbinom(n = n_obs, size = 1, prob = w_prob)
+  w[w == 0] <- -1
   ipc_delta <- rbinom(n = n_obs, size = 1, prob = plogis(w))
-  a <- rnorm(n = n_obs, mean = 2 * w, sd = 1)
+  a <- rnorm(n = n_obs, mean = 2 * w, sd = 0.5)
   y <- a + w + rnorm(n_obs, mean = 0, sd = 1)
   data_in <- as.data.frame(cbind(y, a, ipc_delta, w, 1 / plogis(w))) %>%
     dplyr::filter(ipc_delta == 1) %>%
@@ -16,34 +20,46 @@ sim_data_set <- function(n_obs = 1000, w_prob = 0.5, shift_delta = 0.5) {
   setnames(data_in, c("Y", "A", "W", "Weights"))
   return(data_in)
 }
-data_in <- sim_data_set()
+data_in <- sim_data_set(n_obs = 100)
 
 # learn relationship A|W using HAL-based density estimation procedure
-dens_lrn <- haldensify(
-  A = data_in$A, W = data_in$W,
-  # wts = data_in$Weights,
-  lambda_seq = exp(seq(-1, -13, length = 1000))
+dens_lrn <- with(
+  data_in,
+  haldensify(
+    A = A, W = W,
+    wts = Weights,
+    n_bins = c(5, 10, 15),
+    lambda_seq = exp(seq(-1, -13, length = 200)),
+    use_future = FALSE
+  )
 )
 
 # predictions to recover conditional density of A, given W = 0 or W = 1
-n_samp <- 5000
-A_supp <- seq(-5, 5, length = n_samp)
-W0 <- rep(0, n_samp)
-predictions_W0 <- predict(dens_lrn, new_A = A_supp, new_W = W0)
+new_a <- seq(-4, 4, by = 0.05)
+new_w_neg <- rep(-1, length(new_a))
+new_w_pos <- rep(1, length(new_a))
+new_dat <- as.data.table(list(a = new_a, w_neg = new_w_neg, w_pos = new_w_pos))
+new_dat$pred_w_neg <- predict(dens_lrn,
+  new_A = new_dat$a, new_W = new_dat$w_neg
+)
+new_dat$pred_w_pos <- predict(dens_lrn,
+  new_A = new_dat$a, new_W = new_dat$w_pos
+)
 
-hist_W0 <- as.data.table(list(A = A_supp, likelihood = predictions_W0)) %>%
-  ggplot(aes(x = A, y = likelihood)) +
-  geom_smooth(method = "loess", se = FALSE) +
-  ggtitle("Conditional density p(A | W = 0)") +
-  theme_bw()
-hist_W0
+# test that maximum value of prediction happens at appropriate mean of the
+# conditional density N(mu = \pm 2, sd = 0.5)
+test_that("Maximum predicted probability of p(A|W = -1) matches N(-2, 0.5)", {
+  obs_a_max_prob_w_neg <- new_dat[which.max(new_dat$pred_w_neg), ]$a
+  expect_equal(
+    round(obs_a_max_prob_w_neg),
+    round(mean(data_in$A[data_in$W == -1]))
+  )
+})
 
-W1 <- rep(1, n_samp)
-predictions_W1 <- predict(dens_lrn, new_A = A_supp, new_W = W1)
-
-hist_W1 <- as.data.table(list(A = A_supp, likelihood = predictions_W1)) %>%
-  ggplot(aes(x = A, y = likelihood)) +
-  geom_smooth(method = "loess", se = FALSE) +
-  ggtitle("Conditional density p(A | W = 1)") +
-  theme_bw()
-hist_W1
+test_that("Maximum predicted probability of p(A|W = +1) matches N(+2, 0.5)", {
+  obs_a_max_prob_w_pos <- new_dat[which.max(new_dat$pred_w_pos), ]$a
+  expect_equal(
+    round(obs_a_max_prob_w_pos),
+    round(mean(data_in$A[data_in$W == 1]))
+  )
+})

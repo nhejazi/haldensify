@@ -2,9 +2,8 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 library(hal9001)
-library(haldensify)
 library(future)
-plan(sequential)
+plan(transparent)
 set.seed(76924)
 
 # simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)
@@ -16,9 +15,9 @@ a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 mod_haldensify <- haldensify(
   A = a, W = w,
-  grid_type = "equal_range",
-  n_bins = 50,
-  lambda_seq = exp(seq(-1, -13, length = 250))
+  n_bins = c(5, 10, 15),
+  lambda_seq = exp(seq(-1, -13, length = 200)),
+  use_future = FALSE
 )
 
 # predictions to recover conditional density of A|W

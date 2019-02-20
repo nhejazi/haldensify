@@ -56,7 +56,8 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
     object$bin_sizes[long_data_pred[in_bin == 1, bin_id]]
 
   # truncate predictions outside range of observed A
-  density_pred_scaled[new_A < object$range_a[1] | new_A > object$range_a[2]] <- 0
+  density_pred_scaled[new_A < object$range_a[1] |
+    new_A > object$range_a[2]] <- 0
 
   # output
   return(density_pred_scaled)

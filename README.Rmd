@@ -79,7 +79,8 @@ a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 mod_haldensify <- haldensify(
   A = a, W = w,
-  lambda_seq = exp(seq(-1, -13, length = 100))
+  n_bins = c(5, 10, 15),
+  lambda_seq = exp(seq(-1, -13, length = 300))
 )
 
 # predictions to recover conditional density of A|W
@@ -101,8 +102,8 @@ p <- new_dat %>%
   melt(id = c("a"), measure.vars =
        c("pred_w_pos", "pred_w_null", "pred_w_neg")) %>%
   ggplot(aes(x = a, y = value, colour = variable)) +
+  geom_point() +
   geom_line() +
-  geom_area(aes(fill = variable), alpha = 0.25) +
   stat_function(fun = dnorm, args = list(mean = -2, sd = 0.5),
                 colour = "blue", linetype = "dashed") +
   stat_function(fun = dnorm, args = list(mean = 0, sd = 0.5),
@@ -145,7 +146,7 @@ After using the `haldensify` R package, please cite the following:
             with the highly adaptive lasso in {R}},
           year  = {2019},
           url = {https://github.com/nhejazi/haldensify},
-          note = {R package version 0.0.2}
+          note = {R package version 0.0.3}
         }
 
 ---

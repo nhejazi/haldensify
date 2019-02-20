@@ -16,9 +16,9 @@ utils::globalVariables(c(":=", "in_bin", "bin_id"))
 #'
 #' @importFrom stats aggregate plogis
 #' @importFrom origami training validation fold_index
-#' @importFrom future.apply future_lapply
 #' @importFrom assertthat assert_that
 #' @importFrom hal9001 fit_hal
+#' @importFrom Rdpack reprompt
 #
 cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
                           lambda_seq = exp(seq(-1, -13, length = 1000))) {
@@ -40,7 +40,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
     family = "binomial",
     return_lasso = TRUE,
     lambda = lambda_seq,
-    fit_glmnet = TRUE,
+    cv_select = FALSE,
     standardize = FALSE, # pass to glmnet
     weights = wts_train, # pass to glmnet
     yolo = FALSE
@@ -67,22 +67,21 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
   preds <- stats::plogis(as.matrix(preds_logit))
 
   # compute hazard for a given observation by looping over individuals
-  density_pred_each_obs <-
-    future.apply::future_lapply(unique(valid_set$obs_id), function(id) {
-      # get predictions for the current observation only
-      hazard_pred_this_obs <- matrix(preds[valid_set$obs_id == id, ],
-        ncol = length(lambda_seq)
-      )
+  density_pred_each_obs <- lapply(unique(valid_set$obs_id), function(id) {
+    # get predictions for the current observation only
+    hazard_pred_this_obs <- matrix(preds[valid_set$obs_id == id, ],
+      ncol = length(lambda_seq)
+    )
 
-      # map hazard to density for a single observation and return
-      density_pred_this_obs <-
-        map_hazard_to_density(hazard_pred_single_obs = hazard_pred_this_obs)
+    # map hazard to density for a single observation and return
+    density_pred_this_obs <-
+      map_hazard_to_density(hazard_pred_single_obs = hazard_pred_this_obs)
 
-      return(density_pred_this_obs)
-    })
+    return(density_pred_this_obs)
+  })
 
   # aggregate predictions across observations
-  density_pred <- do.call(rbind, density_pred_each_obs)
+  density_pred <- do.call(rbind, as.list(density_pred_each_obs))
 
   # collapse weights to the observation level
   wts_valid_reduced <- stats::aggregate(
@@ -126,12 +125,18 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #' @param lambda_seq A \code{numeric} sequence of values of the lambda tuning
 #'  parameter of the Lasso L1 regression, to be passed to \code{glmnet::glmnet}
 #'  through a call to \code{hal9001::fit_hal}.
+#' @param use_future A \code{logical} indicating whether to attempt to use
+#'  parallelization based on the \code{future} and \code{future.apply} packages.
+#'  In particular, if set to \code{TRUE}, this will cause \code{future_mapply}
+#'  to be used in place of \code{mapply}. If setting this to \code{TRUE}, an
+#'  appropriate parallelization scheme ought to be set externally by using
+#'  \code{future::plan}.
 #' @param seed_int An integer used to set the seed in the cross-validation
 #'  procedure used to select binning values. This \code{numeric} is passed
 #'  directly to the \code{future.seed} argument of \code{future_mapply}.
 #'
-#' @importFrom future.apply future_mapply
 #' @importFrom origami make_folds cross_validate
+#' @importFrom future.apply future_mapply
 #' @importFrom hal9001 fit_hal
 #'
 #' @export
@@ -142,6 +147,7 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
                        ),
                        n_bins = c(5, 10),
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
+                       use_future = FALSE,
                        seed_int = 9001L) {
   # catch input
   call <- match.call(expand.dots = TRUE)
@@ -154,10 +160,8 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
 
   # apply grid of binning strategies and bin number over estimation routine to
   # select Lasso tuning parameter via cross-validated loss minimization
-  select_out <-
-    future.apply::future_mapply(
-      grid_type = tune_grid$grid_type,
-      n_bins = tune_grid$n_bins, SIMPLIFY = FALSE,
+  args <-
+    list(
       FUN = function(n_bins, grid_type) {
         # re-format input data into long hazards structure
         reformatted_output <- format_long_hazards(
@@ -165,7 +169,6 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
           type = grid_type, n_bins = n_bins
         )
         long_data <- reformatted_output$data
-        breakpoints <- reformatted_output$breaks
         bin_sizes <- reformatted_output$bin_length
 
         # extract weights from long format data structure
@@ -187,14 +190,14 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
         )
 
         # re-organize output cross-validation procedure
-        density_pred_unscaled <- do.call(rbind, haldensity$preds)
+        density_pred_unscaled <- do.call(rbind, as.list(haldensity$preds))
 
         # re-scale predictions by multiplying by bin width for bin each fails in
         density_pred_scaled <- apply(density_pred_unscaled, 2, function(x) {
           pred <- x / bin_sizes[long_data[in_bin == 1, bin_id]]
           return(pred)
         })
-        obs_wts <- do.call(c, haldensity$wts)
+        obs_wts <- do.call(c, as.list(haldensity$wts))
 
         # compute loss for the given individual
         density_loss <- apply(density_pred_scaled, 2, function(x) {
@@ -214,8 +217,23 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
           lambda_loss_min = lambda_loss_min,
           loss_mean = loss_mean
         )
-      }, future.seed = seed_int
+        return(out)
+      },
+      n_bins = tune_grid$n_bins,
+      grid_type = tune_grid$grid_type,
+      SIMPLIFY = FALSE
     )
+
+  # tweak arguments to flexibly use future parallelization if so desired
+  if (use_future) {
+    mapply_fun <- future.apply::future_mapply
+    args$future.seed <- seed_int
+  } else {
+    mapply_fun <- mapply
+  }
+
+  # run procedure to select tuning parameters via cross-validation
+  select_out <- do.call(what = mapply_fun, args = args)
 
   # extract n_bins idx with min loss
   all_loss <- lapply(select_out, "[[", "loss_mean")
@@ -246,7 +264,7 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
     family = "binomial",
     return_lasso = TRUE,
     lambda = lambda_seq,
-    fit_glmnet = TRUE,
+    cv_select = FALSE,
     standardize = FALSE, # pass to glmnet
     weights = wts_long, # pass to glmnet
     yolo = FALSE
