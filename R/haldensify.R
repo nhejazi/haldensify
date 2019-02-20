@@ -40,7 +40,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
     family = "binomial",
     return_lasso = TRUE,
     lambda = lambda_seq,
-    fit_glmnet = TRUE,
+    cv_select = FALSE,
     standardize = FALSE, # pass to glmnet
     weights = wts_train, # pass to glmnet
     yolo = FALSE
@@ -169,7 +169,6 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
           type = grid_type, n_bins = n_bins
         )
         long_data <- reformatted_output$data
-        breakpoints <- reformatted_output$breaks
         bin_sizes <- reformatted_output$bin_length
 
         # extract weights from long format data structure
@@ -265,7 +264,7 @@ haldensify <- function(A, W, wts = rep(1, length(A)),
     family = "binomial",
     return_lasso = TRUE,
     lambda = lambda_seq,
-    fit_glmnet = TRUE,
+    cv_select = FALSE,
     standardize = FALSE, # pass to glmnet
     weights = wts_long, # pass to glmnet
     yolo = FALSE
