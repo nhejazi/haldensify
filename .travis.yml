@@ -23,20 +23,20 @@ before_install:
 
 r_packages:
   - devtools
+  - sessioninfo
   - covr
 
 r_github_packages:
+  - r-lib/covr
   - r-lib/sessioninfo
   - Rdatatable/data.table
-  - jimhester/covr
   - osofr/simcausal
   - osofr/condensier
   - tlverse/origami
   - tlverse/hal9001
 
 after_success:
-  ## coverage
-  - travis_wait 30 Rscript -e "covr::codecov()"
+  - travis_wait 80 Rscript -e "covr::codecov()"
 
 on_failure:
   - "./travis-tool.sh dump_logs"
