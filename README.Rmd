@@ -27,7 +27,9 @@ knitr::opts_chunk$set(
 
 > Nonparametric Conditional Density Estimation with the Highly Adaptive Lasso
 
-__Author:__ [Nima Hejazi](https://nimahejazi.org)
+__Authors:__ [Nima Hejazi](https://nimahejazi.org), [David
+Benkeser](https://www.benkeserstatistics.com/), and
+[Mark van der Laan](https://vanderlaan-lab.org)
 
 ---
 

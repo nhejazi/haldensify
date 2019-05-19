@@ -5,17 +5,18 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conditional Density Estimation with the Highly Adaptive Lasso • haldensify</title>
+<title>haldensify • haldensify</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Conditional Density Estimation with the Highly Adaptive Lasso">
+<script src="pkgdown.js"></script><meta property="og:title" content="haldensify">
 <meta property="og:description" content="Conditional density estimation is a longstanding and challenging
     problem in statistical theory, and numerous proposals exist for optimally
     estimating such complex functions. An algorithm for nonparametric estimation
     of conditional densities based on a pooled hazard regression formulation is
-    implemented based on the highly adaptive lasso (HAL), an optimal algorithm
-    for efficient estimation with guarantees of fast convergence rates.">
+    implemented based on the highly adaptive lasso (HAL), an algorithm enabling
+    efficient estimation through its provably attaining fast convergence rates.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -35,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -43,7 +44,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -57,7 +58,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/nhejazi/haldensify">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -85,7 +86,7 @@
 <blockquote>
 <p>Nonparametric Conditional Density Estimation with the Highly Adaptive Lasso</p>
 </blockquote>
-<p><strong>Author:</strong> <a href="https://nimahejazi.org">Nima Hejazi</a></p>
+<p><strong>Authors:</strong> <a href="https://nimahejazi.org">Nima Hejazi</a>, <a href="https://www.benkeserstatistics.com/">David Benkeser</a>, and <a href="https://vanderlaan-lab.org">Mark van der Laan</a></p>
 <hr>
 <div id="whats-haldensify" class="section level2">
 <h2 class="hasAnchor">
@@ -97,57 +98,57 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the most recent <em>stable release</em> from GitHub via <a href="https://www.rstudio.com/products/rpackages/devtools/"><code>devtools</code></a>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"nhejazi/haldensify"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"nhejazi/haldensify"</span>)</a></code></pre></div>
 <hr>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>A simple example illustrates how <code>haldensify</code> may be used to construct conditional density estimates:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(data.table)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(hal9001)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(haldensify)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">76924</span>)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(data.table)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(hal9001)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(haldensify)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">76924</span>)</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8">n_train &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">w &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(n_train, <span class="dv">-4</span>, <span class="dv">4</span>)</a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">a &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n_train, w, <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">w &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(n_train, <span class="dv">-4</span>, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">a &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(n_train, w, <span class="fl">0.5</span>)</a>
 <a class="sourceLine" id="cb2-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># learn relationship A|W using HAL-based density estimation procedure</span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13">mod_haldensify &lt;-<span class="st"> </span><span class="kw"><a href="reference/haldensify.html">haldensify</a></span>(</a>
 <a class="sourceLine" id="cb2-14" data-line-number="14">  <span class="dt">A =</span> a, <span class="dt">W =</span> w,</a>
-<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="dt">n_bins =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>),</a>
-<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="dt">lambda_seq =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-13</span>, <span class="dt">length =</span> <span class="dv">300</span>))</a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="dt">n_bins =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>),</a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="dt">lambda_seq =</span> <span class="kw"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-13</span>, <span class="dt">length =</span> <span class="dv">300</span>))</a>
 <a class="sourceLine" id="cb2-17" data-line-number="17">)</a>
 <a class="sourceLine" id="cb2-18" data-line-number="18"></a>
 <a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co"># predictions to recover conditional density of A|W</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20">new_a &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</a>
-<a class="sourceLine" id="cb2-21" data-line-number="21">new_w_neg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="op">-</span><span class="dv">2</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(new_a))</a>
-<a class="sourceLine" id="cb2-22" data-line-number="22">new_w_zero &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">0</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(new_a))</a>
-<a class="sourceLine" id="cb2-23" data-line-number="23">new_w_pos &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">2</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(new_a))</a>
-<a class="sourceLine" id="cb2-24" data-line-number="24">new_dat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/as.data.table">as.data.table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">a =</span> new_a, <span class="dt">w_neg =</span> new_w_neg,</a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">new_a &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)</a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">new_w_neg &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="op">-</span><span class="dv">2</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(new_a))</a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">new_w_zero &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(new_a))</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">new_w_pos &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">2</span>, <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(new_a))</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">new_dat &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html">as.data.table</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">a =</span> new_a, <span class="dt">w_neg =</span> new_w_neg,</a>
 <a class="sourceLine" id="cb2-25" data-line-number="25">                              <span class="dt">w_null =</span> new_w_zero, <span class="dt">w_pos =</span> new_w_pos))</a>
-<a class="sourceLine" id="cb2-26" data-line-number="26">new_dat<span class="op">$</span>pred_w_neg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(mod_haldensify,</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26">new_dat<span class="op">$</span>pred_w_neg &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(mod_haldensify,</a>
 <a class="sourceLine" id="cb2-27" data-line-number="27">                              <span class="dt">new_A =</span> new_dat<span class="op">$</span>a, <span class="dt">new_W =</span> new_dat<span class="op">$</span>w_neg)</a>
-<a class="sourceLine" id="cb2-28" data-line-number="28">new_dat<span class="op">$</span>pred_w_null &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(mod_haldensify,</a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">new_dat<span class="op">$</span>pred_w_null &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(mod_haldensify,</a>
 <a class="sourceLine" id="cb2-29" data-line-number="29">                               <span class="dt">new_A =</span> new_dat<span class="op">$</span>a, <span class="dt">new_W =</span> new_dat<span class="op">$</span>w_null)</a>
-<a class="sourceLine" id="cb2-30" data-line-number="30">new_dat<span class="op">$</span>pred_w_pos &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(mod_haldensify,</a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">new_dat<span class="op">$</span>pred_w_pos &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(mod_haldensify,</a>
 <a class="sourceLine" id="cb2-31" data-line-number="31">                              <span class="dt">new_A =</span> new_dat<span class="op">$</span>a, <span class="dt">new_W =</span> new_dat<span class="op">$</span>w_pos)</a>
 <a class="sourceLine" id="cb2-32" data-line-number="32"></a>
 <a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co"># visualize results</span></a>
 <a class="sourceLine" id="cb2-34" data-line-number="34">p &lt;-<span class="st"> </span>new_dat <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/data.table/topics/melt.data.table">melt</a></span>(<span class="dt">id =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"a"</span>), <span class="dt">measure.vars =</span></a>
-<a class="sourceLine" id="cb2-36" data-line-number="36">       <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"pred_w_pos"</span>, <span class="st">"pred_w_null"</span>, <span class="st">"pred_w_neg"</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/data.table/man/melt.data.table.html">melt</a></span>(<span class="dt">id =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>), <span class="dt">measure.vars =</span></a>
+<a class="sourceLine" id="cb2-36" data-line-number="36">       <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pred_w_pos"</span>, <span class="st">"pred_w_null"</span>, <span class="st">"pred_w_neg"</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-37" data-line-number="37"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> a, <span class="dt">y =</span> value, <span class="dt">colour =</span> variable)) <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-38" data-line-number="38"><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-39" data-line-number="39"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb2-40" data-line-number="40"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">mean =</span> <span class="dv">-2</span>, <span class="dt">sd =</span> <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb2-40" data-line-number="40"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="dv">-2</span>, <span class="dt">sd =</span> <span class="fl">0.5</span>),</a>
 <a class="sourceLine" id="cb2-41" data-line-number="41">                <span class="dt">colour =</span> <span class="st">"blue"</span>, <span class="dt">linetype =</span> <span class="st">"dashed"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="fl">0.5</span>),</a>
 <a class="sourceLine" id="cb2-43" data-line-number="43">                <span class="dt">colour =</span> <span class="st">"darkgreen"</span>, <span class="dt">linetype =</span> <span class="st">"dashed"</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">mean =</span> <span class="dv">2</span>, <span class="dt">sd =</span> <span class="fl">0.5</span>),</a>
+<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="dv">2</span>, <span class="dt">sd =</span> <span class="fl">0.5</span>),</a>
 <a class="sourceLine" id="cb2-45" data-line-number="45">                <span class="dt">colour =</span> <span class="st">"red"</span>, <span class="dt">linetype =</span> <span class="st">"dashed"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-46" data-line-number="46"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">"Observed value"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-47" data-line-number="47"><span class="st">  </span><span class="kw">ylab</span>(<span class="st">"Predicted probability"</span>) <span class="op">+</span></a>
@@ -276,7 +277,8 @@ SOFTWARE.</code></pre>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Nima Hejazi <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-7127-2789" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<li>David Benkeser <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-1019-8343" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Mark van der Laan <br><small class="roles"> Author, thesis advisor </small> <a href="https://orcid.org/0000-0003-1432-5511" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
 </ul>
 </div>
 
@@ -298,11 +300,11 @@ SOFTWARE.</code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Nima Hejazi.</p>
+  <p>Developed by Nima Hejazi, David Benkeser, Mark van der Laan.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9000.</p>
 </div>
       </footer>
 </div>

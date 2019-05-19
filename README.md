@@ -21,7 +21,9 @@ license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://openso
 > Nonparametric Conditional Density Estimation with the Highly Adaptive
 > Lasso
 
-**Author:** [Nima Hejazi](https://nimahejazi.org)
+**Authors:** [Nima Hejazi](https://nimahejazi.org), [David
+Benkeser](https://www.benkeserstatistics.com/), and [Mark van der
+Laan](https://vanderlaan-lab.org)
 
 -----
 
