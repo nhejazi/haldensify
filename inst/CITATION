@@ -1,0 +1,16 @@
+citHeader("Please cite the following works when using the 'haldensify' software
+           package, including both the software tool and the article describing
+           the statistical methodology.")
+
+year <- format(Sys.Date(), "%Y")
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(bibtype = "Manual",
+         title = "{haldensify}: Conditional density estimation with the highly adaptive lasso",
+         author = c(person("Nima", "Hejazi", "S"),
+                    person("David", "Benkeser"),
+                    person("Mark", "van der Laan", "J")),
+         year = year,
+         note = note,
+         doi = "",
+         url = "https://github.com/nhejazi/haldensify")

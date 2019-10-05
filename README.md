@@ -21,7 +21,9 @@ license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://openso
 > Nonparametric Conditional Density Estimation with the Highly Adaptive
 > Lasso
 
-**Author:** [Nima Hejazi](https://nimahejazi.org)
+**Authors:** [Nima Hejazi](https://nimahejazi.org), [David
+Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes), and
+[Mark van der Laan](https://vanderlaan-lab.org/about/)
 
 -----
 
@@ -140,9 +142,10 @@ After using the `haldensify` R package, please cite the following:
 
 ``` 
     @manual{hejazi2019haldensify,
-      author = {Hejazi, Nima S},
-      title = {haldensify: Nonparametric conditional density estimation
-        with the highly adaptive lasso in {R}},
+      author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
+        Mark J},
+      title = {{haldensify}: Conditional density estimation with the highly
+        adaptive lasso},
       year  = {2019},
       url = {https://github.com/nhejazi/haldensify},
       note = {R package version 0.0.3}

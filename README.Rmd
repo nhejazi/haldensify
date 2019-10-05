@@ -1,7 +1,7 @@
 ---
 output:
   rmarkdown::github_document
-bibliography: "README-refs.bib"
+bibliography: "inst/REFERENCES.bib"
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -27,7 +27,9 @@ knitr::opts_chunk$set(
 
 > Nonparametric Conditional Density Estimation with the Highly Adaptive Lasso
 
-__Author:__ [Nima Hejazi](https://nimahejazi.org)
+__Authors:__ [Nima Hejazi](https://nimahejazi.org), [David
+Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes), and [Mark
+van der Laan](https://vanderlaan-lab.org/about/)
 
 ---
 
@@ -141,9 +143,10 @@ prior to submitting a pull request.
 After using the `haldensify` R package, please cite the following:
 
         @manual{hejazi2019haldensify,
-          author = {Hejazi, Nima S},
-          title = {haldensify: Nonparametric conditional density estimation
-            with the highly adaptive lasso in {R}},
+          author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
+            Mark J},
+          title = {{haldensify}: Conditional density estimation with the highly
+            adaptive lasso},
           year  = {2019},
           url = {https://github.com/nhejazi/haldensify},
           note = {R package version 0.0.3}

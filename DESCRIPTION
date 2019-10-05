@@ -6,10 +6,10 @@ Authors@R: c(
            role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0002-7127-2789")),
     person("David", "Benkeser", email = "benkeser@emory.edu",
-           role = "ctb",
+           role = "aut",
            comment = c(ORCID = "0000-0002-1019-8343")),
     person("Mark", "van der Laan", email = "laan@berkeley.edu",
-           role = c("ctb", "ths"),
+           role = c("aut", "ths"),
            comment = c(ORCID = "0000-0003-1432-5511"))
   )
 Maintainer: Nima Hejazi <nh@nimahejazi.org>
