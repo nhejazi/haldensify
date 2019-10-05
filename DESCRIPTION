@@ -39,7 +39,7 @@ Remotes:
     github::osofr/simcausal@master,
     github::osofr/condensier@master,
     github::tlverse/origami@master,
-    github::tlverse/hal9001@master
+    github::tlverse/hal9001@cox-glmnet
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
