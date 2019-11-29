@@ -4,9 +4,16 @@
 \alias{haldensify}
 \title{Cross-validated conditional density estimation with HAL}
 \usage{
-haldensify(A, W, wts = rep(1, length(A)), grid_type = c("equal_range",
-  "equal_mass"), n_bins = c(5, 10), lambda_seq = exp(seq(-1, -13,
-  length = 1000)), use_future = FALSE, seed_int = 9001L)
+haldensify(
+  A,
+  W,
+  wts = rep(1, length(A)),
+  grid_type = c("equal_range", "equal_mass"),
+  n_bins = c(5, 10),
+  lambda_seq = exp(seq(-1, -13, length = 1000)),
+  use_future = FALSE,
+  seed_int = 791L
+)
 }
 \arguments{
 \item{A}{The \code{numeric} vector or similar of the observed values of an
@@ -20,32 +27,29 @@ observed intervention values are provided in the previous argument.}
 is to weight all observations equally.}
 
 \item{grid_type}{A \code{character} indicating the strategy (or strategies)
-to be used in
-creating bins along the observed support of the intervention \code{A}. For
-bins of equal range, use "equal_range", consulting the documentation of
-\code{ggplot2::cut_interval} for more information. To ensure each bins has
-the same number of points, use "equal_mass" and consult the documentation of
-\code{ggplot2::cut_number} for details.}
+to be used in creating bins along the observed support of the intervention
+\code{A}. For bins of equal range, use "equal_range"; consult documentation
+of \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
+bin has the same number of points, use "equal_mass"; consult documentation
+of \code{\link[ggplot2]{cut_number}} for details.}
 
 \item{n_bins}{Only used if \code{type} is set to \code{"equal_range"} or
-\code{"equal_mass"}. This \code{numeric} value indicates the number (or
-numbers)of bins
-that the support of the intervention \code{A} is to be divided into.}
+\code{"equal_mass"}. This \code{numeric} value indicates the number(s) of
+bins into which the support of the intervention \code{A} is to be divided.}
 
-\item{lambda_seq}{A \code{numeric} sequence of values of the lambda tuning
-parameter of the Lasso L1 regression, to be passed to \code{glmnet::glmnet}
-through a call to \code{hal9001::fit_hal}.}
+\item{lambda_seq}{A \code{numeric} sequence of values of the tuning parameter
+of the Lasso L1 regression passed to \code{\link[hal9001]{fit_hal}}.}
 
 \item{use_future}{A \code{logical} indicating whether to attempt to use
-parallelization based on the \code{future} and \code{future.apply} packages.
-In particular, if set to \code{TRUE}, this will cause \code{future_mapply}
+parallelization based on the \pkg{future} and \pkg{future.apply} packages.
+If set to \code{TRUE}, this will cause \code{\link[future]{future_mapply}}
 to be used in place of \code{mapply}. If setting this to \code{TRUE}, an
 appropriate parallelization scheme ought to be set externally by using
-\code{future::plan}.}
+\code{\link[future]{plan}}.}
 
 \item{seed_int}{An integer used to set the seed in the cross-validation
 procedure used to select binning values. This \code{numeric} is passed
-directly to the \code{future.seed} argument of \code{future_mapply}.}
+to the \code{future.seed} argument of \code{\link[future]{future_mapply}}.}
 }
 \description{
 Cross-validated conditional density estimation with HAL

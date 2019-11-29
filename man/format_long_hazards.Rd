@@ -4,9 +4,14 @@
 \alias{format_long_hazards}
 \title{Generate long format hazards data for conditional density estimation}
 \usage{
-format_long_hazards(A, W, wts = rep(1, length(A)),
-  type = c("equal_range", "equal_mass"), n_bins = NULL,
-  breaks = NULL)
+format_long_hazards(
+  A,
+  W,
+  wts = rep(1, length(A)),
+  type = c("equal_range", "equal_mass"),
+  n_bins = NULL,
+  breaks = NULL
+)
 }
 \arguments{
 \item{A}{The \code{numeric} vector or similar of the observed values of an

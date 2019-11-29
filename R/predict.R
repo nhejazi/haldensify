@@ -16,7 +16,7 @@ utils::globalVariables(c("wts"))
 #' @importFrom future.apply future_lapply
 #'
 #' @export
-#
+#'
 predict.haldensify <- function(object, ..., new_A, new_W) {
   # make long format data structure with new input data
   long_format_args <- list(
@@ -28,6 +28,13 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
   reformatted_output <- do.call(format_long_hazards, long_format_args)
   long_data_pred <- reformatted_output$data
   long_data_pred[, wts := NULL]
+
+  # NOTE: as of v0.2.5 of the hal9001 package, predict.hal9001 checks to see
+  #       whether the coefficients are a matrix when fitting a sequence of HAL
+  #       models parameterized by lambdas. In our case, we choose a set of
+  #       coefficients (from a single lambda) by CV but do this outside of
+  #       hal9001::fit_hal, necessitating the following hack:
+  object$hal_fit$coefs <- matrix(object$hal_fit$coefs, ncol = 1)
 
   # predict conditional density estimate from HAL fit on new long format data
   hazard_pred <-
