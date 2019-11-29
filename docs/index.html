@@ -13,10 +13,11 @@
 <script src="pkgdown.js"></script><meta property="og:title" content="Conditional Density Estimation with the Highly Adaptive Lasso">
 <meta property="og:description" content="Conditional density estimation is a longstanding and challenging
     problem in statistical theory, and numerous proposals exist for optimally
-    estimating such complex functions. An algorithm for nonparametric estimation
-    of conditional densities based on a pooled hazard regression formulation is
-    implemented based on the highly adaptive lasso (HAL), an optimal algorithm
-    for efficient estimation with guarantees of fast convergence rates.">
+    estimating such complex functions. Algorithms for nonparametric estimation
+    of conditional densities based on a pooled hazard regression formulation and
+    semiparametric estimation via conditional hazards modeling are implemented
+    based on the highly adaptive lasso), a nonparametric regression method for
+    efficient estimation with optimality guarantees and fast convergence rates.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -36,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -93,8 +94,8 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>Install the most recent <em>stable release</em> from GitHub via <a href="https://www.rstudio.com/products/rpackages/devtools/"><code>devtools</code></a>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"nhejazi/haldensify"</span>)</a></code></pre></div>
+<p>Install the <em>most recent version</em> from the <code>master</code> branch on GitHub via <a href="https://CRAN.R-project.org/package=remotes"><code>remotes</code></a>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"nhejazi/haldensify"</span>)</a></code></pre></div>
 <hr>
 </div>
 <div id="example" class="section level2">
@@ -102,9 +103,9 @@
 <a href="#example" class="anchor"></a>Example</h2>
 <p>A simple example illustrates how <code>haldensify</code> may be used to construct conditional density estimates:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(data.table)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(hal9001)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(haldensify)</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(hal9001)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(haldensify)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">76924</span>)</a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co"># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span></a>
@@ -151,7 +152,7 @@
 <a class="sourceLine" id="cb2-48" data-line-number="48"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">"Conditional density p(A|W)"</span>) <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-49" data-line-number="49"><span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb2-50" data-line-number="50"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</a>
-<a class="sourceLine" id="cb2-51" data-line-number="51">p</a></code></pre></div>
+<a class="sourceLine" id="cb2-51" data-line-number="51">p <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</a></code></pre></div>
 <p><img src="README-example-1.png"><!-- --></p>
 <hr>
 </div>
@@ -178,7 +179,7 @@
         adaptive lasso},
       year  = {2019},
       url = {https://github.com/nhejazi/haldensify},
-      note = {R package version 0.0.3}
+      note = {R package version 0.0.4}
     }</code></pre>
 <hr>
 </div>
@@ -187,7 +188,7 @@
 <a href="#related" class="anchor"></a>Related</h2>
 <ul>
 <li>
-<a href="https://github.com/osofr/condensier">R/<code>condensier</code></a> - An independent implementation of the same core methodology, though more general in its making allowance for arbitrary selection of regression functions and a greater variety of hazard regression strategies.</li>
+<a href="https://github.com/osofr/condensier">R/<code>condensier</code></a> – An independent implementation of some of the same core methodology, allowing for arbitrary selection of regression functions and a greater variety of hazard regression strategies.</li>
 </ul>
 <hr>
 </div>

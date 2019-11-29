@@ -15,10 +15,11 @@ Authors@R: c(
 Maintainer: Nima Hejazi <nh@nimahejazi.org>
 Description: Conditional density estimation is a longstanding and challenging
     problem in statistical theory, and numerous proposals exist for optimally
-    estimating such complex functions. An algorithm for nonparametric estimation
-    of conditional densities based on a pooled hazard regression formulation is
-    implemented based on the highly adaptive lasso (HAL), an optimal algorithm
-    for efficient estimation with guarantees of fast convergence rates.
+    estimating such complex functions. Algorithms for nonparametric estimation
+    of conditional densities based on a pooled hazard regression formulation and
+    semiparametric estimation via conditional hazards modeling are implemented
+    based on the highly adaptive lasso), a nonparametric regression method for
+    efficient estimation with optimality guarantees and fast convergence rates.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -26,8 +27,8 @@ Imports:
     data.table,
     future.apply,
     assertthat,
-    hal9001,
-    origami,
+    hal9001 (>= 0.2.5),
+    origami (>= 1.0.0),
     Rdpack
 Suggests:
     testthat,
