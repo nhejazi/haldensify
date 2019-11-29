@@ -4,9 +4,14 @@
 \alias{format_long_hazards}
 \title{Generate long format hazards data for conditional density estimation}
 \usage{
-format_long_hazards(A, W, wts = rep(1, length(A)),
-  type = c("equal_range", "equal_mass"), n_bins = NULL,
-  breaks = NULL)
+format_long_hazards(
+  A,
+  W,
+  wts = rep(1, length(A)),
+  grid_type = c("equal_range", "equal_mass"),
+  n_bins = NULL,
+  breaks = NULL
+)
 }
 \arguments{
 \item{A}{The \code{numeric} vector or similar of the observed values of an
@@ -19,20 +24,21 @@ observed intervention values are provided in the previous argument.}
 \item{wts}{A \code{numeric} vector of observation-level weights. The default
 is to weight all observations equally.}
 
-\item{type}{A \code{character} indicating the strategy to be used in creating
-bins along the observed support of the intervention \code{A}. For bins of
-equal range, use "equal_range" and consider consulting the documentation of
-\code{ggplot2::cut_interval} for more information. To ensure each bins has
-the same number of points, use "equal_mass" and consult the documentation of
-\code{ggplot2::cut_number} for details.}
+\item{grid_type}{A \code{character} indicating the strategy (or strategies)
+to be used in creating bins along the observed support of the intervention
+\code{A}. For bins of equal range, use "equal_range"; consult documentation
+of \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
+bin has the same number of points, use "equal_mass"; consult documentation
+of \code{\link[ggplot2]{cut_number}} for details.}
 
-\item{n_bins}{Only used if \code{type} is set to \code{"equal_range"} or
-\code{"equal_mass"}. This \code{numeric} value indicates the number of bins
-that the support of the intervention \code{A} is to be divided into.}
+\item{n_bins}{Only used if \code{grid_type} is set to \code{"equal_range"} or
+\code{"equal_mass"}. This \code{numeric} value indicates the number(s) of
+bins into which the support of the intervention \code{A} is to be divided.}
 
 \item{breaks}{A \code{numeric} vector of break points to be used in dividing
-up the support of \code{A}. This is passed as a \code{...} argument to
-\code{base::cut.default} by either \code{cut_interval} or \code{cut_number}.}
+up the support of \code{A}. This is passed through the \code{...} argument
+to \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}} or
+\code{\link[ggplot2]{cut_number}}.}
 }
 \description{
 Generate long format hazards data for conditional density estimation
