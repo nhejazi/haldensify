@@ -171,16 +171,15 @@ of the Lasso L1 regression passed to <code><a href='https://rdrr.io/pkg/hal9001/
       <th>use_future</th>
       <td><p>A <code>logical</code> indicating whether to attempt to use
 parallelization based on the <span class="pkg">future</span> and <span class="pkg">future.apply</span> packages.
-If set to <code>TRUE</code>, this will cause <code>future_mapply</code>
-to be used in place of <code>mapply</code>. If setting this to <code>TRUE</code>, an
-appropriate parallelization scheme ought to be set externally by using
-<code><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></code>.</p></td>
+If set to <code>TRUE</code>, <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code> will be
+used in place of <code>mapply</code>. When set to <code>TRUE</code>, a parallelization
+scheme must be set externally by using <code><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></code>.</p></td>
     </tr>
     <tr>
       <th>seed_int</th>
       <td><p>An integer used to set the seed in the cross-validation
 procedure used to select binning values. This <code>numeric</code> is passed
-to the <code>future.seed</code> argument of <code>future_mapply</code>.</p></td>
+to argument <code>future.seed</code> of <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code>.</p></td>
     </tr>
     </table>
 
