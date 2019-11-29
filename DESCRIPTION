@@ -1,6 +1,6 @@
 Package: haldensify
 Title: Conditional Density Estimation with the Highly Adaptive Lasso
-Version: 0.0.3
+Version: 0.0.6
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),
@@ -15,10 +15,11 @@ Authors@R: c(
 Maintainer: Nima Hejazi <nh@nimahejazi.org>
 Description: Conditional density estimation is a longstanding and challenging
     problem in statistical theory, and numerous proposals exist for optimally
-    estimating such complex functions. An algorithm for nonparametric estimation
-    of conditional densities based on a pooled hazard regression formulation is
-    implemented based on the highly adaptive lasso (HAL), an optimal algorithm
-    for efficient estimation with guarantees of fast convergence rates.
+    estimating such complex functions. Algorithms for nonparametric estimation
+    of conditional densities based on a pooled hazard regression formulation and
+    semiparametric estimation via conditional hazards modeling are implemented
+    based on the highly adaptive lasso), a nonparametric regression method for
+    efficient estimation with optimality guarantees and fast convergence rates.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -26,8 +27,8 @@ Imports:
     data.table,
     future.apply,
     assertthat,
-    hal9001,
-    origami,
+    hal9001 (>= 0.2.5),
+    origami (>= 1.0.0),
     Rdpack
 Suggests:
     testthat,
@@ -36,15 +37,12 @@ Suggests:
     future,
     dplyr
 Remotes:
-    github::osofr/simcausal@master,
-    github::osofr/condensier@master,
-    github::tlverse/origami@master,
-    github::tlverse/hal9001@cox-glmnet
+    github::tlverse/hal9001@master
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 RdMacros: Rdpack

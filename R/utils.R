@@ -7,40 +7,41 @@
 #'  observed intervention values are provided in the previous argument.
 #' @param wts A \code{numeric} vector of observation-level weights. The default
 #'  is to weight all observations equally.
-#' @param type A \code{character} indicating the strategy to be used in creating
-#'  bins along the observed support of the intervention \code{A}. For bins of
-#'  equal range, use "equal_range" and consider consulting the documentation of
-#'  \code{ggplot2::cut_interval} for more information. To ensure each bins has
-#'  the same number of points, use "equal_mass" and consult the documentation of
-#'  \code{ggplot2::cut_number} for details.
-#' @param n_bins Only used if \code{type} is set to \code{"equal_range"} or
-#'  \code{"equal_mass"}. This \code{numeric} value indicates the number of bins
-#'  that the support of the intervention \code{A} is to be divided into.
+#' @param grid_type A \code{character} indicating the strategy (or strategies)
+#'  to be used in creating bins along the observed support of the intervention
+#'  \code{A}. For bins of equal range, use "equal_range"; consult documentation
+#'  of \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
+#'  bin has the same number of points, use "equal_mass"; consult documentation
+#'  of \code{\link[ggplot2]{cut_number}} for details.
+#' @param n_bins Only used if \code{grid_type} is set to \code{"equal_range"} or
+#'  \code{"equal_mass"}. This \code{numeric} value indicates the number(s) of
+#'  bins into which the support of the intervention \code{A} is to be divided.
 #' @param breaks A \code{numeric} vector of break points to be used in dividing
-#'  up the support of \code{A}. This is passed as a \code{...} argument to
-#'  \code{base::cut.default} by either \code{cut_interval} or \code{cut_number}.
+#'  up the support of \code{A}. This is passed through the \code{...} argument
+#'  to \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}} or
+#'  \code{\link[ggplot2]{cut_number}}.
 #'
 #' @importFrom data.table as.data.table setnames
 #' @importFrom ggplot2 cut_interval cut_number
 #' @importFrom future.apply future_lapply
 #' @importFrom assertthat assert_that
-#
+#'
 format_long_hazards <- function(A, W, wts = rep(1, length(A)),
-                                type = c(
+                                grid_type = c(
                                   "equal_range", "equal_mass"
                                 ),
                                 n_bins = NULL, breaks = NULL) {
   # clean up arguments
-  type <- match.arg(type)
+  grid_type <- match.arg(grid_type)
 
   # set grid along A and find interval membership of observations along grid
   if (is.null(breaks) & !is.null(n_bins)) {
-    if (type == "equal_range") {
+    if (grid_type == "equal_range") {
       bins <- ggplot2::cut_interval(A, n_bins,
         right = FALSE,
         ordered_result = TRUE, dig.lab = 12
       )
-    } else if (type == "equal_mass") {
+    } else if (grid_type == "equal_mass") {
       bins <- ggplot2::cut_number(A, n_bins,
         right = FALSE,
         ordered_result = TRUE, dig.lab = 12
@@ -51,7 +52,7 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
     breaks_right <- as.numeric(sub(".+,(.+).", "\\1", levels(bins)))
     bin_length <- round(breaks_right - breaks_left, 3)
     bin_id <- as.numeric(bins)
-    all_bins <- matrix(seq_along(bin_id), ncol = 1)
+    all_bins <- matrix(seq_len(max(bin_id)), ncol = 1)
     # for predict method, only need to assign observations to existing intervals
   } else if (!is.null(breaks)) {
     # NOTE: findInterval() and cut() might return slightly different results...
@@ -147,7 +148,7 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
 #'  \insertRef{diaz2011super}{haldensify}.
 #'
 #' @importFrom assertthat assert_that
-#
+#'
 map_hazard_to_density <- function(hazard_pred_single_obs) {
   # number of records for the given observation
   n_records <- nrow(hazard_pred_single_obs)

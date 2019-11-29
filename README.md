@@ -48,11 +48,11 @@ and Hejazi 2018).
 
 ## Installation
 
-Install the most recent *stable release* from GitHub via
-[`devtools`](https://www.rstudio.com/products/rpackages/devtools/):
+Install the *most recent version* from the `master` branch on GitHub via
+[`remotes`](https://CRAN.R-project.org/package=remotes):
 
 ``` r
-devtools::install_github("nhejazi/haldensify")
+remotes::install_github("nhejazi/haldensify")
 ```
 
 -----
@@ -64,9 +64,9 @@ conditional density estimates:
 
 ``` r
 library(data.table)
+library(tidyverse)
 library(hal9001)
 library(haldensify)
-library(tidyverse)
 set.seed(76924)
 
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
@@ -113,7 +113,7 @@ p <- new_dat %>%
   ggtitle("Conditional density p(A|W)") +
   theme_bw() +
   theme(legend.position = "none")
-p
+p %>% print()
 ```
 
 ![](README-example-1.png)<!-- -->
@@ -148,7 +148,7 @@ After using the `haldensify` R package, please cite the following:
         adaptive lasso},
       year  = {2019},
       url = {https://github.com/nhejazi/haldensify},
-      note = {R package version 0.0.3}
+      note = {R package version 0.0.4}
     }
 ```
 
@@ -156,11 +156,10 @@ After using the `haldensify` R package, please cite the following:
 
 ## Related
 
-  - [R/`condensier`](https://github.com/osofr/condensier) - An
-    independent implementation of the same core methodology, though more
-    general in its making allowance for arbitrary selection of
-    regression functions and a greater variety of hazard regression
-    strategies.
+  - [R/`condensier`](https://github.com/osofr/condensier) – An
+    independent implementation of some of the same core methodology,
+    allowing for arbitrary selection of regression functions and a
+    greater variety of hazard regression strategies.
 
 -----
 

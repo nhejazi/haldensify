@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -117,9 +117,16 @@
     <p>Cross-validated conditional density estimation with HAL</p>
     </div>
 
-    <pre class="usage"><span class='fu'>haldensify</span>(<span class='no'>A</span>, <span class='no'>W</span>, <span class='kw'>wts</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>A</span>)), <span class='kw'>grid_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"equal_range"</span>,
-  <span class='st'>"equal_mass"</span>), <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>), <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>13</span>,
-  <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>1000</span>)), <span class='kw'>use_future</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>seed_int</span> <span class='kw'>=</span> <span class='fl'>9001L</span>)</pre>
+    <pre class="usage"><span class='fu'>haldensify</span>(
+  <span class='no'>A</span>,
+  <span class='no'>W</span>,
+  <span class='kw'>wts</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>A</span>)),
+  <span class='kw'>grid_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"equal_range"</span>, <span class='st'>"equal_mass"</span>),
+  <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>),
+  <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>13</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>1000</span>)),
+  <span class='kw'>use_future</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>seed_int</span> <span class='kw'>=</span> <span class='fl'>791L</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,40 +150,36 @@ is to weight all observations equally.</p></td>
     <tr>
       <th>grid_type</th>
       <td><p>A <code>character</code> indicating the strategy (or strategies)
-to be used in
-creating bins along the observed support of the intervention <code>A</code>. For
-bins of equal range, use "equal_range", consulting the documentation of
-<code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_interval</a></code> for more information. To ensure each bins has
-the same number of points, use "equal_mass" and consult the documentation of
-<code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>ggplot2::cut_number</a></code> for details.</p></td>
+to be used in creating bins along the observed support of the intervention
+<code>A</code>. For bins of equal range, use "equal_range"; consult documentation
+of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_interval</a></code> for more information. To ensure each
+bin has the same number of points, use "equal_mass"; consult documentation
+of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>n_bins</th>
       <td><p>Only used if <code>type</code> is set to <code>"equal_range"</code> or
-<code>"equal_mass"</code>. This <code>numeric</code> value indicates the number (or
-numbers)of bins
-that the support of the intervention <code>A</code> is to be divided into.</p></td>
+<code>"equal_mass"</code>. This <code>numeric</code> value indicates the number(s) of
+bins into which the support of the intervention <code>A</code> is to be divided.</p></td>
     </tr>
     <tr>
       <th>lambda_seq</th>
-      <td><p>A <code>numeric</code> sequence of values of the lambda tuning
-parameter of the Lasso L1 regression, to be passed to <code><a href='https://rdrr.io/pkg/glmnet/man/glmnet.html'>glmnet::glmnet</a></code>
-through a call to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>hal9001::fit_hal</a></code>.</p></td>
+      <td><p>A <code>numeric</code> sequence of values of the tuning parameter
+of the Lasso L1 regression passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
     </tr>
     <tr>
       <th>use_future</th>
       <td><p>A <code>logical</code> indicating whether to attempt to use
-parallelization based on the <code>future</code> and <code>future.apply</code> packages.
-In particular, if set to <code>TRUE</code>, this will cause <code>future_mapply</code>
-to be used in place of <code>mapply</code>. If setting this to <code>TRUE</code>, an
-appropriate parallelization scheme ought to be set externally by using
-<code><a href='https://rdrr.io/pkg/future/man/plan.html'>future::plan</a></code>.</p></td>
+parallelization based on the <span class="pkg">future</span> and <span class="pkg">future.apply</span> packages.
+If set to <code>TRUE</code>, <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code> will be
+used in place of <code>mapply</code>. When set to <code>TRUE</code>, a parallelization
+scheme must be set externally by using <code><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></code>.</p></td>
     </tr>
     <tr>
       <th>seed_int</th>
       <td><p>An integer used to set the seed in the cross-validation
 procedure used to select binning values. This <code>numeric</code> is passed
-directly to the <code>future.seed</code> argument of <code>future_mapply</code>.</p></td>
+to argument <code>future.seed</code> of <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code>.</p></td>
     </tr>
     </table>
 

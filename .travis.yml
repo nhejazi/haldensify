@@ -22,18 +22,16 @@ before_install:
   - Rscript -e 'update.packages(ask = FALSE)'
 
 r_packages:
-  - data.table
   - devtools
+  - data.table
   - sessioninfo
   - covr
 
 r_github_packages:
   - r-lib/covr
   - r-lib/sessioninfo
-  - osofr/simcausal
-  - osofr/condensier
   - tlverse/origami
-  - tlverse/hal9001@cox-glmnet
+  - tlverse/hal9001
 
 after_success:
   - travis_wait 80 Rscript -e "covr::codecov()"
