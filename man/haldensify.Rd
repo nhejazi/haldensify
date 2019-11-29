@@ -42,14 +42,13 @@ of the Lasso L1 regression passed to \code{\link[hal9001]{fit_hal}}.}
 
 \item{use_future}{A \code{logical} indicating whether to attempt to use
 parallelization based on the \pkg{future} and \pkg{future.apply} packages.
-If set to \code{TRUE}, this will cause \code{\link[future]{future_mapply}}
-to be used in place of \code{mapply}. If setting this to \code{TRUE}, an
-appropriate parallelization scheme ought to be set externally by using
-\code{\link[future]{plan}}.}
+If set to \code{TRUE}, \code{\link[future.apply]{future_mapply}} will be
+used in place of \code{mapply}. When set to \code{TRUE}, a parallelization
+scheme must be set externally by using \code{\link[future]{plan}}.}
 
 \item{seed_int}{An integer used to set the seed in the cross-validation
 procedure used to select binning values. This \code{numeric} is passed
-to the \code{future.seed} argument of \code{\link[future]{future_mapply}}.}
+to argument \code{future.seed} of \code{\link[future.apply]{future_mapply}}.}
 }
 \description{
 Cross-validated conditional density estimation with HAL

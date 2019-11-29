@@ -22,7 +22,7 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
   long_format_args <- list(
     A = new_A,
     W = new_W,
-    type = object$call$grid_type,
+    grid_type = object$call$grid_type,
     breaks = object$breaks
   )
   reformatted_output <- do.call(format_long_hazards, long_format_args)
