@@ -163,7 +163,7 @@ haldensify <- function(A,
         # re-format input data into long hazards structure
         reformatted_output <- format_long_hazards(
           A = A, W = W, wts = wts,
-          type = grid_type, n_bins = n_bins
+          grid_type = grid_type, n_bins = n_bins
         )
         long_data <- reformatted_output$data
         bin_sizes <- reformatted_output$bin_length
@@ -241,7 +241,7 @@ haldensify <- function(A,
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(
     A = A, W = W, wts = wts,
-    type = tune_select$grid_type,
+    grid_type = tune_select$grid_type,
     n_bins = tune_select$n_bins
   )
   long_data <- reformatted_output$data
