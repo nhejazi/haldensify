@@ -1,6 +1,6 @@
 Package: haldensify
 Title: Conditional Density Estimation with the Highly Adaptive Lasso
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),
@@ -36,13 +36,11 @@ Suggests:
     rmarkdown,
     future,
     dplyr
-Remotes:
-    github::tlverse/hal9001@master
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 RdMacros: Rdpack
