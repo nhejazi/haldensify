@@ -9,17 +9,13 @@ Status](https://travis-ci.org/nhejazi/haldensify.svg?branch=master)](https://tra
 Status](https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&svg=true)](https://ci.appveyor.com/project/nhejazi/haldensify)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
-[![CRAN](http://www.r-pkg.org/badges/version/haldensify)](http://www.r-pkg.org/pkg/haldensify)
-[![CRAN
-downloads](https://cranlogs.r-pkg.org/badges/haldensify)](https://CRAN.R-project.org/package=haldensify)
-[![Project Status: WIP – Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![MIT
 license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-> Nonparametric Conditional Density Estimation with the Highly Adaptive
-> Lasso
+> Conditional Density Estimation with the Highly Adaptive Lasso
 
 **Authors:** [Nima Hejazi](https://nimahejazi.org), [David
 Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes), and
@@ -37,12 +33,12 @@ performing pooled hazards regressions so as to assess the conditional
 hazard that an observation falls in a given bin over the support of the
 variable of interest. Such conditional density estimates are required to
 estimate the propensity score when the intervention variable considered
-is continuous (Díaz and van der Laan 2012, 2018; Díaz and Hejazi 2019).
+is continuous (Díaz and van der Laan 2012, 2018; Díaz and Hejazi 2020).
 Though future generalization of the core routines may be possible, for
 the time being, `haldensify` is a minimal implementation of this
 strategy for use only with the highly adaptive lasso (Benkeser and van
-der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle
-and Hejazi 2018).
+der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle,
+Hejazi, and van der Laan 2019).
 
 -----
 
@@ -141,14 +137,16 @@ prior to submitting a pull request.
 After using the `haldensify` R package, please cite the following:
 
 ``` 
-    @manual{hejazi2019haldensify,
+    @manual{hejazi2020haldensify,
       author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
         Mark J},
       title = {{haldensify}: Conditional density estimation with the highly
         adaptive lasso},
-      year  = {2019},
-      url = {https://github.com/nhejazi/haldensify},
-      note = {R package version 0.0.4}
+      year  = {2020},
+      howpublished = {\url{https://github.com/nhejazi/haldensify}},
+      note = {{R} package version 0.0.5},
+      url = {https://doi.org/},
+      doi = {}
     }
 ```
 
@@ -165,14 +163,14 @@ After using the `haldensify` R package, please cite the following:
 
 ## License
 
-© 2019 [Nima S. Hejazi](https://nimahejazi.org)
+© 2019-2020 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license.
 See below for details:
 
     MIT License
     
-    Copyright (c) 2019 Nima S. Hejazi
+    Copyright (c) 2019-2020 Nima S. Hejazi
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -207,18 +205,21 @@ Data Science and Advanced Analytics*, 2016:689. NIH Public Access.
 
 </div>
 
-<div id="ref-coyle2018hal9001">
+<div id="ref-coyle2019hal9001">
 
-Coyle, Jeremy R, and Nima S Hejazi. 2018. *hal9001: The Scalable Highly
-Adaptive LASSO*. <https://github.com/tlverse/hal9001>.
+Coyle, Jeremy R, Nima S Hejazi, and Mark J van der Laan. 2019. *hal9001:
+The Scalable Highly Adaptive Lasso*.
+<https://github.com/tlverse/hal9001>.
+<https://doi.org/10.5281/zenodo.3558314>.
 
 </div>
 
-<div id="ref-diaz2019causal">
+<div id="ref-diaz2020causal">
 
-Díaz, Iván, and Nima S Hejazi. 2019. “Causal Mediation Analysis for
-Stochastic Interventions.” *Submitted*.
-<https://arxiv.org/abs/1901.02776>.
+Díaz, Iván, and Nima S Hejazi. 2020. “Causal Mediation Analysis for
+Stochastic Interventions.” *Journal of the Royal Statistical Society:
+Series B (Statistical Methodology)*. Wiley Online Library.
+<https://doi.org/10.1111/rssb.12362>.
 
 </div>
 
