@@ -143,7 +143,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  used in place of \code{mapply}. When set to \code{TRUE}, a parallelization
 #'  scheme must be set externally by using \code{\link[future]{plan}}.
 #' @param seed_int An integer used to set the seed in the cross-validation
-#'  procedure used to select binning values. This is passed to argument the
+#'  procedure used to select binning values. This is passed to the argument
 #'  \code{future.seed} of \code{\link[future.apply]{future_mapply}}.
 #'
 #' @importFrom origami make_folds cross_validate
