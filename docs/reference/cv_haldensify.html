@@ -147,22 +147,37 @@ as produced by <code><a href='format_long_hazards.html'>format_long_hazards</a><
     <tr>
       <th>wts</th>
       <td><p>A <code>numeric</code> vector of observation-level weights, matching in
-its length the number of records present in the long format data. Default is
-to weight all observations equally.</p></td>
+its length the number of records present in the long format data. Default
+is to weight all observations equally.</p></td>
     </tr>
     <tr>
       <th>lambda_seq</th>
-      <td><p>A <code>numeric</code> sequence of values of the tuning parameter
-of the Lasso L1 regression passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
+      <td><p>A <code>numeric</code> sequence of values of the tuning
+parameter of the Lasso L1 regression passed to
+<code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code>list</code>, containing density predictions, observations IDs,
+ observation-level weights, and cross-validation indices for conditional
+ density estimation on a single fold of the overall data.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Estimates the conditional density of A|W for a subset of the full
+ set of observations based on the inputted structure of the cross-validation
+ folds. This is a helper function intended to be used to select the optimal
+ value of the penalization parameter for the highly adaptive lasso estimates
+ of the conditional hazard (via <code><a href='http://tlverse.org/origami/reference/cross_validate.html'>cross_validate</a></code>). The</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

@@ -156,25 +156,42 @@ of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut
     </tr>
     <tr>
       <th>n_bins</th>
-      <td><p>Only used if <code>grid_type</code> is set to <code>"equal_range"</code> or
-<code>"equal_mass"</code>. This <code>numeric</code> value indicates the number(s) of
-bins into which the support of the intervention <code>A</code> is to be divided.</p></td>
+      <td><p>Only used if <code>grid_type</code> is set to <code>"equal_range"</code>
+or <code>"equal_mass"</code>. This <code>numeric</code> value indicates the number(s)
+of bins into which the support of <code>A</code> is to be divided.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
       <td><p>A <code>numeric</code> vector of break points to be used in dividing
 up the support of <code>A</code>. This is passed through the <code>...</code> argument
-to <code><a href='https://rdrr.io/r/base/cut.html'>cut.default</a></code> by <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_interval</a></code> or
-<code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></code>.</p></td>
+to <code><a href='https://rdrr.io/r/base/cut.html'>cut.default</a></code> by <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_interval</a></code>
+or <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></code>.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <code>list</code> containing the break points used in dividing the
+ support of <code>A</code> into discrete bins, the length of each bin, and the
+ reformatted data. The reformatted data is a <code>data.table</code> of
+ repeated measures data, with an indicator for which bin an observation
+ fails in, the bin ID, observation ID, values of <code>W</code> for each given
+ observation, and observation-level weights.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Generates a long-form dataset that represents each observation in
+ terms of repeated measures across discretized bins derived from selecting
+ break points over the support of A. This repeated measures dataset is
+ suitable for estimating the hazard of failing in a particular bin over A
+ using a highly adaptive lasso classification model.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>

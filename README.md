@@ -14,6 +14,7 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![MIT
 license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg)](https://doi.org/10.5281/zenodo.3698329)
 
 > Conditional Density Estimation with the Highly Adaptive Lasso
 
@@ -59,9 +60,8 @@ A simple example illustrates how `haldensify` may be used to construct
 conditional density estimates:
 
 ``` r
-library(data.table)
 library(tidyverse)
-library(hal9001)
+library(data.table)
 library(haldensify)
 set.seed(76924)
 
@@ -145,8 +145,8 @@ After using the `haldensify` R package, please cite the following:
       year  = {2020},
       howpublished = {\url{https://github.com/nhejazi/haldensify}},
       note = {{R} package version 0.0.5},
-      url = {https://doi.org/},
-      doi = {}
+      url = {https://doi.org/10.5281/zenodo.3698329},
+      doi = {10.5281/zenodo.3698329}
     }
 ```
 

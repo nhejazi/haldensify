@@ -22,6 +22,7 @@ knitr::opts_chunk$set(
 [![Coverage Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg)](https://doi.org/10.5281/zenodo.3698329)
 
 > Conditional Density Estimation with the Highly Adaptive Lasso
 
@@ -147,8 +148,8 @@ After using the `haldensify` R package, please cite the following:
           year  = {2020},
           howpublished = {\url{https://github.com/nhejazi/haldensify}},
           note = {{R} package version 0.0.5},
-          url = {https://doi.org/},
-          doi = {}
+          url = {https://doi.org/10.5281/zenodo.3698329},
+          doi = {10.5281/zenodo.3698329}
         }
 
 ---

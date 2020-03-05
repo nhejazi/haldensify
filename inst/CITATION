@@ -6,11 +6,11 @@ year <- format(Sys.Date(), "%Y")
 note <- sprintf("R package version %s", meta$Version)
 
 bibentry(bibtype = "Manual",
-         title = "{haldensify}: Conditional density estimation with the highly adaptive lasso",
+         title = "{haldensify}: Highly adaptive lasso conditional density estimation",
          author = c(person("Nima", "Hejazi", "S"),
                     person("David", "Benkeser"),
                     person("Mark", "van der Laan", "J")),
          year = year,
          note = note,
-         doi = "",
+         doi = "10.5281/zenodo.3698329",
          url = "https://github.com/nhejazi/haldensify")
