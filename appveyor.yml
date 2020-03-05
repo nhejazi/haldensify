@@ -23,6 +23,7 @@ environment:
     R_ARCH: x64
     USE_RTOOLS: true
     R_REMOTES_STANDALONE: true
+    R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
 
 build_script:
   - travis-tool.sh install_github r-lib/covr
