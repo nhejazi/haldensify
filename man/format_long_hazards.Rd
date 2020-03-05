@@ -31,15 +31,30 @@ of \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
 bin has the same number of points, use "equal_mass"; consult documentation
 of \code{\link[ggplot2]{cut_number}} for details.}
 
-\item{n_bins}{Only used if \code{grid_type} is set to \code{"equal_range"} or
-\code{"equal_mass"}. This \code{numeric} value indicates the number(s) of
-bins into which the support of the intervention \code{A} is to be divided.}
+\item{n_bins}{Only used if \code{grid_type} is set to \code{"equal_range"}
+or \code{"equal_mass"}. This \code{numeric} value indicates the number(s)
+of bins into which the support of \code{A} is to be divided.}
 
 \item{breaks}{A \code{numeric} vector of break points to be used in dividing
 up the support of \code{A}. This is passed through the \code{...} argument
-to \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}} or
-\code{\link[ggplot2]{cut_number}}.}
+to \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}}
+or \code{\link[ggplot2]{cut_number}}.}
+}
+\value{
+A \code{list} containing the break points used in dividing the
+ support of \code{A} into discrete bins, the length of each bin, and the
+ reformatted data. The reformatted data is a \code{\link{data.table}} of
+ repeated measures data, with an indicator for which bin an observation
+ fails in, the bin ID, observation ID, values of \code{W} for each given
+ observation, and observation-level weights.
 }
 \description{
 Generate long format hazards data for conditional density estimation
+}
+\details{
+Generates a long-form dataset that represents each observation in
+ terms of repeated measures across discretized bins derived from selecting
+ break points over the support of A. This repeated measures dataset is
+ suitable for estimating the hazard of failing in a particular bin over A
+ using a highly adaptive lasso classification model.
 }

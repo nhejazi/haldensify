@@ -1,5 +1,11 @@
 #' Generate long format hazards data for conditional density estimation
 #'
+#' @details Generates a long-form dataset that represents each observation in
+#'  terms of repeated measures across discretized bins derived from selecting
+#'  break points over the support of A. This repeated measures dataset is
+#'  suitable for estimating the hazard of failing in a particular bin over A
+#'  using a highly adaptive lasso classification model.
+#'
 #' @param A The \code{numeric} vector or similar of the observed values of an
 #'  intervention for a group of observational units of interest.
 #' @param W A \code{data.frame}, \code{matrix}, or similar giving the values of
@@ -13,19 +19,25 @@
 #'  of \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
 #'  bin has the same number of points, use "equal_mass"; consult documentation
 #'  of \code{\link[ggplot2]{cut_number}} for details.
-#' @param n_bins Only used if \code{grid_type} is set to \code{"equal_range"} or
-#'  \code{"equal_mass"}. This \code{numeric} value indicates the number(s) of
-#'  bins into which the support of the intervention \code{A} is to be divided.
+#' @param n_bins Only used if \code{grid_type} is set to \code{"equal_range"}
+#'  or \code{"equal_mass"}. This \code{numeric} value indicates the number(s)
+#'  of bins into which the support of \code{A} is to be divided.
 #' @param breaks A \code{numeric} vector of break points to be used in dividing
 #'  up the support of \code{A}. This is passed through the \code{...} argument
-#'  to \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}} or
-#'  \code{\link[ggplot2]{cut_number}}.
+#'  to \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}}
+#'  or \code{\link[ggplot2]{cut_number}}.
 #'
 #' @importFrom data.table as.data.table setnames
 #' @importFrom ggplot2 cut_interval cut_number
 #' @importFrom future.apply future_lapply
 #' @importFrom assertthat assert_that
 #'
+#' @return A \code{list} containing the break points used in dividing the
+#'  support of \code{A} into discrete bins, the length of each bin, and the
+#'  reformatted data. The reformatted data is a \code{\link{data.table}} of
+#'  repeated measures data, with an indicator for which bin an observation
+#'  fails in, the bin ID, observation ID, values of \code{W} for each given
+#'  observation, and observation-level weights.
 format_long_hazards <- function(A, W, wts = rep(1, length(A)),
                                 grid_type = c(
                                   "equal_range", "equal_mass"
@@ -136,19 +148,24 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
 
 #' Map a predicted hazard to a predicted density for a single observation
 #'
-#' For a single observation, map a predicted hazard of failure (occurrence in a
-#' particular bin, under a given partitioning of the support) to a density.
+#' @details For a single observation, map a predicted hazard of failure (as an
+#'  occurrence in a particular bin, under a given partitioning of the support)
+#'  to a density.
 #'
-#' @param hazard_pred_single_obs A \code{numeric} vector of the predicted hazard
-#'  of failure in a given bin (under a given partitioning of the support) for a
-#'  single observational unit based on a long format data structure (as produced
-#'  by \code{\link{format_long_hazards}}). This is simply the probability that
+#' @param hazard_pred_single_obs A \code{numeric} vector of predicted hazard of
+#'  failure in a given bin (under a given partitioning of the support) for a
+#'  single observational unit based on a long format data structure (from
+#'  \code{\link{format_long_hazards}}). This is simply the probability that
 #'  the observed value falls in a corresponding bin, given that it has not yet
-#'  failed (fallen in a previous bin), as given in
+#'  failed (fallen in a previous bin), as described in
 #'  \insertRef{diaz2011super}{haldensify}.
 #'
 #' @importFrom assertthat assert_that
 #'
+#' @return A \code{matrix} composed of a single row and a number of columns
+#'  specified by the grid of penalization parameters used in fitting of the
+#'  highly adaptive lasso. This is the predicted conditional density for a
+#'  given observation, re-mapped from the hazard scale.
 map_hazard_to_density <- function(hazard_pred_single_obs) {
   # number of records for the given observation
   n_records <- nrow(hazard_pred_single_obs)

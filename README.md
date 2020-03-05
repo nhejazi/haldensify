@@ -154,6 +154,9 @@ After using the `haldensify` R package, please cite the following:
 
 ## Related
 
+  - [R/`hal9001`](https://github.com/tlverse/hal9001) – The highly
+    adaptive lasso estimator used internally to constructed conditional
+    density estimates.
   - [R/`condensier`](https://github.com/osofr/condensier) – An
     independent implementation of some of the same core methodology,
     allowing for arbitrary selection of regression functions and a

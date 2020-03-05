@@ -16,10 +16,36 @@ estimation, as produced by a call to \code{\link{haldensify}}.}
 \item{new_A}{The \code{numeric} vector or similar of the observed values of
 an intervention for a group of observational units of interest.}
 
-\item{new_W}{A \code{data.frame}, \code{matrix}, or similar giving the values
-of baseline covariates (potential confounders) for the observed units whose
-observed intervention values are provided in the previous argument.}
+\item{new_W}{A \code{data.frame}, \code{matrix}, or similar giving the
+values of baseline covariates (potential confounders) for the observed
+units whose observed intervention values are provided in the previous
+argument.}
+}
+\value{
+A \code{numeric} vector of predicted conditional density values from
+ a fitted \code{haldensify} object.
 }
 \description{
 Prediction method for HAL-based conditional density estimation
+}
+\details{
+Method for computing and extracting predictions of the conditional
+ density estimates based on the highly adaptive lasso estimator, returned as
+ an S3 object of class \code{haldensify} from \code{\link{haldensify}}.
+}
+\examples{
+# simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
+set.seed(76924)
+n_train <- 100
+w <- runif(n_train, -4, 4)
+a <- rnorm(n_train, w, 0.5)
+# learn relationship A|W using HAL-based density estimation procedure
+mod_haldensify <- haldensify(
+  A = a, W = w, n_bins = 5,
+  lambda_seq = exp(seq(-1, -13, length = 300))
+)
+# predictions to recover conditional density of A|W
+new_a <- seq(-4, 4, by = 0.01)
+new_w <- rep(0, length(new_a))
+pred_dens_w_zero <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
 }
