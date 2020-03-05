@@ -20,12 +20,25 @@ the data in long format, as given in \insertRef{diaz2011super}{haldensify},
 as produced by \code{\link{format_long_hazards}}.}
 
 \item{wts}{A \code{numeric} vector of observation-level weights, matching in
-its length the number of records present in the long format data. Default is
-to weight all observations equally.}
+its length the number of records present in the long format data. Default
+is to weight all observations equally.}
 
-\item{lambda_seq}{A \code{numeric} sequence of values of the tuning parameter
-of the Lasso L1 regression passed to \code{\link[hal9001]{fit_hal}}.}
+\item{lambda_seq}{A \code{numeric} sequence of values of the tuning
+parameter of the Lasso L1 regression passed to
+\code{\link[hal9001]{fit_hal}}.}
+}
+\value{
+A \code{list}, containing density predictions, observations IDs,
+ observation-level weights, and cross-validation indices for conditional
+ density estimation on a single fold of the overall data.
 }
 \description{
 Conditional density estimation with HAL in a single cross-validation fold
+}
+\details{
+Estimates the conditional density of A|W for a subset of the full
+ set of observations based on the inputted structure of the cross-validation
+ folds. This is a helper function intended to be used to select the optimal
+ value of the penalization parameter for the highly adaptive lasso estimates
+ of the conditional hazard (via \code{\link[origami]{cross_validate}}). The
 }

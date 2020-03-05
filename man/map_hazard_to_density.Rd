@@ -7,15 +7,25 @@
 map_hazard_to_density(hazard_pred_single_obs)
 }
 \arguments{
-\item{hazard_pred_single_obs}{A \code{numeric} vector of the predicted hazard
-of failure in a given bin (under a given partitioning of the support) for a
-single observational unit based on a long format data structure (as produced
-by \code{\link{format_long_hazards}}). This is simply the probability that
+\item{hazard_pred_single_obs}{A \code{numeric} vector of predicted hazard of
+failure in a given bin (under a given partitioning of the support) for a
+single observational unit based on a long format data structure (from
+\code{\link{format_long_hazards}}). This is simply the probability that
 the observed value falls in a corresponding bin, given that it has not yet
-failed (fallen in a previous bin), as given in
+failed (fallen in a previous bin), as described in
 \insertRef{diaz2011super}{haldensify}.}
 }
+\value{
+A \code{matrix} composed of a single row and a number of columns
+ specified by the grid of penalization parameters used in fitting of the
+ highly adaptive lasso. This is the predicted conditional density for a
+ given observation, re-mapped from the hazard scale.
+}
 \description{
-For a single observation, map a predicted hazard of failure (occurrence in a
-particular bin, under a given partitioning of the support) to a density.
+Map a predicted hazard to a predicted density for a single observation
+}
+\details{
+For a single observation, map a predicted hazard of failure (as an
+ occurrence in a particular bin, under a given partitioning of the support)
+ to a density.
 }

@@ -1,6 +1,6 @@
 Package: haldensify
-Title: Conditional Density Estimation with the Highly Adaptive Lasso
-Version: 0.0.4
+Title: Highly Adaptive Lasso Conditional Density Estimation
+Version: 0.0.5
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),
@@ -18,8 +18,10 @@ Description: Conditional density estimation is a longstanding and challenging
     estimating such complex functions. Algorithms for nonparametric estimation
     of conditional densities based on a pooled hazard regression formulation and
     semiparametric estimation via conditional hazards modeling are implemented
-    based on the highly adaptive lasso), a nonparametric regression method for
-    efficient estimation with optimality guarantees and fast convergence rates.
+    based on the highly adaptive lasso, a nonparametric regression function for
+    efficient estimation with fast convergence under mild assumptions. The
+    pooled hazards formulation implemented was first described by Díaz and
+    van der Laan (2011) <https://doi.org/10.2202/1557-4679.1356>.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -36,13 +38,11 @@ Suggests:
     rmarkdown,
     future,
     dplyr
-Remotes:
-    github::tlverse/hal9001@master
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 RdMacros: Rdpack

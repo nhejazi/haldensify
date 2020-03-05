@@ -37,8 +37,9 @@ of \code{\link[ggplot2]{cut_number}} for details.}
 \code{"equal_mass"}. This \code{numeric} value indicates the number(s) of
 bins into which the support of the intervention \code{A} is to be divided.}
 
-\item{lambda_seq}{A \code{numeric} sequence of values of the tuning parameter
-of the Lasso L1 regression passed to \code{\link[hal9001]{fit_hal}}.}
+\item{lambda_seq}{A \code{numeric} sequence of values of the tuning
+parameter of the Lasso L1 regression passed to
+\code{\link[hal9001]{fit_hal}}.}
 
 \item{use_future}{A \code{logical} indicating whether to attempt to use
 parallelization based on the \pkg{future} and \pkg{future.apply} packages.
@@ -47,9 +48,34 @@ used in place of \code{mapply}. When set to \code{TRUE}, a parallelization
 scheme must be set externally by using \code{\link[future]{plan}}.}
 
 \item{seed_int}{An integer used to set the seed in the cross-validation
-procedure used to select binning values. This \code{numeric} is passed
-to argument \code{future.seed} of \code{\link[future.apply]{future_mapply}}.}
+procedure used to select binning values. This is passed to the argument
+\code{future.seed} of \code{\link[future.apply]{future_mapply}}.}
+}
+\value{
+Object of class \code{haldensify}, containing a fitted
+ \code{hal9001} object, a vector of break points used in binning \code{A}
+ over its support \code{W}, sizes of the bins used in each fit, the tuning
+ parameters selected by cross-validation, and the range of the \code{A}.
 }
 \description{
 Cross-validated conditional density estimation with HAL
+}
+\details{
+Estimation of the conditional density A|W through using the highly
+ adaptive lasso to estimate the conditional hazard of failure in a given
+ bin over the support of A. Cross-validation is used to select the optimal
+ value of the penalization parameters, based on minimization of the weighted
+ log-likelihood loss for a density.
+}
+\examples{
+# simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
+set.seed(76924)
+n_train <- 100
+w <- runif(n_train, -4, 4)
+a <- rnorm(n_train, w, 0.5)
+# learn relationship A|W using HAL-based density estimation procedure
+mod_haldensify <- haldensify(
+  A = a, W = w, n_bins = 5,
+  lambda_seq = exp(seq(-1, -13, length = 300))
+)
 }
