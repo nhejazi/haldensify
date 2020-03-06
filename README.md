@@ -73,12 +73,12 @@ a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 mod_haldensify <- haldensify(
   A = a, W = w,
-  n_bins = c(5, 10, 15),
-  lambda_seq = exp(seq(-1, -13, length = 300))
+  n_bins = c(5, 10),
+  lambda_seq = exp(seq(-1, -10, length = 300))
 )
 
 # predictions to recover conditional density of A|W
-new_a <- seq(-4, 4, by = 0.01)
+new_a <- seq(-4, 4, by = 0.1)
 new_w_neg <- rep(-2, length(new_a))
 new_w_zero <- rep(0, length(new_a))
 new_w_pos <- rep(2, length(new_a))

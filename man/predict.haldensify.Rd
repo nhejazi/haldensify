@@ -35,17 +35,17 @@ Method for computing and extracting predictions of the conditional
 }
 \examples{
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
-set.seed(76924)
-n_train <- 100
+n_train <- 50
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 mod_haldensify <- haldensify(
-  A = a, W = w, n_bins = 5,
-  lambda_seq = exp(seq(-1, -13, length = 300))
+  A = a, W = w, n_bins = 3,
+  lambda_seq = exp(seq(-1, -10, length = 50))
 )
 # predictions to recover conditional density of A|W
-new_a <- seq(-4, 4, by = 0.01)
+new_a <- seq(-4, 4, by = 0.1)
 new_w <- rep(0, length(new_a))
-pred_dens_w_zero <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
+pred_dens <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
+
 }

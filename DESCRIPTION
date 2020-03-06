@@ -21,7 +21,7 @@ Description: Conditional density estimation is a longstanding and challenging
     based on the highly adaptive lasso, a nonparametric regression function for
     efficient estimation with fast convergence under mild assumptions. The
     pooled hazards formulation implemented was first described by Díaz and
-    van der Laan (2011) <https://doi.org/10.2202/1557-4679.1356>.
+    van der Laan (2011) <doi:10.2202/1557-4679.1356>.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -43,6 +43,5 @@ URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
 Encoding: UTF-8
 LazyData: true
-VignetteBuilder: knitr
 RoxygenNote: 7.0.2
 RdMacros: Rdpack

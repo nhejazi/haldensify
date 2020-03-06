@@ -1,14 +1,21 @@
 ## Test environments
-* Ubuntu 18.04 (local): R 3.6.2 (stable)
-* Ubuntu 16.04 (travis-ci): R 3.6.1 (stable) + R 4.0.0 (under development)
-* latest macOS (local, r-hub): R 3.6.1
-* Windows (appveyor, r-hub, winbuilder): R 3.6.1
+* local Ubuntu 18.04: R 3.6.3 (stable)
+* remote Ubuntu 16.04 on travis-ci:
+  * R 3.6.2 (stable)
+  * R 4.0.0 (under development)
+* local macOS install: R 3.6.1
+* Windows (on appveyor and winbuilder): R 3.6.3
 
 ## R CMD check results
-* There were no ERRORs
-* There were no WARNINGs
-* There were no NOTEs
+* There were 0 ERRORs.
+* There were 0 WARNINGs.
+* There were 0 NOTEs.
 
 ## Downstream dependencies
-* There are no known downstream dependencies.
+* Nothing to report.
+
+## Additional Notes
 * This is a new CRAN submission.
+* This submission has been updated to
+  1. lower the run time of examples, and
+  2. fix miscellaneous errors in the DESCRIPTION file
