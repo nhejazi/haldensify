@@ -37,7 +37,6 @@ utils::globalVariables(c("wts"))
 #' new_a <- seq(-4, 4, by = 0.1)
 #' new_w <- rep(0, length(new_a))
 #' pred_dens <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
-#'
 #' @export
 predict.haldensify <- function(object, ..., new_A, new_W) {
   # make long format data structure with new input data

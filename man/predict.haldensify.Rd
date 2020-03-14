@@ -47,5 +47,4 @@ mod_haldensify <- haldensify(
 new_a <- seq(-4, 4, by = 0.1)
 new_w <- rep(0, length(new_a))
 pred_dens <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
-
 }

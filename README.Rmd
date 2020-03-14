@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
 [![Travis-CI Build Status](https://travis-ci.org/nhejazi/haldensify.svg?branch=master)](https://travis-ci.org/nhejazi/haldensify)
 [![AppVeyor Build  Status](https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&svg=true)](https://ci.appveyor.com/project/nhejazi/haldensify)
 [![Coverage Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
+[![CRAN](http://www.r-pkg.org/badges/version/haldensify)](http://www.r-pkg.org/pkg/haldensify)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/haldensify)](https://CRAN.R-project.org/package=haldensify)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg)](https://doi.org/10.5281/zenodo.3698329)
@@ -51,8 +53,15 @@ strategy for use only with the highly adaptive lasso [@benkeser2016highly;
 
 ## Installation
 
-Install the _most recent version_ from the `master` branch on GitHub via
-[`remotes`](https://CRAN.R-project.org/package=remotes):
+For standard use, we recommend installing the package from
+[CRAN](https://CRAN.R-project.org/package=haldensify) via
+
+```{r cran-installation, eval = FALSE}
+install.packages("haldensify")
+```
+
+To contribute, install the _development version_ of `haldensify` from GitHub
+via [`remotes`](https://CRAN.R-project.org/package=remotes):
 
 ```{r gh-master-installation, eval = FALSE}
 remotes::install_github("nhejazi/haldensify")

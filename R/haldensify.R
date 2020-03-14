@@ -165,7 +165,6 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'   A = a, W = w, n_bins = 3,
 #'   lambda_seq = exp(seq(-1, -10, length = 50))
 #' )
-#'
 #' @export
 haldensify <- function(A,
                        W,

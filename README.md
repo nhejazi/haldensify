@@ -9,6 +9,9 @@ Status](https://travis-ci.org/nhejazi/haldensify.svg?branch=master)](https://tra
 Status](https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&svg=true)](https://ci.appveyor.com/project/nhejazi/haldensify)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
+[![CRAN](http://www.r-pkg.org/badges/version/haldensify)](http://www.r-pkg.org/pkg/haldensify)
+[![CRAN
+downloads](https://cranlogs.r-pkg.org/badges/haldensify)](https://CRAN.R-project.org/package=haldensify)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -45,8 +48,15 @@ Hejazi, and van der Laan 2019).
 
 ## Installation
 
-Install the *most recent version* from the `master` branch on GitHub via
-[`remotes`](https://CRAN.R-project.org/package=remotes):
+For standard use, we recommend installing the package from
+[CRAN](https://CRAN.R-project.org/package=haldensify) via
+
+``` r
+install.packages("haldensify")
+```
+
+To contribute, install the *development version* of `haldensify` from
+GitHub via [`remotes`](https://CRAN.R-project.org/package=remotes):
 
 ``` r
 remotes::install_github("nhejazi/haldensify")
