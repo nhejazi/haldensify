@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{format_long_hazards}
 \alias{format_long_hazards}
-\title{Generate long format hazards data for conditional density estimation}
+\title{Generate long format hazards data for pooled hazards estimation}
 \usage{
 format_long_hazards(
   A,
@@ -49,7 +49,7 @@ A \code{list} containing the break points used in dividing the
  observation, and observation-level weights.
 }
 \description{
-Generate long format hazards data for conditional density estimation
+Generate long format hazards data for pooled hazards estimation
 }
 \details{
 Generates a long-form dataset that represents each observation in

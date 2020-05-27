@@ -8,54 +8,59 @@ haldensify(
   A,
   W,
   wts = rep(1, length(A)),
-  grid_type = c("equal_range", "equal_mass"),
-  n_bins = c(5, 10),
+  grid_type = "equal_range",
+  n_bins = c(10, 25),
+  cv_folds = 5,
   lambda_seq = exp(seq(-1, -13, length = 1000)),
-  use_future = FALSE,
-  seed_int = 791L
+  use_future = FALSE
 )
 }
 \arguments{
-\item{A}{The \code{numeric} vector or similar of the observed values of an
-intervention for a group of observational units of interest.}
+\item{A}{The \code{numeric} vector observed values.}
 
 \item{W}{A \code{data.frame}, \code{matrix}, or similar giving the values of
-baseline covariates (potential confounders) for the observed units whose
-observed intervention values are provided in the previous argument.}
+baseline covariates (potential confounders) for the observed units. These
+make up the conditioning set for the conditional density estimate.}
 
 \item{wts}{A \code{numeric} vector of observation-level weights. The default
 is to weight all observations equally.}
 
-\item{grid_type}{A \code{character} indicating the strategy (or strategies)
-to be used in creating bins along the observed support of the intervention
-\code{A}. For bins of equal range, use "equal_range"; consult documentation
-of \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
-bin has the same number of points, use "equal_mass"; consult documentation
-of \code{\link[ggplot2]{cut_number}} for details.}
+\item{grid_type}{A \code{character} indicating the strategy to be used in
+creating bins along the observed support of \code{A}. For bins of equal
+range, use \code{"equal_range"}; consult the documentation of
+\code{\link[ggplot2]{cut_interval}} for more information. To ensure each
+bin has the same number of observations, use \code{"equal_mass"}; consult
+the documentation of \code{\link[ggplot2]{cut_number}} for details. The
+default is \code{"equal_range"} since this has been found to provide better
+performance in simulation experiments; however, both types may be specified
+(i.e., \code{c("equal_range", "equal_mass")}) together, in which case
+cross-validation will be used to select the optimal binning strategy.}
 
-\item{n_bins}{Only used if \code{type} is set to \code{"equal_range"} or
-\code{"equal_mass"}. This \code{numeric} value indicates the number(s) of
-bins into which the support of the intervention \code{A} is to be divided.}
+\item{n_bins}{This \code{numeric} value indicates the number(s) of bins into
+which the support of \code{A} is to be divided. As with \code{grid_type},
+multiple values may be specified, in which case a cross-validation selector
+will be used to choose the optimal number of bins. In fact, the default
+uses a cross-validation selector to choose between 10 and 25 bins.}
 
-\item{lambda_seq}{A \code{numeric} sequence of values of the tuning
-parameter of the Lasso L1 regression passed to
-\code{\link[hal9001]{fit_hal}}.}
+\item{cv_folds}{A \code{numeric} indicating the number of cross-validation
+folds to be used in fitting the sequence of HAL conditional density models.}
+
+\item{lambda_seq}{A \code{numeric} sequence of values of the regularization
+parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.}
 
 \item{use_future}{A \code{logical} indicating whether to attempt to use
-parallelization based on the \pkg{future} and \pkg{future.apply} packages.
-If set to \code{TRUE}, \code{\link[future.apply]{future_mapply}} will be
-used in place of \code{mapply}. When set to \code{TRUE}, a parallelization
-scheme must be set externally by using \code{\link[future]{plan}}.}
-
-\item{seed_int}{An integer used to set the seed in the cross-validation
-procedure used to select binning values. This is passed to the argument
-\code{future.seed} of \code{\link[future.apply]{future_mapply}}.}
+parallelization based on \pkg{future} and \pkg{future.apply}. If set to
+\code{TRUE}, \code{\link[future.apply]{future_mapply}} will be used in
+place of \code{mapply}. When set to \code{TRUE}, a parallelization scheme
+must be specified externally by a call to \code{\link[future]{plan}}.}
 }
 \value{
 Object of class \code{haldensify}, containing a fitted
- \code{hal9001} object, a vector of break points used in binning \code{A}
- over its support \code{W}, sizes of the bins used in each fit, the tuning
- parameters selected by cross-validation, and the range of the \code{A}.
+ \code{hal9001} object; a vector of break points used in binning \code{A}
+ over its support \code{W}; sizes of the bins used in each fit; the tuning
+ parameters selected by cross-validation; the full sequence (in lambda) of
+ HAL models for the CV-selected number of bins and binning strategy; and
+ the range of \code{A}.
 }
 \description{
 Cross-validated conditional density estimation with HAL

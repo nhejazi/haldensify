@@ -7,6 +7,9 @@
     <loc>https://code.nimahejazi.org/haldensify/reference/cv_haldensify.html</loc>
   </url>
   <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/fit_haldensify.html</loc>
+  </url>
+  <url>
     <loc>https://code.nimahejazi.org/haldensify/reference/format_long_hazards.html</loc>
   </url>
   <url>
@@ -17,5 +20,8 @@
   </url>
   <url>
     <loc>https://code.nimahejazi.org/haldensify/reference/predict.haldensify.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/articles/intro_haldensify.html</loc>
   </url>
 </urlset>

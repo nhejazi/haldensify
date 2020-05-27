@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/readable/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/readable/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -37,7 +41,6 @@
 
 <meta property="og:title" content="Cross-validated conditional density estimation with HAL — haldensify" />
 <meta property="og:description" content="Cross-validated conditional density estimation with HAL" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -55,7 +58,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -84,13 +87,25 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/intro_haldensify.html">Highly Adaptive Lasso Conditional Density Estimation</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/nhejazi/haldensify">
+  <a href="https://github.com/nhejazi/haldensify/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -121,11 +136,11 @@
   <span class='no'>A</span>,
   <span class='no'>W</span>,
   <span class='kw'>wts</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>A</span>)),
-  <span class='kw'>grid_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"equal_range"</span>, <span class='st'>"equal_mass"</span>),
-  <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>),
+  <span class='kw'>grid_type</span> <span class='kw'>=</span> <span class='st'>"equal_range"</span>,
+  <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>25</span>),
+  <span class='kw'>cv_folds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>13</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>1000</span>)),
-  <span class='kw'>use_future</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>seed_int</span> <span class='kw'>=</span> <span class='fl'>791L</span>
+  <span class='kw'>use_future</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -133,14 +148,13 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>A</th>
-      <td><p>The <code>numeric</code> vector or similar of the observed values of an
-intervention for a group of observational units of interest.</p></td>
+      <td><p>The <code>numeric</code> vector observed values.</p></td>
     </tr>
     <tr>
       <th>W</th>
       <td><p>A <code>data.frame</code>, <code>matrix</code>, or similar giving the values of
-baseline covariates (potential confounders) for the observed units whose
-observed intervention values are provided in the previous argument.</p></td>
+baseline covariates (potential confounders) for the observed units. These
+make up the conditioning set for the conditional density estimate.</p></td>
     </tr>
     <tr>
       <th>wts</th>
@@ -149,47 +163,53 @@ is to weight all observations equally.</p></td>
     </tr>
     <tr>
       <th>grid_type</th>
-      <td><p>A <code>character</code> indicating the strategy (or strategies)
-to be used in creating bins along the observed support of the intervention
-<code>A</code>. For bins of equal range, use "equal_range"; consult documentation
-of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_interval</a></code> for more information. To ensure each
-bin has the same number of points, use "equal_mass"; consult documentation
-of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></code> for details.</p></td>
+      <td><p>A <code>character</code> indicating the strategy to be used in
+creating bins along the observed support of <code>A</code>. For bins of equal
+range, use <code>"equal_range"</code>; consult the documentation of
+<code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_interval</a></code> for more information. To ensure each
+bin has the same number of observations, use <code>"equal_mass"</code>; consult
+the documentation of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></code> for details. The
+default is <code>"equal_range"</code> since this has been found to provide better
+performance in simulation experiments; however, both types may be specified
+(i.e., <code><a href='https://rdrr.io/r/base/c.html'>c("equal_range", "equal_mass")</a></code>) together, in which case
+cross-validation will be used to select the optimal binning strategy.</p></td>
     </tr>
     <tr>
       <th>n_bins</th>
-      <td><p>Only used if <code>type</code> is set to <code>"equal_range"</code> or
-<code>"equal_mass"</code>. This <code>numeric</code> value indicates the number(s) of
-bins into which the support of the intervention <code>A</code> is to be divided.</p></td>
+      <td><p>This <code>numeric</code> value indicates the number(s) of bins into
+which the support of <code>A</code> is to be divided. As with <code>grid_type</code>,
+multiple values may be specified, in which case a cross-validation selector
+will be used to choose the optimal number of bins. In fact, the default
+uses a cross-validation selector to choose between 10 and 25 bins.</p></td>
+    </tr>
+    <tr>
+      <th>cv_folds</th>
+      <td><p>A <code>numeric</code> indicating the number of cross-validation
+folds to be used in fitting the sequence of HAL conditional density models.</p></td>
     </tr>
     <tr>
       <th>lambda_seq</th>
-      <td><p>A <code>numeric</code> sequence of values of the tuning
-parameter of the Lasso L1 regression passed to
-<code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
+      <td><p>A <code>numeric</code> sequence of values of the regularization
+parameter of Lasso regression; passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
     </tr>
     <tr>
       <th>use_future</th>
       <td><p>A <code>logical</code> indicating whether to attempt to use
-parallelization based on the <span class="pkg">future</span> and <span class="pkg">future.apply</span> packages.
-If set to <code>TRUE</code>, <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code> will be
-used in place of <code>mapply</code>. When set to <code>TRUE</code>, a parallelization
-scheme must be set externally by using <code><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>seed_int</th>
-      <td><p>An integer used to set the seed in the cross-validation
-procedure used to select binning values. This is passed to the argument
-<code>future.seed</code> of <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code>.</p></td>
+parallelization based on <span class="pkg">future</span> and <span class="pkg">future.apply</span>. If set to
+<code>TRUE</code>, <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code> will be used in
+place of <code>mapply</code>. When set to <code>TRUE</code>, a parallelization scheme
+must be specified externally by a call to <code><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Object of class <code>haldensify</code>, containing a fitted
- <code>hal9001</code> object, a vector of break points used in binning <code>A</code>
- over its support <code>W</code>, sizes of the bins used in each fit, the tuning
- parameters selected by cross-validation, and the range of the <code>A</code>.</p>
+ <code>hal9001</code> object; a vector of break points used in binning <code>A</code>
+ over its support <code>W</code>; sizes of the bins used in each fit; the tuning
+ parameters selected by cross-validation; the full sequence (in lambda) of
+ HAL models for the CV-selected number of bins and binning strategy; and
+ the range of <code>A</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Estimation of the conditional density A|W through using the highly
@@ -209,15 +229,10 @@ procedure used to select binning values. This is passed to the argument
   <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>10</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>50</span>))
 )</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -228,7 +243,7 @@ procedure used to select binning values. This is passed to the argument
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
