@@ -1,4 +1,4 @@
-utils::globalVariables(c(":=", "in_bin", "bin_id"))
+utils::globalVariables(c("in_bin", "bin_id"))
 
 #' Conditional density estimation with HAL in a single cross-validation fold
 #'
@@ -108,7 +108,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
   return(out)
 }
 
-################################################################################
+###############################################################################
 
 #' Cross-validated conditional density estimation with HAL
 #'
@@ -118,42 +118,49 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  value of the penalization parameters, based on minimization of the weighted
 #'  log-likelihood loss for a density.
 #'
-#' @param A The \code{numeric} vector or similar of the observed values of an
-#'  intervention for a group of observational units of interest.
+#' @param A The \code{numeric} vector observed values.
 #' @param W A \code{data.frame}, \code{matrix}, or similar giving the values of
-#'  baseline covariates (potential confounders) for the observed units whose
-#'  observed intervention values are provided in the previous argument.
+#'  baseline covariates (potential confounders) for the observed units. These
+#'  make up the conditioning set for the conditional density estimate.
 #' @param wts A \code{numeric} vector of observation-level weights. The default
 #'  is to weight all observations equally.
-#' @param grid_type A \code{character} indicating the strategy (or strategies)
-#'  to be used in creating bins along the observed support of the intervention
-#'  \code{A}. For bins of equal range, use "equal_range"; consult documentation
-#'  of \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
-#'  bin has the same number of points, use "equal_mass"; consult documentation
-#'  of \code{\link[ggplot2]{cut_number}} for details.
-#' @param n_bins Only used if \code{type} is set to \code{"equal_range"} or
-#'  \code{"equal_mass"}. This \code{numeric} value indicates the number(s) of
-#'  bins into which the support of the intervention \code{A} is to be divided.
-#' @param lambda_seq A \code{numeric} sequence of values of the tuning
-#'  parameter of the Lasso L1 regression passed to
-#'  \code{\link[hal9001]{fit_hal}}.
+#' @param grid_type A \code{character} indicating the strategy to be used in
+#'  creating bins along the observed support of \code{A}. For bins of equal
+#'  range, use \code{"equal_range"}; consult the documentation of
+#'  \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
+#'  bin has the same number of observations, use \code{"equal_mass"}; consult
+#'  the documentation of \code{\link[ggplot2]{cut_number}} for details. The
+#'  default is \code{"equal_range"} since this has been found to provide better
+#'  performance in simulation experiments; however, both types may be specified
+#'  (i.e., \code{c("equal_range", "equal_mass")}) together, in which case
+#'  cross-validation will be used to select the optimal binning strategy.
+#' @param n_bins This \code{numeric} value indicates the number(s) of bins into
+#'  which the support of \code{A} is to be divided. As with \code{grid_type},
+#'  multiple values may be specified, in which case a cross-validation selector
+#'  will be used to choose the optimal number of bins. In fact, the default
+#'  uses a cross-validation selector to choose between 10 and 25 bins.
+#' @param cv_folds A \code{numeric} indicating the number of cross-validation
+#'  folds to be used in fitting the sequence of HAL conditional density models.
+#' @param lambda_seq A \code{numeric} sequence of values of the regularization
+#'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.
 #' @param use_future A \code{logical} indicating whether to attempt to use
-#'  parallelization based on the \pkg{future} and \pkg{future.apply} packages.
-#'  If set to \code{TRUE}, \code{\link[future.apply]{future_mapply}} will be
-#'  used in place of \code{mapply}. When set to \code{TRUE}, a parallelization
-#'  scheme must be set externally by using \code{\link[future]{plan}}.
-#' @param seed_int An integer used to set the seed in the cross-validation
-#'  procedure used to select binning values. This is passed to the argument
-#'  \code{future.seed} of \code{\link[future.apply]{future_mapply}}.
+#'  parallelization based on \pkg{future} and \pkg{future.apply}. If set to
+#'  \code{TRUE}, \code{\link[future.apply]{future_mapply}} will be used in
+#'  place of \code{mapply}. When set to \code{TRUE}, a parallelization scheme
+#'  must be specified externally by a call to \code{\link[future]{plan}}.
 #'
-#' @importFrom origami make_folds cross_validate
+#' @importFrom data.table ":="
 #' @importFrom future.apply future_mapply
 #' @importFrom hal9001 fit_hal
 #'
 #' @return Object of class \code{haldensify}, containing a fitted
-#'  \code{hal9001} object, a vector of break points used in binning \code{A}
-#'  over its support \code{W}, sizes of the bins used in each fit, the tuning
-#'  parameters selected by cross-validation, and the range of the \code{A}.
+#'  \code{hal9001} object; a vector of break points used in binning \code{A}
+#'  over its support \code{W}; sizes of the bins used in each fit; the tuning
+#'  parameters selected by cross-validation; the full sequence (in lambda) of
+#'  HAL models for the CV-selected number of bins and binning strategy; and
+#'  the range of \code{A}.
+#'
+#' @export
 #'
 #' @examples
 #' # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
@@ -165,114 +172,60 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'   A = a, W = w, n_bins = 3,
 #'   lambda_seq = exp(seq(-1, -10, length = 50))
 #' )
-#' @export
 haldensify <- function(A,
                        W,
                        wts = rep(1, length(A)),
-                       grid_type = c(
-                         "equal_range", "equal_mass"
-                       ),
-                       n_bins = c(5, 10),
+                       grid_type = "equal_range",
+                       n_bins = c(10, 25),
+                       cv_folds = 5,
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
-                       use_future = FALSE,
-                       seed_int = 791L) {
-  # catch input
-  call <- match.call(expand.dots = TRUE)
-
-  # run CV-HAL for all combinations of n_bins and grid_type combos
+                       use_future = FALSE) {
+  # run CV-HAL for all combinations of n_bins and grid_type
   tune_grid <- expand.grid(
     grid_type = grid_type, n_bins = n_bins,
     stringsAsFactors = FALSE
   )
 
-  # apply grid of binning strategies and bin number over estimation routine to
-  # select Lasso tuning parameter via cross-validated loss minimization
-  args <-
-    list(
-      FUN = function(n_bins, grid_type) {
-        # re-format input data into long hazards structure
-        reformatted_output <- format_long_hazards(
-          A = A, W = W, wts = wts,
-          grid_type = grid_type, n_bins = n_bins
-        )
-        long_data <- reformatted_output$data
-        bin_sizes <- reformatted_output$bin_length
-
-        # extract weights from long format data structure
-        wts_long <- long_data$wts
-        long_data[, wts := NULL]
-
-        # make folds with origami
-        folds <- origami::make_folds(long_data, cluster_ids = long_data$obs_id)
-
-        # call cross_validate on cv_density function...
-        haldensity <- origami::cross_validate(
-          cv_fun = cv_haldensify,
-          folds = folds,
-          long_data = long_data,
-          wts = wts_long,
-          lambda_seq = lambda_seq,
-          use_future = FALSE,
-          .combine = FALSE
-        )
-
-        # re-organize output cross-validation procedure
-        density_pred_unscaled <- do.call(rbind, as.list(haldensity$preds))
-
-        # re-scale predictions by multiplying by bin width for each failure bin
-        density_pred_scaled <- apply(density_pred_unscaled, 2, function(x) {
-          pred <- x / bin_sizes[long_data[in_bin == 1, bin_id]]
-          return(pred)
-        })
-        obs_wts <- do.call(c, as.list(haldensity$wts))
-
-        # compute loss for the given individual
-        density_loss <- apply(density_pred_scaled, 2, function(x) {
-          pred_weighted <- x * obs_wts
-          loss_weighted <- -log(pred_weighted)
-          return(loss_weighted)
-        })
-
-        # take column means to have average loss across sequence of lambdas
-        loss_mean <- colMeans(density_loss)
-        lambda_loss_min_idx <- which.min(loss_mean)
-        lambda_loss_min <- lambda_seq[lambda_loss_min_idx]
-
-        # format output
-        out <- list(
-          lambda_loss_min_idx = lambda_loss_min_idx,
-          lambda_loss_min = lambda_loss_min,
-          loss_mean = loss_mean
-        )
-        return(out)
-      },
-      n_bins = tune_grid$n_bins,
+  # run procedure to select tuning parameters via cross-validation
+  if (use_future) {
+    select_out <- future.apply::future_mapply(
+      FUN = fit_haldensify,
       grid_type = tune_grid$grid_type,
+      n_bins = tune_grid$n_bins,
+      MoreArgs = list(
+        A = A, W = W, wts = wts,
+        cv_folds = cv_folds,
+        lambda_seq = lambda_seq
+      ),
+      SIMPLIFY = FALSE,
+      future.seed = TRUE
+    )
+  } else {
+    select_out <- mapply(
+      FUN = fit_haldensify,
+      grid_type = tune_grid$grid_type,
+      n_bins = tune_grid$n_bins,
+      MoreArgs = list(
+        A = A, W = W, wts = wts,
+        cv_folds = cv_folds,
+        lambda_seq = lambda_seq
+      ),
       SIMPLIFY = FALSE
     )
-
-  # tweak arguments to flexibly use future parallelization if so desired
-  if (use_future) {
-    mapply_fun <- future.apply::future_mapply
-    args$future.seed <- seed_int
-  } else {
-    mapply_fun <- mapply
   }
 
-  # run procedure to select tuning parameters via cross-validation
-  select_out <- do.call(what = mapply_fun, args = args)
-
-  # extract n_bins idx with min loss
-  all_loss <- lapply(select_out, "[[", "loss_mean")
-  min_loss_idx <- lapply(all_loss, which.min)
-  min_loss <- lapply(all_loss, min)
-  tune_select <- tune_grid[which.min(min_loss), , drop = FALSE]
+  # extract n_bins/grid_type index that is empirical loss minimizer
+  emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
+  min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
+  min_risk <- lapply(emp_risk_per_lambda, min)
+  tune_select_params <- tune_grid[which.min(min_risk), , drop = FALSE]
+  tune_select_fits <- select_out[[which.min(min_risk)]]
 
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(
     A = A, W = W, wts = wts,
-    grid_type = tune_select$grid_type,
-    n_bins = tune_select$n_bins
+    grid_type = tune_select_params$grid_type,
+    n_bins = tune_select_params$n_bins
   )
   long_data <- reformatted_output$data
   breakpoints <- reformatted_output$breaks
@@ -297,19 +250,136 @@ haldensify <- function(A,
   )
 
   # replace coefficients
-  hal_fit$coefs <-
-    hal_fit$coefs[, select_out[[which.min(min_loss)]]$lambda_loss_min_idx]
+  hal_fit$coefs <- hal_fit$coefs[, tune_select_fits$lambda_loss_min_idx]
 
   # construct output
   out <- list(
     hal_fit = hal_fit,
     breaks = breakpoints,
     bin_sizes = bin_sizes,
-    call = call,
-    tune_select = tune_select,
-    select_out = select_out,
-    range_a = range(A)
+    range_a = range(A),
+    grid_type_tune_opt = tune_select_params$grid_type,
+    n_bins_tune_opt = tune_select_params$n_bins,
+    cv_hal_fits_tune_opt = tune_select_fits
   )
   class(out) <- "haldensify"
+  return(out)
+}
+
+###############################################################################
+
+#' Fit conditional density estimation for a sequence of HAL models
+#'
+#' @details Estimation of the conditional density A|W via a cross-validated
+#'  highly adaptive lasso, used to estimate the conditional hazard of failure
+#'  in a given bin over the support of A.
+#'
+#' @param A The \code{numeric} vector of observed values.
+#' @param W A \code{data.frame}, \code{matrix}, or similar giving the values of
+#'  baseline covariates (potential confounders) for the observed units. These
+#'  make up the conditioning set for the conditional density estimate.
+#' @param wts A \code{numeric} vector of observation-level weights. The default
+#'  is to weight all observations equally.
+#' @param grid_type A \code{character} indicating the strategy to be used in
+#'  creating bins along the observed support of \code{A}. For bins of equal
+#'  range, use \code{"equal_range"}; consult the documentation of
+#'  \code{\link[ggplot2]{cut_interval}} for more information. To ensure each
+#'  bin has the same number of observations, use \code{"equal_mass"}; consult
+#'  the documentation of \code{\link[ggplot2]{cut_number}} for details.
+#' @param n_bins This \code{numeric} value indicates the number(s) of bins into
+#'  which the support of \code{A} is to be divided.
+#' @param cv_folds A \code{numeric} indicating the number of cross-validation
+#'  folds to be used in fitting the sequence of HAL conditional density models.
+#' @param lambda_seq A \code{numeric} sequence of values of the regularization
+#'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.
+#'
+#' @importFrom data.table ":="
+#' @importFrom matrixStats colMeans2
+#' @importFrom origami make_folds cross_validate
+#'
+#' @return A \code{list}, containing density predictions for the sequence of
+#'  fitted HAL models; the index and value of the L1 regularization parameter
+#'  minimizing the density loss; and the sequence of empirical risks for the
+#'  sequence of fitted HAL models.
+#'
+#' @export
+#'
+#' @examples
+#' # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
+#' n_train <- 50
+#' w <- runif(n_train, -4, 4)
+#' a <- rnorm(n_train, w, 0.5)
+#' # fit cross-validated HAL-based density estimator of A|W
+#' fit_cv_haldensify <- fit_haldensify(
+#'   A = a, W = w, n_bins = 3,
+#'   lambda_seq = exp(seq(-1, -10, length = 50))
+#' )
+fit_haldensify <- function(A, W,
+                           wts = rep(1, length(A)),
+                           grid_type = "equal_range",
+                           n_bins = 20,
+                           cv_folds = 5,
+                           lambda_seq = exp(seq(-1, -13, length = 1000))) {
+  # re-format input data into long hazards structure
+  reformatted_output <- format_long_hazards(
+    A = A, W = W, wts = wts,
+    grid_type = grid_type, n_bins = n_bins
+  )
+  long_data <- reformatted_output$data
+  bin_sizes <- reformatted_output$bin_length
+
+  # extract weights from long format data structure
+  wts_long <- long_data$wts
+  long_data[, wts := NULL]
+
+  # make folds with origami
+  folds <- origami::make_folds(long_data,
+    V = cv_folds,
+    cluster_ids = long_data$obs_id
+  )
+
+  # call cross_validate on cv_density function
+  haldensity <- origami::cross_validate(
+    cv_fun = cv_haldensify,
+    folds = folds,
+    long_data = long_data,
+    wts = wts_long,
+    lambda_seq = lambda_seq,
+    use_future = FALSE,
+    .combine = FALSE
+  )
+
+  # re-organize output cross-validation procedure
+  density_pred_unscaled <- do.call(rbind, as.list(haldensity$preds))
+
+  # re-scale predictions by multiplying by bin width for each failure bin
+  density_pred_scaled <- apply(density_pred_unscaled, 2, function(x) {
+    pred <- x / bin_sizes[long_data[in_bin == 1, bin_id]]
+    return(pred)
+  })
+  obs_wts <- do.call(c, as.list(haldensity$wts))
+
+  # compute loss for the given individual
+  density_loss <- apply(density_pred_scaled, 2, function(x) {
+    pred_weighted <- x * obs_wts
+    loss_weighted <- -log(pred_weighted)
+    return(loss_weighted)
+  })
+
+  # take column means to have average loss across sequence of lambdas
+  emp_risks_density_loss <- matrixStats::colMeans2(density_loss)
+
+  # find minimizer of loss in lambda sequence
+  lambda_loss_min_idx <- which.min(emp_risks_density_loss)
+  lambda_loss_min <- lambda_seq[lambda_loss_min_idx]
+
+  # return loss minimizer in lambda, Pn losses, and all density estimates
+  out <- list(
+    lambda_loss_min_idx = lambda_loss_min_idx,
+    lambda_loss_min = lambda_loss_min,
+    emp_risks = emp_risks_density_loss,
+    density_pred = density_pred_scaled,
+    lambda_seq = lambda_seq
+  )
   return(out)
 }

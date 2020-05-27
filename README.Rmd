@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg)](https://doi.org/10.5281/zenodo.3698329)
 
-> Conditional Density Estimation with the Highly Adaptive Lasso
+> Highly Adaptive Lasso Conditional Density Estimation
 
 __Authors:__ [Nima Hejazi](https://nimahejazi.org), [David
 Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes), and [Mark
@@ -37,16 +37,16 @@ van der Laan](https://vanderlaan-lab.org/about/)
 ## What's `haldensify`?
 
 The `haldensify` R package is designed to provide facilities for nonparametric
-conditional density estimation based on the procedure proposed by
-@diaz2011super. The core of the implemented methodology involves recovering
+conditional density estimation based on a flexible procedure proposed initially
+by @diaz2011super. The core of the implemented methodology involves recovering
 conditional density estimates by performing pooled hazards regressions so as to
-assess the conditional hazard that an observation falls in a given bin over the
-support of the variable of interest. Such conditional density estimates are
-required to estimate the propensity score when the intervention variable
-considered is continuous [@diaz2012population; @diaz2018stochastic;
-@diaz2020causal]. Though future generalization of the core routines may be
-possible, for the time being, `haldensify` is a minimal implementation of this
-strategy for use only with the highly adaptive lasso [@benkeser2016highly;
+assess the conditional hazard that an observed value falls in a given bin over
+the (conditional) support of the variable of interest. Such conditional density
+estimates are useful, for example, in causal inference problems in which the
+_generalized propensity score_ (for continuous-valued exposures) must be
+estimated [@diaz2012population; @diaz2018stochastic; @diaz2020causal].
+`haldensify` implements this condtional density estimation strategy
+specifically for use only with the highly adaptive lasso [@benkeser2016highly;
 @vdl2017generally; @vdl2018highly; @coyle2019hal9001].
 
 ---
@@ -88,7 +88,8 @@ a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 mod_haldensify <- haldensify(
   A = a, W = w,
-  n_bins = c(5, 10),
+  n_bins = c(10, 20),
+  grid_type = c("equal_range", "equal_mass"),
   lambda_seq = exp(seq(-1, -10, length = 300))
 )
 
@@ -152,8 +153,8 @@ After using the `haldensify` R package, please cite the following:
         @manual{hejazi2020haldensify,
           author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
             Mark J},
-          title = {{haldensify}: Conditional density estimation with the highly
-            adaptive lasso},
+          title = {{haldensify}: Highly adaptive lasso conditional density
+            estimation },
           year  = {2020},
           howpublished = {\url{https://github.com/nhejazi/haldensify}},
           note = {{R} package version 0.0.5},

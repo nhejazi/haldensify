@@ -1,4 +1,4 @@
-#' Generate long format hazards data for conditional density estimation
+#' Generate long format hazards data for pooled hazards estimation
 #'
 #' @details Generates a long-form dataset that represents each observation in
 #'  terms of repeated measures across discretized bins derived from selecting
@@ -144,7 +144,7 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
   return(out)
 }
 
-################################################################################
+###############################################################################
 
 #' Map a predicted hazard to a predicted density for a single observation
 #'
@@ -155,10 +155,9 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
 #' @param hazard_pred_single_obs A \code{numeric} vector of predicted hazard of
 #'  failure in a given bin (under a given partitioning of the support) for a
 #'  single observational unit based on a long format data structure (from
-#'  \code{\link{format_long_hazards}}). This is simply the probability that
-#'  the observed value falls in a corresponding bin, given that it has not yet
-#'  failed (fallen in a previous bin), as described in
-#'  \insertRef{diaz2011super}{haldensify}.
+#'  \code{\link{format_long_hazards}}). This is the probability that a given
+#'  value falls in a corresponding bin, given that it has not yet failed
+#'  (fallen in a preceding bin), as per \insertRef{diaz2011super}{haldensify}.
 #'
 #' @importFrom assertthat assert_that
 #'

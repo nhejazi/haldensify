@@ -10,18 +10,18 @@ utils::globalVariables(c("wts"))
 #'  results of fitting the highly adaptive lasso for conditional density
 #'  estimation, as produced by a call to \code{\link{haldensify}}.
 #' @param ... Additional arguments passed to \code{predict} as necessary.
-#' @param new_A The \code{numeric} vector or similar of the observed values of
-#'  an intervention for a group of observational units of interest.
+#' @param new_A The \code{numeric} vector or similar of the observed values for
+#'  which a conditional density estimate is to be generated.
 #' @param new_W A \code{data.frame}, \code{matrix}, or similar giving the
-#'  values of baseline covariates (potential confounders) for the observed
-#'  units whose observed intervention values are provided in the previous
-#'  argument.
+#'  values of baseline covariates (potential confounders) for the conditioning
+#'  set of the observed values \code{A}.
 #'
 #' @importFrom stats predict
-#' @importFrom future.apply future_lapply
 #'
 #' @return A \code{numeric} vector of predicted conditional density values from
 #'  a fitted \code{haldensify} object.
+#'
+#' @export
 #'
 #' @examples
 #' # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
@@ -37,7 +37,6 @@ utils::globalVariables(c("wts"))
 #' new_a <- seq(-4, 4, by = 0.1)
 #' new_w <- rep(0, length(new_a))
 #' pred_dens <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
-#' @export
 predict.haldensify <- function(object, ..., new_A, new_W) {
   # make long format data structure with new input data
   long_format_args <- list(
@@ -66,7 +65,7 @@ predict.haldensify <- function(object, ..., new_A, new_W) {
 
   # compute hazard for a given observation by looping over individuals
   density_pred_each_obs <-
-    future.apply::future_lapply(unique(long_data_pred$obs_id), function(id) {
+    lapply(unique(long_data_pred$obs_id), function(id) {
       # get predictions for the current observation only
       hazard_pred_this_obs <- matrix(hazard_pred[long_data_pred$obs_id == id])
 

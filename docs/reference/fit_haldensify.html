@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cross-validated conditional density estimation with HAL — haldensify • haldensify</title>
+<title>Fit conditional density estimation for a sequence of HAL models — fit_haldensify • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Cross-validated conditional density estimation with HAL — haldensify" />
-<meta property="og:description" content="Cross-validated conditional density estimation with HAL" />
+<meta property="og:title" content="Fit conditional density estimation for a sequence of HAL models — fit_haldensify" />
+<meta property="og:description" content="Fit conditional density estimation for a sequence of HAL models" />
 
 
 
@@ -111,24 +111,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cross-validated conditional density estimation with HAL</h1>
+    <h1>Fit conditional density estimation for a sequence of HAL models</h1>
     <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/haldensify.R'><code>R/haldensify.R</code></a></small>
-    <div class="hidden name"><code>haldensify.Rd</code></div>
+    <div class="hidden name"><code>fit_haldensify.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Cross-validated conditional density estimation with HAL</p>
+    <p>Fit conditional density estimation for a sequence of HAL models</p>
     </div>
 
-    <pre class="usage"><span class='fu'>haldensify</span>(
+    <pre class="usage"><span class='fu'>fit_haldensify</span>(
   <span class='no'>A</span>,
   <span class='no'>W</span>,
-  <span class='kw'>wts</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>A</span>)),
+  <span class='no'>wts</span>,
   <span class='kw'>grid_type</span> <span class='kw'>=</span> <span class='st'>"equal_range"</span>,
-  <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>25</span>),
+  <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>cv_folds</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>13</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>1000</span>)),
-  <span class='kw'>use_future</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>13</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>1000</span>))
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -136,7 +135,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>A</th>
-      <td><p>The <code>numeric</code> vector observed values.</p></td>
+      <td><p>The <code>numeric</code> vector of observed values.</p></td>
     </tr>
     <tr>
       <th>W</th>
@@ -156,19 +155,12 @@ creating bins along the observed support of <code>A</code>. For bins of equal
 range, use <code>"equal_range"</code>; consult the documentation of
 <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_interval</a></code> for more information. To ensure each
 bin has the same number of observations, use <code>"equal_mass"</code>; consult
-the documentation of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></code> for details. The
-default is <code>"equal_range"</code> since this has been found to provide better
-performance in simulation experiments; however, both types may be specified
-(i.e., <code><a href='https://rdrr.io/r/base/c.html'>c("equal_range", "equal_mass")</a></code>) together, in which case
-cross-validation will be used to select the optimal binning strategy.</p></td>
+the documentation of <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut_number</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>n_bins</th>
       <td><p>This <code>numeric</code> value indicates the number(s) of bins into
-which the support of <code>A</code> is to be divided. As with <code>grid_type</code>,
-multiple values may be specified, in which case a cross-validation selector
-will be used to choose the optimal number of bins. In fact, the default
-uses a cross-validation selector to choose between 10 and 25 bins.</p></td>
+which the support of <code>A</code> is to be divided.</p></td>
     </tr>
     <tr>
       <th>cv_folds</th>
@@ -180,42 +172,20 @@ folds to be used in fitting the sequence of HAL conditional density models.</p><
       <td><p>A <code>numeric</code> sequence of values of the regularization
 parameter of Lasso regression; passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
     </tr>
-    <tr>
-      <th>use_future</th>
-      <td><p>A <code>logical</code> indicating whether to attempt to use
-parallelization based on <span class="pkg">future</span> and <span class="pkg">future.apply</span>. If set to
-<code>TRUE</code>, <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code> will be used in
-place of <code>mapply</code>. When set to <code>TRUE</code>, a parallelization scheme
-must be specified externally by a call to <code><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></code>.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Object of class <code>haldensify</code>, containing a fitted
- <code>hal9001</code> object; a vector of break points used in binning <code>A</code>
- over its support <code>W</code>; sizes of the bins used in each fit; the tuning
- parameters selected by cross-validation; the full sequence (in lambda) of
- HAL models for the CV-selected number of bins and binning strategy; and
- the range of <code>A</code>.</p>
+    <p>A <code>list</code>, containing density predictions for the sequence of
+ fitted HAL models; the index and value of the L1 regularization parameter
+ minimizing the density loss; and the sequence of empirical risks for the
+ sequence of fitted HAL models.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Estimation of the conditional density A|W through using the highly
- adaptive lasso to estimate the conditional hazard of failure in a given
- bin over the support of A. Cross-validation is used to select the optimal
- value of the penalization parameters, based on minimization of the weighted
- log-likelihood loss for a density.</p>
+    <p>Estimation of the conditional density A|W via a cross-validated
+ highly adaptive lasso, used to estimate the conditional hazard of failure
+ in a given bin over the support of A.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span>
-<span class='no'>n_train</span> <span class='kw'>&lt;-</span> <span class='fl'>50</span>
-<span class='no'>w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='no'>n_train</span>, -<span class='fl'>4</span>, <span class='fl'>4</span>)
-<span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n_train</span>, <span class='no'>w</span>, <span class='fl'>0.5</span>)
-<span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
-<span class='no'>mod_haldensify</span> <span class='kw'>&lt;-</span> <span class='fu'>haldensify</span>(
-  <span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>a</span>, <span class='kw'>W</span> <span class='kw'>=</span> <span class='no'>w</span>, <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>10</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>50</span>))
-)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

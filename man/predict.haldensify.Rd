@@ -13,13 +13,12 @@ estimation, as produced by a call to \code{\link{haldensify}}.}
 
 \item{...}{Additional arguments passed to \code{predict} as necessary.}
 
-\item{new_A}{The \code{numeric} vector or similar of the observed values of
-an intervention for a group of observational units of interest.}
+\item{new_A}{The \code{numeric} vector or similar of the observed values for
+which a conditional density estimate is to be generated.}
 
 \item{new_W}{A \code{data.frame}, \code{matrix}, or similar giving the
-values of baseline covariates (potential confounders) for the observed
-units whose observed intervention values are provided in the previous
-argument.}
+values of baseline covariates (potential confounders) for the conditioning
+set of the observed values \code{A}.}
 }
 \value{
 A \code{numeric} vector of predicted conditional density values from

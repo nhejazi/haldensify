@@ -1,6 +1,6 @@
 Package: haldensify
 Title: Highly Adaptive Lasso Conditional Density Estimation
-Version: 0.0.5
+Version: 0.0.6
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),
@@ -27,10 +27,11 @@ Imports:
     stats,
     ggplot2,
     data.table,
+    matrixStats,
     future.apply,
     assertthat,
     hal9001 (>= 0.2.5),
-    origami (>= 1.0.0),
+    origami (>= 1.0.3),
     Rdpack
 Suggests:
     testthat,
