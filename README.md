@@ -30,11 +30,11 @@ Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes), and
 ## What’s `haldensify`?
 
 The `haldensify` R package is designed to provide facilities for
-nonparametric conditional density estimation based on the procedure
-proposed by Díaz and van der Laan (2011). The core of the implemented
-methodology involves recovering conditional density estimates by
-performing pooled hazards regressions so as to assess the conditional
-hazard that an observed value falls in a given bin over the
+nonparametric conditional density estimation based on a flexible
+procedure proposed initially by Díaz and van der Laan (2011). The core
+of the implemented methodology involves recovering conditional density
+estimates by performing pooled hazards regressions so as to assess the
+conditional hazard that an observed value falls in a given bin over the
 (conditional) support of the variable of interest. Such conditional
 density estimates are useful, for example, in causal inference problems
 in which the *generalized propensity score* (for continuous-valued
@@ -75,55 +75,22 @@ library(data.table)
 library(haldensify)
 set.seed(76924)
 
-# simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
-n_train <- 100
+# simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)
+n_train <- 50
 w <- runif(n_train, -4, 4)
-a <- rnorm(n_train, w, 0.5)
+a <- rnorm(n_train, w, 0.25)
 
-# learn relationship A|W using HAL-based density estimation procedure
+# HAL-based density estimate of A|W
 mod_haldensify <- haldensify(
   A = a, W = w,
-  n_bins = c(10, 20),
-  grid_type = c("equal_range", "equal_mass"),
-  lambda_seq = exp(seq(-1, -10, length = 300))
+  n_bins = c(5, 20),
+  grid_type = "equal_range",
+  lambda_seq = exp(seq(-1, -10, length = 100))
 )
 
-# predictions to recover conditional density of A|W
-new_a <- seq(-4, 4, by = 0.1)
-new_w_neg <- rep(-2, length(new_a))
-new_w_zero <- rep(0, length(new_a))
-new_w_pos <- rep(2, length(new_a))
-new_dat <- as.data.table(list(a = new_a, w_neg = new_w_neg,
-                              w_null = new_w_zero, w_pos = new_w_pos))
-new_dat$pred_w_neg <- predict(mod_haldensify,
-                              new_A = new_dat$a, new_W = new_dat$w_neg)
-new_dat$pred_w_null <- predict(mod_haldensify,
-                               new_A = new_dat$a, new_W = new_dat$w_null)
-new_dat$pred_w_pos <- predict(mod_haldensify,
-                              new_A = new_dat$a, new_W = new_dat$w_pos)
-
-# visualize results
-p <- new_dat %>%
-  melt(id = c("a"), measure.vars =
-       c("pred_w_pos", "pred_w_null", "pred_w_neg")) %>%
-  ggplot(aes(x = a, y = value, colour = variable)) +
-  geom_point() +
-  geom_line() +
-  stat_function(fun = dnorm, args = list(mean = -2, sd = 0.5),
-                colour = "blue", linetype = "dashed") +
-  stat_function(fun = dnorm, args = list(mean = 0, sd = 0.5),
-                colour = "darkgreen", linetype = "dashed") +
-  stat_function(fun = dnorm, args = list(mean = 2, sd = 0.5),
-                colour = "red", linetype = "dashed") +
-  xlab("Observed value") +
-  ylab("Predicted probability") +
-  ggtitle("Conditional density p(A|W)") +
-  theme_bw() +
-  theme(legend.position = "none")
-p %>% print()
+# use the built-in predict method to get predictions
+pred_haldensify <- predict(mod_haldensify, new_A = a, new_W = w)
 ```
-
-![](README-example-1.png)<!-- -->
 
 -----
 

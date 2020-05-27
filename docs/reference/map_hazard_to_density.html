@@ -87,6 +87,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/intro_haldensify.html">Highly Adaptive Lasso Conditional Density Estimation</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -130,10 +142,9 @@
       <td><p>A <code>numeric</code> vector of predicted hazard of
 failure in a given bin (under a given partitioning of the support) for a
 single observational unit based on a long format data structure (from
-<code><a href='format_long_hazards.html'>format_long_hazards</a></code>). This is simply the probability that
-the observed value falls in a corresponding bin, given that it has not yet
-failed (fallen in a previous bin), as described in
-Díaz I, van
+<code><a href='format_long_hazards.html'>format_long_hazards</a></code>). This is the probability that a given
+value falls in a corresponding bin, given that it has not yet failed
+(fallen in a preceding bin), as per Díaz I, van
 der
 Laan MJ (2011).
 &#8220;Super learner based conditional density estimation with application to

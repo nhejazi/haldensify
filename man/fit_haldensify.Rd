@@ -7,7 +7,7 @@
 fit_haldensify(
   A,
   W,
-  wts,
+  wts = rep(1, length(A)),
   grid_type = "equal_range",
   n_bins = 20,
   cv_folds = 5,
@@ -53,4 +53,15 @@ Fit conditional density estimation for a sequence of HAL models
 Estimation of the conditional density A|W via a cross-validated
  highly adaptive lasso, used to estimate the conditional hazard of failure
  in a given bin over the support of A.
+}
+\examples{
+# simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
+n_train <- 50
+w <- runif(n_train, -4, 4)
+a <- rnorm(n_train, w, 0.5)
+# fit cross-validated HAL-based density estimator of A|W
+fit_cv_haldensify <- fit_haldensify(
+  A = a, W = w, n_bins = 3,
+  lambda_seq = exp(seq(-1, -10, length = 50))
+)
 }

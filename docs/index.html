@@ -54,6 +54,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/intro_haldensify.html">Highly Adaptive Lasso Conditional Density Estimation</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -90,7 +102,7 @@
 <div id="whats-haldensify" class="section level2">
 <h2 class="hasAnchor">
 <a href="#whats-haldensify" class="anchor"></a>What’s <code>haldensify</code>?</h2>
-<p>The <code>haldensify</code> R package is designed to provide facilities for nonparametric conditional density estimation based on the procedure proposed by Díaz and van der Laan (2011). The core of the implemented methodology involves recovering conditional density estimates by performing pooled hazards regressions so as to assess the conditional hazard that an observed value falls in a given bin over the (conditional) support of the variable of interest. Such conditional density estimates are useful, for example, in causal inference problems in which the <em>generalized propensity score</em> (for continuous-valued exposures) must be estimated (Díaz and van der Laan 2012, 2018; Díaz and Hejazi 2020). <code>haldensify</code> implements this condtional density estimation strategy specifically for use only with the highly adaptive lasso (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle, Hejazi, and van der Laan 2019).</p>
+<p>The <code>haldensify</code> R package is designed to provide facilities for nonparametric conditional density estimation based on a flexible procedure proposed initially by Díaz and van der Laan (2011). The core of the implemented methodology involves recovering conditional density estimates by performing pooled hazards regressions so as to assess the conditional hazard that an observed value falls in a given bin over the (conditional) support of the variable of interest. Such conditional density estimates are useful, for example, in causal inference problems in which the <em>generalized propensity score</em> (for continuous-valued exposures) must be estimated (Díaz and van der Laan 2012, 2018; Díaz and Hejazi 2020). <code>haldensify</code> implements this condtional density estimation strategy specifically for use only with the highly adaptive lasso (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle, Hejazi, and van der Laan 2019).</p>
 <hr>
 </div>
 <div id="installation" class="section level2">
@@ -111,53 +123,21 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">haldensify</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">76924</span>)
 
-<span class="co"># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span>
-<span class="no">n_train</span> <span class="kw">&lt;-</span> <span class="fl">100</span>
+<span class="co"># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)</span>
+<span class="no">n_train</span> <span class="kw">&lt;-</span> <span class="fl">50</span>
 <span class="no">w</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="no">n_train</span>, -<span class="fl">4</span>, <span class="fl">4</span>)
-<span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="no">n_train</span>, <span class="no">w</span>, <span class="fl">0.5</span>)
+<span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="no">n_train</span>, <span class="no">w</span>, <span class="fl">0.25</span>)
 
-<span class="co"># learn relationship A|W using HAL-based density estimation procedure</span>
+<span class="co"># HAL-based density estimate of A|W</span>
 <span class="no">mod_haldensify</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/haldensify.html">haldensify</a></span>(
   <span class="kw">A</span> <span class="kw">=</span> <span class="no">a</span>, <span class="kw">W</span> <span class="kw">=</span> <span class="no">w</span>,
-  <span class="kw">n_bins</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">10</span>, <span class="fl">20</span>),
-  <span class="kw">grid_type</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"equal_range"</span>, <span class="st">"equal_mass"</span>),
-  <span class="kw">lambda_seq</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(-<span class="fl">1</span>, -<span class="fl">10</span>, <span class="kw">length</span> <span class="kw">=</span> <span class="fl">300</span>))
+  <span class="kw">n_bins</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">20</span>),
+  <span class="kw">grid_type</span> <span class="kw">=</span> <span class="st">"equal_range"</span>,
+  <span class="kw">lambda_seq</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(-<span class="fl">1</span>, -<span class="fl">10</span>, <span class="kw">length</span> <span class="kw">=</span> <span class="fl">100</span>))
 )
 
-<span class="co"># predictions to recover conditional density of A|W</span>
-<span class="no">new_a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(-<span class="fl">4</span>, <span class="fl">4</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="fl">0.1</span>)
-<span class="no">new_w_neg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(-<span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">new_a</span>))
-<span class="no">new_w_zero</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">new_a</span>))
-<span class="no">new_w_pos</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">new_a</span>))
-<span class="no">new_dat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">a</span> <span class="kw">=</span> <span class="no">new_a</span>, <span class="kw">w_neg</span> <span class="kw">=</span> <span class="no">new_w_neg</span>,
-                              <span class="kw">w_null</span> <span class="kw">=</span> <span class="no">new_w_zero</span>, <span class="kw">w_pos</span> <span class="kw">=</span> <span class="no">new_w_pos</span>))
-<span class="no">new_dat</span>$<span class="no">pred_w_neg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">mod_haldensify</span>,
-                              <span class="kw">new_A</span> <span class="kw">=</span> <span class="no">new_dat</span>$<span class="no">a</span>, <span class="kw">new_W</span> <span class="kw">=</span> <span class="no">new_dat</span>$<span class="no">w_neg</span>)
-<span class="no">new_dat</span>$<span class="no">pred_w_null</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">mod_haldensify</span>,
-                               <span class="kw">new_A</span> <span class="kw">=</span> <span class="no">new_dat</span>$<span class="no">a</span>, <span class="kw">new_W</span> <span class="kw">=</span> <span class="no">new_dat</span>$<span class="no">w_null</span>)
-<span class="no">new_dat</span>$<span class="no">pred_w_pos</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">mod_haldensify</span>,
-                              <span class="kw">new_A</span> <span class="kw">=</span> <span class="no">new_dat</span>$<span class="no">a</span>, <span class="kw">new_W</span> <span class="kw">=</span> <span class="no">new_dat</span>$<span class="no">w_pos</span>)
-
-<span class="co"># visualize results</span>
-<span class="no">p</span> <span class="kw">&lt;-</span> <span class="no">new_dat</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/melt.data.table.html">melt</a></span>(<span class="kw">id</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"a"</span>), <span class="kw">measure.vars</span> <span class="kw">=</span>
-       <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"pred_w_pos"</span>, <span class="st">"pred_w_null"</span>, <span class="st">"pred_w_neg"</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">a</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">value</span>, <span class="kw">colour</span> <span class="kw">=</span> <span class="no">variable</span>)) +
-  <span class="fu">geom_point</span>() +
-  <span class="fu">geom_line</span>() +
-  <span class="fu">stat_function</span>(<span class="kw">fun</span> <span class="kw">=</span> <span class="no">dnorm</span>, <span class="kw">args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">mean</span> <span class="kw">=</span> -<span class="fl">2</span>, <span class="kw">sd</span> <span class="kw">=</span> <span class="fl">0.5</span>),
-                <span class="kw">colour</span> <span class="kw">=</span> <span class="st">"blue"</span>, <span class="kw">linetype</span> <span class="kw">=</span> <span class="st">"dashed"</span>) +
-  <span class="fu">stat_function</span>(<span class="kw">fun</span> <span class="kw">=</span> <span class="no">dnorm</span>, <span class="kw">args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">mean</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">sd</span> <span class="kw">=</span> <span class="fl">0.5</span>),
-                <span class="kw">colour</span> <span class="kw">=</span> <span class="st">"darkgreen"</span>, <span class="kw">linetype</span> <span class="kw">=</span> <span class="st">"dashed"</span>) +
-  <span class="fu">stat_function</span>(<span class="kw">fun</span> <span class="kw">=</span> <span class="no">dnorm</span>, <span class="kw">args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">mean</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">sd</span> <span class="kw">=</span> <span class="fl">0.5</span>),
-                <span class="kw">colour</span> <span class="kw">=</span> <span class="st">"red"</span>, <span class="kw">linetype</span> <span class="kw">=</span> <span class="st">"dashed"</span>) +
-  <span class="fu">xlab</span>(<span class="st">"Observed value"</span>) +
-  <span class="fu">ylab</span>(<span class="st">"Predicted probability"</span>) +
-  <span class="fu">ggtitle</span>(<span class="st">"Conditional density p(A|W)"</span>) +
-  <span class="fu">theme_bw</span>() +
-  <span class="fu">theme</span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>)
-<span class="no">p</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>()</pre></div>
-<p><img src="README-example-1.png"><!-- --></p>
+<span class="co"># use the built-in predict method to get predictions</span>
+<span class="no">pred_haldensify</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">mod_haldensify</span>, <span class="kw">new_A</span> <span class="kw">=</span> <span class="no">a</span>, <span class="kw">new_W</span> <span class="kw">=</span> <span class="no">w</span>)</pre></div>
 <hr>
 </div>
 <div id="issues" class="section level2">
