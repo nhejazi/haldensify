@@ -3,7 +3,7 @@ pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   intro_haldensify: intro_haldensify.html
-last_built: 2020-05-27T07:31Z
+last_built: 2020-05-27T20:09Z
 urls:
   reference: https://code.nimahejazi.org/haldensify/reference
   article: https://code.nimahejazi.org/haldensify/articles

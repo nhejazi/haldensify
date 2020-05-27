@@ -82,10 +82,10 @@ classification techniques. In fact, this proposal may be viewed as
 a re-formulation of the classification problem into a corresponding set of
 hazard regressions:
 \begin{align*}
-   \prob (a \in [\alpha_{t-1}, \alpha_t) \mid W) =& \prob (a \in [\alpha_{t-1},
-   \alpha_t) \mid A \geq \alpha_{t-1}, W) \times  \\ & \prod_{j = 1}^{t -1}
-   \{1 - \prob (a \in [\alpha_{j-1}, \alpha_j) \mid A
-   \geq \alpha_{j-1}, W) \},
+   \mathbb{P} (a \in [\alpha_{t-1}, \alpha_t) \mid W) =& \mathbb{P} (a \in
+   [\alpha_{t-1}, \alpha_t) \mid A \geq \alpha_{t-1}, W) \times  \\ &
+   \prod_{j = 1}^{t -1} \{1 - \mathbb{P} (a \in [\alpha_{j-1}, \alpha_j)
+   \mid A \geq \alpha_{j-1}, W) \},
 \end{align*}
 where the probability that a value of $a \in A$ falls in a bin $[\alpha_{t-1},
 \alpha_t)$ may be directly estimated from a standard classification model. The
@@ -99,7 +99,7 @@ observed $a$ belongs. A new binary outcome variable, indicating $A_i \in
 the re-formatted data, a pooled hazard regression, spanning the support of $A$
 is then executed. Finally, the conditional density estimator
 \begin{equation*}
-   q_{n, \alpha}(a \mid W) = \frac{\prob(a \in [\alpha_{t-1}, \alpha_t)
+   q_{n, \alpha}(a \mid W) = \frac{\mathbb{P}(a \in [\alpha_{t-1}, \alpha_t)
       \mid W)}{(\alpha_t - \alpha_{t-1})},
 \end{equation*}
 for $\alpha_{t-1} \leq a \le \alpha_t$, may be constructed. As part of this
@@ -107,12 +107,12 @@ procedure, the hazard estimates are mapped to density estimates through
 rescaling of the estimates by the bin size ($\alpha_t - \alpha_{t-1}$).
 
 In its original proposal, a key element of this procedure was the use of any
-arbitrary classification procedure for estimating $\prob(a \in [\alpha_{t-1},
-\alpha_t) \mid W)$, facilitating the incorporation of flexible, data adaptive
-estimators. We alter this proposal in two ways,
+arbitrary classification procedure for estimating $\mathbb{P}(a \in
+[\alpha_{t-1}, \alpha_t) \mid W)$, facilitating the incorporation of flexible,
+data adaptive estimators. We alter this proposal in two ways,
 
-1. replacing the arbitrary estimator of $\prob(a \in [\alpha_{t-1}, \alpha_t)
-   \mid W)$ with HAL regression, and
+1. replacing the arbitrary estimator of $\mathbb{P}(a \in [\alpha_{t-1},
+   \alpha_t) \mid W)$ with HAL regression, and
 2. accommodating the use of sample-level weights, making it possible for the
    resultant conditional density estimator to achieve a convergence rate with
    respect to a loss-based dissimilarity of $n^{-1/3}$ under only mild
@@ -140,7 +140,7 @@ continuous-valued exposure variable $A$, whose mean is a function of $W$.
 ```{r make_example_data, message=FALSE, warning=FALSE}
 make_example_data <- function(n_obs) {
   W <- runif(n_obs, -4, 4)
-  A <- rnorm(n_obs, mean = (2 * W - 1), sd = 0.5)
+  A <- rnorm(n_obs, mean = W, sd = 0.25)
   dat <- as.data.table(list(A = A, W = W))
   return(dat)
 }
@@ -159,14 +159,14 @@ head(example_data)
 
 Next, we'll fit our pooled hazards conditional density estimator via the
 `haldensify` wrapper function. Based on underlying theory and simulation
-experiments, we recommend setting a large number of bins and using a binning
-strategy that accommodates creating a very large number of bins.
+experiments, we recommend setting a relatively large number of bins and using a
+binning strategy that accommodates creating such a large number of bins.
 
 ```{r fit_haldensify, message=FALSE, warning=FALSE}
 density_hal <- haldensify(
   A = example_data$A,
   W = example_data$W,
-  n_bins = 30,
+  n_bins = c(5, 15),
   grid_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100))
 )
@@ -187,9 +187,9 @@ p_risk <- ggplot(emp_risk_dat, aes(x = lambda, y = risk)) +
   geom_point() +
   geom_line() +
   theme_bw() +
-  xlab("Lambda") +
+  xlab("Lambda (L1 regularization parameter)") +
   ylab("Empirical Risk") +
-  ggtitle("Empirical Risk of conditional density estimators")
+  ggtitle("Empirical risk of HAL conditional density estimators")
 p_risk
 ```
 

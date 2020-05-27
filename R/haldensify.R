@@ -221,6 +221,11 @@ haldensify <- function(A,
   tune_select_params <- tune_grid[which.min(min_risk), , drop = FALSE]
   tune_select_fits <- select_out[[which.min(min_risk)]]
 
+
+  # get index of CV-selected lambda; subset sequence to that + smaller lambdas
+  lambda_selected_idx <- tune_select_fits$lambda_loss_min_idx
+  lambda_seq_usm <- lambda_seq[lambda_seq <= lambda_seq[lambda_selected_idx]]
+
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(
     A = A, W = W, wts = wts,
@@ -242,15 +247,12 @@ haldensify <- function(A,
     max_degree = NULL,
     fit_type = "glmnet",
     family = "binomial",
-    lambda = lambda_seq,
+    lambda = lambda_seq_usm,
     cv_select = FALSE,
     standardize = FALSE, # passed to glmnet
     weights = wts_long, # passed to glmnet
     yolo = FALSE
   )
-
-  # replace coefficients
-  hal_fit$coefs <- hal_fit$coefs[, tune_select_fits$lambda_loss_min_idx]
 
   # construct output
   out <- list(

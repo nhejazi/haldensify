@@ -4,7 +4,7 @@
 \alias{predict.haldensify}
 \title{Prediction method for HAL-based conditional density estimation}
 \usage{
-\method{predict}{haldensify}(object, ..., new_A, new_W)
+\method{predict}{haldensify}(object, ..., new_A, new_W, cv_select = TRUE)
 }
 \arguments{
 \item{object}{An object of class \code{\link{haldensify}}, containing the
@@ -19,6 +19,13 @@ which a conditional density estimate is to be generated.}
 \item{new_W}{A \code{data.frame}, \code{matrix}, or similar giving the
 values of baseline covariates (potential confounders) for the conditioning
 set of the observed values \code{A}.}
+
+\item{cv_select}{A \code{logical} indicating whether to return the predicted
+density for the value of the regularization parameter selected by global
+cross-validation. The default is \code{TRUE}. When set to \code{FALSE}, a
+matrix of predicted densities is returned, with each column corresponding
+to a value of the regularization parameter less than or equal to the choice
+made by the global cross-validation selector.}
 }
 \value{
 A \code{numeric} vector of predicted conditional density values from
@@ -37,7 +44,7 @@ Method for computing and extracting predictions of the conditional
 n_train <- 50
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
-# learn relationship A|W using HAL-based density estimation procedure
+# HAL-based density estimator of A|W
 mod_haldensify <- haldensify(
   A = a, W = w, n_bins = 3,
   lambda_seq = exp(seq(-1, -10, length = 50))

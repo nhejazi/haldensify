@@ -133,7 +133,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for haldensify</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>...</span>, <span class='no'>new_A</span>, <span class='no'>new_W</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>object</span>, <span class='no'>...</span>, <span class='no'>new_A</span>, <span class='no'>new_W</span>, <span class='kw'>cv_select</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,6 +159,15 @@ which a conditional density estimate is to be generated.</p></td>
 values of baseline covariates (potential confounders) for the conditioning
 set of the observed values <code>A</code>.</p></td>
     </tr>
+    <tr>
+      <th>cv_select</th>
+      <td><p>A <code>logical</code> indicating whether to return the predicted
+density for the value of the regularization parameter selected by global
+cross-validation. The default is <code>TRUE</code>. When set to <code>FALSE</code>, a
+matrix of predicted densities is returned, with each column corresponding
+to a value of the regularization parameter less than or equal to the choice
+made by the global cross-validation selector.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -176,7 +185,7 @@ set of the observed values <code>A</code>.</p></td>
 <span class='no'>n_train</span> <span class='kw'>&lt;-</span> <span class='fl'>50</span>
 <span class='no'>w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='no'>n_train</span>, -<span class='fl'>4</span>, <span class='fl'>4</span>)
 <span class='no'>a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='no'>n_train</span>, <span class='no'>w</span>, <span class='fl'>0.5</span>)
-<span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
+<span class='co'># HAL-based density estimator of A|W</span>
 <span class='no'>mod_haldensify</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='haldensify.html'>haldensify</a></span>(
   <span class='kw'>A</span> <span class='kw'>=</span> <span class='no'>a</span>, <span class='kw'>W</span> <span class='kw'>=</span> <span class='no'>w</span>, <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>lambda_seq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>1</span>, -<span class='fl'>10</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='fl'>50</span>))
