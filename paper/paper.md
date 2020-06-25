@@ -4,12 +4,13 @@ tags:
   - machine learning
   - density estimation
   - causal inference
+  - propensity score
   - R
 authors:
   - name: Nima S. Hejazi
     orcid: 0000-0002-7127-2789
     affiliation: 1, 3
-  - name: David Benkeser
+  - name: David C. Benkeser
     orcid: 0000-0002-1019-8343
     affiliation: 5
   - name: Mark J. van der Laan
@@ -26,68 +27,115 @@ affiliations:
     index: 4
   - name: Department of Biostatistics and Bioinformatics, Rollins School of Public Health, Emory University
     index: 5
-date: 15 June 2020
+date: 24 June 2020
 bibliography: refs.bib
 ---
 
 # Summary
 
-Causal inference has traditionally focused on the effects of static
-interventions, under which the magnitude of the treatment is set to a fixed,
-prespecified value for each unit. The evaluation of such interventions faces
-a host of issues, among them non-identification, violations of the assumption of
-positivity, and inefficiency. Stochastic interventions provide a promising
-solution to these fundamental issues by allowing for the target parameter to be
-defined as the mean counterfactual outcome under a hypothetically shifted
-version of the observed exposure distribution [@diaz2012population].
-Modified treatment policies, a particular class of such interventions, may be
-interpreted as shifting the natural exposure level at the level of a given
-observational unit [@haneuse2013estimation;@diaz2018stochastic].
+The `haldensify` `R` package provides a toolbox for nonparametric conditional
+density estimation based on the highly adaptive lasso, a flexible nonparametric
+regression algorithm capable of reliably estimating functions falling in a large
+class under only mild assumptions. Building on an earlier proposal by
+@diaz2011super, the approach to conditional density estimation implemented in
+the `haldensify` package leverages a histogram-like formulation that partitions
+the support of the variable of interest into bins, recovering the conditional
+density through a rescaling of estimated discretized conditional hazards. Such
+conditional density estimates are useful, for example, in causal inference
+problems in which the _generalized propensity score_ (for continuous-valued
+exposures) [@hirano2004propensity; @imai2004causal; @zhu2015boosting], including
+in evaluating causal effects defined by stochastic treatment regimes
+[@diaz2012population; @diaz2018stochastic; @diaz2020causal;
+@hejazi2020efficient].
 
-Despite the promise of such advances in causal inference, real data analyses are
-often further complicated by economic constraints, such as when the primary
-variable of interest is far more expensive to collect than auxiliary covariates.
-Two-phase sampling schemes are often used to bypass such limitations --
-unfortunately, their use produces side effects that require further adjustment
-when formal statistical inference is the principal goal of a study. Among the
-rich literature on two-phase designs, @rose2011targeted2sd stand out for
-providing a study of nonparametric efficiency theory under such designs. Their
-work can be used to construct efficient estimators of causal effects under
-general two-phase sampling designs.
+# Background
 
-Building on these prior works, @hejazi2020efficient outlined a novel approach
-for use in such settings: augmented targeted minimum loss (TML) and one-step
-estimators for the causal effects of stochastic interventions, with guarantees
-of consistency, efficiency, and multiple robustness even in the presence of
-two-phase sampling. These authors further outlined a technique that summarizes
-the effect of shifting an exposure variable on the outcome of interest via
-a nonparametric working marginal structural model, analogous to a dose-response
-analysis. The `txshift` software package, for the `R` language and environment
-for statistical computing [@R], implements this methodology.
+Estimation of conditional density functions is a challenging problem in
+statistical learning theory, for, unlike a regression problem in which one
+estimates a conditional mean (e.g., $\mathbb{E}\{Y \mid X\}$), the goal is
+instead to estimate the much more complex density function $f(Y \mid X)$.
+A range of methods have been proposed, including kernel-based methods approaches
+[e.g., @bashtannyk2001bandwidth; @takeuchi2009nonparametric], density ratio
+estimation [e.g., @sugiyama2010conditional], particular neural network
+architectures [e.g., @neuneier1994estimation], support vector machines
+[@vapnik2000svm]; however, many such methods either place restrictive
+assumptions on the form of the density function (e.g., location-scale families)
+or are computationally expensive (e.g., neural network models). In order to
+build conditional density estimators that could accommodate arbitrary ensemble
+learning, @diaz2011super proposed an approach that proceeds in three simple
+steps. First, the support of the variable of interest is partitioned into
+a user-specified number of bins, with the dataset cast to a "long" format to
+include repeated observations and an indicator of bin membership. Then, the
+probability, conditional on covariates, of falling in a given bin (i.e., the
+hazard) may be estimated by an arbitrary machine learning algorithm. Finally,
+estimates of the conditional hazard could be rescaled to conditional density
+estimates by dividing by the respective bin widths. Such an approach proved
+a convenient and flexible strategy for conditional density estimation.
 
-`txshift` is designed to facilitate the simple construction of TML and one-step
-estimators of the causal effects of modified treatment policies that shift the
-observed exposure value up (or down) by an arbitrary scalar $\delta$. The `R`
-package includes tools for deploying these efficient estimators under two-phase
-sampling designs, with two types of corrections: (1) a reweighting procedure
-that introduces inverse probability of censoring weights directly into an
-appropriate loss function, as discussed in @rose2011targeted2sd; as
-well as (2) a correction based on the efficient influence function, studied more
-thoroughly by @hejazi2020efficient. `txshift`
-integrates with the [`sl3` package](https://github.com/tlverse/sl3)
-[@coyle2020sl3] to allow for ensemble machine learning to be leveraged in the
-estimation of nuisance parameters. What's more, the `txshift` package draws on
-both the `hal9001` and `haldensify` `R` packages [@coyle2019hal9001;
-@hejazi2020haldensify] to allow each of the estimators to be constructed in
-a manner consistent with the theoretical results of @hejazi2020efficient. The
-`txshift` package has been made publicly available via GitHub and will be
-submitted to the Comprehensive `R` Archive Network in the near future.
+Recently, the highly adaptive lasso (HAL) regression algorithm was proposed as
+a nonparametric approach for estimating functions that are càdlàg (right-hand
+continuous with left-hand limits) and have bounded sectional variation norm
+[@vdl2017generally; @vdl2017uniform]. HAL regression has been proven capable of
+reliably estimating a wide variety of functions at a near-parametric
+($n^{-1/3}$) rate [@bibaut2019fast]. A loss-based HAL estimator may be
+constructed by using $\ell_1$-penalized (i.e., lasso) regression
+[@tibshirani1996regression] to select
+indicator basis functions that minimize the loss-specific empirical risk under
+an appropriate loss function. Selection of the $\ell_1$ penalization parameter
+may utilize a cross-validation selector [@vdl2003unified; @vdv2006oracle] or
+alternative criteria that allow undersmoothing when HAL estimand is only
+a nuisance function of the target parameter of interest [e.g.,
+@vdl2019efficient; @ertefaie2020nonparametric]. The `hal9001` package
+[@coyle2020hal9001], for the `R` language and environment for statistical
+computing [@R], implements zeroth order HAL regression, which relies upon
+indicator basis functions to construct a representation of the target function.
 
-# Acknowledgments
+# `haldensify`
 
-Nima Hejazi's contributions to this work were supported in part by a grant from
-the National Institutes of Health: [T32
-LM012417-02](https://projectreporter.nih.gov/project_info_description.cfm?aid=9248418&icde=37849831&ddparam=&ddvalue=&ddsub=&cr=1&csb=default&cs=ASC&pball=).
+The `haldensify` `R` package combines the flexible binning and hazard estimation
+strategy of @diaz2011super with highly adaptive lasso regression. In order to
+estimate the conditional hazard of falling in a given bin over the support of
+the variable of interest, HAL regression is peformed using the `hal9001` `R`
+package [@coyle2020hal9001]. Cross-validation, using the `origami` `R` package
+[@coyle2018origami], is implemented in order to select among several
+hyperparameters: (1) the number of bins into which the variable of interest
+should be discretized; (2) the strategy for bin creation (e.g., an equal number
+of bins, or bins of equal mass); and (3) the $\ell_1$ penalization parameter for
+HAL regression. Building upon the proposal of @diaz2011super, `haldensify`
+additionally (1) adjusts the proposed algorithm to incorporate sample-level
+weights; (2) replaces their use of an arbitrary classification model with the
+HAL regression function; and (3) alters the HAL regression algorithm to use a
+loss function tailored for hazard estimation, invoking $\ell_1$-penalization in
+a manner consistent with this loss.
+
+To provide a convenient and accessible interface, the `haldensify` package
+requires the use of only the eponymous `haldensify()` function, to construct an
+estimated conditional density function, and a `predict()` method, to evaluate
+the estimated conditional density function at new values of the target variable
+and conditioning set. When calling `haldensify()`, the arguments `n_bins` and
+`cv_folds` can be adjusted to invoke a cross-validation selector to choose, by
+empirical risk minimization, the optimal number of bins into which to partition
+the support; moreover, the argument `lambda_seq` can be used to control the
+range of $\ell_1$-penalization parameters defining the sequence of HAL models
+explored for pooled estimation of the conditional hazard. Several internal
+utility functions are also provided that may be of independent interest:
+`fit_haldensify()` fits a sequence of HAL conditional density models with
+cross-validation, `cv_haldensify()` fits HAL models for the conditional hazard
+(mapping these to the density scale via `map_hazard_to_density()`),
+`format_long_hazards()` creates an artifical repeated measures dataset by
+partitioning the the target variable into a specified number of bins over its
+support.
+
+Future software development efforts are intended to focus primarily upon
+improving computational aspects of the conditional density estimation procedure,
+including random sampling rows from the artificial repeated measures dataset,
+combining subset-specific HAL fits [@sapp2014subsemble], and performance
+adjustments in tandem with the updates to the `hal9001` package
+[@coyle2020hal9001]. Currently, stable releases of the `haldensify` package are
+made available on the Comprehensive `R` Archive Network at
+https://CRAN.R-project.org/package=haldensify, while both stable (branch
+`master`) and development (branch `devel`) versions of the package are hosted at
+https://github.com/nhejazi/haldensify.
 
 # References
 
