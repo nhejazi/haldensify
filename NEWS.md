@@ -6,6 +6,8 @@
   the histogram binning strategy and the number of bins.
 * The defaults of `haldensify` have been changed based on results of simulation
   experiments; the unnecessary argument `seed_int` has also been removed.
+* Fixes a bug introduced by returning predicted hazards as a vector instead of
+  a matrix.
 
 # haldensify 0.0.5
 
