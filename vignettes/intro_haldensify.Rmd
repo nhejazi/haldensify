@@ -6,7 +6,7 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: ../inst/REFERENCES.bib
 vignette: >
-  %\VignetteIndexEntry{Highly adaptive lasso conditional density estimation}
+  %\VignetteIndexEntry{Highly Adaptive Lasso Conditional Density Estimation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
