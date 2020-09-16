@@ -102,42 +102,48 @@
 <div id="whats-haldensify" class="section level2">
 <h2 class="hasAnchor">
 <a href="#whats-haldensify" class="anchor"></a>What’s <code>haldensify</code>?</h2>
-<p>The <code>haldensify</code> R package is designed to provide facilities for nonparametric conditional density estimation based on a flexible procedure proposed initially by Díaz and van der Laan (2011). The core of the implemented methodology involves recovering conditional density estimates by performing pooled hazards regressions so as to assess the conditional hazard that an observed value falls in a given bin over the (conditional) support of the variable of interest. Such conditional density estimates are useful, for example, in causal inference problems in which the <em>generalized propensity score</em> (for continuous-valued exposures) must be estimated (Díaz and van der Laan 2012, 2018; Díaz and Hejazi 2020). <code>haldensify</code> implements this condtional density estimation strategy specifically for use only with the highly adaptive lasso (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle, Hejazi, and van der Laan 2019).</p>
+<p>The <code>haldensify</code> R package is designed to provide facilities for nonparametric conditional density estimation based on a flexible procedure proposed initially by Dı́az and van der Laan (2011). The core of the implemented methodology involves recovering conditional density estimates by performing pooled hazards regressions so as to assess the conditional hazard that an observed value falls in a given bin over the (conditional) support of the variable of interest. Such conditional density estimates are useful, for example, in causal inference problems in which the <em>generalized propensity score</em> (for continuous-valued exposures) must be estimated (Dı́az and van der Laan 2012, 2018; Dı́az and Hejazi 2020). <code>haldensify</code> implements this condtional density estimation strategy specifically for use only with the highly adaptive lasso (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle, Hejazi, and van der Laan 2019).</p>
 <hr>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>For standard use, we recommend installing the package from <a href="https://CRAN.R-project.org/package=haldensify">CRAN</a> via</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"haldensify"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"haldensify"</span>)
+</pre></div>
 <p>To contribute, install the <em>development version</em> of <code>haldensify</code> from GitHub via <a href="https://CRAN.R-project.org/package=remotes"><code>remotes</code></a>:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="kw pkg">remotes</span><span class="kw ns">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"nhejazi/haldensify"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"nhejazi/haldensify"</span>)
+</pre></div>
 <hr>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>A simple example illustrates how <code>haldensify</code> may be used to construct conditional density estimates:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">data.table</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">haldensify</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://r-datatable.com">data.table</a></span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/nhejazi/haldensify">haldensify</a></span>)
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">76924</span>)
 
 <span class="co"># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)</span>
-<span class="no">n_train</span> <span class="kw">&lt;-</span> <span class="fl">50</span>
-<span class="no">w</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="no">n_train</span>, -<span class="fl">4</span>, <span class="fl">4</span>)
-<span class="no">a</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="no">n_train</span>, <span class="no">w</span>, <span class="fl">0.25</span>)
+<span class="kw">n_train</span> <span class="op">&lt;-</span> <span class="fl">50</span>
+<span class="kw">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="kw">n_train</span>, <span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span>)
+<span class="kw">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="kw">n_train</span>, <span class="kw">w</span>, <span class="fl">0.25</span>)
 
 <span class="co"># HAL-based density estimate of A|W</span>
-<span class="no">mod_haldensify</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/haldensify.html">haldensify</a></span>(
-  <span class="kw">A</span> <span class="kw">=</span> <span class="no">a</span>, <span class="kw">W</span> <span class="kw">=</span> <span class="no">w</span>,
-  <span class="kw">n_bins</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">20</span>),
-  <span class="kw">grid_type</span> <span class="kw">=</span> <span class="st">"equal_range"</span>,
-  <span class="kw">lambda_seq</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(-<span class="fl">1</span>, -<span class="fl">10</span>, <span class="kw">length</span> <span class="kw">=</span> <span class="fl">100</span>))
+<span class="kw">mod_haldensify</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/haldensify.html">haldensify</a></span>(
+  A = <span class="kw">a</span>, W = <span class="kw">w</span>,
+  n_bins = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">20</span>),
+  grid_type = <span class="st">"equal_range"</span>,
+  lambda_seq = <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">10</span>, length = <span class="fl">100</span>))
 )
 
 <span class="co"># use the built-in predict method to get predictions</span>
-<span class="no">pred_haldensify</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="no">mod_haldensify</span>, <span class="kw">new_A</span> <span class="kw">=</span> <span class="no">a</span>, <span class="kw">new_W</span> <span class="kw">=</span> <span class="no">w</span>)</pre></div>
+<span class="kw">pred_haldensify</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(<span class="kw">mod_haldensify</span>, new_A = <span class="kw">a</span>, new_W = <span class="kw">w</span>)
+</pre></div>
 <hr>
 </div>
 <div id="issues" class="section level2">
@@ -185,27 +191,27 @@
 <a href="#license" class="anchor"></a>License</h2>
 <p>© 2019-2020 <a href="https://nimahejazi.org">Nima S. Hejazi</a></p>
 <p>The contents of this repository are distributed under the MIT license. See below for details:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">MIT License</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">Copyright</span> (c) <span class="dv">2019-2020</span> Nima S. Hejazi</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">Permission is hereby granted, free of charge, to any person obtaining a copy</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">of this software and associated documentation <span class="kw">files</span> (the <span class="st">"Software"</span>), to deal</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="cf">in</span> the Software without restriction, including without limitation the rights</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">to use, copy, modify, merge, publish, distribute, sublicense, and<span class="op">/</span>or sell</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">copies of the Software, and to permit persons to whom the Software is</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">furnished to do so, subject to the following conditions<span class="op">:</span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12">The above copyright notice and this permission notice shall be included <span class="cf">in</span> all</a>
-<a class="sourceLine" id="cb5-13" data-line-number="13">copies or substantial portions of the Software.</a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15">THE SOFTWARE IS PROVIDED <span class="st">"AS IS"</span>, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</a>
-<a class="sourceLine" id="cb5-16" data-line-number="16">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</a>
-<a class="sourceLine" id="cb5-17" data-line-number="17">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</a>
-<a class="sourceLine" id="cb5-18" data-line-number="18">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</a>
-<a class="sourceLine" id="cb5-19" data-line-number="19">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</a>
-<a class="sourceLine" id="cb5-20" data-line-number="20">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</a>
-<a class="sourceLine" id="cb5-21" data-line-number="21">SOFTWARE.</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">MIT License</a>
+<a class="sourceLine" id="cb5-2" title="2"></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">Copyright</span> (c) <span class="dv">2019-2020</span> Nima S. Hejazi</a>
+<a class="sourceLine" id="cb5-4" title="4"></a>
+<a class="sourceLine" id="cb5-5" title="5">Permission is hereby granted, free of charge, to any person obtaining a copy</a>
+<a class="sourceLine" id="cb5-6" title="6">of this software and associated documentation <span class="kw">files</span> (the <span class="st">"Software"</span>), to deal</a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="cf">in</span> the Software without restriction, including without limitation the rights</a>
+<a class="sourceLine" id="cb5-8" title="8">to use, copy, modify, merge, publish, distribute, sublicense, and<span class="op">/</span>or sell</a>
+<a class="sourceLine" id="cb5-9" title="9">copies of the Software, and to permit persons to whom the Software is</a>
+<a class="sourceLine" id="cb5-10" title="10">furnished to do so, subject to the following conditions<span class="op">:</span></a>
+<a class="sourceLine" id="cb5-11" title="11"></a>
+<a class="sourceLine" id="cb5-12" title="12">The above copyright notice and this permission notice shall be included <span class="cf">in</span> all</a>
+<a class="sourceLine" id="cb5-13" title="13">copies or substantial portions of the Software.</a>
+<a class="sourceLine" id="cb5-14" title="14"></a>
+<a class="sourceLine" id="cb5-15" title="15">THE SOFTWARE IS PROVIDED <span class="st">"AS IS"</span>, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</a>
+<a class="sourceLine" id="cb5-16" title="16">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</a>
+<a class="sourceLine" id="cb5-17" title="17">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</a>
+<a class="sourceLine" id="cb5-18" title="18">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</a>
+<a class="sourceLine" id="cb5-19" title="19">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</a>
+<a class="sourceLine" id="cb5-20" title="20">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</a>
+<a class="sourceLine" id="cb5-21" title="21">SOFTWARE.</a></code></pre></div>
 <hr>
 </div>
 <div id="references" class="section level2">
@@ -219,19 +225,19 @@
 <p>Coyle, Jeremy R, Nima S Hejazi, and Mark J van der Laan. 2019. <em>hal9001: The Scalable Highly Adaptive Lasso</em>. <a href="https://github.com/tlverse/hal9001" class="uri">https://github.com/tlverse/hal9001</a>. <a href="https://doi.org/10.5281/zenodo.3558314" class="uri">https://doi.org/10.5281/zenodo.3558314</a>.</p>
 </div>
 <div id="ref-diaz2020causal">
-<p>Díaz, Iván, and Nima S Hejazi. 2020. “Causal Mediation Analysis for Stochastic Interventions.” <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em>. Wiley Online Library. <a href="https://doi.org/10.1111/rssb.12362" class="uri">https://doi.org/10.1111/rssb.12362</a>.</p>
+<p>Dı́az, Iván, and Nima S Hejazi. 2020. “Causal Mediation Analysis for Stochastic Interventions.” <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em>. <a href="https://doi.org/10.1111/rssb.12362" class="uri">https://doi.org/10.1111/rssb.12362</a>.</p>
 </div>
 <div id="ref-diaz2011super">
-<p>Díaz, Iván, and Mark J van der Laan. 2011. “Super Learner Based Conditional Density Estimation with Application to Marginal Structural Models.” <em>The International Journal of Biostatistics</em> 7 (1). De Gruyter: 1–20.</p>
+<p>Dı́az, Iván, and Mark J van der Laan. 2011. “Super Learner Based Conditional Density Estimation with Application to Marginal Structural Models.” <em>The International Journal of Biostatistics</em> 7 (1): 1–20.</p>
 </div>
 <div id="ref-diaz2012population">
-<p>———. 2012. “Population Intervention Causal Effects Based on Stochastic Interventions.” <em>Biometrics</em> 68 (2). Wiley Online Library: 541–49.</p>
+<p>———. 2012. “Population Intervention Causal Effects Based on Stochastic Interventions.” <em>Biometrics</em> 68 (2): 541–49.</p>
 </div>
 <div id="ref-diaz2018stochastic">
 <p>———. 2018. “Stochastic Treatment Regimes.” In <em>Targeted Learning in Data Science: Causal Inference for Complex Longitudinal Studies</em>, 167–80. Springer Science &amp; Business Media.</p>
 </div>
 <div id="ref-vdl2017generally">
-<p>van der Laan, Mark J. 2017. “A Generally Efficient Targeted Minimum Loss Based Estimator Based on the Highly Adaptive Lasso.” <em>The International Journal of Biostatistics</em> 13 (2). De Gruyter.</p>
+<p>van der Laan, Mark J. 2017. “A Generally Efficient Targeted Minimum Loss Based Estimator Based on the Highly Adaptive Lasso.” <em>The International Journal of Biostatistics</em> 13 (2).</p>
 </div>
 <div id="ref-vdl2018highly">
 <p>van der Laan, Mark J, and David Benkeser. 2018. “Highly Adaptive Lasso (HAL).” In <em>Targeted Learning in Data Science</em>, 77–94. Springer.</p>
@@ -288,10 +294,10 @@
 <li><a href="https://travis-ci.org/nhejazi/haldensify"><img src="https://travis-ci.org/nhejazi/haldensify.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/nhejazi/haldensify"><img src="https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
 <li><a href="https://codecov.io/github/nhejazi/haldensify?branch=master"><img src="https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg" alt="Coverage Status"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/haldensify"><img src="http://www.r-pkg.org/badges/version/haldensify" alt="CRAN"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/haldensify"><img src="http://www.r-pkg.org/badges/version/haldensify" alt="CRAN"></a></li>
 <li><a href="https://CRAN.R-project.org/package=haldensify"><img src="https://cranlogs.r-pkg.org/badges/haldensify" alt="CRAN downloads"></a></li>
 <li><a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed."></a></li>
-<li><a href="http://opensource.org/licenses/MIT"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT license"></a></li>
+<li><a href="https://opensource.org/licenses/MIT"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT license"></a></li>
 <li><a href="https://doi.org/10.5281/zenodo.3698329"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg" alt="DOI"></a></li>
 </ul>
 </div>
@@ -304,7 +310,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

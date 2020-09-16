@@ -9,14 +9,14 @@ Status](https://travis-ci.org/nhejazi/haldensify.svg?branch=master)](https://tra
 Status](https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&svg=true)](https://ci.appveyor.com/project/nhejazi/haldensify)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
-[![CRAN](http://www.r-pkg.org/badges/version/haldensify)](http://www.r-pkg.org/pkg/haldensify)
+[![CRAN](http://www.r-pkg.org/badges/version/haldensify)](https://www.r-pkg.org/pkg/haldensify)
 [![CRAN
 downloads](https://cranlogs.r-pkg.org/badges/haldensify)](https://CRAN.R-project.org/package=haldensify)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![MIT
-license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg)](https://doi.org/10.5281/zenodo.3698329)
 
 > Highly Adaptive Lasso Conditional Density Estimation
@@ -31,18 +31,18 @@ Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes), and
 
 The `haldensify` R package is designed to provide facilities for
 nonparametric conditional density estimation based on a flexible
-procedure proposed initially by Díaz and van der Laan (2011). The core
+procedure proposed initially by Dı́az and van der Laan (2011). The core
 of the implemented methodology involves recovering conditional density
 estimates by performing pooled hazards regressions so as to assess the
 conditional hazard that an observed value falls in a given bin over the
 (conditional) support of the variable of interest. Such conditional
 density estimates are useful, for example, in causal inference problems
 in which the *generalized propensity score* (for continuous-valued
-exposures) must be estimated (Díaz and van der Laan 2012, 2018; Díaz and
-Hejazi 2020). `haldensify` implements this condtional density estimation
-strategy specifically for use only with the highly adaptive lasso
-(Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and
-Benkeser 2018; Coyle, Hejazi, and van der Laan 2019).
+exposures) must be estimated (Dı́az and van der Laan 2012, 2018; Dı́az
+and Hejazi 2020). `haldensify` implements this condtional density
+estimation strategy specifically for use only with the highly adaptive
+lasso (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan
+and Benkeser 2018; Coyle, Hejazi, and van der Laan 2019).
 
 -----
 
@@ -197,26 +197,25 @@ The Scalable Highly Adaptive Lasso*.
 
 <div id="ref-diaz2020causal">
 
-Díaz, Iván, and Nima S Hejazi. 2020. “Causal Mediation Analysis for
+Dı́az, Iván, and Nima S Hejazi. 2020. “Causal Mediation Analysis for
 Stochastic Interventions.” *Journal of the Royal Statistical Society:
-Series B (Statistical Methodology)*. Wiley Online Library.
+Series B (Statistical Methodology)*.
 <https://doi.org/10.1111/rssb.12362>.
 
 </div>
 
 <div id="ref-diaz2011super">
 
-Díaz, Iván, and Mark J van der Laan. 2011. “Super Learner Based
+Dı́az, Iván, and Mark J van der Laan. 2011. “Super Learner Based
 Conditional Density Estimation with Application to Marginal Structural
-Models.” *The International Journal of Biostatistics* 7 (1). De Gruyter:
-1–20.
+Models.” *The International Journal of Biostatistics* 7 (1): 1–20.
 
 </div>
 
 <div id="ref-diaz2012population">
 
 ———. 2012. “Population Intervention Causal Effects Based on Stochastic
-Interventions.” *Biometrics* 68 (2). Wiley Online Library: 541–49.
+Interventions.” *Biometrics* 68 (2): 541–49.
 
 </div>
 
@@ -232,7 +231,7 @@ Springer Science & Business Media.
 
 van der Laan, Mark J. 2017. “A Generally Efficient Targeted Minimum Loss
 Based Estimator Based on the Highly Adaptive Lasso.” *The International
-Journal of Biostatistics* 13 (2). De Gruyter.
+Journal of Biostatistics* 13 (2).
 
 </div>
 
