@@ -15,3 +15,5 @@
 
 ## Additional Notes
 * This CRAN submission contains a minor release update (0.0.5 -> 0.0.6).
+* The previous submission of v0.0.6 had broken/changed URLs in README.md;
+  these have been resolved.
