@@ -1,10 +1,9 @@
 ## Test environments
-* local Ubuntu 18.04: R 3.6.3 (stable)
+* local Ubuntu 20.04: R 4.0.2 (stable)
 * remote Ubuntu 16.04 on travis-ci:
-  * R 3.6.2 (stable)
-  * R 4.0.0 (under development)
-* local macOS install: R 3.6.1
-* Windows (on appveyor and winbuilder): R 3.6.3
+  * R 3.6.3 (old-stable)
+  * R 4.0.2 (stable)
+* Windows (on appveyor and winbuilder): R 4.0.2
 
 ## R CMD check results
 * There were 0 ERRORs.
@@ -15,7 +14,6 @@
 * Nothing to report.
 
 ## Additional Notes
-* This is a new CRAN submission.
-* This submission has been updated to
-  1. lower the run time of examples, and
-  2. fix miscellaneous errors in the DESCRIPTION file
+* This CRAN submission contains a minor release update (0.0.5 -> 0.0.6).
+* The previous submission of v0.0.6 had broken/changed URLs in README.md;
+  these have been resolved.

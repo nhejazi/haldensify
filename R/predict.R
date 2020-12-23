@@ -65,6 +65,11 @@ predict.haldensify <- function(object, ..., new_A, new_W,
       long_data_pred[, 3:ncol(long_data_pred)]
   )
 
+  # NOTE: we return hazard predictions for the loss minimizer and all lambda
+  #       smaller than it, BUT if there are no such lambda, hazard_pred is only
+  #       vector rather than the usually expected matrix
+  if (!is.matrix(hazard_pred)) hazard_pred <- as.matrix(hazard_pred, ncol = 1)
+
   # estimate unscaled density for each observation and each lambda
   density_pred_rescaled <- apply(hazard_pred, 2, function(this_hazard_pred) {
     # coerce single column of predictions back to matrix

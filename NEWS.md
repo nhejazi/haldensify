@@ -10,6 +10,8 @@ As of May 2020:
   the histogram binning strategy and the number of bins.
 * The defaults of `haldensify` have been changed based on results of simulation
   experiments; the unnecessary argument `seed_int` has also been removed.
+* Fixes a bug introduced by returning predicted hazards as a vector instead of
+  a matrix.
 * An argument `cv_select`, defaulting to `TRUE`, has been added to the
   `predict` method, to make undersmoothing more accessible.
 * A simple vignette has been added.

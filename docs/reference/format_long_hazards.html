@@ -133,12 +133,12 @@
     </div>
 
     <pre class="usage"><span class='fu'>format_long_hazards</span>(
-  <span class='no'>A</span>,
-  <span class='no'>W</span>,
-  <span class='kw'>wts</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>A</span>)),
-  <span class='kw'>grid_type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"equal_range"</span>, <span class='st'>"equal_mass"</span>),
-  <span class='kw'>n_bins</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>A</span>,
+  <span class='kw'>W</span>,
+  wts = <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='kw'>A</span>)),
+  grid_type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"equal_range"</span>, <span class='st'>"equal_mass"</span>),
+  n_bins = <span class='kw'>NULL</span>,
+  breaks = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -188,7 +188,7 @@ or <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut
 
     <p>A <code>list</code> containing the break points used in dividing the
  support of <code>A</code> into discrete bins, the length of each bin, and the
- reformatted data. The reformatted data is a <code>data.table</code> of
+ reformatted data. The reformatted data is a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></code> of
  repeated measures data, with an indicator for which bin an observation
  fails in, the bin ID, observation ID, values of <code>W</code> for each given
  observation, and observation-level weights.</p>
@@ -215,7 +215,7 @@ or <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
