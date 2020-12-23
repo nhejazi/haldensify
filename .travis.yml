@@ -15,11 +15,12 @@ r_build_args: '--no-manual'
 r_check_args: '--no-build-vignettes --no-manual'
 
 r:
+  - oldrel
   - release
   - devel
 
 before_install:
-  - Rscript -e 'update.packages(ask = FALSE)'
+  #- Rscript -e 'update.packages(ask = FALSE)'
 
 r_packages:
   - devtools

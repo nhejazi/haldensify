@@ -4,7 +4,7 @@
 # R/`haldensify`
 
 [![Travis-CI Build
-Status](https://travis-ci.org/nhejazi/haldensify.svg?branch=master)](https://travis-ci.org/nhejazi/haldensify)
+Status](https://travis-ci.com/nhejazi/haldensify.svg?branch=master)](https://travis-ci.com/nhejazi/haldensify)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&svg=true)](https://ci.appveyor.com/project/nhejazi/haldensify)
 [![Coverage
@@ -135,23 +135,19 @@ After using the `haldensify` R package, please cite the following:
   - [R/`hal9001`](https://github.com/tlverse/hal9001) – The highly
     adaptive lasso estimator used internally to constructed conditional
     density estimates.
-  - [R/`condensier`](https://github.com/osofr/condensier) – An
-    independent implementation of some of the same core methodology,
-    allowing for arbitrary selection of regression functions and a
-    greater variety of hazard regression strategies.
 
 -----
 
 ## License
 
-© 2019-2020 [Nima S. Hejazi](https://nimahejazi.org)
+© 2019-2021 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license.
 See below for details:
 
     MIT License
     
-    Copyright (c) 2019-2020 Nima S. Hejazi
+    Copyright (c) 2019-2021 Nima S. Hejazi
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
