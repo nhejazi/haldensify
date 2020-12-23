@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -105,7 +105,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/nhejazi/haldensify/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -128,13 +128,20 @@
 
     <div id="haldensify-006" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.6">
-<a href="#haldensify-006" class="anchor"></a>haldensify 0.0.6<small> Unreleased </small>
+<a href="#haldensify-006" class="anchor"></a>haldensify 0.0.6<small> 2020-09-16 </small>
 </h1>
+<p>As of June 2020:</p>
+<ul>
+<li>A short software paper for inclusion in JOSS has been added.</li>
+</ul>
+<p>As of May 2020:</p>
 <ul>
 <li>The core cross-validation routine in <code>haldensify</code> for fitting HAL models has been slightly abstracted and moved to the new function <code>fit_haldensify</code>.</li>
 <li>The <code>haldensify</code> wrapper function serves to cross-validate over choices of the histogram binning strategy and the number of bins.</li>
 <li>The defaults of <code>haldensify</code> have been changed based on results of simulation experiments; the unnecessary argument <code>seed_int</code> has also been removed.</li>
 <li>Fixes a bug introduced by returning predicted hazards as a vector instead of a matrix.</li>
+<li>An argument <code>cv_select</code>, defaulting to <code>TRUE</code>, has been added to the <code>predict</code> method, to make undersmoothing more accessible.</li>
+<li>A simple vignette has been added.</li>
 </ul>
 </div>
     <div id="haldensify-005" class="section level1">
