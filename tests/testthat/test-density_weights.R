@@ -3,7 +3,6 @@ library(ggplot2)
 library(dplyr)
 library(hal9001)
 library(future)
-plan(transparent)
 set.seed(76921)
 
 # data simulation
