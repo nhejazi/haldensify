@@ -55,8 +55,8 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
   )
 
   # get intercept and coefficient fits for this value of lambda from glmnet
-  alpha_hat <- hal_fit_train$glmnet_lasso$a0
-  betas_hat <- hal_fit_train$glmnet_lasso$beta
+  alpha_hat <- hal_fit_train$lasso_fit$a0
+  betas_hat <- hal_fit_train$lasso_fit$beta
   coefs_hat <- rbind(alpha_hat, betas_hat)
 
   # make design matrix for validation set manually
@@ -121,7 +121,8 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #' @param A The \code{numeric} vector observed values.
 #' @param W A \code{data.frame}, \code{matrix}, or similar giving the values of
 #'  baseline covariates (potential confounders) for the observed units. These
-#'  make up the conditioning set for the conditional density estimate.
+#'  make up the conditioning set for the density estimate. For estimation of a
+#'  marginal density, specify a constant \code{numeric} vector or \code{NULL}.
 #' @param wts A \code{numeric} vector of observation-level weights. The default
 #'  is to weight all observations equally.
 #' @param grid_type A \code{character} indicating the strategy to be used in
@@ -180,6 +181,11 @@ haldensify <- function(A,
                        cv_folds = 5,
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
                        use_future = FALSE) {
+  # if W is set to NULL, create a constant conditioning set
+  if (is.null(W)) {
+    W <- rep(0, length(A))
+  }
+
   # run CV-HAL for all combinations of n_bins and grid_type
   tune_grid <- expand.grid(
     grid_type = grid_type, n_bins = n_bins,
@@ -218,19 +224,15 @@ haldensify <- function(A,
   emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
   min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
   min_risk <- lapply(emp_risk_per_lambda, min)
-  tune_select_params <- tune_grid[which.min(min_risk), , drop = FALSE]
-  tune_select_fits <- select_out[[which.min(min_risk)]]
-
-
-  # get index of CV-selected lambda; subset sequence to that + smaller lambdas
-  lambda_selected_idx <- tune_select_fits$lambda_loss_min_idx
-  lambda_seq_usm <- lambda_seq[lambda_seq <= lambda_seq[lambda_selected_idx]]
+  cv_selected_params <- tune_grid[which.min(min_risk), , drop = FALSE]
+  cv_selected_fits <- select_out[[which.min(min_risk)]]
+  cv_selected_fits$density_pred <- NULL
 
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(
     A = A, W = W, wts = wts,
-    grid_type = tune_select_params$grid_type,
-    n_bins = tune_select_params$n_bins
+    grid_type = cv_selected_params$grid_type,
+    n_bins = cv_selected_params$n_bins
   )
   long_data <- reformatted_output$data
   breakpoints <- reformatted_output$breaks
@@ -247,7 +249,7 @@ haldensify <- function(A,
     max_degree = NULL,
     fit_type = "glmnet",
     family = "binomial",
-    lambda = lambda_seq_usm,
+    lambda = lambda_seq,
     cv_select = FALSE,
     standardize = FALSE, # passed to glmnet
     weights = wts_long, # passed to glmnet
@@ -260,9 +262,9 @@ haldensify <- function(A,
     breaks = breakpoints,
     bin_sizes = bin_sizes,
     range_a = range(A),
-    grid_type_tune_opt = tune_select_params$grid_type,
-    n_bins_tune_opt = tune_select_params$n_bins,
-    cv_hal_fits_tune_opt = tune_select_fits
+    grid_type_cvselect = cv_selected_params$grid_type,
+    n_bins_cvselect = cv_selected_params$n_bins,
+    cv_tuning_results = cv_selected_fits
   )
   class(out) <- "haldensify"
   return(out)

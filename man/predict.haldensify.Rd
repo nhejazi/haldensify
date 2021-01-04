@@ -4,7 +4,7 @@
 \alias{predict.haldensify}
 \title{Prediction method for HAL-based conditional density estimation}
 \usage{
-\method{predict}{haldensify}(object, ..., new_A, new_W, cv_select = TRUE)
+\method{predict}{haldensify}(object, ..., new_A, new_W, lambda_select = c("cv", "undersmooth"))
 }
 \arguments{
 \item{object}{An object of class \code{\link{haldensify}}, containing the
@@ -20,12 +20,15 @@ which a conditional density estimate is to be generated.}
 values of baseline covariates (potential confounders) for the conditioning
 set of the observed values \code{A}.}
 
-\item{cv_select}{A \code{logical} indicating whether to return the predicted
-density for the value of the regularization parameter selected by global
-cross-validation. The default is \code{TRUE}. When set to \code{FALSE}, a
-matrix of predicted densities is returned, with each column corresponding
-to a value of the regularization parameter less than or equal to the choice
-made by the global cross-validation selector.}
+\item{lambda_select}{A \code{character} indicating whether to return the
+predicted density for the value of the regularization parameter chosen by
+the global cross-validation selector or whether to return an undersmoothed
+sequence (which starts with the cross-validation selector's choice but also
+includes all values in the sequence that are less restrictive). The default
+is \code{"cv"} for the global cross-validation selector. Setting the choice
+to \code{"undersmooth"} returns a matrix of predicted densities, with each
+column corresponding to a value of the regularization parameter less than
+or equal to the choice made by the global cross-validation selector.}
 }
 \value{
 A \code{numeric} vector of predicted conditional density values from

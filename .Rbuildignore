@@ -3,18 +3,18 @@
 ^Makefile$
 ^README\.Rmd$
 ^README\.html$
-^README-norefs\.Rmd$
-^README-refs\.bib$
 ^README-.*\.png$
 ^README_cache$
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^codecov\.yml$
 ^_pkgdown\.yml$
+^TODO\.md$
 
 # Extra miscellaneous support files/directories.
 ^cran-comments\.md$
 ^CONTRIBUTING\.md$
 ^sandbox$
+^paper$
 ^docs$
 ^CRAN-RELEASE$

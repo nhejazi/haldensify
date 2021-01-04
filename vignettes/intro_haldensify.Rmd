@@ -175,17 +175,19 @@ density_hal <- haldensify(
 Having constructed the conditional density estimator, we can examine the
 empirical risk over the grid of L1 regularization parameters. To do this, we
 can use the cross-validated conditional density fits returned in the
-`cv_hal_fits_tune_opt` slot of the `haldensify` object. For example, we can
+`cv_tuning_results` slot of the `haldensify` object. For example, we can
 plot these as follows
 
 ```{r plot_risk_haldensify, message=FALSE, warning=FALSE}
 emp_risk_dat <- as.data.table(list(
-  lambda = density_hal$cv_hal_fits_tune_opt$lambda_seq,
-  risk = density_hal$cv_hal_fits_tune_opt$emp_risks
+  lambda = density_hal$cv_tuning_results$lambda_seq,
+  risk = density_hal$cv_tuning_results$emp_risks
 ))
 p_risk <- ggplot(emp_risk_dat, aes(x = lambda, y = risk)) +
   geom_point() +
   geom_line() +
+  geom_vline(xintercept = density_hal$cv_tuning_results$lambda_loss_min,
+             linetype = "dotted") +
   theme_bw() +
   xlab("Lambda (L1 regularization parameter)") +
   ylab("Empirical Risk") +

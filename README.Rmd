@@ -47,7 +47,8 @@ _generalized propensity score_ (for continuous-valued exposures) must be
 estimated [@diaz2012population; @diaz2018stochastic; @diaz2020causal].
 `haldensify` implements this condtional density estimation strategy
 specifically for use only with the highly adaptive lasso [@benkeser2016highly;
-@vdl2017generally; @vdl2018highly; @coyle2019hal9001].
+@vdl2017generally; @vdl2018highly; @coyle2020hal9001-rpkg;
+@hejazi2020hal9001-joss].
 
 ---
 
@@ -119,7 +120,7 @@ prior to submitting a pull request.
 
 After using the `haldensify` R package, please cite the following:
 
-        @manual{hejazi2020haldensify,
+        @software{hejazi2020haldensify,
           author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
             Mark J},
           title = {{haldensify}: Highly adaptive lasso conditional density

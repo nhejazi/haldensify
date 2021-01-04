@@ -15,15 +15,18 @@ utils::globalVariables(c("wts"))
 #' @param new_W A \code{data.frame}, \code{matrix}, or similar giving the
 #'  values of baseline covariates (potential confounders) for the conditioning
 #'  set of the observed values \code{A}.
-#' @param cv_select A \code{logical} indicating whether to return the predicted
-#'  density for the value of the regularization parameter selected by global
-#'  cross-validation. The default is \code{TRUE}. When set to \code{FALSE}, a
-#'  matrix of predicted densities is returned, with each column corresponding
-#'  to a value of the regularization parameter less than or equal to the choice
-#'  made by the global cross-validation selector.
+#' @param lambda_select A \code{character} indicating whether to return the
+#'  predicted density for the value of the regularization parameter chosen by
+#'  the global cross-validation selector or whether to return an undersmoothed
+#'  sequence (which starts with the cross-validation selector's choice but also
+#'  includes all values in the sequence that are less restrictive). The default
+#'  is \code{"cv"} for the global cross-validation selector. Setting the choice
+#'  to \code{"undersmooth"} returns a matrix of predicted densities, with each
+#'  column corresponding to a value of the regularization parameter less than
+#'  or equal to the choice made by the global cross-validation selector.
 #'
-#' @importFrom stats predict
 #' @importFrom data.table ":="
+#' @importFrom stats predict
 #'
 #' @return A \code{numeric} vector of predicted conditional density values from
 #'  a fitted \code{haldensify} object.
@@ -45,7 +48,10 @@ utils::globalVariables(c("wts"))
 #' new_w <- rep(0, length(new_a))
 #' pred_dens <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
 predict.haldensify <- function(object, ..., new_A, new_W,
-                               cv_select = TRUE) {
+                               lambda_select = c("cv", "undersmooth")) {
+  # set default selection procedure to the cross-validation selector
+  lambda_select <- match.arg(lambda_select)
+
   # make long format data structure with new input data
   long_format_args <- list(
     A = new_A,
@@ -103,10 +109,13 @@ predict.haldensify <- function(object, ..., new_A, new_W,
   outside_range <- new_A < object$range_a[1] | new_A > object$range_a[2]
   density_pred_rescaled[outside_range, ] <- 0
 
-  # return predicted densities only for CV-selected lambda
-  # NOTE: turn off for access to density estimates for all lambda >= CV-lambda
-  if (cv_select) {
-    density_pred_rescaled <- density_pred_rescaled[, 1]
+  # return predicted densities only for CV-selected or undersmoothed lambdas
+  cv_lambda_idx <- object$cv_tuning_results$lambda_loss_min_idx
+  if (lambda_select == "cv") {
+    density_pred_rescaled <- density_pred_rescaled[, cv_lambda_idx]
+  } else {
+    usm_lambda_idx <- cv_lambda_idx:length(object$cv_tuning_results$lambda_seq)
+    density_pred_rescaled <- density_pred_rescaled[, usm_lambda_idx]
   }
 
   # output

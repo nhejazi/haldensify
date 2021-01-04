@@ -42,7 +42,8 @@ exposures) must be estimated (Dı́az and van der Laan 2012, 2018; Dı́az
 and Hejazi 2020). `haldensify` implements this condtional density
 estimation strategy specifically for use only with the highly adaptive
 lasso (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan
-and Benkeser 2018; Coyle, Hejazi, and van der Laan 2019).
+and Benkeser 2018; Coyle, Hejazi, and van der Laan 2020; Hejazi, Coyle,
+and van der Laan 2020).
 
 -----
 
@@ -115,7 +116,7 @@ prior to submitting a pull request.
 After using the `haldensify` R package, please cite the following:
 
 ``` 
-    @manual{hejazi2020haldensify,
+    @software{hejazi2020haldensify,
       author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
         Mark J},
       title = {{haldensify}: Highly adaptive lasso conditional density
@@ -182,12 +183,11 @@ Data Science and Advanced Analytics*, 2016:689. NIH Public Access.
 
 </div>
 
-<div id="ref-coyle2019hal9001">
+<div id="ref-coyle2020hal9001-rpkg">
 
-Coyle, Jeremy R, Nima S Hejazi, and Mark J van der Laan. 2019. *hal9001:
+Coyle, Jeremy R, Nima S Hejazi, and Mark J van der Laan. 2020. *hal9001:
 The Scalable Highly Adaptive Lasso*.
-<https://github.com/tlverse/hal9001>.
-<https://doi.org/10.5281/zenodo.3558314>.
+<https://doi.org/10.5281/zenodo.3558313>.
 
 </div>
 
@@ -220,6 +220,14 @@ Interventions.” *Biometrics* 68 (2): 541–49.
 ———. 2018. “Stochastic Treatment Regimes.” In *Targeted Learning in Data
 Science: Causal Inference for Complex Longitudinal Studies*, 167–80.
 Springer Science & Business Media.
+
+</div>
+
+<div id="ref-hejazi2020hal9001-joss">
+
+Hejazi, Nima S, Jeremy R Coyle, and Mark J van der Laan. 2020. “hal9001:
+Scalable Highly Adaptive Lasso Regression in R.” *Journal of Open Source
+Software*. <https://doi.org/10.21105/joss.02526>.
 
 </div>
 

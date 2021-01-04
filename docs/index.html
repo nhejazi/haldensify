@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -102,7 +102,7 @@
 <div id="whats-haldensify" class="section level2">
 <h2 class="hasAnchor">
 <a href="#whats-haldensify" class="anchor"></a>What’s <code>haldensify</code>?</h2>
-<p>The <code>haldensify</code> R package is designed to provide facilities for nonparametric conditional density estimation based on a flexible procedure proposed initially by Dı́az and van der Laan (2011). The core of the implemented methodology involves recovering conditional density estimates by performing pooled hazards regressions so as to assess the conditional hazard that an observed value falls in a given bin over the (conditional) support of the variable of interest. Such conditional density estimates are useful, for example, in causal inference problems in which the <em>generalized propensity score</em> (for continuous-valued exposures) must be estimated (Dı́az and van der Laan 2012, 2018; Dı́az and Hejazi 2020). <code>haldensify</code> implements this condtional density estimation strategy specifically for use only with the highly adaptive lasso (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle, Hejazi, and van der Laan 2019).</p>
+<p>The <code>haldensify</code> R package is designed to provide facilities for nonparametric conditional density estimation based on a flexible procedure proposed initially by Dı́az and van der Laan (2011). The core of the implemented methodology involves recovering conditional density estimates by performing pooled hazards regressions so as to assess the conditional hazard that an observed value falls in a given bin over the (conditional) support of the variable of interest. Such conditional density estimates are useful, for example, in causal inference problems in which the <em>generalized propensity score</em> (for continuous-valued exposures) must be estimated (Dı́az and van der Laan 2012, 2018; Dı́az and Hejazi 2020). <code>haldensify</code> implements this condtional density estimation strategy specifically for use only with the highly adaptive lasso (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and Benkeser 2018; Coyle, Hejazi, and van der Laan 2020; Hejazi, Coyle, and van der Laan 2020).</p>
 <hr>
 </div>
 <div id="installation" class="section level2">
@@ -159,7 +159,7 @@
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>After using the <code>haldensify</code> R package, please cite the following:</p>
-<pre><code>    @manual{hejazi2020haldensify,
+<pre><code>    @software{hejazi2020haldensify,
       author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
         Mark J},
       title = {{haldensify}: Highly adaptive lasso conditional density
@@ -216,8 +216,8 @@
 <div id="ref-benkeser2016highly">
 <p>Benkeser, David, and Mark J van der Laan. 2016. “The Highly Adaptive Lasso Estimator.” In <em>Proceedings of the International Conference on Data Science and Advanced Analytics. IEEE International Conference on Data Science and Advanced Analytics</em>, 2016:689. NIH Public Access.</p>
 </div>
-<div id="ref-coyle2019hal9001">
-<p>Coyle, Jeremy R, Nima S Hejazi, and Mark J van der Laan. 2019. <em>hal9001: The Scalable Highly Adaptive Lasso</em>. <a href="https://github.com/tlverse/hal9001" class="uri">https://github.com/tlverse/hal9001</a>. <a href="https://doi.org/10.5281/zenodo.3558314" class="uri">https://doi.org/10.5281/zenodo.3558314</a>.</p>
+<div id="ref-coyle2020hal9001-rpkg">
+<p>Coyle, Jeremy R, Nima S Hejazi, and Mark J van der Laan. 2020. <em>hal9001: The Scalable Highly Adaptive Lasso</em>. <a href="https://doi.org/10.5281/zenodo.3558313" class="uri">https://doi.org/10.5281/zenodo.3558313</a>.</p>
 </div>
 <div id="ref-diaz2020causal">
 <p>Dı́az, Iván, and Nima S Hejazi. 2020. “Causal Mediation Analysis for Stochastic Interventions.” <em>Journal of the Royal Statistical Society: Series B (Statistical Methodology)</em>. <a href="https://doi.org/10.1111/rssb.12362" class="uri">https://doi.org/10.1111/rssb.12362</a>.</p>
@@ -230,6 +230,9 @@
 </div>
 <div id="ref-diaz2018stochastic">
 <p>———. 2018. “Stochastic Treatment Regimes.” In <em>Targeted Learning in Data Science: Causal Inference for Complex Longitudinal Studies</em>, 167–80. Springer Science &amp; Business Media.</p>
+</div>
+<div id="ref-hejazi2020hal9001-joss">
+<p>Hejazi, Nima S, Jeremy R Coyle, and Mark J van der Laan. 2020. “hal9001: Scalable Highly Adaptive Lasso Regression in R.” <em>Journal of Open Source Software</em>. <a href="https://doi.org/10.21105/joss.02526" class="uri">https://doi.org/10.21105/joss.02526</a>.</p>
 </div>
 <div id="ref-vdl2017generally">
 <p>van der Laan, Mark J. 2017. “A Generally Efficient Targeted Minimum Loss Based Estimator Based on the Highly Adaptive Lasso.” <em>The International Journal of Biostatistics</em> 13 (2).</p>

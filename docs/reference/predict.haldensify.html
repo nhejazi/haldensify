@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -133,7 +133,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for haldensify</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span>, <span class='va'>new_A</span>, <span class='va'>new_W</span>, cv_select <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span>, <span class='va'>new_A</span>, <span class='va'>new_W</span>, lambda_select <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cv"</span>, <span class='st'>"undersmooth"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,13 +160,16 @@ values of baseline covariates (potential confounders) for the conditioning
 set of the observed values <code>A</code>.</p></td>
     </tr>
     <tr>
-      <th>cv_select</th>
-      <td><p>A <code>logical</code> indicating whether to return the predicted
-density for the value of the regularization parameter selected by global
-cross-validation. The default is <code>TRUE</code>. When set to <code>FALSE</code>, a
-matrix of predicted densities is returned, with each column corresponding
-to a value of the regularization parameter less than or equal to the choice
-made by the global cross-validation selector.</p></td>
+      <th>lambda_select</th>
+      <td><p>A <code>character</code> indicating whether to return the
+predicted density for the value of the regularization parameter chosen by
+the global cross-validation selector or whether to return an undersmoothed
+sequence (which starts with the cross-validation selector's choice but also
+includes all values in the sequence that are less restrictive). The default
+is <code>"cv"</code> for the global cross-validation selector. Setting the choice
+to <code>"undersmooth"</code> returns a matrix of predicted densities, with each
+column corresponding to a value of the regularization parameter less than
+or equal to the choice made by the global cross-validation selector.</p></td>
     </tr>
     </table>
 

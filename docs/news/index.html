@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -126,10 +126,37 @@
       <small>Source: <a href='https://github.com/nhejazi/haldensify/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="haldensify-007" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.7">
+<a href="#haldensify-007" class="anchor"></a>haldensify 0.0.7<small> Unreleased </small>
+</h1>
+<p>As of January 2021:</p>
+<ul>
+<li>Adds support to facilitate convenient marginal density estimation by creating automatically a constant vector when <code>W = NULL</code> is set in <code><a href="../reference/haldensify.html">haldensify()</a></code>.</li>
+<li>The <code>hal9001</code> dependency has been upgraded to v0.2.8 of that package, which introduced breaking changes in the names of slots in fitted model objects.</li>
+<li>The sequence of HAL models re-fit after identification of the regularization parameter selected by cross-validation has been padded with more aggressive choices of the parameter to ameliorate convergence issues in model fitting.</li>
+<li>Re-fitting of the HAL model with cross-validated choices of the number of bins, binning procedure, and regularization sequence has been altered to reuse the regularization sequence provided as input rather than subsetting the sequence to start with the cross-validation selector’s choice of the parameter. Though convenient for undersmoothing <code>haldensify</code> estimates, this subsetting proved problematic for convergence of <code>glmnet()</code>.</li>
+<li>The <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method’s <code>cv_select</code> argument has been replaced in order to better facilitate undersmoothing. The new argument <code>lambda_select</code> defaults to the cross-validation selector but now easily allows access to the sequence of undersmoothed density estimates (less restrictive regularization values).</li>
+<li>The names of three slots in the <code>haldensify</code> S3 output class have been changed
+<ul>
+<li>
+<code>grid_type_tune_opt</code> is now <code>grid_type_cvselect</code>,</li>
+<li>
+<code>n_bins_tune_opt</code> is now <code>n_bins_cvselect</code>, and</li>
+<li>
+<code>cv_hal_fits_tune_opt</code> is now <code>cv_tuning_results</code>.</li>
+</ul>
+</li>
+</ul>
+</div>
     <div id="haldensify-006" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.6">
 <a href="#haldensify-006" class="anchor"></a>haldensify 0.0.6<small> 2020-09-16 </small>
 </h1>
+<p>As of December 2020:</p>
+<ul>
+<li>Use of <code>plan(transparent)</code> has been changed to <code>plan(sequential)</code> based on ongoing development in the <code>future</code> package ecosystem.</li>
+</ul>
 <p>As of June 2020:</p>
 <ul>
 <li>A short software paper for inclusion in JOSS has been added.</li>
@@ -137,8 +164,9 @@
 <p>As of May 2020:</p>
 <ul>
 <li>The core cross-validation routine in <code>haldensify</code> for fitting HAL models has been slightly abstracted and moved to the new function <code>fit_haldensify</code>.</li>
-<li>The <code>haldensify</code> wrapper function serves to cross-validate over choices of the histogram binning strategy and the number of bins.</li>
-<li>The defaults of <code>haldensify</code> have been changed based on results of simulation experiments; the unnecessary argument <code>seed_int</code> has also been removed.</li>
+<li>The <code><a href="../reference/haldensify.html">haldensify()</a></code> wrapper function serves to cross-validate over choices of the histogram binning strategy and the number of bins.</li>
+<li>The defaults of <code><a href="../reference/haldensify.html">haldensify()</a></code> have been changed based on results of simulation experiments.</li>
+<li>The unnecessary argument <code>seed_int</code> in <code><a href="../reference/haldensify.html">haldensify()</a></code> has been removed.</li>
 <li>Fixes a bug introduced by returning predicted hazards as a vector instead of a matrix.</li>
 <li>An argument <code>cv_select</code>, defaulting to <code>TRUE</code>, has been added to the <code>predict</code> method, to make undersmoothing more accessible.</li>
 <li>A simple vignette has been added.</li>
@@ -158,7 +186,7 @@
 <a href="#haldensify-003" class="anchor"></a>haldensify 0.0.3<small> Unreleased </small>
 </h1>
 <ul>
-<li>First stable version of package.</li>
+<li>First stable version of the package.</li>
 </ul>
 </div>
   </div>
