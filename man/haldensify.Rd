@@ -20,7 +20,8 @@ haldensify(
 
 \item{W}{A \code{data.frame}, \code{matrix}, or similar giving the values of
 baseline covariates (potential confounders) for the observed units. These
-make up the conditioning set for the conditional density estimate.}
+make up the conditioning set for the density estimate. For estimation of a
+marginal density, specify a constant \code{numeric} vector or \code{NULL}.}
 
 \item{wts}{A \code{numeric} vector of observation-level weights. The default
 is to weight all observations equally.}
