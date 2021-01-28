@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{map_hazard_to_density}
 \alias{map_hazard_to_density}
-\title{Map a predicted hazard to a predicted density for a single observation}
+\title{Map Predicted Hazard to Predicted Density for a Single Observation}
 \usage{
 map_hazard_to_density(hazard_pred_single_obs)
 }
@@ -21,7 +21,7 @@ A \code{matrix} composed of a single row and a number of columns
  given observation, re-mapped from the hazard scale.
 }
 \description{
-Map a predicted hazard to a predicted density for a single observation
+Map Predicted Hazard to Predicted Density for a Single Observation
 }
 \details{
 For a single observation, map a predicted hazard of failure (as an

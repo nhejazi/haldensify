@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{format_long_hazards}
 \alias{format_long_hazards}
-\title{Generate long format hazards data for pooled hazards estimation}
+\title{Generate Augmented (Long Format) Data for Pooled Hazards Regression}
 \usage{
 format_long_hazards(
   A,
@@ -49,12 +49,14 @@ A \code{list} containing the break points used in dividing the
  observation, and observation-level weights.
 }
 \description{
-Generate long format hazards data for pooled hazards estimation
+Generate Augmented (Long Format) Data for Pooled Hazards Regression
 }
 \details{
-Generates a long-form dataset that represents each observation in
- terms of repeated measures across discretized bins derived from selecting
- break points over the support of A. This repeated measures dataset is
- suitable for estimating the hazard of failing in a particular bin over A
- using a highly adaptive lasso classification model.
+Generates an augmented (long format, or repeated measures) dataset
+ that includes multiple records for each observation, a single record for
+ each discretized bin up to and including the bin in which a given observed
+ value of A falls. Such bins are derived from selecting break points over
+ the support of A. This repeated measures dataset is suitable for estimating
+ the hazard of failing in a particular bin over A using a highly adaptive
+ lasso (or other) classification model.
 }

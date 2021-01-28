@@ -2,7 +2,7 @@
 % Please edit documentation in R/haldensify.R
 \name{haldensify}
 \alias{haldensify}
-\title{Cross-validated conditional density estimation with HAL}
+\title{Cross-validated HAL Conditional Density Estimation}
 \usage{
 haldensify(
   A,
@@ -11,6 +11,7 @@ haldensify(
   grid_type = "equal_range",
   n_bins = c(10, 25),
   cv_folds = 5,
+  basis_list = NULL,
   lambda_seq = exp(seq(-1, -13, length = 1000)),
   use_future = FALSE
 )
@@ -46,6 +47,14 @@ uses a cross-validation selector to choose between 10 and 25 bins.}
 \item{cv_folds}{A \code{numeric} indicating the number of cross-validation
 folds to be used in fitting the sequence of HAL conditional density models.}
 
+\item{basis_list}{A \code{list} consisting of a pre-constructed set of HAL
+basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The default
+of \code{NULL} results in creating such a set of basis functions. When this
+is provided instead, it is passed directly to the HAL model fitted to the
+augmented (repeated measures) data structure, resulting in a much lowered
+computational cost. This is useful, for example, in fitting HAL conditional
+density estimates with external cross-validation or bootstrap samples.}
+
 \item{lambda_seq}{A \code{numeric} sequence of values of the regularization
 parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.}
 
@@ -64,7 +73,7 @@ Object of class \code{haldensify}, containing a fitted
  the range of \code{A}.
 }
 \description{
-Cross-validated conditional density estimation with HAL
+Cross-validated HAL Conditional Density Estimation
 }
 \details{
 Estimation of the conditional density A|W through using the highly

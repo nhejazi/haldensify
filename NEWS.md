@@ -1,6 +1,12 @@
 # haldensify 0.0.8
 
 As of January 2021:
+* Addition of a `basis_list` argument to `haldensify()`, allowing for a HAL
+  basis produced by `fit_hal()` to be passed in to the HAL regression for
+  density estimation. This facilitates reduced computational overhead when
+  requiring external cross-validation of nuisance functions (e.g., CV-TMLE) as
+  well as working with bootstrap samples.
+* [TO FILL IN]
 * [TO FILL IN]
 * [TO FILL IN]
 

@@ -1,6 +1,6 @@
 utils::globalVariables(c("in_bin", "bin_id"))
 
-#' Conditional density estimation with HAL in a single cross-validation fold
+#' HAL Conditional Density Estimation in a Cross-validation Fold
 #'
 #' @details Estimates the conditional density of A|W for a subset of the full
 #'  set of observations based on the inputted structure of the cross-validation
@@ -111,7 +111,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 
 ###############################################################################
 
-#' Cross-validated conditional density estimation with HAL
+#' Cross-validated HAL Conditional Density Estimation
 #'
 #' @details Estimation of the conditional density A|W through using the highly
 #'  adaptive lasso to estimate the conditional hazard of failure in a given
@@ -149,7 +149,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  is provided instead, it is passed directly to the HAL model fitted to the
 #'  augmented (repeated measures) data structure, resulting in a much lowered
 #'  computational cost. This is useful, for example, in fitting HAL conditional
-#'  density estimates on cross-validated datasets or bootstrap samples.
+#'  density estimates with external cross-validation or bootstrap samples.
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
 #'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.
 #' @param use_future A \code{logical} indicating whether to attempt to use
@@ -282,7 +282,7 @@ haldensify <- function(A,
 
 ###############################################################################
 
-#' Fit conditional density estimation for a sequence of HAL models
+#' Fit Conditional Density Estimation for a Sequence of HAL Models
 #'
 #' @details Estimation of the conditional density of A|W via a cross-validated
 #'  highly adaptive lasso, used to estimate the conditional hazard of failure

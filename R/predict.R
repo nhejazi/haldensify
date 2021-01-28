@@ -1,6 +1,6 @@
 utils::globalVariables(c("wts"))
 
-#' Prediction method for HAL-based conditional density estimation
+#' Prediction Method for HAL Conditional Density Estimation
 #'
 #' @details Method for computing and extracting predictions of the conditional
 #'  density estimates based on the highly adaptive lasso estimator, returned as
