@@ -1,3 +1,9 @@
+# haldensify 0.0.8
+
+As of January 2021:
+* [TO FILL IN]
+* [TO FILL IN]
+
 # haldensify 0.0.7
 
 As of January 2021:

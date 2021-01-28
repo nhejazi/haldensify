@@ -76,8 +76,6 @@ A simple example illustrates how `haldensify` may be used to construct
 conditional density estimates:
 
 ```{r example, message=FALSE, warning=FALSE}
-library(tidyverse)
-library(data.table)
 library(haldensify)
 set.seed(76924)
 
@@ -87,7 +85,7 @@ w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.25)
 
 # HAL-based density estimate of A|W
-mod_haldensify <- haldensify(
+haldensify_fit <- haldensify(
   A = a, W = w,
   n_bins = c(5, 20),
   grid_type = "equal_range",
@@ -95,7 +93,7 @@ mod_haldensify <- haldensify(
 )
 
 # use the built-in predict method to get predictions
-pred_haldensify <- predict(mod_haldensify, new_A = a, new_W = w)
+pred_haldensify <- predict(haldensify_fit, new_A = a, new_W = w)
 ```
 
 ---

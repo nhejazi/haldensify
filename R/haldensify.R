@@ -85,6 +85,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
     density_pred_this_obs <-
       map_hazard_to_density(hazard_pred_single_obs = hazard_pred_this_obs)
 
+    # output estimated density for the given observation
     return(density_pred_this_obs)
   })
 
@@ -142,6 +143,13 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  uses a cross-validation selector to choose between 10 and 25 bins.
 #' @param cv_folds A \code{numeric} indicating the number of cross-validation
 #'  folds to be used in fitting the sequence of HAL conditional density models.
+#' @param basis_list A \code{list} consisting of a pre-constructed set of HAL
+#'  basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The default
+#'  of \code{NULL} results in creating such a set of basis functions. When this
+#'  is provided instead, it is passed directly to the HAL model fitted to the
+#'  augmented (repeated measures) data structure, resulting in a much lowered
+#'  computational cost. This is useful, for example, in fitting HAL conditional
+#'  density estimates on cross-validated datasets or bootstrap samples.
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
 #'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.
 #' @param use_future A \code{logical} indicating whether to attempt to use
@@ -179,6 +187,7 @@ haldensify <- function(A,
                        grid_type = "equal_range",
                        n_bins = c(10, 25),
                        cv_folds = 5,
+                       basis_list = NULL,
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
                        use_future = FALSE) {
   # if W is set to NULL, create a constant conditioning set
@@ -249,10 +258,11 @@ haldensify <- function(A,
     max_degree = NULL,
     fit_type = "glmnet",
     family = "binomial",
+    basis_list = basis_list,
     lambda = lambda_seq,
     cv_select = FALSE,
     standardize = FALSE, # passed to glmnet
-    weights = wts_long, # passed to glmnet
+    weights = wts_long,  # passed to glmnet
     yolo = FALSE
   )
 
@@ -274,7 +284,7 @@ haldensify <- function(A,
 
 #' Fit conditional density estimation for a sequence of HAL models
 #'
-#' @details Estimation of the conditional density A|W via a cross-validated
+#' @details Estimation of the conditional density of A|W via a cross-validated
 #'  highly adaptive lasso, used to estimate the conditional hazard of failure
 #'  in a given bin over the support of A.
 #'
