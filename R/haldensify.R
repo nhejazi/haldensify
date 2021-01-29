@@ -265,7 +265,7 @@ haldensify <- function(A,
     cv_select = FALSE,
     ...,
     standardize = FALSE, # passed to glmnet
-    weights = wts_long,  # passed to glmnet
+    weights = wts_long, # passed to glmnet
     yolo = FALSE
   )
 

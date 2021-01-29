@@ -12,12 +12,12 @@ mod_haldensify <- haldensify(
 )
 
 # estimate density via Gaussian kernel density
-gauss_dens <- density(new_a)
+gauss_dens <- density(a)
 gauss_emprisk <- mean(-log(gauss_dens$y))
 
 # HAL predictions of density using support from the fitted density function
 hal_dens <- predict(mod_haldensify,
-  new_A = gauss_dens$x, new_W = rep(0, length(new_a))
+  new_A = gauss_dens$x, new_W = rep(0, length(a))
 )
 hal_emprisk <- mean(-log(hal_dens))
 
