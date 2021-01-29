@@ -1,14 +1,25 @@
 # haldensify 0.0.8
 
 As of January 2021:
-* Addition of a `basis_list` argument to `haldensify()`, allowing for a HAL
-  basis produced by `fit_hal()` to be passed in to the HAL regression for
+* Addition of argument `hal_basis_list` to `haldensify()`, allowing for a HAL
+  basis produced by `fit_hal()` to be passed into the HAL regression used for
   density estimation. This facilitates reduced computational overhead when
   requiring external cross-validation of nuisance functions (e.g., CV-TMLE) as
   well as working with bootstrap samples.
-* [TO FILL IN]
-* [TO FILL IN]
-* [TO FILL IN]
+* Addition of argument `hal_max_degree` to `haldensify()`, allowing for control
+  of the highest degree of interactions considered in the HAL model for density
+  estimation. Like the above, this can reduce computational overhead.
+* Fix a minor bug in `haldensify()` by passing `cv_folds` to the `n_folds`
+  argument of `fit_hal()` when fitting HAL regression for density estimation.
+  Previously, `cv_folds` was only used in constructing cross-validation (CV)
+  folds for choosing tuning parameters, but the subsequent HAL regression was
+  fiex to use the default number of folds specified in `fit_hal()` to choose
+  the regularization parameter of the HAL regression for density estimation.
+  Now, both CV to choose density estimation tuning parameters and CV to choose
+  the lasso tuning parameter use the same number of folds.
+* Addition of arugment `...` to `haldensify()` so that arbitrary arguments can
+  be passed to `fit_hal()` for density estimation, when not already specified
+  as other arguments of the `haldensify()` constructor.
 
 # haldensify 0.0.7
 

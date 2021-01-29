@@ -9,10 +9,12 @@ haldensify(
   W,
   wts = rep(1, length(A)),
   grid_type = "equal_range",
-  n_bins = c(10, 25),
+  n_bins = c(3, 5, 10),
   cv_folds = 5,
-  basis_list = NULL,
   lambda_seq = exp(seq(-1, -13, length = 1000)),
+  hal_basis_list = NULL,
+  hal_max_degree = NULL,
+  ...,
   use_future = FALSE
 )
 }
@@ -47,16 +49,29 @@ uses a cross-validation selector to choose between 10 and 25 bins.}
 \item{cv_folds}{A \code{numeric} indicating the number of cross-validation
 folds to be used in fitting the sequence of HAL conditional density models.}
 
-\item{basis_list}{A \code{list} consisting of a pre-constructed set of HAL
-basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The default
-of \code{NULL} results in creating such a set of basis functions. When this
-is provided instead, it is passed directly to the HAL model fitted to the
+\item{lambda_seq}{A \code{numeric} sequence of values of the regularization
+parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}} via
+its argument \code{lambda}, itself passed to \code{\link[glmnet]{glmnet}}.}
+
+\item{hal_basis_list}{A \code{list} consisting of a preconstructed set of
+HAL basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The
+default of \code{NULL} results in creating such a set of basis functions.
+When specified, this is passed directly to the HAL model fitted upon the
 augmented (repeated measures) data structure, resulting in a much lowered
 computational cost. This is useful, for example, in fitting HAL conditional
 density estimates with external cross-validation or bootstrap samples.}
 
-\item{lambda_seq}{A \code{numeric} sequence of values of the regularization
-parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.}
+\item{hal_max_degree}{Either \code{NULL} (the default) or a \code{numeric}
+indicating the maximum number of covariate interactions to be considered in
+the construction of HAL basis functions. If \code{NULL}, up to the highest
+order interaction is considered; otherwise, all interactions up to the
+specified order are considered. When specified, this is passed directly to
+the \code{max_degree} argument of \code{\link[hal9001]{fit_hal}}.}
+
+\item{...}{Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
+that may be used to control fitting of the HAL regression model. Possible
+choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
+and \code{return_x_basis}, but this list is not exhaustive.}
 
 \item{use_future}{A \code{logical} indicating whether to attempt to use
 parallelization based on \pkg{future} and \pkg{future.apply}. If set to

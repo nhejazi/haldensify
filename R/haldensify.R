@@ -143,15 +143,26 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  uses a cross-validation selector to choose between 10 and 25 bins.
 #' @param cv_folds A \code{numeric} indicating the number of cross-validation
 #'  folds to be used in fitting the sequence of HAL conditional density models.
-#' @param basis_list A \code{list} consisting of a pre-constructed set of HAL
-#'  basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The default
-#'  of \code{NULL} results in creating such a set of basis functions. When this
-#'  is provided instead, it is passed directly to the HAL model fitted to the
+#' @param lambda_seq A \code{numeric} sequence of values of the regularization
+#'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}} via
+#'  its argument \code{lambda}, itself passed to \code{\link[glmnet]{glmnet}}.
+#' @param hal_basis_list A \code{list} consisting of a preconstructed set of
+#'  HAL basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The
+#'  default of \code{NULL} results in creating such a set of basis functions.
+#'  When specified, this is passed directly to the HAL model fitted upon the
 #'  augmented (repeated measures) data structure, resulting in a much lowered
 #'  computational cost. This is useful, for example, in fitting HAL conditional
 #'  density estimates with external cross-validation or bootstrap samples.
-#' @param lambda_seq A \code{numeric} sequence of values of the regularization
-#'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.
+#' @param hal_max_degree Either \code{NULL} (the default) or a \code{numeric}
+#'  indicating the maximum number of covariate interactions to be considered in
+#'  the construction of HAL basis functions. If \code{NULL}, up to the highest
+#'  order interaction is considered; otherwise, all interactions up to the
+#'  specified order are considered. When specified, this is passed directly to
+#'  the \code{max_degree} argument of \code{\link[hal9001]{fit_hal}}.
+#' @param ... Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
+#'  that may be used to control fitting of the HAL regression model. Possible
+#'  choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
+#'  and \code{return_x_basis}, but this list is not exhaustive.
 #' @param use_future A \code{logical} indicating whether to attempt to use
 #'  parallelization based on \pkg{future} and \pkg{future.apply}. If set to
 #'  \code{TRUE}, \code{\link[future.apply]{future_mapply}} will be used in
@@ -185,11 +196,16 @@ haldensify <- function(A,
                        W,
                        wts = rep(1, length(A)),
                        grid_type = "equal_range",
-                       n_bins = c(10, 25),
+                       n_bins = c(3, 5, 10),
                        cv_folds = 5,
-                       basis_list = NULL,
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
+                       hal_basis_list = NULL,
+                       hal_max_degree = NULL,
+                       ...,
                        use_future = FALSE) {
+  # capture dots
+  dots <- list(...)
+
   # if W is set to NULL, create a constant conditioning set
   if (is.null(W)) {
     W <- rep(0, length(A))
@@ -255,17 +271,18 @@ haldensify <- function(A,
   hal_fit <- hal9001::fit_hal(
     X = as.matrix(long_data[, -c(1, 2)]),
     Y = as.numeric(long_data$in_bin),
-    max_degree = NULL,
+    max_degree = hal_max_degree,
     fit_type = "glmnet",
+    n_folds = cv_folds,
     family = "binomial",
-    basis_list = basis_list,
+    basis_list = hal_basis_list,
     lambda = lambda_seq,
     cv_select = FALSE,
+    ...,
     standardize = FALSE, # passed to glmnet
     weights = wts_long,  # passed to glmnet
     yolo = FALSE
   )
-
   # construct output
   out <- list(
     hal_fit = hal_fit,
