@@ -1,8 +1,4 @@
 library(data.table)
-library(ggplot2)
-library(dplyr)
-library(hal9001)
-library(future)
 set.seed(76924)
 
 # simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)
@@ -15,8 +11,7 @@ a <- rnorm(n_train, w, 0.5)
 mod_haldensify <- haldensify(
   A = a, W = w,
   n_bins = c(5, 10, 15),
-  lambda_seq = exp(seq(-1, -13, length = 200)),
-  use_future = FALSE
+  lambda_seq = exp(seq(-1, -13, length = 200))
 )
 
 # predictions to recover conditional density of A|W

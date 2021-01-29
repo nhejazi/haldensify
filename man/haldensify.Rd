@@ -2,17 +2,19 @@
 % Please edit documentation in R/haldensify.R
 \name{haldensify}
 \alias{haldensify}
-\title{Cross-validated conditional density estimation with HAL}
+\title{Cross-validated HAL Conditional Density Estimation}
 \usage{
 haldensify(
   A,
   W,
   wts = rep(1, length(A)),
   grid_type = "equal_range",
-  n_bins = c(10, 25),
+  n_bins = c(3, 5, 10),
   cv_folds = 5,
   lambda_seq = exp(seq(-1, -13, length = 1000)),
-  use_future = FALSE
+  hal_basis_list = NULL,
+  hal_max_degree = NULL,
+  ...
 )
 }
 \arguments{
@@ -47,13 +49,28 @@ uses a cross-validation selector to choose between 10 and 25 bins.}
 folds to be used in fitting the sequence of HAL conditional density models.}
 
 \item{lambda_seq}{A \code{numeric} sequence of values of the regularization
-parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.}
+parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}} via
+its argument \code{lambda}, itself passed to \code{\link[glmnet]{glmnet}}.}
 
-\item{use_future}{A \code{logical} indicating whether to attempt to use
-parallelization based on \pkg{future} and \pkg{future.apply}. If set to
-\code{TRUE}, \code{\link[future.apply]{future_mapply}} will be used in
-place of \code{mapply}. When set to \code{TRUE}, a parallelization scheme
-must be specified externally by a call to \code{\link[future]{plan}}.}
+\item{hal_basis_list}{A \code{list} consisting of a preconstructed set of
+HAL basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The
+default of \code{NULL} results in creating such a set of basis functions.
+When specified, this is passed directly to the HAL model fitted upon the
+augmented (repeated measures) data structure, resulting in a much lowered
+computational cost. This is useful, for example, in fitting HAL conditional
+density estimates with external cross-validation or bootstrap samples.}
+
+\item{hal_max_degree}{Either \code{NULL} (the default) or a \code{numeric}
+indicating the maximum number of covariate interactions to be considered in
+the construction of HAL basis functions. If \code{NULL}, up to the highest
+order interaction is considered; otherwise, all interactions up to the
+specified order are considered. When specified, this is passed directly to
+the \code{max_degree} argument of \code{\link[hal9001]{fit_hal}}.}
+
+\item{...}{Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
+that may be used to control fitting of the HAL regression model. Possible
+choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
+and \code{return_x_basis}, but this list is not exhaustive.}
 }
 \value{
 Object of class \code{haldensify}, containing a fitted
@@ -64,7 +81,7 @@ Object of class \code{haldensify}, containing a fitted
  the range of \code{A}.
 }
 \description{
-Cross-validated conditional density estimation with HAL
+Cross-validated HAL Conditional Density Estimation
 }
 \details{
 Estimation of the conditional density A|W through using the highly
@@ -72,6 +89,12 @@ Estimation of the conditional density A|W through using the highly
  bin over the support of A. Cross-validation is used to select the optimal
  value of the penalization parameters, based on minimization of the weighted
  log-likelihood loss for a density.
+}
+\note{
+Parallel evaluation of the cross-validation procedure to select tuning
+ parameters for density estimation may be invoked via the framework exposed
+ in the \pkg{future} ecosystem. Specifically, set \code{\link[future]{plan}}
+ for \code{\link[future.apply]{future_mapply}} to be used internally.
 }
 \examples{
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)

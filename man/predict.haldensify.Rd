@@ -2,9 +2,15 @@
 % Please edit documentation in R/predict.R
 \name{predict.haldensify}
 \alias{predict.haldensify}
-\title{Prediction method for HAL-based conditional density estimation}
+\title{Prediction Method for HAL Conditional Density Estimation}
 \usage{
-\method{predict}{haldensify}(object, ..., new_A, new_W, lambda_select = c("cv", "undersmooth"))
+\method{predict}{haldensify}(
+  object,
+  ...,
+  new_A,
+  new_W,
+  lambda_select = c("cv", "undersmooth", "all")
+)
 }
 \arguments{
 \item{object}{An object of class \code{\link{haldensify}}, containing the
@@ -35,7 +41,7 @@ A \code{numeric} vector of predicted conditional density values from
  a fitted \code{haldensify} object.
 }
 \description{
-Prediction method for HAL-based conditional density estimation
+Prediction Method for HAL Conditional Density Estimation
 }
 \details{
 Method for computing and extracting predictions of the conditional

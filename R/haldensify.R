@@ -1,6 +1,6 @@
 utils::globalVariables(c("in_bin", "bin_id"))
 
-#' Conditional density estimation with HAL in a single cross-validation fold
+#' HAL Conditional Density Estimation in a Cross-validation Fold
 #'
 #' @details Estimates the conditional density of A|W for a subset of the full
 #'  set of observations based on the inputted structure of the cross-validation
@@ -85,6 +85,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
     density_pred_this_obs <-
       map_hazard_to_density(hazard_pred_single_obs = hazard_pred_this_obs)
 
+    # output estimated density for the given observation
     return(density_pred_this_obs)
   })
 
@@ -110,7 +111,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 
 ###############################################################################
 
-#' Cross-validated conditional density estimation with HAL
+#' Cross-validated HAL Conditional Density Estimation
 #'
 #' @details Estimation of the conditional density A|W through using the highly
 #'  adaptive lasso to estimate the conditional hazard of failure in a given
@@ -143,12 +144,30 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #' @param cv_folds A \code{numeric} indicating the number of cross-validation
 #'  folds to be used in fitting the sequence of HAL conditional density models.
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
-#'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.
-#' @param use_future A \code{logical} indicating whether to attempt to use
-#'  parallelization based on \pkg{future} and \pkg{future.apply}. If set to
-#'  \code{TRUE}, \code{\link[future.apply]{future_mapply}} will be used in
-#'  place of \code{mapply}. When set to \code{TRUE}, a parallelization scheme
-#'  must be specified externally by a call to \code{\link[future]{plan}}.
+#'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}} via
+#'  its argument \code{lambda}, itself passed to \code{\link[glmnet]{glmnet}}.
+#' @param hal_basis_list A \code{list} consisting of a preconstructed set of
+#'  HAL basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The
+#'  default of \code{NULL} results in creating such a set of basis functions.
+#'  When specified, this is passed directly to the HAL model fitted upon the
+#'  augmented (repeated measures) data structure, resulting in a much lowered
+#'  computational cost. This is useful, for example, in fitting HAL conditional
+#'  density estimates with external cross-validation or bootstrap samples.
+#' @param hal_max_degree Either \code{NULL} (the default) or a \code{numeric}
+#'  indicating the maximum number of covariate interactions to be considered in
+#'  the construction of HAL basis functions. If \code{NULL}, up to the highest
+#'  order interaction is considered; otherwise, all interactions up to the
+#'  specified order are considered. When specified, this is passed directly to
+#'  the \code{max_degree} argument of \code{\link[hal9001]{fit_hal}}.
+#' @param ... Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
+#'  that may be used to control fitting of the HAL regression model. Possible
+#'  choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
+#'  and \code{return_x_basis}, but this list is not exhaustive.
+#'
+#' @note Parallel evaluation of the cross-validation procedure to select tuning
+#'  parameters for density estimation may be invoked via the framework exposed
+#'  in the \pkg{future} ecosystem. Specifically, set \code{\link[future]{plan}}
+#'  for \code{\link[future.apply]{future_mapply}} to be used internally.
 #'
 #' @importFrom data.table ":="
 #' @importFrom future.apply future_mapply
@@ -177,10 +196,15 @@ haldensify <- function(A,
                        W,
                        wts = rep(1, length(A)),
                        grid_type = "equal_range",
-                       n_bins = c(10, 25),
+                       n_bins = c(3, 5, 10),
                        cv_folds = 5,
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
-                       use_future = FALSE) {
+                       hal_basis_list = NULL,
+                       hal_max_degree = NULL,
+                       ...) {
+  # capture dots
+  dots <- list(...)
+
   # if W is set to NULL, create a constant conditioning set
   if (is.null(W)) {
     W <- rep(0, length(A))
@@ -193,32 +217,18 @@ haldensify <- function(A,
   )
 
   # run procedure to select tuning parameters via cross-validation
-  if (use_future) {
-    select_out <- future.apply::future_mapply(
-      FUN = fit_haldensify,
-      grid_type = tune_grid$grid_type,
-      n_bins = tune_grid$n_bins,
-      MoreArgs = list(
-        A = A, W = W, wts = wts,
-        cv_folds = cv_folds,
-        lambda_seq = lambda_seq
-      ),
-      SIMPLIFY = FALSE,
-      future.seed = TRUE
-    )
-  } else {
-    select_out <- mapply(
-      FUN = fit_haldensify,
-      grid_type = tune_grid$grid_type,
-      n_bins = tune_grid$n_bins,
-      MoreArgs = list(
-        A = A, W = W, wts = wts,
-        cv_folds = cv_folds,
-        lambda_seq = lambda_seq
-      ),
-      SIMPLIFY = FALSE
-    )
-  }
+  select_out <- future.apply::future_mapply(
+    FUN = fit_haldensify,
+    grid_type = tune_grid$grid_type,
+    n_bins = tune_grid$n_bins,
+    MoreArgs = list(
+      A = A, W = W, wts = wts,
+      cv_folds = cv_folds,
+      lambda_seq = lambda_seq
+    ),
+    SIMPLIFY = FALSE,
+    future.seed = TRUE
+  )
 
   # extract n_bins/grid_type index that is empirical loss minimizer
   emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
@@ -246,11 +256,14 @@ haldensify <- function(A,
   hal_fit <- hal9001::fit_hal(
     X = as.matrix(long_data[, -c(1, 2)]),
     Y = as.numeric(long_data$in_bin),
-    max_degree = NULL,
+    max_degree = hal_max_degree,
     fit_type = "glmnet",
+    n_folds = cv_folds,
     family = "binomial",
+    basis_list = hal_basis_list,
     lambda = lambda_seq,
     cv_select = FALSE,
+    ...,
     standardize = FALSE, # passed to glmnet
     weights = wts_long, # passed to glmnet
     yolo = FALSE
@@ -272,9 +285,9 @@ haldensify <- function(A,
 
 ###############################################################################
 
-#' Fit conditional density estimation for a sequence of HAL models
+#' Fit Conditional Density Estimation for a Sequence of HAL Models
 #'
-#' @details Estimation of the conditional density A|W via a cross-validated
+#' @details Estimation of the conditional density of A|W via a cross-validated
 #'  highly adaptive lasso, used to estimate the conditional hazard of failure
 #'  in a given bin over the support of A.
 #'

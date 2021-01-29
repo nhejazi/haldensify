@@ -2,7 +2,7 @@
 % Please edit documentation in R/haldensify.R
 \name{fit_haldensify}
 \alias{fit_haldensify}
-\title{Fit conditional density estimation for a sequence of HAL models}
+\title{Fit Conditional Density Estimation for a Sequence of HAL Models}
 \usage{
 fit_haldensify(
   A,
@@ -47,10 +47,10 @@ A \code{list}, containing density predictions for the sequence of
  sequence of fitted HAL models.
 }
 \description{
-Fit conditional density estimation for a sequence of HAL models
+Fit Conditional Density Estimation for a Sequence of HAL Models
 }
 \details{
-Estimation of the conditional density A|W via a cross-validated
+Estimation of the conditional density of A|W via a cross-validated
  highly adaptive lasso, used to estimate the conditional hazard of failure
  in a given bin over the support of A.
 }

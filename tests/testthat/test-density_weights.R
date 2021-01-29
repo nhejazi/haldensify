@@ -1,8 +1,5 @@
 library(data.table)
-library(ggplot2)
 library(dplyr)
-library(hal9001)
-library(future)
 set.seed(76921)
 
 # data simulation
@@ -14,7 +11,7 @@ sim_data_set <- function(n_obs = 1000, w_prob = 0.5, shift_delta = 0.5) {
   y <- a + w + rnorm(n_obs, mean = 0, sd = 1)
   data_in <- as.data.frame(cbind(y, a, ipc_delta, w, 1 / plogis(w))) %>%
     dplyr::filter(ipc_delta == 1) %>%
-    dplyr::select(-ipc_delta) %>%
+    select(-ipc_delta) %>%
     as.data.table()
   setnames(data_in, c("Y", "A", "W", "Weights"))
   return(data_in)
@@ -28,8 +25,7 @@ dens_lrn <- with(
     A = A, W = W,
     wts = Weights,
     n_bins = c(5, 10, 15),
-    lambda_seq = exp(seq(-1, -13, length = 200)),
-    use_future = FALSE
+    lambda_seq = exp(seq(-1, -13, length = 200))
   )
 )
 

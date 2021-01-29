@@ -1,6 +1,6 @@
 utils::globalVariables(c("wts"))
 
-#' Prediction method for HAL-based conditional density estimation
+#' Prediction Method for HAL Conditional Density Estimation
 #'
 #' @details Method for computing and extracting predictions of the conditional
 #'  density estimates based on the highly adaptive lasso estimator, returned as
@@ -48,7 +48,7 @@ utils::globalVariables(c("wts"))
 #' new_w <- rep(0, length(new_a))
 #' pred_dens <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
 predict.haldensify <- function(object, ..., new_A, new_W,
-                               lambda_select = c("cv", "undersmooth")) {
+                               lambda_select = c("cv", "undersmooth", "all")) {
   # set default selection procedure to the cross-validation selector
   lambda_select <- match.arg(lambda_select)
 
@@ -107,15 +107,18 @@ predict.haldensify <- function(object, ..., new_A, new_W,
 
   # truncate predictions outside range of observed A
   outside_range <- new_A < object$range_a[1] | new_A > object$range_a[2]
-  density_pred_rescaled[outside_range, ] <- 0
+  density_pred_rescaled[outside_range, ] <- 1 / length(new_A)
 
   # return predicted densities only for CV-selected or undersmoothed lambdas
   cv_lambda_idx <- object$cv_tuning_results$lambda_loss_min_idx
   if (lambda_select == "cv") {
     density_pred_rescaled <- density_pred_rescaled[, cv_lambda_idx]
-  } else {
+  } else if (lambda_select == "undersmooth") {
     usm_lambda_idx <- cv_lambda_idx:length(object$cv_tuning_results$lambda_seq)
     density_pred_rescaled <- density_pred_rescaled[, usm_lambda_idx]
+  } else if (lambda_select == "all") {
+    # pass -- just return CDE predictions for all lambda
+    TRUE
   }
 
   # output

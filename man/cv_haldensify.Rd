@@ -2,7 +2,7 @@
 % Please edit documentation in R/haldensify.R
 \name{cv_haldensify}
 \alias{cv_haldensify}
-\title{Conditional density estimation with HAL in a single cross-validation fold}
+\title{HAL Conditional Density Estimation in a Cross-validation Fold}
 \usage{
 cv_haldensify(
   fold,
@@ -33,7 +33,7 @@ A \code{list}, containing density predictions, observations IDs,
  density estimation on a single fold of the overall data.
 }
 \description{
-Conditional density estimation with HAL in a single cross-validation fold
+HAL Conditional Density Estimation in a Cross-validation Fold
 }
 \details{
 Estimates the conditional density of A|W for a subset of the full

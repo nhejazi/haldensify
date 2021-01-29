@@ -1,10 +1,12 @@
-#' Generate long format hazards data for pooled hazards estimation
+#' Generate Augmented (Long Format) Data for Pooled Hazards Regression
 #'
-#' @details Generates a long-form dataset that represents each observation in
-#'  terms of repeated measures across discretized bins derived from selecting
-#'  break points over the support of A. This repeated measures dataset is
-#'  suitable for estimating the hazard of failing in a particular bin over A
-#'  using a highly adaptive lasso classification model.
+#' @details Generates an augmented (long format, or repeated measures) dataset
+#'  that includes multiple records for each observation, a single record for
+#'  each discretized bin up to and including the bin in which a given observed
+#'  value of A falls. Such bins are derived from selecting break points over
+#'  the support of A. This repeated measures dataset is suitable for estimating
+#'  the hazard of failing in a particular bin over A using a highly adaptive
+#'  lasso (or other) classification model.
 #'
 #' @param A The \code{numeric} vector or similar of the observed values of an
 #'  intervention for a group of observational units of interest.
@@ -146,7 +148,7 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
 
 ###############################################################################
 
-#' Map a predicted hazard to a predicted density for a single observation
+#' Map Predicted Hazard to Predicted Density for a Single Observation
 #'
 #' @details For a single observation, map a predicted hazard of failure (as an
 #'  occurrence in a particular bin, under a given partitioning of the support)
