@@ -39,14 +39,14 @@ utils::globalVariables(c("wts"))
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
 #' # HAL-based density estimator of A|W
-#' mod_haldensify <- haldensify(
+#' haldensify_fit <- haldensify(
 #'   A = a, W = w, n_bins = 3,
 #'   lambda_seq = exp(seq(-1, -10, length = 50))
 #' )
 #' # predictions to recover conditional density of A|W
 #' new_a <- seq(-4, 4, by = 0.1)
 #' new_w <- rep(0, length(new_a))
-#' pred_dens <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
+#' pred_dens <- predict(haldensify_fit, new_A = new_a, new_W = new_w)
 predict.haldensify <- function(object, ..., new_A, new_W,
                                lambda_select = c("cv", "undersmooth", "all")) {
   # set default selection procedure to the cross-validation selector

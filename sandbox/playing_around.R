@@ -4,8 +4,7 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 library(hal9001)
-#devtools::load_all("~/Dropbox/R/haldensify")
-devtools::load_all("~/git/haldensify")
+devtools::load_all()
 set.seed(76924)
 
 # simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)
@@ -15,7 +14,7 @@ a <- rnorm(n_train, w, 0.5)
 
 # learn relationship A|W using HAL-based density estimation procedure
 # tune over different choices of n_bins and grid_type
-mod_haldensify <- haldensify(
+haldensify_fit <- haldensify(
   A = a, W = w,
   grid_type = c("equal_range","equal_mass"),
   n_bins = c(5, 10),
@@ -28,7 +27,7 @@ w_val <- c(-3, -1, 1, 3)
 add_line <- function(a_val = seq(-5, 5, by = 0.01),
                      w_val = 0, new_plot = TRUE, 
                      col_true = 1, col_est = 1, ...) {
-  pred <- predict(mod_haldensify,
+  pred <- predict(haldensify_fit,
   new_A = a_val, new_W = rep(w_val, length(a_val)))
   if (new_plot) {
     plot(0, 0, pch = "", xlim = range(a_val), ylim = c(0, max(pred) * 1.10),
