@@ -14,7 +14,7 @@ Q0 <- function(A, W1, W2, W3) {
 }
 
 # simulate data
-n_samp <- 500
+n_samp <- 100
 W1 <- rbinom(n_samp, 1, 0.6)
 W2 <- rbinom(n_samp, 1, 0.2)
 W3 <- rpois(n_samp, 3)
@@ -42,7 +42,7 @@ haldensify_pred <- predict(
 
 # construct bootstrap samples and fit haldensify on each of these resamples
 # NOTE: pass in CV-selected tuning parameters and basis list for HAL fits
-n_boot <- 5
+n_boot <- 100
 boot_samples <- bootstraps(data_obs, times = n_boot)
 haldensify_pred_boot <- lapply(boot_samples$splits, function(data_split) {
   # get bootstrap sample
@@ -80,7 +80,6 @@ haldensify_pred_boot_usm <- lapply(haldensify_pred_boot, function(hal_pred) {
 })
 
 # pack density estimates on original and bootstrap samples into array
-test <- abind(haldensify_pred,
-              unlist(haldensify_pred_boot_usm, recursive = FALSE),
-              along = 0)
+halcde_pred <- abind(c(list(haldensify_pred), haldensify_pred_boot_usm),
+                     along = 3)
 
