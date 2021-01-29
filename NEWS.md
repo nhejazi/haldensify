@@ -20,6 +20,8 @@ As of January 2021:
 * Addition of arugment `...` to `haldensify()` so that arbitrary arguments can
   be passed to `fit_hal()` for density estimation, when not already specified
   as other arguments of the `haldensify()` constructor.
+* Remove the unnecessary argument `use_future`, specifying parallel evaluation
+  in a note instead.
 
 # haldensify 0.0.7
 

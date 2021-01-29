@@ -2,7 +2,7 @@
 
 - [x] Add `...` args to `haldensify()` to allow arbitrary arguments to be
   passed directly to `fit_hal()`.
-- [ ] Remove `use_future` argument to `haldensify()`, instead reducing to
+- [x] Remove `use_future` argument to `haldensify()`, instead reducing to
   calling `future_mapply()`, with sequential evaluation via `plan(sequential)`.
 - [ ] Add a `plot()` method to more easily visualize how empirical risk changes
   across the sequence of explored regularization parameter values.

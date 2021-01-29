@@ -14,8 +14,7 @@ haldensify(
   lambda_seq = exp(seq(-1, -13, length = 1000)),
   hal_basis_list = NULL,
   hal_max_degree = NULL,
-  ...,
-  use_future = FALSE
+  ...
 )
 }
 \arguments{
@@ -72,12 +71,6 @@ the \code{max_degree} argument of \code{\link[hal9001]{fit_hal}}.}
 that may be used to control fitting of the HAL regression model. Possible
 choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
 and \code{return_x_basis}, but this list is not exhaustive.}
-
-\item{use_future}{A \code{logical} indicating whether to attempt to use
-parallelization based on \pkg{future} and \pkg{future.apply}. If set to
-\code{TRUE}, \code{\link[future.apply]{future_mapply}} will be used in
-place of \code{mapply}. When set to \code{TRUE}, a parallelization scheme
-must be specified externally by a call to \code{\link[future]{plan}}.}
 }
 \value{
 Object of class \code{haldensify}, containing a fitted
@@ -96,6 +89,12 @@ Estimation of the conditional density A|W through using the highly
  bin over the support of A. Cross-validation is used to select the optimal
  value of the penalization parameters, based on minimization of the weighted
  log-likelihood loss for a density.
+}
+\note{
+Parallel evaluation of the cross-validation procedure to select tuning
+ parameters for density estimation may be invoked via the framework exposed
+ in the \pkg{future} ecosystem. Specifically, set \code{\link[future]{plan}}
+ for \code{\link[future.apply]{future_mapply}} to be used internally.
 }
 \examples{
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)

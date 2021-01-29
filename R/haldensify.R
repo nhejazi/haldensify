@@ -163,11 +163,11 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #'  that may be used to control fitting of the HAL regression model. Possible
 #'  choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
 #'  and \code{return_x_basis}, but this list is not exhaustive.
-#' @param use_future A \code{logical} indicating whether to attempt to use
-#'  parallelization based on \pkg{future} and \pkg{future.apply}. If set to
-#'  \code{TRUE}, \code{\link[future.apply]{future_mapply}} will be used in
-#'  place of \code{mapply}. When set to \code{TRUE}, a parallelization scheme
-#'  must be specified externally by a call to \code{\link[future]{plan}}.
+#'
+#' @note Parallel evaluation of the cross-validation procedure to select tuning
+#'  parameters for density estimation may be invoked via the framework exposed
+#'  in the \pkg{future} ecosystem. Specifically, set \code{\link[future]{plan}}
+#'  for \code{\link[future.apply]{future_mapply}} to be used internally.
 #'
 #' @importFrom data.table ":="
 #' @importFrom future.apply future_mapply
@@ -201,8 +201,7 @@ haldensify <- function(A,
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
                        hal_basis_list = NULL,
                        hal_max_degree = NULL,
-                       ...,
-                       use_future = FALSE) {
+                       ...) {
   # capture dots
   dots <- list(...)
 
@@ -218,32 +217,18 @@ haldensify <- function(A,
   )
 
   # run procedure to select tuning parameters via cross-validation
-  if (use_future) {
-    select_out <- future.apply::future_mapply(
-      FUN = fit_haldensify,
-      grid_type = tune_grid$grid_type,
-      n_bins = tune_grid$n_bins,
-      MoreArgs = list(
-        A = A, W = W, wts = wts,
-        cv_folds = cv_folds,
-        lambda_seq = lambda_seq
-      ),
-      SIMPLIFY = FALSE,
-      future.seed = TRUE
-    )
-  } else {
-    select_out <- mapply(
-      FUN = fit_haldensify,
-      grid_type = tune_grid$grid_type,
-      n_bins = tune_grid$n_bins,
-      MoreArgs = list(
-        A = A, W = W, wts = wts,
-        cv_folds = cv_folds,
-        lambda_seq = lambda_seq
-      ),
-      SIMPLIFY = FALSE
-    )
-  }
+  select_out <- future.apply::future_mapply(
+    FUN = fit_haldensify,
+    grid_type = tune_grid$grid_type,
+    n_bins = tune_grid$n_bins,
+    MoreArgs = list(
+      A = A, W = W, wts = wts,
+      cv_folds = cv_folds,
+      lambda_seq = lambda_seq
+    ),
+    SIMPLIFY = FALSE,
+    future.seed = TRUE
+  )
 
   # extract n_bins/grid_type index that is empirical loss minimizer
   emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
