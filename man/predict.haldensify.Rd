@@ -34,7 +34,9 @@ includes all values in the sequence that are less restrictive). The default
 is \code{"cv"} for the global cross-validation selector. Setting the choice
 to \code{"undersmooth"} returns a matrix of predicted densities, with each
 column corresponding to a value of the regularization parameter less than
-or equal to the choice made by the global cross-validation selector.}
+or equal to the choice made by the global cross-validation selector. When
+\code{"all"} is set, predictions are returned for the full sequence of the
+regularization parameter on which the HAL model \code{object} was fitted.}
 }
 \value{
 A \code{numeric} vector of predicted conditional density values from

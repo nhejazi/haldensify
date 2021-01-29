@@ -4,7 +4,7 @@
 #' @param ... [TO FILL IN]
 #' @param type [TO FILL IN]
 #'
-#' @importFrom tibble as_tibble
+#' @importFrom data.table as.data.table
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line geom_vline xlab
 #'  ylab ggtitle theme_bw
 #'
@@ -28,7 +28,7 @@ plot.haldensify <- function(x, ..., type = c("risk", "density")) {
   type <- match.arg(type)
 
   #
-  emp_risk_data <- tibble::as_tibble(list(
+  emp_risk_data <- data.table::as.data.table(list(
     lambda = x$cv_tuning_results$lambda_seq,
     risk = x$cv_tuning_results$emp_risks
   ))

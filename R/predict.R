@@ -23,7 +23,9 @@ utils::globalVariables(c("wts"))
 #'  is \code{"cv"} for the global cross-validation selector. Setting the choice
 #'  to \code{"undersmooth"} returns a matrix of predicted densities, with each
 #'  column corresponding to a value of the regularization parameter less than
-#'  or equal to the choice made by the global cross-validation selector.
+#'  or equal to the choice made by the global cross-validation selector. When
+#'  \code{"all"} is set, predictions are returned for the full sequence of the
+#'  regularization parameter on which the HAL model \code{object} was fitted.
 #'
 #' @importFrom data.table ":="
 #' @importFrom stats predict
@@ -120,7 +122,5 @@ predict.haldensify <- function(object, ..., new_A, new_W,
     # pass -- just return CDE predictions for all lambda
     TRUE
   }
-
-  # output
   return(density_pred_rescaled)
 }

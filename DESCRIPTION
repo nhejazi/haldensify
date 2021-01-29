@@ -13,15 +13,15 @@ Authors@R: c(
            comment = c(ORCID = "0000-0003-1432-5511"))
   )
 Maintainer: Nima Hejazi <nh@nimahejazi.org>
-Description: Conditional density estimation is a longstanding and challenging
-    problem in statistical theory, and numerous proposals exist for optimally
-    estimating such complex functions. Algorithms for nonparametric estimation
-    of conditional densities based on a pooled hazard regression formulation and
-    semiparametric estimation via conditional hazards modeling are implemented
-    based on the highly adaptive lasso, a nonparametric regression function for
-    efficient estimation with fast convergence under mild assumptions. The
-    pooled hazards formulation implemented was first described by Díaz and
-    van der Laan (2011) <doi:10.2202/1557-4679.1356>.
+Description: An algorithm for flexible conditional density estimation based on
+    application of pooled hazard regression to an artificial repeated measures
+    dataset constructed by discretizing the support of the outcome variable. To
+    facilitate non/semi-parametric estimation of the conditional density, the
+    highly adaptive lasso, a nonparametric regression function shown to reliably
+    estimate a large class of functions at a provably fast convergence rate with
+    only mild assumptions, is utilized. The pooled hazards data augmentation
+    formulation implemented was first described by Díaz and van der Laan (2011)
+    <doi:10.2202/1557-4679.1356>.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
