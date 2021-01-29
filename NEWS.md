@@ -22,6 +22,10 @@ As of January 2021:
   as other arguments of the `haldensify()` constructor.
 * Remove the unnecessary argument `use_future`, specifying parallel evaluation
   in a note instead.
+* Add an option `"all"` to the `lambda_select` argument of the `predict()`
+  method, allowing for predictions on the full (non-truncated) sequence of
+  lambdas fitted on to be returned.
+* Change truncation option in `predict()` method to 1/n instead of zero.
 
 # haldensify 0.0.7
 

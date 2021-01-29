@@ -4,7 +4,13 @@
 \alias{predict.haldensify}
 \title{Prediction Method for HAL Conditional Density Estimation}
 \usage{
-\method{predict}{haldensify}(object, ..., new_A, new_W, lambda_select = c("cv", "undersmooth"))
+\method{predict}{haldensify}(
+  object,
+  ...,
+  new_A,
+  new_W,
+  lambda_select = c("cv", "undersmooth", "all")
+)
 }
 \arguments{
 \item{object}{An object of class \code{\link{haldensify}}, containing the

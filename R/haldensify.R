@@ -268,6 +268,7 @@ haldensify <- function(A,
     weights = wts_long,  # passed to glmnet
     yolo = FALSE
   )
+
   # construct output
   out <- list(
     hal_fit = hal_fit,
