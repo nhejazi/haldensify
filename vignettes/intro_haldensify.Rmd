@@ -127,8 +127,9 @@ consistent with this loss.
 First, let's load a few required packages and set a seed for our example.
 
 ```{r setup, message=FALSE, warning=FALSE}
-library(data.table)
 library(haldensify)
+library(data.table)
+library(ggplot2)
 set.seed(75681)
 ```
 

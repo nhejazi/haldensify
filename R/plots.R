@@ -1,3 +1,5 @@
+utils::globalVariables(c("lambda", "risk"))
+
 #' Plot Method for HAL Conditional Density Estimates
 #'
 #' @param x Object of class \code{haldensify}, containing conditional density
@@ -40,7 +42,7 @@ plot.haldensify <- function(x, ..., type = c("risk", "density")) {
                           msg = "Density plot method not yet implemented.")
 
   if (type == "risk") {
-    # construct 
+    # re-organize object output for plotting empirical risk across lambda
     emp_risk_data <- data.table::data.table(
       lambda = x$cv_tuning_results$lambda_seq,
       risk = x$cv_tuning_results$emp_risks
