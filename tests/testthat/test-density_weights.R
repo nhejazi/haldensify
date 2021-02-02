@@ -1,5 +1,4 @@
 library(data.table)
-library(dplyr)
 set.seed(76921)
 
 # data simulation
@@ -9,10 +8,9 @@ sim_data_set <- function(n_obs = 1000, w_prob = 0.5, shift_delta = 0.5) {
   ipc_delta <- rbinom(n = n_obs, size = 1, prob = plogis(w))
   a <- rnorm(n = n_obs, mean = 2 * w, sd = 0.5)
   y <- a + w + rnorm(n_obs, mean = 0, sd = 1)
-  data_in <- as.data.frame(cbind(y, a, ipc_delta, w, 1 / plogis(w))) %>%
-    dplyr::filter(ipc_delta == 1) %>%
-    select(-ipc_delta) %>%
-    as.data.table()
+  data_in <- as.data.table(cbind(y, a, ipc_delta, w, 1 / plogis(w)))
+  data_in <- data_in[ipc_delta == 1, ]
+  data_in[, ipc_delta := NULL]
   setnames(data_in, c("Y", "A", "W", "Weights"))
   return(data_in)
 }

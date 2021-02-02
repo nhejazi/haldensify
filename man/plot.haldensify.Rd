@@ -7,14 +7,20 @@
 \method{plot}{haldensify}(x, ..., type = c("risk", "density"))
 }
 \arguments{
-\item{x}{[TO FILL IN]}
+\item{x}{Object of class \code{haldensify}, containing conditional density
+estimates, as produced by \code{\link{haldensify}}.}
 
-\item{...}{[TO FILL IN]}
+\item{...}{Additional arguments to be passed \code{plot}, currently ignored.}
 
-\item{type}{[TO FILL IN]}
+\item{type}{A \code{character} indicating the type of plot to be produced.
+Options include visualizing the empirical risks of the conditional density
+estimators across a grid of values of the regularization parameter and a
+plot of the estimated conditional density (based on the estimator selected
+by cross-validation). The latter has yet to be implemented.}
 }
 \value{
-[TO FILL IN]
+Object of class \code{ggplot} containing a plot of the desired
+ \code{type}.
 }
 \description{
 Plot Method for HAL Conditional Density Estimates
