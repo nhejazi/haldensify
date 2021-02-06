@@ -35,5 +35,5 @@ haldensify_fit <- haldensify(
   A = a, W = w, n_bins = 3,
   lambda_seq = exp(seq(-1, -10, length = 50))
 )
-plot(haldensify_fit, type = "risk")
+plot(haldensify_fit)
 }

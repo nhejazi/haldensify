@@ -188,7 +188,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
 #' # learn relationship A|W using HAL-based density estimation procedure
-#' mod_haldensify <- haldensify(
+#' haldensify_fit <- haldensify(
 #'   A = a, W = w,
 #'   lambda_seq = exp(seq(-1, -10, length = 50))
 #' )
@@ -339,7 +339,7 @@ haldensify <- function(A,
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
 #' # fit cross-validated HAL-based density estimator of A|W
-#' fit_cv_haldensify <- fit_haldensify(
+#' haldensify_cvfit <- fit_haldensify(
 #'   A = a, W = w, n_bins = 3,
 #'   lambda_seq = exp(seq(-1, -10, length = 50))
 #' )

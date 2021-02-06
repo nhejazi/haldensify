@@ -32,7 +32,7 @@ utils::globalVariables(c("lambda", "risk"))
 #'   A = a, W = w, n_bins = 3,
 #'   lambda_seq = exp(seq(-1, -10, length = 50))
 #' )
-#' plot(haldensify_fit, type = "risk")
+#' plot(haldensify_fit)
 plot.haldensify <- function(x, ..., type = c("risk", "density")) {
   # set default plot type
   type <- match.arg(type)
