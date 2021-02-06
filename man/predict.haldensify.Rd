@@ -55,7 +55,7 @@ w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 # HAL-based density estimator of A|W
 mod_haldensify <- haldensify(
-  A = a, W = w, n_bins = 3,
+  A = a, W = w,
   lambda_seq = exp(seq(-1, -10, length = 50))
 )
 # predictions to recover conditional density of A|W

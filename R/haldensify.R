@@ -189,7 +189,7 @@ cv_haldensify <- function(fold, long_data, wts = rep(1, nrow(long_data)),
 #' a <- rnorm(n_train, w, 0.5)
 #' # learn relationship A|W using HAL-based density estimation procedure
 #' mod_haldensify <- haldensify(
-#'   A = a, W = w, n_bins = 3,
+#'   A = a, W = w,
 #'   lambda_seq = exp(seq(-1, -10, length = 50))
 #' )
 haldensify <- function(A,
@@ -217,26 +217,39 @@ haldensify <- function(A,
   )
 
   # run procedure to select tuning parameters via cross-validation
-  select_out <- future.apply::future_mapply(
-    FUN = fit_haldensify,
-    grid_type = tune_grid$grid_type,
-    n_bins = tune_grid$n_bins,
-    MoreArgs = list(
-      A = A, W = W, wts = wts,
-      cv_folds = cv_folds,
-      lambda_seq = lambda_seq
-    ),
-    SIMPLIFY = FALSE,
-    future.seed = TRUE
-  )
+  # NOTE: even when the number of bins and discretization technique are fixed,
+  #       this step is still required to produce a CV-selected choice of lambda
+  if (nrow(tune_grid) > 1) {
+    select_out <- future.apply::future_mapply(
+      FUN = fit_haldensify,
+      grid_type = tune_grid$grid_type,
+      n_bins = tune_grid$n_bins,
+      MoreArgs = list(
+        A = A, W = W, wts = wts,
+        cv_folds = cv_folds,
+        lambda_seq = lambda_seq
+      ),
+      SIMPLIFY = FALSE,
+      future.seed = TRUE
+    )
 
-  # extract n_bins/grid_type index that is empirical loss minimizer
-  emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
-  min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
-  min_risk <- lapply(emp_risk_per_lambda, min)
-  cv_selected_params <- tune_grid[which.min(min_risk), , drop = FALSE]
-  cv_selected_fits <- select_out[[which.min(min_risk)]]
-  cv_selected_fits$density_pred <- NULL
+    # extract n_bins/grid_type index that is empirical loss minimizer
+    emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
+    min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
+    min_risk <- lapply(emp_risk_per_lambda, min)
+    cv_selected_params <- tune_grid[which.min(min_risk), , drop = FALSE]
+    cv_selected_fits <- select_out[[which.min(min_risk)]]
+    cv_selected_fits$density_pred <- NULL
+  } else {
+    message("n_bin and grid_type fixed: skipped CV-selection, even for lambda")
+    cv_selected_params  <- tune_grid
+    cv_selected_fits <- list(
+      lambda_loss_min_idx = NA_real_,
+      lambda_loss_min = NA_real_,
+      emp_risks = NA_real_,
+      lambda_seq = lambda_seq
+    )
+  }
 
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(
@@ -248,24 +261,23 @@ haldensify <- function(A,
   breakpoints <- reformatted_output$breaks
   bin_sizes <- reformatted_output$bin_length
 
-  # extract weights from long format data structure
-  wts_long <- long_data$wts
-  long_data[, wts := NULL]
-
-  # fit a HAL regression on the full data set with the CV-selected lambda
+  # fit a HAL regression on the full data set across a sequence in lambda
+  # NOTE: no sample-splitting since there's no need to select among any of the
+  #       tuning parameters -- advantage: simplifies working with re-sampled
+  #       data (bootstrap); disadvantage: non-sample-split nuisance estimates
   hal_fit <- hal9001::fit_hal(
-    X = as.matrix(long_data[, -c(1, 2)]),
+    X = as.matrix(long_data[, -c("obs_id", "in_bin", "wts")]),
     Y = as.numeric(long_data$in_bin),
     max_degree = hal_max_degree,
     fit_type = "glmnet",
-    n_folds = cv_folds,
     family = "binomial",
     basis_list = hal_basis_list,
     lambda = lambda_seq,
+    n_folds = 1,
     cv_select = FALSE,
     ...,
-    standardize = FALSE, # passed to glmnet
-    weights = wts_long, # passed to glmnet
+    standardize = FALSE,                 # passed to glmnet
+    weights = as.numeric(long_data$wts), # passed to glmnet
     yolo = FALSE
   )
 
@@ -334,7 +346,7 @@ haldensify <- function(A,
 fit_haldensify <- function(A, W,
                            wts = rep(1, length(A)),
                            grid_type = "equal_range",
-                           n_bins = 20,
+                           n_bins = 5,
                            cv_folds = 5,
                            lambda_seq = exp(seq(-1, -13, length = 1000))) {
   # re-format input data into long hazards structure

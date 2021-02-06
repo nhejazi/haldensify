@@ -25,6 +25,7 @@ utils::globalVariables(c("wts"))
 #'  column corresponding to a value of the regularization parameter less than
 #'  or equal to the choice made by the global cross-validation selector.
 #'
+#' @importFrom assertthat assert_that
 #' @importFrom data.table ":="
 #' @importFrom stats predict
 #'
@@ -40,7 +41,7 @@ utils::globalVariables(c("wts"))
 #' a <- rnorm(n_train, w, 0.5)
 #' # HAL-based density estimator of A|W
 #' mod_haldensify <- haldensify(
-#'   A = a, W = w, n_bins = 3,
+#'   A = a, W = w,
 #'   lambda_seq = exp(seq(-1, -10, length = 50))
 #' )
 #' # predictions to recover conditional density of A|W
@@ -51,6 +52,14 @@ predict.haldensify <- function(object, ..., new_A, new_W,
                                lambda_select = c("cv", "undersmooth", "all")) {
   # set default selection procedure to the cross-validation selector
   lambda_select <- match.arg(lambda_select)
+  if (lambda_select %in% c("cv", "undersmooth")) {
+    # check existence of CV-selected lambda and extract from model object slot
+    assertthat::assert_that(
+      !is.na(object$cv_tuning_results$lambda_loss_min_idx),
+      msg = "Optimal lambda not selected by CV in fitted haldensify model"
+    )
+    cv_lambda_idx <- object$cv_tuning_results$lambda_loss_min_idx
+  }
 
   # make long format data structure with new input data
   long_format_args <- list(
@@ -67,8 +76,7 @@ predict.haldensify <- function(object, ..., new_A, new_W,
   # over the sequence of lambda less than or equal to CV-selected lambda
   hazard_pred <- stats::predict(
     object = object$hal_fit,
-    new_data =
-      long_data_pred[, 3:ncol(long_data_pred)]
+    new_data = long_data_pred[, -c("obs_id", "in_bin")]
   )
 
   # NOTE: we return hazard predictions for the loss minimizer and all lambda
@@ -107,17 +115,16 @@ predict.haldensify <- function(object, ..., new_A, new_W,
 
   # truncate predictions outside range of observed A
   outside_range <- new_A < object$range_a[1] | new_A > object$range_a[2]
-  density_pred_rescaled[outside_range, ] <- 1 / length(new_A)
+  density_pred_rescaled[outside_range, ] <- 0
 
   # return predicted densities only for CV-selected or undersmoothed lambdas
-  cv_lambda_idx <- object$cv_tuning_results$lambda_loss_min_idx
   if (lambda_select == "cv") {
     density_pred_rescaled <- density_pred_rescaled[, cv_lambda_idx]
   } else if (lambda_select == "undersmooth") {
     usm_lambda_idx <- cv_lambda_idx:length(object$cv_tuning_results$lambda_seq)
     density_pred_rescaled <- density_pred_rescaled[, usm_lambda_idx]
   } else if (lambda_select == "all") {
-    # pass -- just return CDE predictions for all lambda
+    # pass -- just return conditional density estimates across all lambda
     TRUE
   }
 

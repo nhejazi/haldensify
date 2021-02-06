@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prediction method for HAL-based conditional density estimation — predict.haldensify • haldensify</title>
+<title>Prediction Method for HAL Conditional Density Estimation — predict.haldensify • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Prediction method for HAL-based conditional density estimation — predict.haldensify" />
-<meta property="og:description" content="Prediction method for HAL-based conditional density estimation" />
+<meta property="og:title" content="Prediction Method for HAL Conditional Density Estimation — predict.haldensify" />
+<meta property="og:description" content="Prediction Method for HAL Conditional Density Estimation" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -123,17 +123,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prediction method for HAL-based conditional density estimation</h1>
+    <h1>Prediction Method for HAL Conditional Density Estimation</h1>
     <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/predict.R'><code>R/predict.R</code></a></small>
     <div class="hidden name"><code>predict.haldensify.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Prediction method for HAL-based conditional density estimation</p>
+    <p>Prediction Method for HAL Conditional Density Estimation</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for haldensify</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span>, <span class='va'>new_A</span>, <span class='va'>new_W</span>, lambda_select <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cv"</span>, <span class='st'>"undersmooth"</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>...</span>,
+  <span class='va'>new_A</span>,
+  <span class='va'>new_W</span>,
+  lambda_select <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cv"</span>, <span class='st'>"undersmooth"</span>, <span class='st'>"all"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,7 +196,7 @@ or equal to the choice made by the global cross-validation selector.</p></td>
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='va'>w</span>, <span class='fl'>0.5</span><span class='op'>)</span>
 <span class='co'># HAL-based density estimator of A|W</span>
 <span class='va'>mod_haldensify</span> <span class='op'>&lt;-</span> <span class='fu'><a href='haldensify.html'>haldensify</a></span><span class='op'>(</span>
-  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fl'>3</span>,
+  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span>
 <span class='co'># predictions to recover conditional density of A|W</span>

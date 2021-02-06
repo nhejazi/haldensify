@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Cross-validated conditional density estimation with HAL — haldensify • haldensify</title>
+<title>Cross-validated HAL Conditional Density Estimation — haldensify • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Cross-validated conditional density estimation with HAL — haldensify" />
-<meta property="og:description" content="Cross-validated conditional density estimation with HAL" />
+<meta property="og:title" content="Cross-validated HAL Conditional Density Estimation — haldensify" />
+<meta property="og:description" content="Cross-validated HAL Conditional Density Estimation" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -123,13 +123,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Cross-validated conditional density estimation with HAL</h1>
+    <h1>Cross-validated HAL Conditional Density Estimation</h1>
     <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/haldensify.R'><code>R/haldensify.R</code></a></small>
     <div class="hidden name"><code>haldensify.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Cross-validated conditional density estimation with HAL</p>
+    <p>Cross-validated HAL Conditional Density Estimation</p>
     </div>
 
     <pre class="usage"><span class='fu'>haldensify</span><span class='op'>(</span>
@@ -137,10 +137,12 @@
   <span class='va'>W</span>,
   wts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span><span class='op'>)</span>,
   grid_type <span class='op'>=</span> <span class='st'>"equal_range"</span>,
-  n_bins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>25</span><span class='op'>)</span>,
+  n_bins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>10</span><span class='op'>)</span>,
   cv_folds <span class='op'>=</span> <span class='fl'>5</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>13</span>, length <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>,
-  use_future <span class='op'>=</span> <span class='cn'>FALSE</span>
+  hal_basis_list <span class='op'>=</span> <span class='cn'>NULL</span>,
+  hal_max_degree <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -191,15 +193,34 @@ folds to be used in fitting the sequence of HAL conditional density models.</p><
     <tr>
       <th>lambda_seq</th>
       <td><p>A <code>numeric</code> sequence of values of the regularization
-parameter of Lasso regression; passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
+parameter of Lasso regression; passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code> via
+its argument <code>lambda</code>, itself passed to <code><a href='https://glmnet.stanford.edu/reference/glmnet.html'>glmnet</a></code>.</p></td>
     </tr>
     <tr>
-      <th>use_future</th>
-      <td><p>A <code>logical</code> indicating whether to attempt to use
-parallelization based on <span class="pkg">future</span> and <span class="pkg">future.apply</span>. If set to
-<code>TRUE</code>, <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code> will be used in
-place of <code>mapply</code>. When set to <code>TRUE</code>, a parallelization scheme
-must be specified externally by a call to <code><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></code>.</p></td>
+      <th>hal_basis_list</th>
+      <td><p>A <code>list</code> consisting of a preconstructed set of
+HAL basis functions, as produced by <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>. The
+default of <code>NULL</code> results in creating such a set of basis functions.
+When specified, this is passed directly to the HAL model fitted upon the
+augmented (repeated measures) data structure, resulting in a much lowered
+computational cost. This is useful, for example, in fitting HAL conditional
+density estimates with external cross-validation or bootstrap samples.</p></td>
+    </tr>
+    <tr>
+      <th>hal_max_degree</th>
+      <td><p>Either <code>NULL</code> (the default) or a <code>numeric</code>
+indicating the maximum number of covariate interactions to be considered in
+the construction of HAL basis functions. If <code>NULL</code>, up to the highest
+order interaction is considered; otherwise, all interactions up to the
+specified order are considered. When specified, this is passed directly to
+the <code>max_degree</code> argument of <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional (optional) arguments of <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>
+that may be used to control fitting of the HAL regression model. Possible
+choices include <code>use_min</code>, <code>reduce_basis</code>, <code>return_lasso</code>,
+and <code>return_x_basis</code>, but this list is not exhaustive.</p></td>
     </tr>
     </table>
 
@@ -218,6 +239,12 @@ must be specified externally by a call to <code><a href='https://rdrr.io/pkg/fut
  bin over the support of A. Cross-validation is used to select the optimal
  value of the penalization parameters, based on minimization of the weighted
  log-likelihood loss for a density.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Parallel evaluation of the cross-validation procedure to select tuning
+ parameters for density estimation may be invoked via the framework exposed
+ in the <span class="pkg">future</span> ecosystem. Specifically, set <code><a href='https://rdrr.io/pkg/future/man/plan.html'>plan</a></code>
+ for <code><a href='https://rdrr.io/pkg/future.apply/man/future_mapply.html'>future_mapply</a></code> to be used internally.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span>
@@ -226,7 +253,7 @@ must be specified externally by a call to <code><a href='https://rdrr.io/pkg/fut
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='va'>w</span>, <span class='fl'>0.5</span><span class='op'>)</span>
 <span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
 <span class='va'>mod_haldensify</span> <span class='op'>&lt;-</span> <span class='fu'>haldensify</span><span class='op'>(</span>
-  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fl'>3</span>,
+  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span>
 </div></pre>
