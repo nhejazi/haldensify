@@ -5,7 +5,7 @@ n_train <- 500
 a <- rnorm(n_train, 0, 2)
 
 # learn marginal density of A using HAL regression
-mod_haldensify <- haldensify(
+haldensify_fit <- haldensify(
   A = a, W = NULL,
   n_bins = c(3, 5),
   lambda_seq = exp(seq(-1, -13, length = 200))
@@ -15,7 +15,7 @@ mod_haldensify <- haldensify(
 gauss_dens <- density(a)
 
 # HAL predictions of density using support from the fitted density function
-hal_dens <- predict(mod_haldensify,
+hal_dens <- predict(haldensify_fit,
   new_A = gauss_dens$x, new_W = rep(0, length(a))
 )
 

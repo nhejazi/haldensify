@@ -1,6 +1,13 @@
 # haldensify 0.0.9
 
 As of February 2021:
+* Addition of a method `plot.haldensify` to simplify visualizing the empirical
+  risks of the sequence of HAL-based conditional density estimators across the
+  grid of the regularization parameter, and necessary changes to the vignette.
+* Preparation to add an option to visualize the conditional density estimates
+  (of the estimator selected by cross-validation) via a `type` argument in the
+  `plot.haldensify` method. Not yet implemented.
+* Simplification of unit tests to remove unnecessary reliance on `dplyr`.
 * Limit re-fitting of HAL model (after CV-selection of tuning parameters) in
   `haldensify()` to full-data fit by explicitly passing `n_folds = 1`.
 * Avoid cross-validation procedure conditionally when the arguments `n_bin` and

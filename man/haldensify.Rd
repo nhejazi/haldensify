@@ -102,7 +102,7 @@ n_train <- 50
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
-mod_haldensify <- haldensify(
+haldensify_fit <- haldensify(
   A = a, W = w,
   lambda_seq = exp(seq(-1, -10, length = 50))
 )

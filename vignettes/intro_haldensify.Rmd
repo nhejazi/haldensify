@@ -127,9 +127,9 @@ consistent with this loss.
 First, let's load a few required packages and set a seed for our example.
 
 ```{r setup, message=FALSE, warning=FALSE}
-library(ggplot2)
-library(data.table)
 library(haldensify)
+library(data.table)
+library(ggplot2)
 set.seed(75681)
 ```
 
@@ -163,7 +163,7 @@ experiments, we recommend setting a relatively large number of bins and using a
 binning strategy that accommodates creating such a large number of bins.
 
 ```{r fit_haldensify, message=FALSE, warning=FALSE}
-density_hal <- haldensify(
+haldensify_fit <- haldensify(
   A = example_data$A,
   W = example_data$W,
   n_bins = c(5, 15),
@@ -173,25 +173,13 @@ density_hal <- haldensify(
 ```
 
 Having constructed the conditional density estimator, we can examine the
-empirical risk over the grid of L1 regularization parameters. To do this, we
-can use the cross-validated conditional density fits returned in the
-`cv_tuning_results` slot of the `haldensify` object. For example, we can
-plot these as follows
+empirical risk over the grid of choices of the $L_1$ regularization parameter
+$\lambda$. To do this, we can simply call the available `plot` method, which
+uses the cross-validated conditional density fits in the `cv_tuning_results`
+slot of the `haldensify` object. For example,
 
 ```{r plot_risk_haldensify, message=FALSE, warning=FALSE}
-emp_risk_dat <- as.data.table(list(
-  lambda = density_hal$cv_tuning_results$lambda_seq,
-  risk = density_hal$cv_tuning_results$emp_risks
-))
-p_risk <- ggplot(emp_risk_dat, aes(x = lambda, y = risk)) +
-  geom_point() +
-  geom_line() +
-  geom_vline(xintercept = density_hal$cv_tuning_results$lambda_loss_min,
-             linetype = "dotted") +
-  theme_bw() +
-  xlab("Lambda (L1 regularization parameter)") +
-  ylab("Empirical Risk") +
-  ggtitle("Empirical risk of HAL conditional density estimators")
+p_risk <- plot(haldensify_fit)
 p_risk
 ```
 
@@ -206,11 +194,11 @@ new_dat <- as.data.table(list(a = new_a,
                               w_neg = rep(-2, length(new_a)),
                               w_zero = rep(0, length(new_a)),
                               w_pos = rep(2, length(new_a))))
-new_dat[, pred_w_neg := predict(density_hal, new_A = new_dat$a,
+new_dat[, pred_w_neg := predict(haldensify_fit, new_A = new_dat$a,
                                 new_W = new_dat$w_neg)]
-new_dat[, pred_w_zero := predict(density_hal, new_A = new_dat$a,
+new_dat[, pred_w_zero := predict(haldensify_fit, new_A = new_dat$a,
                                  new_W = new_dat$w_zero)]
-new_dat[, pred_w_pos := predict(density_hal, new_A = new_dat$a,
+new_dat[, pred_w_pos := predict(haldensify_fit, new_A = new_dat$a,
                                 new_W = new_dat$w_pos)]
 
 # visualize results

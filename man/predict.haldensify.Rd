@@ -34,7 +34,9 @@ includes all values in the sequence that are less restrictive). The default
 is \code{"cv"} for the global cross-validation selector. Setting the choice
 to \code{"undersmooth"} returns a matrix of predicted densities, with each
 column corresponding to a value of the regularization parameter less than
-or equal to the choice made by the global cross-validation selector.}
+or equal to the choice made by the global cross-validation selector. When
+\code{"all"} is set, predictions are returned for the full sequence of the
+regularization parameter on which the HAL model \code{object} was fitted.}
 }
 \value{
 A \code{numeric} vector of predicted conditional density values from
@@ -54,12 +56,12 @@ n_train <- 50
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 # HAL-based density estimator of A|W
-mod_haldensify <- haldensify(
+haldensify_fit <- haldensify(
   A = a, W = w,
   lambda_seq = exp(seq(-1, -10, length = 50))
 )
 # predictions to recover conditional density of A|W
 new_a <- seq(-4, 4, by = 0.1)
 new_w <- rep(0, length(new_a))
-pred_dens <- predict(mod_haldensify, new_A = new_a, new_W = new_w)
+pred_dens <- predict(haldensify_fit, new_A = new_a, new_W = new_w)
 }

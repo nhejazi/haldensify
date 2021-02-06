@@ -8,7 +8,7 @@ w[w == 0] <- -1
 a <- rnorm(n_train, w, 0.5)
 
 # learn relationship A|W using HAL-based density estimation procedure
-mod_haldensify <- haldensify(
+haldensify_fit <- haldensify(
   A = a, W = w,
   n_bins = c(3, 5, 10),
   lambda_seq = exp(seq(-1, -13, length = 200))
@@ -19,10 +19,10 @@ new_a <- seq(-2, 2, by = 0.01)
 new_w_neg <- rep(-1, length(new_a))
 new_w_pos <- rep(1, length(new_a))
 new_dat <- as.data.table(list(a = new_a, w_neg = new_w_neg, w_pos = new_w_pos))
-new_dat$pred_w_neg <- predict(mod_haldensify,
+new_dat$pred_w_neg <- predict(haldensify_fit,
   new_A = new_dat$a, new_W = new_dat$w_neg
 )
-new_dat$pred_w_pos <- predict(mod_haldensify,
+new_dat$pred_w_pos <- predict(haldensify_fit,
   new_A = new_dat$a, new_W = new_dat$w_pos
 )
 
