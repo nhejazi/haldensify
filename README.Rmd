@@ -87,9 +87,8 @@ a <- rnorm(n_train, w, 0.25)
 # HAL-based density estimate of A|W
 haldensify_fit <- haldensify(
   A = a, W = w,
-  n_bins = c(5, 20),
   grid_type = "equal_range",
-  lambda_seq = exp(seq(-1, -10, length = 100))
+  lambda_seq = exp(seq(-1, -10, length = 100)),
 )
 
 # use the built-in predict method to get predictions

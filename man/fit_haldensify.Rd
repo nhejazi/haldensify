@@ -9,7 +9,7 @@ fit_haldensify(
   W,
   wts = rep(1, length(A)),
   grid_type = "equal_range",
-  n_bins = 20,
+  n_bins = 5,
   cv_folds = 5,
   lambda_seq = exp(seq(-1, -13, length = 1000))
 )
