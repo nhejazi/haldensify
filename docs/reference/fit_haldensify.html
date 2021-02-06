@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fit conditional density estimation for a sequence of HAL models — fit_haldensify • haldensify</title>
+<title>Fit Conditional Density Estimation for a Sequence of HAL Models — fit_haldensify • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Fit conditional density estimation for a sequence of HAL models — fit_haldensify" />
-<meta property="og:description" content="Fit conditional density estimation for a sequence of HAL models" />
+<meta property="og:title" content="Fit Conditional Density Estimation for a Sequence of HAL Models — fit_haldensify" />
+<meta property="og:description" content="Fit Conditional Density Estimation for a Sequence of HAL Models" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -123,13 +123,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fit conditional density estimation for a sequence of HAL models</h1>
+    <h1>Fit Conditional Density Estimation for a Sequence of HAL Models</h1>
     <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/haldensify.R'><code>R/haldensify.R</code></a></small>
     <div class="hidden name"><code>fit_haldensify.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Fit conditional density estimation for a sequence of HAL models</p>
+    <p>Fit Conditional Density Estimation for a Sequence of HAL Models</p>
     </div>
 
     <pre class="usage"><span class='fu'>fit_haldensify</span><span class='op'>(</span>
@@ -137,7 +137,7 @@
   <span class='va'>W</span>,
   wts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span><span class='op'>)</span>,
   grid_type <span class='op'>=</span> <span class='st'>"equal_range"</span>,
-  n_bins <span class='op'>=</span> <span class='fl'>20</span>,
+  n_bins <span class='op'>=</span> <span class='fl'>5</span>,
   cv_folds <span class='op'>=</span> <span class='fl'>5</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>13</span>, length <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
@@ -194,7 +194,7 @@ parameter of Lasso regression; passed to <code><a href='https://rdrr.io/pkg/hal9
  sequence of fitted HAL models.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Estimation of the conditional density A|W via a cross-validated
+    <p>Estimation of the conditional density of A|W via a cross-validated
  highly adaptive lasso, used to estimate the conditional hazard of failure
  in a given bin over the support of A.</p>
 
