@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -126,6 +126,33 @@
       <small>Source: <a href='https://github.com/nhejazi/haldensify/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="haldensify-009" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.9">
+<a href="#haldensify-009" class="anchor"></a>haldensify 0.0.9<small> Unreleased </small>
+</h1>
+<p>As of February 2021:</p>
+<ul>
+<li>Limit re-fitting of HAL model (after CV-selection of tuning parameters) in <code><a href="../reference/haldensify.html">haldensify()</a></code> to full-data fit by explicitly passing <code>n_folds = 1</code>.</li>
+<li>Avoid cross-validation procedure conditionally when the arguments <code>n_bin</code> and <code>grid_type</code> are fixed; add related assertion check in <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> when <code><a href="../reference/haldensify.html">haldensify()</a></code> skips cross-validation (since lambda selection skipped).</li>
+<li>Change how long-format repeated measures data is passed around in both <code><a href="../reference/haldensify.html">haldensify()</a></code> and <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> to clarify variable passing.</li>
+<li>Correct <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method to set to zero values in <code>new_A</code> outside of the range of <code>A</code> on which the <code><a href="../reference/haldensify.html">haldensify()</a></code> model was trained.</li>
+</ul>
+</div>
+    <div id="haldensify-008" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.8">
+<a href="#haldensify-008" class="anchor"></a>haldensify 0.0.8<small> Unreleased </small>
+</h1>
+<p>As of January 2021:</p>
+<ul>
+<li>Addition of argument <code>hal_basis_list</code> to <code><a href="../reference/haldensify.html">haldensify()</a></code>, allowing for a HAL basis produced by <code>fit_hal()</code> to be passed into the HAL regression used for density estimation. This facilitates reduced computational overhead when requiring external cross-validation of nuisance functions (e.g., CV-TMLE) as well as working with bootstrap samples.</li>
+<li>Addition of argument <code>hal_max_degree</code> to <code><a href="../reference/haldensify.html">haldensify()</a></code>, allowing for control of the highest degree of interactions considered in the HAL model for density estimation. Like the above, this can reduce computational overhead.</li>
+<li>Fix a minor bug in <code><a href="../reference/haldensify.html">haldensify()</a></code> by passing <code>cv_folds</code> to the <code>n_folds</code> argument of <code>fit_hal()</code> when fitting HAL regression for density estimation. Previously, <code>cv_folds</code> was only used in constructing cross-validation (CV) folds for choosing tuning parameters, but the subsequent HAL regression was fiex to use the default number of folds specified in <code>fit_hal()</code> to choose the regularization parameter of the HAL regression for density estimation. Now, both CV to choose density estimation tuning parameters and CV to choose the lasso tuning parameter use the same number of folds.</li>
+<li>Addition of argument <code>...</code> to <code><a href="../reference/haldensify.html">haldensify()</a></code> so that arbitrary arguments can be passed to <code>fit_hal()</code> for density estimation, when not already specified as other arguments of the <code><a href="../reference/haldensify.html">haldensify()</a></code> constructor.</li>
+<li>Remove the unnecessary argument <code>use_future</code>, specifying parallel evaluation in a note instead.</li>
+<li>Add an option <code>"all"</code> to the <code>lambda_select</code> argument of the <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method, allowing for predictions on the full (non-truncated) sequence of lambdas fitted on to be returned.</li>
+<li>Change truncation option in <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method to 1/n instead of zero.</li>
+</ul>
+</div>
     <div id="haldensify-007" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.7">
 <a href="#haldensify-007" class="anchor"></a>haldensify 0.0.7<small> Unreleased </small>

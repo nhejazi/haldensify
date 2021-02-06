@@ -8,6 +8,15 @@ As of February 2021:
   (of the estimator selected by cross-validation) via a `type` argument in the
   `plot.haldensify` method. Not yet implemented.
 * Simplification of unit tests to remove unnecessary reliance on `dplyr`.
+* Limit re-fitting of HAL model (after CV-selection of tuning parameters) in
+  `haldensify()` to full-data fit by explicitly passing `n_folds = 1`.
+* Avoid cross-validation procedure conditionally when the arguments `n_bin` and
+  `grid_type` are fixed; add related assertion check in `predict()` when
+  `haldensify()` skips cross-validation (since lambda selection skipped).
+* Change how long-format repeated measures data is passed around in both
+  `haldensify()` and `predict()` to clarify variable passing.
+* Correct `predict()` method to set to zero values in `new_A` outside of the
+  range of `A` on which the `haldensify()` model was trained.
 
 # haldensify 0.0.8
 
@@ -28,7 +37,7 @@ As of January 2021:
   the regularization parameter of the HAL regression for density estimation.
   Now, both CV to choose density estimation tuning parameters and CV to choose
   the lasso tuning parameter use the same number of folds.
-* Addition of arugment `...` to `haldensify()` so that arbitrary arguments can
+* Addition of argument `...` to `haldensify()` so that arbitrary arguments can
   be passed to `fit_hal()` for density estimation, when not already specified
   as other arguments of the `haldensify()` constructor.
 * Remove the unnecessary argument `use_future`, specifying parallel evaluation

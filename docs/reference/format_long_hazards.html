@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate long format hazards data for pooled hazards estimation — format_long_hazards • haldensify</title>
+<title>Generate Augmented (Long Format) Data for Pooled Hazards Regression — format_long_hazards • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Generate long format hazards data for pooled hazards estimation — format_long_hazards" />
-<meta property="og:description" content="Generate long format hazards data for pooled hazards estimation" />
+<meta property="og:title" content="Generate Augmented (Long Format) Data for Pooled Hazards Regression — format_long_hazards" />
+<meta property="og:description" content="Generate Augmented (Long Format) Data for Pooled Hazards Regression" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
       </span>
     </div>
 
@@ -123,13 +123,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate long format hazards data for pooled hazards estimation</h1>
+    <h1>Generate Augmented (Long Format) Data for Pooled Hazards Regression</h1>
     <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
     <div class="hidden name"><code>format_long_hazards.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generate long format hazards data for pooled hazards estimation</p>
+    <p>Generate Augmented (Long Format) Data for Pooled Hazards Regression</p>
     </div>
 
     <pre class="usage"><span class='fu'>format_long_hazards</span><span class='op'>(</span>
@@ -188,17 +188,19 @@ or <code><a href='https://ggplot2.tidyverse.org/reference/cut_interval.html'>cut
 
     <p>A <code>list</code> containing the break points used in dividing the
  support of <code>A</code> into discrete bins, the length of each bin, and the
- reformatted data. The reformatted data is a <code><a href='https://Rdatatable.gitlab.io/data.table/reference/data.table.html'>data.table</a></code> of
+ reformatted data. The reformatted data is a <code>data.table</code> of
  repeated measures data, with an indicator for which bin an observation
  fails in, the bin ID, observation ID, values of <code>W</code> for each given
  observation, and observation-level weights.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Generates a long-form dataset that represents each observation in
- terms of repeated measures across discretized bins derived from selecting
- break points over the support of A. This repeated measures dataset is
- suitable for estimating the hazard of failing in a particular bin over A
- using a highly adaptive lasso classification model.</p>
+    <p>Generates an augmented (long format, or repeated measures) dataset
+ that includes multiple records for each observation, a single record for
+ each discretized bin up to and including the bin in which a given observed
+ value of A falls. Such bins are derived from selecting break points over
+ the support of A. This repeated measures dataset is suitable for estimating
+ the hazard of failing in a particular bin over A using a highly adaptive
+ lasso (or other) classification model.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
