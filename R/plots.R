@@ -38,8 +38,10 @@ plot.haldensify <- function(x, ..., type = c("risk", "density")) {
   type <- match.arg(type)
 
   # density plot not yet implemented
-  assertthat::assert_that(type != "density",
-                          msg = "Density plot method not yet implemented.")
+  assertthat::assert_that(
+    type != "density",
+    msg = "Density plot method not yet implemented."
+  )
 
   if (type == "risk") {
     # re-organize object output for plotting empirical risk across lambda
