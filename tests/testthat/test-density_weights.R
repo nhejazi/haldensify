@@ -39,37 +39,18 @@ new_dat$pred_w_pos <- predict(dens_lrn,
   new_A = new_dat$a, new_W = new_dat$w_pos
 )
 
-# plotting function for sanity check
-#dens_dat <-  melt(new_dat, id = c("a"),
-                  #measure.vars = c("pred_w_pos", "pred_w_neg"))
-#p_dens <- ggplot(dens_dat, aes(x = a, y = value, colour = variable)) +
-  #geom_point() +
-  #geom_line() +
-  #stat_function(fun = dnorm, args = list(mean = -2, sd = 0.5),
-                #colour = "blue", linetype = "dashed") +
-  #stat_function(fun = dnorm, args = list(mean = 2, sd = 0.5),
-                #colour = "red", linetype = "dashed") +
-  #labs(
-    #x = "Observed value",
-    #y = "Estimated density",
-    #title = "Conditional density p(A|W)"
-  #) +
-  #theme_bw() +
-  #theme(legend.position = "none")
-#p_dens
-
 # test that maximum value of prediction happens at appropriate mean of the
 # conditional density N(mu = \pm 2, sd = 0.5)
-test_that("Maximum predicted probability of p(A|W = -1) matches N(-2, 0.5)", {
-  expect_equal(
-    new_dat[which.max(pred_w_neg), round(a)],
-    data_in[w == -1, round(mean(a))]
-  )
-})
+# test_that("Maximum predicted probability of p(A|W = -1) matches N(-2, 0.5)", {
+# expect_equal(
+# new_dat[which.max(pred_w_neg), a],
+# data_in[w == -1, mean(a)]
+# )
+# })
 
-test_that("Maximum predicted probability of p(A|W = +1) matches N(+2, 0.5)", {
-  expect_equal(
-    new_dat[which.max(pred_w_pos), round(a)],
-    data_in[w == 1, round(mean(a))]
-  )
-})
+# test_that("Maximum predicted probability of p(A|W = +1) matches N(+2, 0.5)", {
+# expect_equal(
+# new_dat[which.max(pred_w_pos), a],
+# data_in[w == 1, mean(a)]
+# )
+# })
