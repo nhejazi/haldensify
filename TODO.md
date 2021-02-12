@@ -6,7 +6,7 @@
   calling `future_mapply()`, with sequential evaluation via `plan(sequential)`.
 - [x] Add example of working with bootstrap samples, e.g., using
   [`rsample`](https://rsample.tidymodels.org/reference/bootstraps.html).
-- [ ] Add a `plot()` method to more easily visualize how empirical risk changes
+- [x] Add a `plot()` method to more easily visualize how empirical risk changes
   across the sequence of explored regularization parameter values.
 - [ ] Add an `ipw_est()` function for constructing IPW estimators of the mean
   counterfactual outcome of a stochastic shift intervention via `haldensify`.

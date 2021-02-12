@@ -242,7 +242,7 @@ haldensify <- function(A,
     cv_selected_fits$density_pred <- NULL
   } else {
     message("n_bin and grid_type fixed: skipped CV-selection, even for lambda")
-    cv_selected_params  <- tune_grid
+    cv_selected_params <- tune_grid
     cv_selected_fits <- list(
       lambda_loss_min_idx = NA_real_,
       lambda_loss_min = NA_real_,
@@ -276,7 +276,7 @@ haldensify <- function(A,
     n_folds = 1,
     cv_select = FALSE,
     ...,
-    standardize = FALSE,                 # passed to glmnet
+    standardize = FALSE, # passed to glmnet
     weights = as.numeric(long_data$wts), # passed to glmnet
     yolo = FALSE
   )

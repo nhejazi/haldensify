@@ -20,8 +20,8 @@ hal_dens <- predict(haldensify_fit,
 )
 
 # compute empirical risk of each estimator based on -log(P) loss
-hal_emprisk <- mean(-log(hal_dens[hal_dens > 0]))
-gauss_emprisk <- mean(-log(gauss_dens$y)[hal_dens > 0])
+gauss_emprisk <- mean(-log(gauss_dens$y))
+hal_emprisk <- mean(-log(hal_dens))
 
 # HAL-predicted density matches Gaussian kernel density closely in loss?
 test_that("Empirical risk of HAL density less than that of kernel density", {

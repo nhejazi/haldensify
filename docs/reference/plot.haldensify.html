@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prediction Method for HAL Conditional Density Estimation — predict.haldensify • haldensify</title>
+<title>Plot Method for HAL Conditional Density Estimates — plot.haldensify • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Prediction Method for HAL Conditional Density Estimation — predict.haldensify" />
-<meta property="og:description" content="Prediction Method for HAL Conditional Density Estimation" />
+<meta property="og:title" content="Plot Method for HAL Conditional Density Estimates — plot.haldensify" />
+<meta property="og:description" content="Plot Method for HAL Conditional Density Estimates" />
 
 
 
@@ -123,89 +123,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prediction Method for HAL Conditional Density Estimation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/predict.R'><code>R/predict.R</code></a></small>
-    <div class="hidden name"><code>predict.haldensify.Rd</code></div>
+    <h1>Plot Method for HAL Conditional Density Estimates</h1>
+    <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/plots.R'><code>R/plots.R</code></a></small>
+    <div class="hidden name"><code>plot.haldensify.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Prediction Method for HAL Conditional Density Estimation</p>
+    <p>Plot Method for HAL Conditional Density Estimates</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for haldensify</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
-  <span class='va'>object</span>,
-  <span class='va'>...</span>,
-  <span class='va'>new_A</span>,
-  <span class='va'>new_W</span>,
-  lambda_select <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cv"</span>, <span class='st'>"undersmooth"</span>, <span class='st'>"all"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span>, type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"risk"</span>, <span class='st'>"density"</span><span class='op'>)</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>An object of class <code><a href='haldensify.html'>haldensify</a></code>, containing the
-results of fitting the highly adaptive lasso for conditional density
-estimation, as produced by a call to <code><a href='haldensify.html'>haldensify</a></code>.</p></td>
+      <th>x</th>
+      <td><p>Object of class <code>haldensify</code>, containing conditional density
+estimates, as produced by <code><a href='haldensify.html'>haldensify</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed to <code>predict</code> as necessary.</p></td>
+      <td><p>Additional arguments to be passed <code>plot</code>, currently ignored.</p></td>
     </tr>
     <tr>
-      <th>new_A</th>
-      <td><p>The <code>numeric</code> vector or similar of the observed values for
-which a conditional density estimate is to be generated.</p></td>
-    </tr>
-    <tr>
-      <th>new_W</th>
-      <td><p>A <code>data.frame</code>, <code>matrix</code>, or similar giving the
-values of baseline covariates (potential confounders) for the conditioning
-set of the observed values <code>A</code>.</p></td>
-    </tr>
-    <tr>
-      <th>lambda_select</th>
-      <td><p>A <code>character</code> indicating whether to return the
-predicted density for the value of the regularization parameter chosen by
-the global cross-validation selector or whether to return an undersmoothed
-sequence (which starts with the cross-validation selector's choice but also
-includes all values in the sequence that are less restrictive). The default
-is <code>"cv"</code> for the global cross-validation selector. Setting the choice
-to <code>"undersmooth"</code> returns a matrix of predicted densities, with each
-column corresponding to a value of the regularization parameter less than
-or equal to the choice made by the global cross-validation selector. When
-<code>"all"</code> is set, predictions are returned for the full sequence of the
-regularization parameter on which the HAL model <code>object</code> was fitted.</p></td>
+      <th>type</th>
+      <td><p>A <code>character</code> indicating the type of plot to be produced.
+Options include visualizing the empirical risks of the conditional density
+estimators across a grid of values of the regularization parameter and a
+plot of the estimated conditional density (based on the estimator selected
+by cross-validation). The latter has yet to be implemented.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>numeric</code> vector of predicted conditional density values from
- a fitted <code>haldensify</code> object.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Method for computing and extracting predictions of the conditional
- density estimates based on the highly adaptive lasso estimator, returned as
- an S3 object of class <code>haldensify</code> from <code><a href='haldensify.html'>haldensify</a></code>.</p>
+    <p>Object of class <code>ggplot</code> containing a plot of the desired
+ <code>type</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span>
 <span class='va'>n_train</span> <span class='op'>&lt;-</span> <span class='fl'>50</span>
 <span class='va'>w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>)</span>
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='va'>w</span>, <span class='fl'>0.5</span><span class='op'>)</span>
-<span class='co'># HAL-based density estimator of A|W</span>
+<span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
 <span class='va'>haldensify_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='haldensify.html'>haldensify</a></span><span class='op'>(</span>
-  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>,
+  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fl'>3</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span>
-<span class='co'># predictions to recover conditional density of A|W</span>
-<span class='va'>new_a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>4</span>, by <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
-<span class='va'>new_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>new_a</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>pred_dens</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>haldensify_fit</span>, new_A <span class='op'>=</span> <span class='va'>new_a</span>, new_W <span class='op'>=</span> <span class='va'>new_w</span><span class='op'>)</span>
-</div></pre>
+</div><div class='output co'>#&gt; <span class='message'>n_bin and grid_type fixed: skipped CV-selection, even for lambda</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>haldensify_fit</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 50 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 50 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_vline).</span></div><div class='img'><img src='plot.haldensify-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

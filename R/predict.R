@@ -115,9 +115,14 @@ predict.haldensify <- function(object, ..., new_A, new_W,
     return(density_pred_scaled)
   })
 
-  # truncate predictions outside range of observed A
-  outside_range <- new_A < object$range_a[1] | new_A > object$range_a[2]
-  density_pred_rescaled[outside_range, ] <- 0
+  # truncate conditional density estimates
+  dens_pred_crit <- 1 / sqrt(length(new_A))
+  # 1) first, truncate values below sample size-based cutoff
+  idx_trunc <- (density_pred_rescaled < dens_pred_crit)
+  density_pred_rescaled[idx_trunc] <- dens_pred_crit
+  # 2) next, trim values outside training support to avoid extrapolation
+  outside_support <- new_A < object$range_a[1] | new_A > object$range_a[2]
+  density_pred_rescaled[outside_support, ] <- dens_pred_crit^2
 
   # return predicted densities only for CV-selected or undersmoothed lambdas
   if (lambda_select == "cv") {

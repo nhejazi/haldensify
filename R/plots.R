@@ -54,19 +54,23 @@ plot.haldensify <- function(x, ..., type = c("risk", "density")) {
 
     # create plot of empirical risks across grid in lambda
     p_emprisk <- ggplot2::ggplot(
-        emp_risk_data,
-        ggplot2::aes(x = lambda, y = risk)
-      ) +
+      emp_risk_data,
+      ggplot2::aes(x = lambda, y = risk)
+    ) +
       ggplot2::geom_point() +
       ggplot2::geom_line(linetype = "dashed") +
-      ggplot2::geom_vline(xintercept = lambda_cvrisk_min,
-                          linetype = "dotted") +
+      ggplot2::geom_vline(
+        xintercept = lambda_cvrisk_min,
+        linetype = "dotted"
+      ) +
       ggplot2::labs(
         x = latex2exp::TeX("$L_1$ regularization parameter $\\lambda$"),
         y = "Empirical risk",
         title = "Empirical risk of HAL conditional density estimators",
-        subtitle = latex2exp::TeX(paste("(dotted line: choice of $\\lambda$",
-                                        "minimizing the empirical risk)"))
+        subtitle = latex2exp::TeX(paste(
+          "(dotted line: choice of $\\lambda$",
+          "minimizing the empirical risk)"
+        ))
       ) +
       ggplot2::theme_bw()
     return(p_emprisk)

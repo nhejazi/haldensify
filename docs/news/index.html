@@ -132,10 +132,13 @@
 </h1>
 <p>As of February 2021:</p>
 <ul>
+<li>Addition of a method <code>plot.haldensify</code> to simplify visualizing the empirical risks of the sequence of HAL-based conditional density estimators across the grid of the regularization parameter, and necessary changes to the vignette.</li>
+<li>Preparation to add an option to visualize the conditional density estimates (of the estimator selected by cross-validation) via a <code>type</code> argument in the <code>plot.haldensify</code> method. Not yet implemented.</li>
+<li>Simplification of unit tests to remove unnecessary reliance on <code>dplyr</code>.</li>
 <li>Limit re-fitting of HAL model (after CV-selection of tuning parameters) in <code><a href="../reference/haldensify.html">haldensify()</a></code> to full-data fit by explicitly passing <code>n_folds = 1</code>.</li>
 <li>Avoid cross-validation procedure conditionally when the arguments <code>n_bin</code> and <code>grid_type</code> are fixed; add related assertion check in <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> when <code><a href="../reference/haldensify.html">haldensify()</a></code> skips cross-validation (since lambda selection skipped).</li>
 <li>Change how long-format repeated measures data is passed around in both <code><a href="../reference/haldensify.html">haldensify()</a></code> and <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> to clarify variable passing.</li>
-<li>Correct <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method to set to zero values in <code>new_A</code> outside of the range of <code>A</code> on which the <code><a href="../reference/haldensify.html">haldensify()</a></code> model was trained.</li>
+<li>Correct <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> method to truncate small conditional density estimates to a minimum value of [1 / sqrt(n)], based on the prediction set sample size.</li>
 </ul>
 </div>
     <div id="haldensify-008" class="section level1">

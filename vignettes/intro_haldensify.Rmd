@@ -166,7 +166,7 @@ binning strategy that accommodates creating such a large number of bins.
 haldensify_fit <- haldensify(
   A = example_data$A,
   W = example_data$W,
-  n_bins = c(5, 15),
+  n_bins = c(5, 10),
   grid_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100))
 )
@@ -207,15 +207,17 @@ dens_dat <-  melt(new_dat, id = c("a"),
 p_dens <- ggplot(dens_dat, aes(x = a, y = value, colour = variable)) +
   geom_point() +
   geom_line() +
-  stat_function(fun = dnorm, args = list(mean = -2, sd = 0.5),
+  stat_function(fun = dnorm, args = list(mean = -2, sd = 0.25),
                 colour = "blue", linetype = "dashed") +
-  stat_function(fun = dnorm, args = list(mean = 0, sd = 0.5),
+  stat_function(fun = dnorm, args = list(mean = 0, sd = 0.25),
                 colour = "darkgreen", linetype = "dashed") +
-  stat_function(fun = dnorm, args = list(mean = 2, sd = 0.5),
+  stat_function(fun = dnorm, args = list(mean = 2, sd = 0.25),
                 colour = "red", linetype = "dashed") +
-  xlab("Observed value") +
-  ylab("Predicted probability") +
-  ggtitle("Conditional density p(A|W)") +
+  labs(
+    x = "Observed value",
+    y = "Estimated density",
+    title = "Conditional density p(A|W)"
+  ) +
   theme_bw() +
   theme(legend.position = "none")
 p_dens

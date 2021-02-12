@@ -15,8 +15,8 @@ As of February 2021:
   `haldensify()` skips cross-validation (since lambda selection skipped).
 * Change how long-format repeated measures data is passed around in both
   `haldensify()` and `predict()` to clarify variable passing.
-* Correct `predict()` method to set to zero values in `new_A` outside of the
-  range of `A` on which the `haldensify()` model was trained.
+* Correct `predict()` method to truncate small conditional density estimates to
+  a minimum value of [1 / sqrt(n)], based on the prediction set sample size.
 
 # haldensify 0.0.8
 
