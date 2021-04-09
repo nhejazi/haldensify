@@ -168,7 +168,9 @@ haldensify_fit <- haldensify(
   W = example_data$W,
   n_bins = c(5, 10),
   grid_type = "equal_range",
-  lambda_seq = exp(seq(-1, -10, length = 100))
+  lambda_seq = exp(seq(-1, -10, length = 100)),
+  reduce_basis = 0.05,
+  max_degree = 2
 )
 ```
 

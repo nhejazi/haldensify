@@ -193,3 +193,51 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
   )
   return(density_pred_from_hazards)
 }
+
+###############################################################################
+
+#' Print Method for Highly Adaptive Lasso Conditional Density Estimation
+#'
+#' @details The \code{print} method for objects of class \code{haldensify}
+#'
+#' @param x An object of class \code{haldensify}.
+#' @param ... Other options (not currently used).
+#'
+#' @method print haldensify
+#'
+#' @importFrom cli cli_text col_magenta
+#'
+#' @return None. Called for the side effect of printing an informative summary
+#'  of slots of objects of class \code{haldensify}.
+#'
+#' @export
+#'
+#' @examples
+#' # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
+#' set.seed(429153)
+#' n_train <- 50
+#' w <- runif(n_train, -4, 4)
+#' a <- rnorm(n_train, w, 0.5)
+#' # learn relationship A|W using HAL-based density estimation procedure
+#' haldensify_fit <- haldensify(
+#'   A = a, W = w, n_bins = c(3, 5),
+#'   lambda_seq = exp(seq(-1, -5, length = 50)),
+#'   reduce_basis = 0.3, max_degree = 3
+#' )
+#' print(haldensify_fit)
+print.haldensify <- function(x, ...) {
+  # construct and print output
+  cli::cli_text(cat("  "), "{.strong HAL Conditional Density Estimation}")
+  cli::cli_text(cat("    "), "{.strong Breakpoints in A}: ",
+                cli::col_magenta("{round(x$breaks, 3)}"))
+  cli::cli_text(cat("    "), "{.strong CV-selected lambda}:
+                {round(x$cv_tuning_results$lambda_loss_min, 4)}")
+  cli::cli_text(cat("    "), "{.strong HAL fit summary}:")
+  summary(x$hal_fit)$table
+}
+
+###############################################################################
+
+is.haldensify <- function(x) {
+  class(x) == "haldensify"
+}
