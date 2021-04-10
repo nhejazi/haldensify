@@ -1,3 +1,13 @@
+# haldensify 0.1.0
+
+As of April 2021:
+* Updates to `haldensify` arguments (removal of `hal_max_degree` as a named
+  argument) to simplify and better match use of `fit_hal` in `hal9001` v0.3.0+.
+* Addition of an argument `trim_dens` to `predict.haldensify` to make the use
+  of truncation more transparent and more easily manipulable.
+* Addition of a new method `print.haldensify` for a more user-friendly display
+   of the prediction procedure's output.
+
 # haldensify 0.0.9
 
 As of February 2021:

@@ -92,13 +92,14 @@ Parallel evaluation of the cross-validation procedure to select tuning
 \examples{
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
 set.seed(429153)
-n_train <- 50
+n_train <- 100
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 haldensify_fit <- haldensify(
   A = a, W = w, n_bins = c(3, 5),
-  lambda_seq = exp(seq(-1, -5, length = 50)),
-  reduce_basis = 0.3, max_degree = 3
+  lambda_seq = exp(seq(-1, -5, length = 500)),
+  # the following arguments are passed to hal9001::fit_hal()
+  max_degree = 3, reduce_basis = 0.2, smoothness_orders = 0
 )
 }

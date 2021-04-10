@@ -65,12 +65,12 @@ plot.haldensify <- function(x, ..., type = c("risk", "density")) {
         linetype = "dotted"
       ) +
       ggplot2::labs(
-        x = latex2exp::TeX("$L_1$ regularization: $-\\log(\\lambda)$"),
+        x = latex2exp::TeX("$-\\log(\\lambda)$"),
         y = "Empirical risk",
         title = "Empirical risk of HAL conditional density estimators",
         subtitle = latex2exp::TeX(paste(
-          "(dotted line: choice of $\\lambda$",
-          "minimizing the empirical risk)"
+          "(dotted line: $L_1$ regularization parameter $\\lambda$",
+          "minimizing empirical risk)"
         ))
       ) +
       ggplot2::theme_bw()

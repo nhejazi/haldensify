@@ -166,11 +166,12 @@ binning strategy that accommodates creating such a large number of bins.
 haldensify_fit <- haldensify(
   A = example_data$A,
   W = example_data$W,
-  n_bins = c(5, 10),
+  n_bins = c(3, 5, 10),
   grid_type = "equal_range",
-  lambda_seq = exp(seq(-1, -10, length = 100)),
-  reduce_basis = 0.05,
-  max_degree = 2
+  lambda_seq = exp(seq(-0.1, -10, length = 500)),
+  max_degree = 5,
+  smoothness_orders = 0,
+  reduce_basis = 0.05
 )
 ```
 
@@ -191,11 +192,13 @@ method of `haldensify` and plot the results below.
 
 ```{r plot_haldensify, message=FALSE, warning=FALSE}
 # predictions to recover conditional density of A|W
-new_a <- seq(-4, 4, by = 0.01)
-new_dat <- as.data.table(list(a = new_a,
-                              w_neg = rep(-2, length(new_a)),
-                              w_zero = rep(0, length(new_a)),
-                              w_pos = rep(2, length(new_a))))
+new_a <- seq(-4, 4, by = 0.05)
+new_dat <- as.data.table(list(
+  a = new_a,
+  w_neg = rep(-2, length(new_a)),
+  w_zero = rep(0, length(new_a)),
+  w_pos = rep(2, length(new_a))
+))
 new_dat[, pred_w_neg := predict(haldensify_fit, new_A = new_dat$a,
                                 new_W = new_dat$w_neg)]
 new_dat[, pred_w_zero := predict(haldensify_fit, new_A = new_dat$a,
@@ -216,9 +219,9 @@ p_dens <- ggplot(dens_dat, aes(x = a, y = value, colour = variable)) +
   stat_function(fun = dnorm, args = list(mean = 2, sd = 0.25),
                 colour = "red", linetype = "dashed") +
   labs(
-    x = "Observed value",
-    y = "Estimated density",
-    title = "Conditional density p(A|W)"
+    x = "Observed value of W",
+    y = "Estimated conditional density",
+    title = "Conditional density estimates q(A|W)"
   ) +
   theme_bw() +
   theme(legend.position = "none")
