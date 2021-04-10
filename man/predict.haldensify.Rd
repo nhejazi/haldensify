@@ -9,6 +9,7 @@
   ...,
   new_A,
   new_W,
+  trim_dens = 1/sqrt(length(new_A)),
   lambda_select = c("cv", "undersmooth", "all")
 )
 }
@@ -25,6 +26,15 @@ which a conditional density estimate is to be generated.}
 \item{new_W}{A \code{data.frame}, \code{matrix}, or similar giving the
 values of baseline covariates (potential confounders) for the conditioning
 set of the observed values \code{A}.}
+
+\item{trim_dens}{A \code{numeric} indicating the minimum allowed value of
+the resultant density predictions. Any predicted density values below this
+tolerance threshold are set to the indicated minimum. The default is to use
+the inverse of the square root of the sample size of the prediction set,
+i.e., 1/sqrt(n); another notable choice is 1/sqrt(n)/log(n). If there are
+observations in the prediction set with values of \code{new_A} outside of
+the support of the training set (i.e., provided in the argument \code{A} to
+\code{\link{haldensify}}), their predictions are similarly truncated.}
 
 \item{lambda_select}{A \code{character} indicating whether to return the
 predicted density for the value of the regularization parameter chosen by
@@ -57,8 +67,10 @@ w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 # HAL-based density estimator of A|W
 haldensify_fit <- haldensify(
-  A = a, W = w,
-  lambda_seq = exp(seq(-1, -10, length = 50))
+  A = a, W = w, n_bins = c(3, 5),
+  lambda_seq = exp(seq(-1, -5, length = 500)),
+  # the following arguments are passed to hal9001::fit_hal()
+  max_degree = 3, reduce_basis = 0.2, smoothness_orders = 0
 )
 # predictions to recover conditional density of A|W
 new_a <- seq(-4, 4, by = 0.1)

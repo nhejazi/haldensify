@@ -15,6 +15,14 @@ utils::globalVariables(c("wts"))
 #' @param new_W A \code{data.frame}, \code{matrix}, or similar giving the
 #'  values of baseline covariates (potential confounders) for the conditioning
 #'  set of the observed values \code{A}.
+#' @param trim_dens A \code{numeric} indicating the minimum allowed value of
+#'  the resultant density predictions. Any predicted density values below this
+#'  tolerance threshold are set to the indicated minimum. The default is to use
+#'  the inverse of the square root of the sample size of the prediction set,
+#'  i.e., 1/sqrt(n); another notable choice is 1/sqrt(n)/log(n). If there are
+#'  observations in the prediction set with values of \code{new_A} outside of
+#'  the support of the training set (i.e., provided in the argument \code{A} to
+#'  \code{\link{haldensify}}), their predictions are similarly truncated.
 #' @param lambda_select A \code{character} indicating whether to return the
 #'  predicted density for the value of the regularization parameter chosen by
 #'  the global cross-validation selector or whether to return an undersmoothed
@@ -43,14 +51,20 @@ utils::globalVariables(c("wts"))
 #' a <- rnorm(n_train, w, 0.5)
 #' # HAL-based density estimator of A|W
 #' haldensify_fit <- haldensify(
-#'   A = a, W = w,
-#'   lambda_seq = exp(seq(-1, -10, length = 50))
+#'   A = a, W = w, n_bins = c(3, 5),
+#'   lambda_seq = exp(seq(-1, -5, length = 500)),
+#'   # the following arguments are passed to hal9001::fit_hal()
+#'   max_degree = 3, reduce_basis = 0.2, smoothness_orders = 0
 #' )
 #' # predictions to recover conditional density of A|W
 #' new_a <- seq(-4, 4, by = 0.1)
 #' new_w <- rep(0, length(new_a))
 #' pred_dens <- predict(haldensify_fit, new_A = new_a, new_W = new_w)
-predict.haldensify <- function(object, ..., new_A, new_W,
+predict.haldensify <- function(object,
+                               ...,
+                               new_A,
+                               new_W,
+                               trim_dens = 1 / sqrt(length(new_A)),
                                lambda_select = c("cv", "undersmooth", "all")) {
   # set default selection procedure to the cross-validation selector
   lambda_select <- match.arg(lambda_select)
@@ -115,14 +129,17 @@ predict.haldensify <- function(object, ..., new_A, new_W,
     return(density_pred_scaled)
   })
 
-  # truncate conditional density estimates
-  dens_pred_crit <- 1 / sqrt(length(new_A))
-  # 1) first, truncate values below sample size-based cutoff
-  idx_trunc <- (density_pred_rescaled < dens_pred_crit)
-  density_pred_rescaled[idx_trunc] <- dens_pred_crit
-  # 2) next, trim values outside training support to avoid extrapolation
+  # truncate conditional density estimates below the specified tolerance
+  if (min(density_pred_rescaled) < trim_dens) {
+    density_pred_rescaled <- apply(density_pred_rescaled, 2, pmax, trim_dens)
+  }
+
+  # trim values outside training support to avoid extrapolation
   outside_support <- new_A < object$range_a[1] | new_A > object$range_a[2]
-  density_pred_rescaled[outside_support, ] <- dens_pred_crit^2
+  if (any(outside_support)) {
+    message("Trimmed predictions for observation outside training support.")
+    density_pred_rescaled[outside_support, ] <- trim_dens
+  }
 
   # return predicted densities only for CV-selected or undersmoothed lambdas
   if (lambda_select == "cv") {

@@ -13,7 +13,6 @@ haldensify(
   cv_folds = 5,
   lambda_seq = exp(seq(-1, -13, length = 1000)),
   hal_basis_list = NULL,
-  hal_max_degree = NULL,
   ...
 )
 }
@@ -60,17 +59,11 @@ augmented (repeated measures) data structure, resulting in a much lowered
 computational cost. This is useful, for example, in fitting HAL conditional
 density estimates with external cross-validation or bootstrap samples.}
 
-\item{hal_max_degree}{Either \code{NULL} (the default) or a \code{numeric}
-indicating the maximum number of covariate interactions to be considered in
-the construction of HAL basis functions. If \code{NULL}, up to the highest
-order interaction is considered; otherwise, all interactions up to the
-specified order are considered. When specified, this is passed directly to
-the \code{max_degree} argument of \code{\link[hal9001]{fit_hal}}.}
-
 \item{...}{Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
 that may be used to control fitting of the HAL regression model. Possible
 choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
-and \code{return_x_basis}, but this list is not exhaustive.}
+and \code{return_x_basis}, but this list is not exhaustive. Consult the
+documentation of \code{\link[hal9001]{fit_hal}} for complete details.}
 }
 \value{
 Object of class \code{haldensify}, containing a fitted
@@ -98,12 +91,15 @@ Parallel evaluation of the cross-validation procedure to select tuning
 }
 \examples{
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
-n_train <- 50
+set.seed(429153)
+n_train <- 100
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 haldensify_fit <- haldensify(
-  A = a, W = w,
-  lambda_seq = exp(seq(-1, -10, length = 50))
+  A = a, W = w, n_bins = c(3, 5),
+  lambda_seq = exp(seq(-1, -5, length = 500)),
+  # the following arguments are passed to hal9001::fit_hal()
+  max_degree = 3, reduce_basis = 0.2, smoothness_orders = 0
 )
 }

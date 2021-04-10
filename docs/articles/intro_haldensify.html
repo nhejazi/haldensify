@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
 <a href="https://nimahejazi.org">Nima Hejazi</a> and <a href="https://www.sph.emory.edu/faculty/profile/#!dbenkes">David Benkeser</a>
 </h4>
             
-            <h4 class="date">2021-02-12</h4>
+            <h4 class="date">2021-04-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nhejazi/haldensify/blob/master/vignettes/intro_haldensify.Rmd"><code>vignettes/intro_haldensify.Rmd</code></a></small>
       <div class="hidden name"><code>intro_haldensify.Rmd</code></div>
@@ -133,7 +133,7 @@
 <p>First, let’s load a few required packages and set a seed for our example.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nhejazi/haldensify">haldensify</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://Rdatatable.gitlab.io/data.table">data.table</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com">data.table</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">75681</span><span class="op">)</span></code></pre></div>
 <p>Next, we’ll generate a simple simulated dataset. The function <code>make_example_data</code>, defined below, generates a baseline covariate <span class="math inline">\(W\)</span> and a continuous-valued exposure variable <span class="math inline">\(A\)</span>, whose mean is a function of <span class="math inline">\(W\)</span>.</p>
@@ -164,9 +164,12 @@
 <code class="sourceCode R"><span class="va">haldensify_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/haldensify.html">haldensify</a></span><span class="op">(</span>
   A <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">A</span>,
   W <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">W</span>,
-  n_bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span>,
+  n_bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span>,
   grid_type <span class="op">=</span> <span class="st">"equal_range"</span>,
-  lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>
+  lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">500</span><span class="op">)</span><span class="op">)</span>,
+  max_degree <span class="op">=</span> <span class="fl">5</span>,
+  smoothness_orders <span class="op">=</span> <span class="fl">0</span>,
+  reduce_basis <span class="op">=</span> <span class="fl">0.05</span>
 <span class="op">)</span></code></pre></div>
 <p>Having constructed the conditional density estimator, we can examine the empirical risk over the grid of choices of the <span class="math inline">\(L_1\)</span> regularization parameter <span class="math inline">\(\lambda\)</span>. To do this, we can simply call the available <code>plot</code> method, which uses the cross-validated conditional density fits in the <code>cv_tuning_results</code> slot of the <code>haldensify</code> object. For example,</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -176,11 +179,13 @@
 <p>Finally, we can predict the conditional density over the grid of observed values <span class="math inline">\(A\)</span> across different elements of the support <span class="math inline">\(W\)</span>. We do this using the <code>predict</code> method of <code>haldensify</code> and plot the results below.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># predictions to recover conditional density of A|W</span>
-<span class="va">new_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>
-<span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>a <span class="op">=</span> <span class="va">new_a</span>,
-                              w_neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span>,
-                              w_zero <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span>,
-                              w_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">new_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span>, by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
+<span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  a <span class="op">=</span> <span class="va">new_a</span>,
+  w_neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span>,
+  w_zero <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span>,
+  w_pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span><span class="op">)</span>
 <span class="va">new_dat</span><span class="op">[</span>, <span class="va">pred_w_neg</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">haldensify_fit</span>, new_A <span class="op">=</span> <span class="va">new_dat</span><span class="op">$</span><span class="va">a</span>,
                                 new_W <span class="op">=</span> <span class="va">new_dat</span><span class="op">$</span><span class="va">w_neg</span><span class="op">)</span><span class="op">]</span>
 <span class="va">new_dat</span><span class="op">[</span>, <span class="va">pred_w_zero</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">haldensify_fit</span>, new_A <span class="op">=</span> <span class="va">new_dat</span><span class="op">$</span><span class="va">a</span>,
@@ -201,9 +206,9 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_function.html">stat_function</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">dnorm</span>, args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">2</span>, sd <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span>,
                 colour <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>
-    x <span class="op">=</span> <span class="st">"Observed value"</span>,
-    y <span class="op">=</span> <span class="st">"Estimated density"</span>,
-    title <span class="op">=</span> <span class="st">"Conditional density p(A|W)"</span>
+    x <span class="op">=</span> <span class="st">"Observed value of W"</span>,
+    y <span class="op">=</span> <span class="st">"Estimated conditional density"</span>,
+    title <span class="op">=</span> <span class="st">"Conditional density estimates q(A|W)"</span>
   <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>

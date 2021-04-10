@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -141,7 +141,6 @@
   cv_folds <span class='op'>=</span> <span class='fl'>5</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>13</span>, length <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>,
   hal_basis_list <span class='op'>=</span> <span class='cn'>NULL</span>,
-  hal_max_degree <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -207,20 +206,12 @@ computational cost. This is useful, for example, in fitting HAL conditional
 density estimates with external cross-validation or bootstrap samples.</p></td>
     </tr>
     <tr>
-      <th>hal_max_degree</th>
-      <td><p>Either <code>NULL</code> (the default) or a <code>numeric</code>
-indicating the maximum number of covariate interactions to be considered in
-the construction of HAL basis functions. If <code>NULL</code>, up to the highest
-order interaction is considered; otherwise, all interactions up to the
-specified order are considered. When specified, this is passed directly to
-the <code>max_degree</code> argument of <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>Additional (optional) arguments of <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>
 that may be used to control fitting of the HAL regression model. Possible
 choices include <code>use_min</code>, <code>reduce_basis</code>, <code>return_lasso</code>,
-and <code>return_x_basis</code>, but this list is not exhaustive.</p></td>
+and <code>return_x_basis</code>, but this list is not exhaustive. Consult the
+documentation of <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code> for complete details.</p></td>
     </tr>
     </table>
 
@@ -248,13 +239,16 @@ and <code>return_x_basis</code>, but this list is not exhaustive.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span>
-<span class='va'>n_train</span> <span class='op'>&lt;-</span> <span class='fl'>50</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>429153</span><span class='op'>)</span>
+<span class='va'>n_train</span> <span class='op'>&lt;-</span> <span class='fl'>100</span>
 <span class='va'>w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>)</span>
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='va'>w</span>, <span class='fl'>0.5</span><span class='op'>)</span>
 <span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
 <span class='va'>haldensify_fit</span> <span class='op'>&lt;-</span> <span class='fu'>haldensify</span><span class='op'>(</span>
-  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>,
-  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
+  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,
+  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>5</span>, length <span class='op'>=</span> <span class='fl'>500</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='co'># the following arguments are passed to hal9001::fit_hal()</span>
+  max_degree <span class='op'>=</span> <span class='fl'>3</span>, reduce_basis <span class='op'>=</span> <span class='fl'>0.2</span>, smoothness_orders <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span>
 </div></pre>
   </div>

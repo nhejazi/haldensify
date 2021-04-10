@@ -8,7 +8,8 @@ cv_haldensify(
   fold,
   long_data,
   wts = rep(1, nrow(long_data)),
-  lambda_seq = exp(seq(-1, -13, length = 100))
+  lambda_seq = exp(seq(-1, -13, length = 100)),
+  ...
 )
 }
 \arguments{
@@ -26,6 +27,12 @@ is to weight all observations equally.}
 \item{lambda_seq}{A \code{numeric} sequence of values of the tuning
 parameter of the Lasso L1 regression passed to
 \code{\link[hal9001]{fit_hal}}.}
+
+\item{...}{Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
+that may be used to control fitting of the HAL regression model. Possible
+choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
+and \code{return_x_basis}, but this list is not exhaustive. Consult the
+documentation of \code{\link[hal9001]{fit_hal}} for complete details.}
 }
 \value{
 A \code{list}, containing density predictions, observations IDs,
