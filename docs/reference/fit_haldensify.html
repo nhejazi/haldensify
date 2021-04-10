@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -139,7 +139,8 @@
   grid_type <span class='op'>=</span> <span class='st'>"equal_range"</span>,
   n_bins <span class='op'>=</span> <span class='fl'>5</span>,
   cv_folds <span class='op'>=</span> <span class='fl'>5</span>,
-  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>13</span>, length <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>
+  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>13</span>, length <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -184,6 +185,14 @@ folds to be used in fitting the sequence of HAL conditional density models.</p><
       <td><p>A <code>numeric</code> sequence of values of the regularization
 parameter of Lasso regression; passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional (optional) arguments of <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>
+that may be used to control fitting of the HAL regression model. Possible
+choices include <code>use_min</code>, <code>reduce_basis</code>, <code>return_lasso</code>,
+and <code>return_x_basis</code>, but this list is not exhaustive. Consult the
+documentation of <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code> for complete details.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -208,7 +217,7 @@ parameter of Lasso regression; passed to <code><a href='https://rdrr.io/pkg/hal9
   A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fl'>3</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: from glmnet Fortran code (error code -43); Convergence for 43th lambda value not reached after maxit=100000 iterations; solutions for larger lambdas returned</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [126] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [84] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [42] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [126] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [42] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [84] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [42] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [84] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [126] is not a sub-multiple or multiple of the number of columns [50]</span></div><div class='output co'>#&gt; <span class='warning'>Warning: data length [84] is not a sub-multiple or multiple of the number of columns [50]</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

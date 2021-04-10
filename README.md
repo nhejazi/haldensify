@@ -70,25 +70,35 @@ remotes::install_github("nhejazi/haldensify")
 A simple example illustrates how `haldensify` may be used to construct
 conditional density estimates:
 
-``` r
+``` asciicast
 library(haldensify)
 set.seed(76924)
 
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)
-n_train <- 50
+n_train <- 100
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.25)
 
 # HAL-based density estimate of A|W
 haldensify_fit <- haldensify(
-  A = a, W = w,
+  A = a, W = w, n_bins = c(3, 5),
   grid_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100)),
+  # arguments passed to hal9001::fit_hal()
+  max_degree = 5, smoothness_orders = 0, reduce_basis = 0.05
 )
+haldensify_fit
+```
 
+![](README-/unnamed-chunk-2.svg)<!-- -->
+
+``` asciicast
 # use the built-in predict method to get predictions
 pred_haldensify <- predict(haldensify_fit, new_A = a, new_W = w)
+head(pred_haldensify)
 ```
+
+![](README-/unnamed-chunk-3.svg)<!-- -->
 
 -----
 

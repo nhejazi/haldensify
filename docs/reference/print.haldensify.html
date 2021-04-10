@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prediction Method for HAL Conditional Density Estimation — predict.haldensify • haldensify</title>
+<title>Print Method for Highly Adaptive Lasso Conditional Density Estimation — print.haldensify • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Prediction Method for HAL Conditional Density Estimation — predict.haldensify" />
-<meta property="og:description" content="Prediction Method for HAL Conditional Density Estimation" />
+<meta property="og:title" content="Print Method for Highly Adaptive Lasso Conditional Density Estimation — print.haldensify" />
+<meta property="og:description" content="Print Method for Highly Adaptive Lasso Conditional Density Estimation" />
 
 
 
@@ -123,103 +123,65 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prediction Method for HAL Conditional Density Estimation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/predict.R'><code>R/predict.R</code></a></small>
-    <div class="hidden name"><code>predict.haldensify.Rd</code></div>
+    <h1>Print Method for Highly Adaptive Lasso Conditional Density Estimation</h1>
+    <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>print.haldensify.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Prediction Method for HAL Conditional Density Estimation</p>
+    <p>Print Method for Highly Adaptive Lasso Conditional Density Estimation</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for haldensify</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span>
-  <span class='va'>object</span>,
-  <span class='va'>...</span>,
-  <span class='va'>new_A</span>,
-  <span class='va'>new_W</span>,
-  trim_dens <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>new_A</span><span class='op'>)</span><span class='op'>)</span>,
-  lambda_select <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"cv"</span>, <span class='st'>"undersmooth"</span>, <span class='st'>"all"</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>An object of class <code><a href='haldensify.html'>haldensify</a></code>, containing the
-results of fitting the highly adaptive lasso for conditional density
-estimation, as produced by a call to <code><a href='haldensify.html'>haldensify</a></code>.</p></td>
+      <th>x</th>
+      <td><p>An object of class <code>haldensify</code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed to <code>predict</code> as necessary.</p></td>
-    </tr>
-    <tr>
-      <th>new_A</th>
-      <td><p>The <code>numeric</code> vector or similar of the observed values for
-which a conditional density estimate is to be generated.</p></td>
-    </tr>
-    <tr>
-      <th>new_W</th>
-      <td><p>A <code>data.frame</code>, <code>matrix</code>, or similar giving the
-values of baseline covariates (potential confounders) for the conditioning
-set of the observed values <code>A</code>.</p></td>
-    </tr>
-    <tr>
-      <th>trim_dens</th>
-      <td><p>A <code>numeric</code> indicating the minimum allowed value of
-the resultant density predictions. Any predicted density values below this
-tolerance threshold are set to the indicated minimum. The default is to use
-the inverse of the square root of the sample size of the prediction set,
-i.e., 1/sqrt(n); another notable choice is 1/sqrt(n)/log(n). If there are
-observations in the prediction set with values of <code>new_A</code> outside of
-the support of the training set (i.e., provided in the argument <code>A</code> to
-<code><a href='haldensify.html'>haldensify</a></code>), their predictions are similarly truncated.</p></td>
-    </tr>
-    <tr>
-      <th>lambda_select</th>
-      <td><p>A <code>character</code> indicating whether to return the
-predicted density for the value of the regularization parameter chosen by
-the global cross-validation selector or whether to return an undersmoothed
-sequence (which starts with the cross-validation selector's choice but also
-includes all values in the sequence that are less restrictive). The default
-is <code>"cv"</code> for the global cross-validation selector. Setting the choice
-to <code>"undersmooth"</code> returns a matrix of predicted densities, with each
-column corresponding to a value of the regularization parameter less than
-or equal to the choice made by the global cross-validation selector. When
-<code>"all"</code> is set, predictions are returned for the full sequence of the
-regularization parameter on which the HAL model <code>object</code> was fitted.</p></td>
+      <td><p>Other options (not currently used).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>numeric</code> vector of predicted conditional density values from
- a fitted <code>haldensify</code> object.</p>
+    <p>None. Called for the side effect of printing an informative summary
+ of slots of objects of class <code>haldensify</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Method for computing and extracting predictions of the conditional
- density estimates based on the highly adaptive lasso estimator, returned as
- an S3 object of class <code>haldensify</code> from <code><a href='haldensify.html'>haldensify</a></code>.</p>
+    <p>The <code>print</code> method for objects of class <code>haldensify</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>429153</span><span class='op'>)</span>
 <span class='va'>n_train</span> <span class='op'>&lt;-</span> <span class='fl'>50</span>
 <span class='va'>w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>)</span>
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='va'>w</span>, <span class='fl'>0.5</span><span class='op'>)</span>
-<span class='co'># HAL-based density estimator of A|W</span>
+<span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
 <span class='va'>haldensify_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='haldensify.html'>haldensify</a></span><span class='op'>(</span>
   A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,
-  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>5</span>, length <span class='op'>=</span> <span class='fl'>500</span><span class='op'>)</span><span class='op'>)</span>,
-  <span class='co'># the following arguments are passed to hal9001::fit_hal()</span>
-  max_degree <span class='op'>=</span> <span class='fl'>3</span>, reduce_basis <span class='op'>=</span> <span class='fl'>0.2</span>, smoothness_orders <span class='op'>=</span> <span class='fl'>0</span>
+  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>5</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>,
+  reduce_basis <span class='op'>=</span> <span class='fl'>0.3</span>, max_degree <span class='op'>=</span> <span class='fl'>3</span>
 <span class='op'>)</span>
-<span class='co'># predictions to recover conditional density of A|W</span>
-<span class='va'>new_a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>4</span>, by <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
-<span class='va'>new_w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>new_a</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>pred_dens</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span><span class='op'>(</span><span class='va'>haldensify_fit</span>, new_A <span class='op'>=</span> <span class='va'>new_a</span>, new_W <span class='op'>=</span> <span class='va'>new_w</span><span class='op'>)</span>
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>haldensify_fit</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   </div><div class='output co'>#&gt; <span class='message'><span style='font-weight: bold;'>HAL Conditional Density Estimation</span><span></span></div><div class='output co'>#&gt;     </div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>Breakpoints in A</span><span>: </span><span style='color: #BB00BB;'>-4.889, -2.926, -0.963, 1, and 2.964</span><span></span></div><div class='output co'>#&gt;     </div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>CV-selected lambda</span><span>: 0.3679</span></div><div class='output co'>#&gt;     </div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>HAL fit summary</span><span>:</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coefficients for many lamdba exist --</span>
+#&gt; <span class='warning'>Summarizing coefficients corresponding to minimum lambda.</span></div><div class='output co'>#&gt;             coef                                  term
+#&gt;  1:  1.690719088                             Intercept
+#&gt;  2:  2.191413550                      I(bin_id,W &gt;= 1)
+#&gt;  3:  0.991346944 I(bin_id,W &gt;= 1)*I(bin_id &gt;= -3.9356)
+#&gt;  4:  0.163711038  I(bin_id,W &gt;= 1)*I(bin_id &gt;= 2.5035)
+#&gt;  5: -0.009466423  I(bin_id,W &gt;= 1)*I(bin_id &gt;= 0.4659)
+#&gt;  6: -0.010902181                  I(bin_id &gt;= -1.8935)
+#&gt;  7: -0.056735715                  I(bin_id &gt;= -1.9263)
+#&gt;  8: -0.540176957                  I(bin_id &gt;= -3.9356)
+#&gt;  9: -0.995152177  I(bin_id,W &gt;= 1)*I(bin_id &gt;= 0.3279)
+#&gt; 10: -1.208263128                  I(bin_id &gt;= -3.4305)
+#&gt; 11: -1.421111574                  I(bin_id &gt;= -3.2605)</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

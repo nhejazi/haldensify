@@ -23,7 +23,8 @@ dens_lrn <- with(
     A = a, W = w,
     wts = wts,
     n_bins = c(3, 5, 10),
-    lambda_seq = exp(seq(-1, -10, length = 100))
+    lambda_seq = exp(seq(-1, -10, length = 100)),
+    max_degree = 5, smoothness_orders = 0
   )
 )
 

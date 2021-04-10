@@ -8,7 +8,8 @@ a <- rnorm(n_train, 0, 2)
 haldensify_fit <- haldensify(
   A = a, W = NULL,
   n_bins = c(3, 5),
-  lambda_seq = exp(seq(-1, -13, length = 200))
+  lambda_seq = exp(seq(-1, -13, length = 200)),
+  max_degree = 5, smoothness_orders = 0
 )
 
 # estimate density via Gaussian kernel density
@@ -16,7 +17,7 @@ gauss_dens <- density(a)
 
 # HAL predictions of density using support from the fitted density function
 hal_dens <- predict(haldensify_fit,
-  new_A = gauss_dens$x, new_W = rep(0, length(a))
+  new_A = gauss_dens$x, new_W = rep(1, length(a))
 )
 
 # compute empirical risk of each estimator based on -log(P) loss
