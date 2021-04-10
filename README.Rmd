@@ -11,14 +11,16 @@ bibliography: "inst/REFERENCES.bib"
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "README-",
+  fig.ext = "svg"
 )
 # Turn on ANSI colors
 options(cli.num_colors = 256L)
 asciicast::init_knitr_engine(
   startup = quote({
     library(cli)
-    set.seed(1) }),
+    set.seed(1)
+  }),
   echo = TRUE,
   timeout = 100,
   echo_input = FALSE
@@ -110,6 +112,11 @@ haldensify_fit
 # use the built-in predict method to get predictions
 pred_haldensify <- predict(haldensify_fit, new_A = a, new_W = w)
 head(pred_haldensify)
+```
+
+```{asciicast}
+# plot the solution path as a function of lambda
+plot(haldensify_fit)
 ```
 
 ---

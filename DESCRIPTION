@@ -34,10 +34,10 @@ Imports:
     origami (>= 1.0.3),
     latex2exp,
     Rdpack,
+    knitr,
     cli
 Suggests:
     testthat,
-    knitr,
     rmarkdown,
     future
 Remotes:
