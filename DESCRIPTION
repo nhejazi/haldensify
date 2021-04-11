@@ -25,6 +25,7 @@ Description: An algorithm for flexible conditional density estimation based on
 Depends: R (>= 3.2.0)
 Imports:
     stats,
+    utils,
     ggplot2,
     data.table,
     matrixStats,
@@ -33,11 +34,10 @@ Imports:
     hal9001 (>= 0.3.0),
     origami (>= 1.0.3),
     latex2exp,
-    Rdpack,
-    knitr,
-    cli
+    Rdpack
 Suggests:
     testthat,
+    knitr,
     rmarkdown,
     future
 Remotes:

@@ -165,25 +165,22 @@
 <span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
 <span class='va'>haldensify_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='haldensify.html'>haldensify</a></span><span class='op'>(</span>
   A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,
-  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>5</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>,
-  reduce_basis <span class='op'>=</span> <span class='fl'>0.3</span>, max_degree <span class='op'>=</span> <span class='fl'>3</span>
+  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>,
+  max_degree <span class='op'>=</span> <span class='fl'>3</span>, smoothness_orders <span class='op'>=</span> <span class='fl'>0</span>, reduce_basis <span class='op'>=</span> <span class='fl'>0.1</span>
 <span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>haldensify_fit</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'><span style='font-weight: bold;'>HAL Conditional Density Estimation</span><span></span></div><div class='output co'>#&gt;   </div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>Breakpoints in A</span><span>: </span><span style='color: #BB00BB;'>-4.889, -2.926, -0.963, 1, and 2.964</span><span></span></div><div class='output co'>#&gt;   </div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>CV-selected lambda</span><span>: 0.3679</span></div><div class='output co'>#&gt; <span class='message'></span><span style='font-weight: bold;'>HAL fit summary</span><span>:</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coefficients for many lamdba exist --</span>
-#&gt; <span class='warning'>Summarizing coefficients corresponding to minimum lambda.</span></div><div class='output co'>#&gt; 
-#&gt; 
-#&gt; |       coef|term                                  |
-#&gt; |----------:|:-------------------------------------|
-#&gt; |  1.6907191|Intercept                             |
-#&gt; |  2.1914135|I(bin_id,W &gt;= 1)                      |
-#&gt; |  0.9913469|I(bin_id,W &gt;= 1)*I(bin_id &gt;= -3.9356) |
-#&gt; |  0.1637110|I(bin_id,W &gt;= 1)*I(bin_id &gt;= 2.5035)  |
-#&gt; | -0.0094664|I(bin_id,W &gt;= 1)*I(bin_id &gt;= 0.4659)  |
-#&gt; | -0.0109022|I(bin_id &gt;= -1.8935)                  |
-#&gt; | -0.0567357|I(bin_id &gt;= -1.9263)                  |
-#&gt; | -0.5401770|I(bin_id &gt;= -3.9356)                  |
-#&gt; | -0.9951522|I(bin_id,W &gt;= 1)*I(bin_id &gt;= 0.3279)  |
-#&gt; | -1.2082631|I(bin_id &gt;= -3.4305)                  |</div></span></pre>
+</div><div class='output co'>#&gt; <span class='message'>HAL Conditional Density Estimation</span></div><div class='output co'>#&gt;   </div><div class='output co'>#&gt; <span class='message'>CV-selected lambda: 0.0037</span></div><div class='output co'>#&gt;   </div><div class='output co'>#&gt; <span class='message'>Summary of fitted HAL:</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coefficients for many lamdba exist --</span>
+#&gt; <span class='warning'>Summarizing coefficients corresponding to minimum lambda.</span></div><div class='output co'>#&gt;          coef                          term
+#&gt;  1:  5.679759                     Intercept
+#&gt;  2: 12.420725                I(bin_id &gt;= 1)
+#&gt;  3: 11.667281                I(bin_id &gt;= 2)
+#&gt;  4: 10.240475                I(bin_id &gt;= 3)
+#&gt;  5: 10.111291                I(W &gt;= -3.663)
+#&gt;  6:  8.477009               I(W &gt;= -1.3528)
+#&gt;  7:  8.380710                I(W &gt;= 1.0317)
+#&gt;  8:  3.982913                I(W &gt;= 2.5035)
+#&gt;  9:  3.575604                I(W &gt;= 3.1547)
+#&gt; 10:  2.570777 I(bin_id &gt;= 3)*I(W &gt;= 1.0317)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

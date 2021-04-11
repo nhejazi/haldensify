@@ -600,6 +600,7 @@ body {
 
 <body>
 
+<h1 id="haldensify">haldensify</h1>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <h1 id="rhaldensify">R/<code>haldensify</code></h1>
@@ -620,34 +621,46 @@ body {
 <hr />
 <h2 id="example">Example</h2>
 <p>A simple example illustrates how <code>haldensify</code> may be used to construct conditional density estimates:</p>
-<pre class="asciicast"><code>library(haldensify)
-set.seed(76924)
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">library</span>(haldensify)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; haldensify v0.1.0: Highly Adaptive Lasso Conditional Density Estimation</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="kw">set.seed</span>(<span class="dv">76924</span>)</a>
+<a class="sourceLine" id="cb3-4" title="4"></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co"># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)</span></a>
+<a class="sourceLine" id="cb3-6" title="6">n_train &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb3-7" title="7">w &lt;-<span class="st"> </span><span class="kw">runif</span>(n_train, <span class="dv">-4</span>, <span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb3-8" title="8">a &lt;-<span class="st"> </span><span class="kw">rnorm</span>(n_train, w, <span class="fl">0.25</span>)</a>
+<a class="sourceLine" id="cb3-9" title="9"></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co"># HAL-based density estimate of A|W</span></a>
+<a class="sourceLine" id="cb3-11" title="11">haldensify_fit &lt;-<span class="st"> </span><span class="kw">haldensify</span>(</a>
+<a class="sourceLine" id="cb3-12" title="12">  <span class="dt">A =</span> a, <span class="dt">W =</span> w, <span class="dt">n_bins =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>),</a>
+<a class="sourceLine" id="cb3-13" title="13">  <span class="dt">grid_type =</span> <span class="st">&quot;equal_range&quot;</span>,</a>
+<a class="sourceLine" id="cb3-14" title="14">  <span class="dt">lambda_seq =</span> <span class="kw">exp</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">-10</span>, <span class="dt">length =</span> <span class="dv">100</span>)),</a>
+<a class="sourceLine" id="cb3-15" title="15">  <span class="co"># arguments passed to hal9001::fit_hal()</span></a>
+<a class="sourceLine" id="cb3-16" title="16">  <span class="dt">max_degree =</span> <span class="dv">5</span>, <span class="dt">smoothness_orders =</span> <span class="dv">0</span>, <span class="dt">reduce_basis =</span> <span class="fl">0.05</span></a>
+<a class="sourceLine" id="cb3-17" title="17">)</a>
+<a class="sourceLine" id="cb3-18" title="18">haldensify_fit</a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt; HAL Conditional Density Estimation</span></a></code></pre></div>
+<pre><code>#&gt; CV-selected lambda: 0.0021
 
-# simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)
-n_train &lt;- 100
-w &lt;- runif(n_train, -4, 4)
-a &lt;- rnorm(n_train, w, 0.25)
-
-# HAL-based density estimate of A|W
-haldensify_fit &lt;- haldensify(
-  A = a, W = w, n_bins = c(3, 5),
-  grid_type = &quot;equal_range&quot;,
-  lambda_seq = exp(seq(-1, -10, length = 100)),
-  # arguments passed to hal9001::fit_hal()
-  max_degree = 5, smoothness_orders = 0, reduce_basis = 0.05
-)
-haldensify_fit
+#&gt; Summary of fitted HAL:
+#&gt; Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --
+#&gt; Summarizing coefficients corresponding to minimum lambda.
+#&gt;          coef            term
+#&gt;  1:  7.470486       Intercept
+#&gt;  2: 12.109242  I(bin_id &gt;= 4)
+#&gt;  3: 11.704326  I(bin_id &gt;= 2)
+#&gt;  4: 11.224550  I(bin_id &gt;= 3)
+#&gt;  5: 10.255606  I(bin_id &gt;= 1)
+#&gt;  6:  8.875856  I(W &gt;= 2.5683)
+#&gt;  7:  8.627294 I(W &gt;= -2.6251)
+#&gt;  8:  7.925230 I(W &gt;= -2.3705)
+#&gt;  9:  7.340041  I(W &gt;= 0.9043)
+#&gt; 10:  7.240336 I(W &gt;= -2.2277)
 </code></pre>
-<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTA0MCIgaGVpZ2h0PSIyMTMuNjc5OTk5OTk5OTk5OTgiPjxyZWN0IHdpZHRoPSIxMDQwIiBoZWlnaHQ9IjIxMy42Nzk5OTk5OTk5OTk5OCIgcng9IjAiIHJ5PSIwIiBjbGFzcz0iYSI+PC9yZWN0PjxzdmcgaGVpZ2h0PSIxNzMuNjc5OTk5OTk5OTk5OTgiIHZpZXdCb3g9IjAgMCAxMDAgMTcuMzY4IiB3aWR0aD0iMTAwMCIgeD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHk9IjIwIj48c3R5bGU+LmF7ZmlsbDpyZ2IoNDAsNDUsNTMpfS5ie2ZvbnQtZmFtaWx5OidGaXJhIENvZGUnLE1vbmFjbyxDb25zb2xhcyxNZW5sbywnQml0c3RyZWFtIFZlcmEgU2FucyBNb25vJywnUG93ZXJsaW5lIFN5bWJvbHMnLG1vbm9zcGFjZX0uY3tmaWxsOnRyYW5zcGFyZW50fS5ke2ZpbGw6cmdiKDI1NSwxMzUsMjU1KTt3aGl0ZS1zcGFjZTpwcmV9LmV7ZmlsbDpyZ2IoMTg1LDE5MiwyMDMpO2ZvbnQtd2VpZ2h0OmJvbGQ7d2hpdGUtc3BhY2U6cHJlfS5me2ZpbGw6cmdiKDE4NSwxOTIsMjAzKTt3aGl0ZS1zcGFjZTpwcmV9Lmd7ZmlsbDpyZ2IoMjEwLDE0NCwyMjgpO3doaXRlLXNwYWNlOnByZX0uaHtmaWxsOnJnYigyMzIsMTMxLDEzNik7Zm9udC13ZWlnaHQ6Ym9sZDt3aGl0ZS1zcGFjZTpwcmV9PC9zdHlsZT48ZyBmb250LWZhbWlseT0iJiN4Mjc7RmlyYSBDb2RlJiN4Mjc7LE1vbmFjbyxDb25zb2xhcyxNZW5sbywmI3gyNztCaXRzdHJlYW0gVmVyYSBTYW5zIE1vbm8mI3gyNzssJiN4Mjc7UG93ZXJsaW5lIFN5bWJvbHMmI3gyNzssbW9ub3NwYWNlIiBmb250LXNpemU9IjEuNjciIGNsYXNzPSJiIj48ZGVmcz48c3ltYm9sIGlkPSJhIj48cmVjdCBoZWlnaHQ9IjkiIHdpZHRoPSIxMDAiIHg9IjAiIHk9IjAiIGNsYXNzPSJjIj48L3JlY3Q+PC9zeW1ib2w+PC9kZWZzPjxyZWN0IGhlaWdodD0iMTcuMzY4IiB3aWR0aD0iMTAwIiBjbGFzcz0iYSI+PC9yZWN0PjxzdmcgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCI+PHN2ZyB4PSIwIj48dXNlIHhsaW5rOmhyZWY9IiNhIj48L3VzZT48dGV4dCB4PSIwIiB5PSIxLjY3IiBjbGFzcz0iZCI+aGFsZGVuc2lmeTwvdGV4dD48dGV4dCB4PSIxMS4wMjE5OTk5OTk5OTk5OTgiIHk9IjEuNjciIGNsYXNzPSJkIj52MC4xLjA6PC90ZXh0Pjx0ZXh0IHg9IjE5LjAzNzk5OTk5OTk5OTk5NyIgeT0iMS42NyIgY2xhc3M9ImQiPkhpZ2hseTwvdGV4dD48dGV4dCB4PSIyNi4wNTIiIHk9IjEuNjciIGNsYXNzPSJkIj5BZGFwdGl2ZTwvdGV4dD48dGV4dCB4PSIzNS4wNjk5OTk5OTk5OTk5OSIgeT0iMS42NyIgY2xhc3M9ImQiPkxhc3NvPC90ZXh0Pjx0ZXh0IHg9IjQxLjA4MiIgeT0iMS42NyIgY2xhc3M9ImQiPkNvbmRpdGlvbmFsPC90ZXh0Pjx0ZXh0IHg9IjUzLjEwNTk5OTk5OTk5OTk5NSIgeT0iMS42NyIgY2xhc3M9ImQiPkRlbnNpdHk8L3RleHQ+PHRleHQgeD0iNjEuMTIxOTk5OTk5OTk5OTkiIHk9IjEuNjciIGNsYXNzPSJkIj5Fc3RpbWF0aW9uPC90ZXh0Pjx0ZXh0IHg9IjIuMDA0IiB5PSIzLjg0MDk5OTk5OTk5OTk5OTciIGNsYXNzPSJlIj5IQUw8L3RleHQ+PHRleHQgeD0iNi4wMTIiIHk9IjMuODQwOTk5OTk5OTk5OTk5NyIgY2xhc3M9ImUiPkNvbmRpdGlvbmFsPC90ZXh0Pjx0ZXh0IHg9IjE4LjAzNTk5OTk5OTk5OTk5OCIgeT0iMy44NDA5OTk5OTk5OTk5OTk3IiBjbGFzcz0iZSI+RGVuc2l0eTwvdGV4dD48dGV4dCB4PSIyNi4wNTIiIHk9IjMuODQwOTk5OTk5OTk5OTk5NyIgY2xhc3M9ImUiPkVzdGltYXRpb248L3RleHQ+PHRleHQgeD0iNC4wMDgiIHk9IjYuMDEyIiBjbGFzcz0iZSI+QnJlYWtwb2ludHM8L3RleHQ+PHRleHQgeD0iMTYuMDMyIiB5PSI2LjAxMiIgY2xhc3M9ImUiPmluPC90ZXh0Pjx0ZXh0IHg9IjE5LjAzNzk5OTk5OTk5OTk5NyIgeT0iNi4wMTIiIGNsYXNzPSJlIj5BPC90ZXh0Pjx0ZXh0IHg9IjIwLjA0IiB5PSI2LjAxMiIgY2xhc3M9ImYiPjo8L3RleHQ+PHRleHQgeD0iMjIuMDQzOTk5OTk5OTk5OTk3IiB5PSI2LjAxMiIgY2xhc3M9ImciPi00LjExOCw8L3RleHQ+PHRleHQgeD0iMzAuMDU5OTk5OTk5OTk5OTk1IiB5PSI2LjAxMiIgY2xhc3M9ImciPi0yLjQ2Miw8L3RleHQ+PHRleHQgeD0iMzguMDc1OTk5OTk5OTk5OTkiIHk9IjYuMDEyIiBjbGFzcz0iZyI+LTAuODA1LDwvdGV4dD48dGV4dCB4PSI0Ni4wOTE5OTk5OTk5OTk5OSIgeT0iNi4wMTIiIGNsYXNzPSJnIj4wLjg1MSw8L3RleHQ+PHRleHQgeD0iNTMuMTA1OTk5OTk5OTk5OTk1IiB5PSI2LjAxMiIgY2xhc3M9ImciPmFuZDwvdGV4dD48dGV4dCB4PSI1Ny4xMTQiIHk9IjYuMDEyIiBjbGFzcz0iZyI+Mi41MDc8L3RleHQ+PHRleHQgeD0iNC4wMDgiIHk9IjguMTgzIiBjbGFzcz0iZSI+Q1Ytc2VsZWN0ZWQ8L3RleHQ+PHRleHQgeD0iMTYuMDMyIiB5PSI4LjE4MyIgY2xhc3M9ImUiPmxhbWJkYTwvdGV4dD48dGV4dCB4PSIyMi4wNDM5OTk5OTk5OTk5OTciIHk9IjguMTgzIiBjbGFzcz0iZiI+OjwvdGV4dD48dGV4dCB4PSIyNC4wNDgiIHk9IjguMTgzIiBjbGFzcz0iZiI+MC4wMDIxPC90ZXh0Pjx0ZXh0IHg9IjQuMDA4IiB5PSIxMC4zNTQiIGNsYXNzPSJlIj5IQUw8L3RleHQ+PHRleHQgeD0iOC4wMTYiIHk9IjEwLjM1NCIgY2xhc3M9ImUiPmZpdDwvdGV4dD48dGV4dCB4PSIxMi4wMjQiIHk9IjEwLjM1NCIgY2xhc3M9ImUiPnN1bW1hcnk8L3RleHQ+PHRleHQgeD0iMTkuMDM3OTk5OTk5OTk5OTk3IiB5PSIxMC4zNTQiIGNsYXNzPSJmIj46PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjEyLjUyNSIgY2xhc3M9ImgiPldhcm5pbmc8L3RleHQ+PHRleHQgeD0iOC4wMTYiIHk9IjEyLjUyNSIgY2xhc3M9ImgiPm1lc3NhZ2U6PC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjE0LjY5NiIgY2xhc3M9ImQiPkluPC90ZXh0Pjx0ZXh0IHg9IjMuMDA2IiB5PSIxNC42OTYiIGNsYXNzPSJkIj5zdW1tYXJ5LmhhbDkwMDEoeCRoYWxfZml0KTwvdGV4dD48dGV4dCB4PSIzMC4wNTk5OTk5OTk5OTk5OTUiIHk9IjE0LjY5NiIgY2xhc3M9ImQiPjo8L3RleHQ+PHRleHQgeD0iMzIuMDY0IiB5PSIxNC42OTYiIGNsYXNzPSJkIj5Db2VmZmljaWVudHM8L3RleHQ+PHRleHQgeD0iNDUuMDg5OTk5OTk5OTk5OTk2IiB5PSIxNC42OTYiIGNsYXNzPSJkIj5mb3I8L3RleHQ+PHRleHQgeD0iNDkuMDk4IiB5PSIxNC42OTYiIGNsYXNzPSJkIj5tYW55PC90ZXh0Pjx0ZXh0IHg9IjU0LjEwOCIgeT0iMTQuNjk2IiBjbGFzcz0iZCI+bGFtZGJhPC90ZXh0Pjx0ZXh0IHg9IjYxLjEyMTk5OTk5OTk5OTk5IiB5PSIxNC42OTYiIGNsYXNzPSJkIj5leGlzdDwvdGV4dD48dGV4dCB4PSI2Ny4xMzQiIHk9IjE0LjY5NiIgY2xhc3M9ImQiPi0tPC90ZXh0Pjx0ZXh0IHg9IjAiIHk9IjE2Ljg2Njk5OTk5OTk5OTk5NyIgY2xhc3M9ImQiPlN1bW1hcml6aW5nPC90ZXh0Pjx0ZXh0IHg9IjEyLjAyNCIgeT0iMTYuODY2OTk5OTk5OTk5OTk3IiBjbGFzcz0iZCI+Y29lZmZpY2llbnRzPC90ZXh0Pjx0ZXh0IHg9IjI1LjA1IiB5PSIxNi44NjY5OTk5OTk5OTk5OTciIGNsYXNzPSJkIj5jb3JyZXNwb25kaW5nPC90ZXh0Pjx0ZXh0IHg9IjM5LjA3Nzk5OTk5OTk5OTk5NiIgeT0iMTYuODY2OTk5OTk5OTk5OTk3IiBjbGFzcz0iZCI+dG88L3RleHQ+PHRleHQgeD0iNDIuMDgzOTk5OTk5OTk5OTk2IiB5PSIxNi44NjY5OTk5OTk5OTk5OTciIGNsYXNzPSJkIj5taW5pbXVtPC90ZXh0Pjx0ZXh0IHg9IjUwLjEiIHk9IjE2Ljg2Njk5OTk5OTk5OTk5NyIgY2xhc3M9ImQiPmxhbWJkYS48L3RleHQ+PC9zdmc+PC9zdmc+PC9nPjwvc3ZnPjwvc3ZnPg==" /><!-- --></p>
-<pre class="asciicast"><code># use the built-in predict method to get predictions
-pred_haldensify &lt;- predict(haldensify_fit, new_A = a, new_W = w)
-head(pred_haldensify)
-</code></pre>
-<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTA0MCIgaGVpZ2h0PSI2MS43MDk5OTk5OTk5OTk5OTQiPjxyZWN0IHdpZHRoPSIxMDQwIiBoZWlnaHQ9IjYxLjcwOTk5OTk5OTk5OTk5NCIgcng9IjAiIHJ5PSIwIiBjbGFzcz0iYSI+PC9yZWN0PjxzdmcgaGVpZ2h0PSIyMS43MDk5OTk5OTk5OTk5OTciIHZpZXdCb3g9IjAgMCAxMDAgMi4xNzEiIHdpZHRoPSIxMDAwIiB4PSIyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeT0iMjAiPjxzdHlsZT4uYXtmaWxsOnJnYig0MCw0NSw1Myl9LmJ7Zm9udC1mYW1pbHk6J0ZpcmEgQ29kZScsTW9uYWNvLENvbnNvbGFzLE1lbmxvLCdCaXRzdHJlYW0gVmVyYSBTYW5zIE1vbm8nLCdQb3dlcmxpbmUgU3ltYm9scycsbW9ub3NwYWNlfS5je2ZpbGw6dHJhbnNwYXJlbnR9LmR7ZmlsbDpyZ2IoMCwxMzUsMTM1KTt3aGl0ZS1zcGFjZTpwcmV9LmV7ZmlsbDpyZ2IoMjU1LDE3NSwwKTt3aGl0ZS1zcGFjZTpwcmV9PC9zdHlsZT48ZyBmb250LWZhbWlseT0iJiN4Mjc7RmlyYSBDb2RlJiN4Mjc7LE1vbmFjbyxDb25zb2xhcyxNZW5sbywmI3gyNztCaXRzdHJlYW0gVmVyYSBTYW5zIE1vbm8mI3gyNzssJiN4Mjc7UG93ZXJsaW5lIFN5bWJvbHMmI3gyNzssbW9ub3NwYWNlIiBmb250LXNpemU9IjEuNjciIGNsYXNzPSJiIj48ZGVmcz48c3ltYm9sIGlkPSJhIj48cmVjdCBoZWlnaHQ9IjIiIHdpZHRoPSIxMDAiIHg9IjAiIHk9IjAiIGNsYXNzPSJjIj48L3JlY3Q+PC9zeW1ib2w+PC9kZWZzPjxyZWN0IGhlaWdodD0iMi4xNzEiIHdpZHRoPSIxMDAiIGNsYXNzPSJhIj48L3JlY3Q+PHN2ZyB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIj48c3ZnIHg9IjAiPjx1c2UgeGxpbms6aHJlZj0iI2EiPjwvdXNlPjx0ZXh0IHg9IjAiIHk9IjEuNjciIGNsYXNzPSJkIj5bMV08L3RleHQ+PHRleHQgeD0iNC4wMDgiIHk9IjEuNjciIGNsYXNzPSJlIj4wLjEwMDAwMDA8L3RleHQ+PHRleHQgeD0iMTQuMDI3OTk5OTk5OTk5OTk5IiB5PSIxLjY3IiBjbGFzcz0iZSI+MC40ODQyOTI3PC90ZXh0Pjx0ZXh0IHg9IjI0LjA0OCIgeT0iMS42NyIgY2xhc3M9ImUiPjAuMjQzNzUzMTwvdGV4dD48dGV4dCB4PSIzNC4wNjgiIHk9IjEuNjciIGNsYXNzPSJlIj4wLjUwNzY3MTY8L3RleHQ+PHRleHQgeD0iNDQuMDg3OTk5OTk5OTk5OTk0IiB5PSIxLjY3IiBjbGFzcz0iZSI+MC40ODM3NjU0PC90ZXh0Pjx0ZXh0IHg9IjU0LjEwOCIgeT0iMS42NyIgY2xhc3M9ImUiPjAuMzU1NzMwOTwvdGV4dD48L3N2Zz48L3N2Zz48L2c+PC9zdmc+PC9zdmc+" /><!-- --></p>
-<pre class="asciicast"><code># plot the solution path as a function of lambda
-plot(haldensify_fit)
-</code></pre>
-<p><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTA0MCIgaGVpZ2h0PSI0MCI+PHJlY3Qgd2lkdGg9IjEwNDAiIGhlaWdodD0iNDAiIHJ4PSIwIiByeT0iMCIgY2xhc3M9ImEiPjwvcmVjdD48c3ZnIGhlaWdodD0iMCIgdmlld0JveD0iMCAwIDEwMCAwIiB3aWR0aD0iMTAwMCIgeD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHk9IjIwIj48c3R5bGU+LmF7ZmlsbDpyZ2IoNDAsNDUsNTMpfS5ie2ZvbnQtZmFtaWx5OidGaXJhIENvZGUnLE1vbmFjbyxDb25zb2xhcyxNZW5sbywnQml0c3RyZWFtIFZlcmEgU2FucyBNb25vJywnUG93ZXJsaW5lIFN5bWJvbHMnLG1vbm9zcGFjZX0uY3tmaWxsOnRyYW5zcGFyZW50fTwvc3R5bGU+PGcgZm9udC1mYW1pbHk9IiYjeDI3O0ZpcmEgQ29kZSYjeDI3OyxNb25hY28sQ29uc29sYXMsTWVubG8sJiN4Mjc7Qml0c3RyZWFtIFZlcmEgU2FucyBNb25vJiN4Mjc7LCYjeDI3O1Bvd2VybGluZSBTeW1ib2xzJiN4Mjc7LG1vbm9zcGFjZSIgZm9udC1zaXplPSIxLjY3IiBjbGFzcz0iYiI+PGRlZnM+PHN5bWJvbCBpZD0iYSI+PHJlY3QgaGVpZ2h0PSIxIiB3aWR0aD0iMTAwIiB4PSIwIiB5PSIwIiBjbGFzcz0iYyI+PC9yZWN0Pjwvc3ltYm9sPjwvZGVmcz48cmVjdCBoZWlnaHQ9IjAiIHdpZHRoPSIxMDAiIGNsYXNzPSJhIj48L3JlY3Q+PHN2ZyB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIj48c3ZnIHg9IjAiPjx1c2UgeGxpbms6aHJlZj0iI2EiPjwvdXNlPjwvc3ZnPjwvc3ZnPjwvZz48L3N2Zz48L3N2Zz4=" /><!-- --></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># use the built-in predict method to get predictions</span></a>
+<a class="sourceLine" id="cb5-2" title="2">pred_haldensify &lt;-<span class="st"> </span><span class="kw">predict</span>(haldensify_fit, <span class="dt">new_A =</span> a, <span class="dt">new_W =</span> w)</a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="kw">head</span>(pred_haldensify)</a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co">#&gt; [1] 0.1000000 0.4842927 0.2437531 0.5076716 0.4837654 0.3557309</span></a></code></pre></div>
 <hr />
 <h2 id="issues">Issues</h2>
 <p>If you encounter any bugs or have any specific feature requests, please <a href="https://github.com/nhejazi/haldensify/issues">file an issue</a>.</p>

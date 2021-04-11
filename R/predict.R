@@ -52,9 +52,9 @@ utils::globalVariables(c("wts"))
 #' # HAL-based density estimator of A|W
 #' haldensify_fit <- haldensify(
 #'   A = a, W = w, n_bins = c(3, 5),
-#'   lambda_seq = exp(seq(-1, -5, length = 500)),
+#'   lambda_seq = exp(seq(-1, -10, length = 500)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, reduce_basis = 0.2, smoothness_orders = 0
+#'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 #' # predictions to recover conditional density of A|W
 #' new_a <- seq(-4, 4, by = 0.1)
@@ -72,7 +72,7 @@ predict.haldensify <- function(object,
     # check existence of CV-selected lambda and extract from model object slot
     assertthat::assert_that(
       !is.na(object$cv_tuning_results$lambda_loss_min_idx),
-      msg = "Optimal lambda not selected by CV in fitted haldensify model"
+      msg = "No CV-selected lambda found in fitted haldensify model"
     )
     cv_lambda_idx <- object$cv_tuning_results$lambda_loss_min_idx
   }

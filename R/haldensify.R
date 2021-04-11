@@ -192,10 +192,10 @@ cv_haldensify <- function(fold,
 #' a <- rnorm(n_train, w, 0.5)
 #' # learn relationship A|W using HAL-based density estimation procedure
 #' haldensify_fit <- haldensify(
-#'   A = a, W = w, n_bins = c(3, 5),
-#'   lambda_seq = exp(seq(-1, -5, length = 500)),
+#'   A = a, W = w, n_bins = 5,
+#'   lambda_seq = exp(seq(-1, -10, length = 500)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, reduce_basis = 0.2, smoothness_orders = 0
+#'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 haldensify <- function(A, W,
                        wts = rep(1, length(A)),
@@ -223,37 +223,27 @@ haldensify <- function(A, W,
   # run procedure to select tuning parameters via cross-validation
   # NOTE: even when the number of bins and discretization technique are fixed,
   #       this step is still required to produce a CV-selected choice of lambda
-  if (nrow(tune_grid) > 1) {
-    select_out <- future.apply::future_mapply(
-      FUN = fit_haldensify,
-      grid_type = tune_grid$grid_type,
-      n_bins = tune_grid$n_bins,
-      MoreArgs = list(
-        A = A, W = W, wts = wts,
-        cv_folds = cv_folds,
-        lambda_seq = lambda_seq,
-        ...
-      ),
-      SIMPLIFY = FALSE,
-      future.seed = TRUE
-    )
+  select_out <- future.apply::future_mapply(
+    FUN = fit_haldensify,
+    grid_type = tune_grid$grid_type,
+    n_bins = tune_grid$n_bins,
+    MoreArgs = list(
+      A = A, W = W, wts = wts,
+      cv_folds = cv_folds,
+      lambda_seq = lambda_seq,
+      ...
+    ),
+    SIMPLIFY = FALSE,
+    future.seed = TRUE
+  )
 
-    # extract n_bins/grid_type index that is empirical loss minimizer
-    emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
-    min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
-    min_risk <- lapply(emp_risk_per_lambda, min)
-    cv_selected_params <- tune_grid[which.min(min_risk), , drop = FALSE]
-    cv_selected_fits <- select_out[[which.min(min_risk)]]
-    cv_selected_fits$density_pred <- NULL
-  } else {
-    cv_selected_params <- tune_grid
-    cv_selected_fits <- list(
-      lambda_loss_min_idx = NA_real_,
-      lambda_loss_min = NA_real_,
-      emp_risks = NA_real_,
-      lambda_seq = lambda_seq
-    )
-  }
+  # extract n_bins/grid_type index that is empirical loss minimizer
+  emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
+  min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
+  min_risk <- lapply(emp_risk_per_lambda, min)
+  cv_selected_params <- tune_grid[which.min(min_risk), , drop = FALSE]
+  cv_selected_fits <- select_out[[which.min(min_risk)]]
+  cv_selected_fits$density_pred <- NULL
 
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(
@@ -348,7 +338,9 @@ haldensify <- function(A, W,
 #' # fit cross-validated HAL-based density estimator of A|W
 #' haldensify_cvfit <- fit_haldensify(
 #'   A = a, W = w, n_bins = 3,
-#'   lambda_seq = exp(seq(-1, -10, length = 50))
+#'   lambda_seq = exp(seq(-1, -10, length = 100)),
+#'   # the following arguments are passed to hal9001::fit_hal()
+#'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 fit_haldensify <- function(A, W,
                            wts = rep(1, length(A)),
