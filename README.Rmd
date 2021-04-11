@@ -1,6 +1,8 @@
 ---
+title: haldensify
 output:
-  rmarkdown::github_document
+  md_document:
+    variant: markdown_github
 always_allow_html: yes
 bibliography: "inst/REFERENCES.bib"
 ---
@@ -12,7 +14,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "README-",
-  fig.ext = "svg"
+  fig.ext = "svg",
+  out.width = "100%",
+  cache = TRUE
 )
 # Turn on ANSI colors
 options(cli.num_colors = 256L)

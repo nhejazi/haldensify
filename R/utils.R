@@ -226,7 +226,7 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 #'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 #' print(haldensify_fit)
-print.haldensify <- function(x, ...) {
+print.haldensify <- function(x, ..., summary=FALSE) {
   # construct and print output
   cli::cli_text("{.strong HAL Conditional Density Estimation}")
   cli::cli_text(
@@ -235,8 +235,6 @@ print.haldensify <- function(x, ...) {
   )
   cli::cli_text(cat("  "), "{.strong CV-selected lambda}:
                 {round(x$cv_tuning_results$lambda_loss_min, 4)}")
-  cli::cli_text("{.strong HAL fit summary}:")
-  print(knitr::kable(head(summary(x$hal_fit)$table, 10)))
 }
 
 ###############################################################################

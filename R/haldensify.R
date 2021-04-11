@@ -195,7 +195,7 @@ cv_haldensify <- function(fold,
 #'   A = a, W = w, n_bins = 5,
 #'   lambda_seq = exp(seq(-1, -10, length = 500)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, reduce_basis = 0.2, smoothness_orders = 0
+#'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 haldensify <- function(A, W,
                        wts = rep(1, length(A)),
@@ -340,7 +340,7 @@ haldensify <- function(A, W,
 #'   A = a, W = w, n_bins = 3,
 #'   lambda_seq = exp(seq(-1, -10, length = 100)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, reduce_basis = 0.2, smoothness_orders = 0
+#'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 fit_haldensify <- function(A, W,
                            wts = rep(1, length(A)),
