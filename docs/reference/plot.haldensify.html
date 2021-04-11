@@ -170,10 +170,12 @@ by cross-validation). The latter has yet to be implemented.</p></td>
 <span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
 <span class='va'>haldensify_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='haldensify.html'>haldensify</a></span><span class='op'>(</span>
   A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fl'>3</span>,
-  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>
+  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='co'># the following arguments are passed to hal9001::fit_hal()</span>
+  max_degree <span class='op'>=</span> <span class='fl'>3</span>, smoothness_orders <span class='op'>=</span> <span class='fl'>0</span>, reduce_basis <span class='op'>=</span> <span class='fl'>0.1</span>
 <span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>haldensify_fit</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 50 rows containing missing values (geom_point).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 50 row(s) containing missing values (geom_path).</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 1 rows containing missing values (geom_vline).</span></div><div class='img'><img src='plot.haldensify-1.png' alt='' width='700' height='433' /></div></pre>
+</div><div class='img'><img src='plot.haldensify-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

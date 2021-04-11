@@ -33,7 +33,9 @@ a <- rnorm(n_train, w, 0.5)
 # learn relationship A|W using HAL-based density estimation procedure
 haldensify_fit <- haldensify(
   A = a, W = w, n_bins = 3,
-  lambda_seq = exp(seq(-1, -10, length = 50))
+  lambda_seq = exp(seq(-1, -10, length = 50)),
+  # the following arguments are passed to hal9001::fit_hal()
+  max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 )
 plot(haldensify_fit)
 }

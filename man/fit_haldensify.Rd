@@ -69,6 +69,8 @@ a <- rnorm(n_train, w, 0.5)
 # fit cross-validated HAL-based density estimator of A|W
 haldensify_cvfit <- fit_haldensify(
   A = a, W = w, n_bins = 3,
-  lambda_seq = exp(seq(-1, -10, length = 50))
+  lambda_seq = exp(seq(-1, -10, length = 100)),
+  # the following arguments are passed to hal9001::fit_hal()
+  max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 )
 }

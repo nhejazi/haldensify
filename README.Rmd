@@ -1,8 +1,7 @@
 ---
 title: haldensify
 output:
-  md_document:
-    variant: markdown_github
+  rmarkdown::github_document
 always_allow_html: yes
 bibliography: "inst/REFERENCES.bib"
 ---
@@ -13,21 +12,8 @@ bibliography: "inst/REFERENCES.bib"
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-",
-  fig.ext = "svg",
   out.width = "100%",
-  cache = TRUE
-)
-# Turn on ANSI colors
-options(cli.num_colors = 256L)
-asciicast::init_knitr_engine(
-  startup = quote({
-    library(cli)
-    set.seed(1)
-  }),
-  echo = TRUE,
-  timeout = 100,
-  echo_input = FALSE
+  fig.path = "README-"
 )
 ```
 
@@ -92,7 +78,7 @@ remotes::install_github("nhejazi/haldensify")
 A simple example illustrates how `haldensify` may be used to construct
 conditional density estimates:
 
-```{asciicast}
+```{r example-fit}
 library(haldensify)
 set.seed(76924)
 
@@ -112,15 +98,10 @@ haldensify_fit <- haldensify(
 haldensify_fit
 ```
 
-```{asciicast}
+```{r example-predict}
 # use the built-in predict method to get predictions
 pred_haldensify <- predict(haldensify_fit, new_A = a, new_W = w)
 head(pred_haldensify)
-```
-
-```{asciicast}
-# plot the solution path as a function of lambda
-plot(haldensify_fit)
 ```
 
 ---
