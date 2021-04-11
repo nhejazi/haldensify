@@ -206,6 +206,7 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 #' @method print haldensify
 #'
 #' @importFrom cli cli_text col_magenta
+#' @importFrom knitr kable
 #'
 #' @return None. Called for the side effect of printing an informative summary
 #'  of slots of objects of class \code{haldensify}.
@@ -227,15 +228,15 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 #' print(haldensify_fit)
 print.haldensify <- function(x, ...) {
   # construct and print output
-  cli::cli_text(cat("  "), "{.strong HAL Conditional Density Estimation}")
+  cli::cli_text("{.strong HAL Conditional Density Estimation}")
   cli::cli_text(
-    cat("    "), "{.strong Breakpoints in A}: ",
+    cat("  "), "{.strong Breakpoints in A}: ",
     cli::col_magenta("{round(x$breaks, 3)}")
   )
-  cli::cli_text(cat("    "), "{.strong CV-selected lambda}:
+  cli::cli_text(cat("  "), "{.strong CV-selected lambda}:
                 {round(x$cv_tuning_results$lambda_loss_min, 4)}")
-  cli::cli_text(cat("    "), "{.strong HAL fit summary}:")
-  summary(x$hal_fit)$table
+  cli::cli_text("{.strong HAL fit summary}:")
+  print(knitr::kable(head(summary(x$hal_fit)$table, 10)))
 }
 
 ###############################################################################

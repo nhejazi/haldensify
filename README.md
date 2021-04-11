@@ -100,6 +100,13 @@ head(pred_haldensify)
 
 ![](README-/unnamed-chunk-3.svg)<!-- -->
 
+``` asciicast
+# plot the solution path as a function of lambda
+plot(haldensify_fit)
+```
+
+![](README-/unnamed-chunk-4.svg)<!-- -->
+
 -----
 
 ## Issues
