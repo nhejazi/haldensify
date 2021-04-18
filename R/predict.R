@@ -137,8 +137,10 @@ predict.haldensify <- function(object,
   # trim values outside training support to avoid extrapolation
   outside_support <- new_A < object$range_a[1] | new_A > object$range_a[2]
   if (any(outside_support)) {
-    message("Trimmed predictions for observation outside training support.")
     density_pred_rescaled[outside_support, ] <- trim_dens
+    prop_trimmed <- sum(outside_support) / length(outside_support)
+    message(paste0("Trimmed predictions for ", round(100 * prop_trimmed, 2),
+                   "% of observations (outside training support)."))
   }
 
   # return predicted densities only for CV-selected or undersmoothed lambdas
