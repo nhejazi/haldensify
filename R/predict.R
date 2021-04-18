@@ -15,8 +15,10 @@ utils::globalVariables(c("wts"))
 #' @param new_W A \code{data.frame}, \code{matrix}, or similar giving the
 #'  values of baseline covariates (potential confounders) for the conditioning
 #'  set of the observed values \code{A}.
-#' @param trim_dens A \code{numeric} indicating the minimum allowed value of
-#'  the resultant density predictions. Any predicted density values below this
+#' @param trim A \code{logical} indicating whether estimates of the conditional
+#'  density below the value indicated in \code{trim_min} should be truncated.
+#' @param trim_min A \code{numeric} indicating the minimum allowed value of the
+#'  resultant density predictions. Any predicted density values below this
 #'  tolerance threshold are set to the indicated minimum. The default is to use
 #'  the inverse of the square root of the sample size of the prediction set,
 #'  i.e., 1/sqrt(n); another notable choice is 1/sqrt(n)/log(n). If there are
@@ -64,7 +66,8 @@ predict.haldensify <- function(object,
                                ...,
                                new_A,
                                new_W,
-                               trim_dens = 1 / sqrt(length(new_A)),
+                               trim = FALSE,
+                               trim_min = 1 / sqrt(length(new_A)),
                                lambda_select = c("cv", "undersmooth", "all")) {
   # set default selection procedure to the cross-validation selector
   lambda_select <- match.arg(lambda_select)
@@ -130,17 +133,17 @@ predict.haldensify <- function(object,
   })
 
   # truncate conditional density estimates below the specified tolerance
-  if (min(density_pred_rescaled) < trim_dens) {
-    density_pred_rescaled <- apply(density_pred_rescaled, 2, pmax, trim_dens)
+  if (trim && min(density_pred_rescaled) < trim_min) {
+    density_pred_rescaled <- apply(density_pred_rescaled, 2, pmax, trim_min)
   }
 
   # trim values outside training support to avoid extrapolation
   outside_support <- new_A < object$range_a[1] | new_A > object$range_a[2]
-  if (any(outside_support)) {
-    density_pred_rescaled[outside_support, ] <- trim_dens
+  if (trim && any(outside_support)) {
+    density_pred_rescaled[outside_support, ] <- trim_min
     prop_trimmed <- sum(outside_support) / length(outside_support)
-    message(paste0("Trimmed predictions for ", round(100 * prop_trimmed, 2),
-                   "% of observations (outside training support)."))
+    message(paste0(round(100 * prop_trimmed, 2), "% of observations outside",
+                   " training support...trimmed predictions."))
   }
 
   # return predicted densities only for CV-selected or undersmoothed lambdas

@@ -9,7 +9,8 @@
   ...,
   new_A,
   new_W,
-  trim_dens = 1/sqrt(length(new_A)),
+  trim = FALSE,
+  trim_min = 1/sqrt(length(new_A)),
   lambda_select = c("cv", "undersmooth", "all")
 )
 }
@@ -27,8 +28,11 @@ which a conditional density estimate is to be generated.}
 values of baseline covariates (potential confounders) for the conditioning
 set of the observed values \code{A}.}
 
-\item{trim_dens}{A \code{numeric} indicating the minimum allowed value of
-the resultant density predictions. Any predicted density values below this
+\item{trim}{A \code{logical} indicating whether estimates of the conditional
+density below the value indicated in \code{trim_min} should be truncated.}
+
+\item{trim_min}{A \code{numeric} indicating the minimum allowed value of the
+resultant density predictions. Any predicted density values below this
 tolerance threshold are set to the indicated minimum. The default is to use
 the inverse of the square root of the sample size of the prediction set,
 i.e., 1/sqrt(n); another notable choice is 1/sqrt(n)/log(n). If there are
