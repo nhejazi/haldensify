@@ -3,10 +3,23 @@
 As of April 2021:
 * Updates to `haldensify` arguments (removal of `hal_max_degree` as a named
   argument) to simplify and better match use of `fit_hal` in `hal9001` v0.3.0+.
-* Addition of an argument `trim_dens` to `predict.haldensify` to make the use
-  of truncation more transparent and more easily manipulable.
+  This overhaul also included the addition of `...` arguments, now passed
+  through `haldensify` and `fit_haldensify` to `cv_haldensify`, allowing all
+  internal calls to `hal9001::fit_hal()` to specify the same arguments be
+  passed for the fitting of HAL models.
+* Changes to the default values of the argument `n_bins`, now setting this to
+  (much) larger values that are themselves based on the sample size. This is in
+  accordance with evidence from simulation experiments indicating that higher
+  values of `n_bins` lead to significantly improved density estimates.
+* Addition of argument `trim` and `trim_dens` to `predict.haldensify` to support
+  the use of truncation more transparently. While the default was to set
+  predictions for values of `new_A` outside the training support to zero, this
+  has been changed to avoid trimming and, when the choice is made to trim the
+  predictions, to set this value to `1/sqrt(length(new_A))`.
 * Addition of a new method `print.haldensify` for a more user-friendly display
-   of the prediction procedure's output.
+   of the prediction procedure's output, including the selected number of bins,
+   the CV-selected choice of the regularization parameter, and the `summary`
+   of the fitted HAL model.
 
 # haldensify 0.0.9
 

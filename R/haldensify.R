@@ -145,9 +145,9 @@ cv_haldensify <- function(fold,
 #'  cross-validation will be used to select the optimal binning strategy.
 #' @param n_bins This \code{numeric} value indicates the number(s) of bins into
 #'  which the support of \code{A} is to be divided. As with \code{grid_type},
-#'  multiple values may be specified, in which case a cross-validation selector
-#'  will be used to choose the optimal number of bins. In fact, the default
-#'  uses a cross-validation selector to choose between 10 and 25 bins.
+#'  multiple values may be specified, in which case cross-validation will be
+#'  used to choose the optimal number of bins. The default sets the candidate
+#'  choices of the number of bins based on heuristics tested in simulation.
 #' @param cv_folds A \code{numeric} indicating the number of cross-validation
 #'  folds to be used in fitting the sequence of HAL conditional density models.
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
@@ -192,15 +192,15 @@ cv_haldensify <- function(fold,
 #' a <- rnorm(n_train, w, 0.5)
 #' # learn relationship A|W using HAL-based density estimation procedure
 #' haldensify_fit <- haldensify(
-#'   A = a, W = w, n_bins = 5,
-#'   lambda_seq = exp(seq(-1, -10, length = 500)),
+#'   A = a, W = w, lambda_seq = exp(seq(-1, -10, length = 500)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
+#'   max_degree = 5, smoothness_orders = 0, num_knots = NULL,
+#'   reduce_basis = 1 / sqrt(length(a))
 #' )
 haldensify <- function(A, W,
                        wts = rep(1, length(A)),
                        grid_type = "equal_range",
-                       n_bins = c(3, 5, 10),
+                       n_bins = ceiling(length(A)^(c(1/2, 2/3))),
                        cv_folds = 5,
                        lambda_seq = exp(seq(-1, -13, length = 1000)),
                        hal_basis_list = NULL,
@@ -308,7 +308,10 @@ haldensify <- function(A, W,
 #'  bin has the same number of observations, use \code{"equal_mass"}; consult
 #'  the documentation of \code{\link[ggplot2]{cut_number}} for details.
 #' @param n_bins This \code{numeric} value indicates the number(s) of bins into
-#'  which the support of \code{A} is to be divided.
+#'  which the support of \code{A} is to be divided. As with \code{grid_type},
+#'  multiple values may be specified, in which case cross-validation will be
+#'  used to choose the optimal number of bins. The default sets the candidate
+#'  choices of the number of bins based on heuristics tested in simulation.
 #' @param cv_folds A \code{numeric} indicating the number of cross-validation
 #'  folds to be used in fitting the sequence of HAL conditional density models.
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
@@ -337,15 +340,15 @@ haldensify <- function(A, W,
 #' a <- rnorm(n_train, w, 0.5)
 #' # fit cross-validated HAL-based density estimator of A|W
 #' haldensify_cvfit <- fit_haldensify(
-#'   A = a, W = w, n_bins = 3,
-#'   lambda_seq = exp(seq(-1, -10, length = 100)),
+#'   A = a, W = w, lambda_seq = exp(seq(-1, -10, length = 100)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
+#'   max_degree = 5, smoothness_orders = 0, num_knots = NULL,
+#'   reduce_basis = 1 / sqrt(length(a))
 #' )
 fit_haldensify <- function(A, W,
                            wts = rep(1, length(A)),
                            grid_type = "equal_range",
-                           n_bins = 5,
+                           n_bins = ceiling(length(A)^(c(1/2, 2/3))),
                            cv_folds = 5,
                            lambda_seq = exp(seq(-1, -13, length = 1000)),
                            ...) {

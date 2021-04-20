@@ -74,8 +74,8 @@ remotes::install_github("nhejazi/haldensify")
 
 ## Example
 
-A simple example illustrates how `haldensify` may be used to construct
-conditional density estimates:
+A simple example illustrates how `haldensify` may be used to train a highly
+adaptive lasso model to obtain conditional density estimates:
 
 ```{r example-fit}
 library(haldensify)
@@ -88,20 +88,34 @@ a <- rnorm(n_train, w, 0.25)
 
 # HAL-based density estimate of A|W
 haldensify_fit <- haldensify(
-  A = a, W = w, n_bins = c(3, 5),
-  grid_type = "equal_range",
+  A = a, W = w,
+  n_bins = 10, grid_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100)),
   # arguments passed to hal9001::fit_hal()
-  max_degree = 5, smoothness_orders = 0, reduce_basis = 0.05
+  max_degree = 5, smoothness_orders = 0,
+  num_knots = NULL, reduce_basis = 0.05
 )
 haldensify_fit
 ```
 
+We can also visualize the empirical risk (with respect to density loss) in terms
+of the solution path of the lasso regularization parameter:
+```{r example-plot}
+# just use the built-in plot method
+plot(haldensify_fit)
+```
+
+Finally, we can obtain conditional density estimates from the trained model on
+the training (or on new) data:
 ```{r example-predict}
 # use the built-in predict method to get predictions
 pred_haldensify <- predict(haldensify_fit, new_A = a, new_W = w)
 head(pred_haldensify)
 ```
+
+For more details, check out the [package
+vignette](https://code.nimahejazi.org/haldensify/articles/iintro_haldensify.html)
+on the corresponding `pkgdown` site.
 
 ---
 
