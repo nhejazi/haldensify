@@ -87,7 +87,7 @@
 <a href="https://nimahejazi.org">Nima Hejazi</a> and <a href="https://www.sph.emory.edu/faculty/profile/#!dbenkes">David Benkeser</a>
 </h4>
             
-            <h4 class="date">2021-04-10</h4>
+            <h4 class="date">2021-04-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nhejazi/haldensify/blob/master/vignettes/intro_haldensify.Rmd"><code>vignettes/intro_haldensify.Rmd</code></a></small>
       <div class="hidden name"><code>intro_haldensify.Rmd</code></div>
@@ -164,12 +164,14 @@
 <code class="sourceCode R"><span class="va">haldensify_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/haldensify.html">haldensify</a></span><span class="op">(</span>
   A <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">A</span>,
   W <span class="op">=</span> <span class="va">example_data</span><span class="op">$</span><span class="va">W</span>,
-  n_bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span>,
+  n_bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span>,
   grid_type <span class="op">=</span> <span class="st">"equal_range"</span>,
   lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">500</span><span class="op">)</span><span class="op">)</span>,
+  <span class="co"># the following are passed to hal9001::fit_hal() internally</span>
   max_degree <span class="op">=</span> <span class="fl">5</span>,
+  num_knots <span class="op">=</span> <span class="cn">NULL</span>,
   smoothness_orders <span class="op">=</span> <span class="fl">0</span>,
-  reduce_basis <span class="op">=</span> <span class="fl">0.05</span>
+  reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <p>Having constructed the conditional density estimator, we can examine the empirical risk over the grid of choices of the <span class="math inline">\(L_1\)</span> regularization parameter <span class="math inline">\(\lambda\)</span>. To do this, we can simply call the available <code>plot</code> method, which uses the cross-validated conditional density fits in the <code>cv_tuning_results</code> slot of the <code>haldensify</code> object. For example,</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">

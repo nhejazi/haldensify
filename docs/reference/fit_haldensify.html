@@ -137,7 +137,7 @@
   <span class='va'>W</span>,
   wts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span><span class='op'>)</span>,
   grid_type <span class='op'>=</span> <span class='st'>"equal_range"</span>,
-  n_bins <span class='op'>=</span> <span class='fl'>5</span>,
+  n_bins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>A</span><span class='op'>)</span><span class='op'>^</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>/</span><span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
   cv_folds <span class='op'>=</span> <span class='fl'>5</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>13</span>, length <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span><span class='op'>)</span>,
   <span class='va'>...</span>
@@ -173,7 +173,10 @@ the documentation of <code><a href='https://ggplot2.tidyverse.org/reference/cut_
     <tr>
       <th>n_bins</th>
       <td><p>This <code>numeric</code> value indicates the number(s) of bins into
-which the support of <code>A</code> is to be divided.</p></td>
+which the support of <code>A</code> is to be divided. As with <code>grid_type</code>,
+multiple values may be specified, in which case cross-validation will be
+used to choose the optimal number of bins. The default sets the candidate
+choices of the number of bins based on heuristics tested in simulation.</p></td>
     </tr>
     <tr>
       <th>cv_folds</th>
@@ -214,12 +217,12 @@ documentation of <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fi
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='va'>w</span>, <span class='fl'>0.5</span><span class='op'>)</span>
 <span class='co'># fit cross-validated HAL-based density estimator of A|W</span>
 <span class='va'>haldensify_cvfit</span> <span class='op'>&lt;-</span> <span class='fu'>fit_haldensify</span><span class='op'>(</span>
-  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fl'>3</span>,
-  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span>,
+  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span>,
   <span class='co'># the following arguments are passed to hal9001::fit_hal()</span>
-  max_degree <span class='op'>=</span> <span class='fl'>3</span>, smoothness_orders <span class='op'>=</span> <span class='fl'>0</span>, reduce_basis <span class='op'>=</span> <span class='fl'>0.1</span>
+  max_degree <span class='op'>=</span> <span class='fl'>5</span>, smoothness_orders <span class='op'>=</span> <span class='fl'>0</span>, num_knots <span class='op'>=</span> <span class='cn'>NULL</span>,
+  reduce_basis <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span>
-</div></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: first element used of 'length.out' argument</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -132,9 +132,10 @@
 </h1>
 <p>As of April 2021:</p>
 <ul>
-<li>Updates to <code>haldensify</code> arguments (removal of <code>hal_max_degree</code> as a named argument) to simplify and better match use of <code>fit_hal</code> in <code>hal9001</code> v0.3.0+.</li>
-<li>Addition of an argument <code>trim_dens</code> to <code>predict.haldensify</code> to make the use of truncation more transparent and more easily manipulable.</li>
-<li>Addition of a new method <code>print.haldensify</code> for a more user-friendly display of the prediction procedure’s output.</li>
+<li>Updates to <code>haldensify</code> arguments (removal of <code>hal_max_degree</code> as a named argument) to simplify and better match use of <code>fit_hal</code> in <code>hal9001</code> v0.3.0+. This overhaul also included the addition of <code>...</code> arguments, now passed through <code>haldensify</code> and <code>fit_haldensify</code> to <code>cv_haldensify</code>, allowing all internal calls to <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html">hal9001::fit_hal()</a></code> to specify the same arguments be passed for the fitting of HAL models.</li>
+<li>Changes to the default values of the argument <code>n_bins</code>, now setting this to (much) larger values that are themselves based on the sample size. This is in accordance with evidence from simulation experiments indicating that higher values of <code>n_bins</code> lead to significantly improved density estimates.</li>
+<li>Addition of argument <code>trim</code> and <code>trim_dens</code> to <code>predict.haldensify</code> to support the use of truncation more transparently. While the default was to set predictions for values of <code>new_A</code> outside the training support to zero, this has been changed to avoid trimming and, when the choice is made to trim the predictions, to set this value to <code>1/sqrt(length(new_A))</code>.</li>
+<li>Addition of a new method <code>print.haldensify</code> for a more user-friendly display of the prediction procedure’s output, including the selected number of bins, the CV-selected choice of the regularization parameter, and the <code>summary</code> of the fitted HAL model.</li>
 </ul>
 </div>
     <div id="haldensify-009" class="section level1">

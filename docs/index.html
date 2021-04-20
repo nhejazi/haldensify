@@ -89,16 +89,10 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-<div id="haldensify" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#haldensify" class="anchor"></a>haldensify</h1></div>
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-</div>
 <div id="rhaldensify" class="section level1">
-<h1 class="hasAnchor">
+<div class="page-header"><h1 class="hasAnchor">
 <a href="#rhaldensify" class="anchor"></a>R/<code>haldensify</code>
-</h1>
+</h1></div>
 
 <blockquote>
 <p>Highly Adaptive Lasso Conditional Density Estimation</p>
@@ -125,7 +119,7 @@
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<p>A simple example illustrates how <code>haldensify</code> may be used to construct conditional density estimates:</p>
+<p>A simple example illustrates how <code>haldensify</code> may be used to train a highly adaptive lasso model to obtain conditional density estimates:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nhejazi/haldensify">haldensify</a></span><span class="op">)</span>
 <span class="co">#&gt; haldensify v0.1.0: Highly Adaptive Lasso Conditional Density Estimation</span>
@@ -138,35 +132,45 @@
 
 <span class="co"># HAL-based density estimate of A|W</span>
 <span class="va">haldensify_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/haldensify.html">haldensify</a></span><span class="op">(</span>
-  A <span class="op">=</span> <span class="va">a</span>, W <span class="op">=</span> <span class="va">w</span>, n_bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
-  grid_type <span class="op">=</span> <span class="st">"equal_range"</span>,
+  A <span class="op">=</span> <span class="va">a</span>, W <span class="op">=</span> <span class="va">w</span>,
+  n_bins <span class="op">=</span> <span class="fl">10</span>, grid_type <span class="op">=</span> <span class="st">"equal_range"</span>,
   lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,
   <span class="co"># arguments passed to hal9001::fit_hal()</span>
-  max_degree <span class="op">=</span> <span class="fl">5</span>, smoothness_orders <span class="op">=</span> <span class="fl">0</span>, reduce_basis <span class="op">=</span> <span class="fl">0.05</span>
+  max_degree <span class="op">=</span> <span class="fl">5</span>, smoothness_orders <span class="op">=</span> <span class="fl">0</span>,
+  num_knots <span class="op">=</span> <span class="cn">NULL</span>, reduce_basis <span class="op">=</span> <span class="fl">0.05</span>
 <span class="op">)</span>
 <span class="va">haldensify_fit</span>
 <span class="co">#&gt; HAL Conditional Density Estimation</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#&gt; CV-selected lambda: 0.0021</span></a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#&gt; Number of bins over support of A: 10</span></a>
 <a class="sourceLine" id="cb4-2" title="2"></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; Summary of fitted HAL:</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; Summarizing coefficients corresponding to minimum lambda.</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt;          coef            term</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;  1:  7.470486       Intercept</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;  2: 12.109242  I(bin_id &gt;= 4)</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  3: 11.704326  I(bin_id &gt;= 2)</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;  4: 11.224550  I(bin_id &gt;= 3)</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  5: 10.255606  I(bin_id &gt;= 1)</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  6:  8.875856  I(W &gt;= 2.5683)</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  7:  8.627294 I(W &gt;= -2.6251)</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  8:  7.925230 I(W &gt;= -2.3705)</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt;  9:  7.340041  I(W &gt;= 0.9043)</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; 10:  7.240336 I(W &gt;= -2.2277)</span></a></code></pre></div>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; CV-selected lambda: 0.0016</span></a>
+<a class="sourceLine" id="cb4-4" title="4"></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; Summary of fitted HAL:</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; Summarizing coefficients corresponding to minimum lambda.</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;          coef            term</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  1:  5.977489       Intercept</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;  2: 10.481606  I(bin_id &gt;= 1)</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  3: 10.440778 I(W &gt;= -2.3705)</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  4:  8.965791  I(bin_id &gt;= 5)</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  5:  8.621709  I(bin_id &gt;= 6)</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  6:  8.621184  I(bin_id &gt;= 4)</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt;  7:  8.299777  I(bin_id &gt;= 8)</span></a>
+<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt;  8:  8.091661  I(bin_id &gt;= 3)</span></a>
+<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt;  9:  6.979343  I(bin_id &gt;= 7)</span></a>
+<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; 10:  6.718437 I(W &gt;= -3.3144)</span></a></code></pre></div>
+<p>We can also visualize the empirical risk (with respect to density loss) in terms of the solution path of the lasso regularization parameter:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># just use the built-in plot method</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">haldensify_fit</span><span class="op">)</span></code></pre></div>
+<p><img src="README-example-plot-1.png" width="100%"></p>
+<p>Finally, we can obtain conditional density estimates from the trained model on the training (or on new) data:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># use the built-in predict method to get predictions</span>
 <span class="va">pred_haldensify</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">haldensify_fit</span>, new_A <span class="op">=</span> <span class="va">a</span>, new_W <span class="op">=</span> <span class="va">w</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pred_haldensify</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.1000000 0.4842927 0.2437531 0.5076716 0.4837654 0.3557309</span></code></pre></div>
+<span class="co">#&gt; [1] 0.8677402 0.4276165 0.4430710 0.5334161 0.8721339 0.6149775</span></code></pre></div>
+<p>For more details, check out the <a href="https://code.nimahejazi.org/haldensify/articles/iintro_haldensify.html">package vignette</a> on the corresponding <code>pkgdown</code> site.</p>
 <hr>
 </div>
 <div id="issues" class="section level2">
@@ -212,27 +216,27 @@
 <a href="#license" class="anchor"></a>License</h2>
 <p>© 2019-2021 <a href="https://nimahejazi.org">Nima S. Hejazi</a></p>
 <p>The contents of this repository are distributed under the MIT license. See below for details:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">MIT License</a>
-<a class="sourceLine" id="cb7-2" title="2"></a>
-<a class="sourceLine" id="cb7-3" title="3"><span class="kw">Copyright</span> (c) <span class="dv">2019-2021</span> Nima S. Hejazi</a>
-<a class="sourceLine" id="cb7-4" title="4"></a>
-<a class="sourceLine" id="cb7-5" title="5">Permission is hereby granted, free of charge, to any person obtaining a copy</a>
-<a class="sourceLine" id="cb7-6" title="6">of this software and associated documentation <span class="kw">files</span> (the <span class="st">"Software"</span>), to deal</a>
-<a class="sourceLine" id="cb7-7" title="7"><span class="cf">in</span> the Software without restriction, including without limitation the rights</a>
-<a class="sourceLine" id="cb7-8" title="8">to use, copy, modify, merge, publish, distribute, sublicense, and<span class="op">/</span>or sell</a>
-<a class="sourceLine" id="cb7-9" title="9">copies of the Software, and to permit persons to whom the Software is</a>
-<a class="sourceLine" id="cb7-10" title="10">furnished to do so, subject to the following conditions<span class="op">:</span></a>
-<a class="sourceLine" id="cb7-11" title="11"></a>
-<a class="sourceLine" id="cb7-12" title="12">The above copyright notice and this permission notice shall be included <span class="cf">in</span> all</a>
-<a class="sourceLine" id="cb7-13" title="13">copies or substantial portions of the Software.</a>
-<a class="sourceLine" id="cb7-14" title="14"></a>
-<a class="sourceLine" id="cb7-15" title="15">THE SOFTWARE IS PROVIDED <span class="st">"AS IS"</span>, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</a>
-<a class="sourceLine" id="cb7-16" title="16">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</a>
-<a class="sourceLine" id="cb7-17" title="17">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</a>
-<a class="sourceLine" id="cb7-18" title="18">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</a>
-<a class="sourceLine" id="cb7-19" title="19">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</a>
-<a class="sourceLine" id="cb7-20" title="20">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</a>
-<a class="sourceLine" id="cb7-21" title="21">SOFTWARE.</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">MIT License</a>
+<a class="sourceLine" id="cb8-2" title="2"></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="kw">Copyright</span> (c) <span class="dv">2019-2021</span> Nima S. Hejazi</a>
+<a class="sourceLine" id="cb8-4" title="4"></a>
+<a class="sourceLine" id="cb8-5" title="5">Permission is hereby granted, free of charge, to any person obtaining a copy</a>
+<a class="sourceLine" id="cb8-6" title="6">of this software and associated documentation <span class="kw">files</span> (the <span class="st">"Software"</span>), to deal</a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="cf">in</span> the Software without restriction, including without limitation the rights</a>
+<a class="sourceLine" id="cb8-8" title="8">to use, copy, modify, merge, publish, distribute, sublicense, and<span class="op">/</span>or sell</a>
+<a class="sourceLine" id="cb8-9" title="9">copies of the Software, and to permit persons to whom the Software is</a>
+<a class="sourceLine" id="cb8-10" title="10">furnished to do so, subject to the following conditions<span class="op">:</span></a>
+<a class="sourceLine" id="cb8-11" title="11"></a>
+<a class="sourceLine" id="cb8-12" title="12">The above copyright notice and this permission notice shall be included <span class="cf">in</span> all</a>
+<a class="sourceLine" id="cb8-13" title="13">copies or substantial portions of the Software.</a>
+<a class="sourceLine" id="cb8-14" title="14"></a>
+<a class="sourceLine" id="cb8-15" title="15">THE SOFTWARE IS PROVIDED <span class="st">"AS IS"</span>, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</a>
+<a class="sourceLine" id="cb8-16" title="16">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</a>
+<a class="sourceLine" id="cb8-17" title="17">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</a>
+<a class="sourceLine" id="cb8-18" title="18">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</a>
+<a class="sourceLine" id="cb8-19" title="19">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</a>
+<a class="sourceLine" id="cb8-20" title="20">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</a>
+<a class="sourceLine" id="cb8-21" title="21">SOFTWARE.</a></code></pre></div>
 <hr>
 </div>
 <div id="references" class="section level2">
@@ -269,7 +273,6 @@
 </div>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

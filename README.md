@@ -1,5 +1,3 @@
-haldensify
-================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -69,8 +67,8 @@ remotes::install_github("nhejazi/haldensify")
 
 ## Example
 
-A simple example illustrates how `haldensify` may be used to construct
-conditional density estimates:
+A simple example illustrates how `haldensify` may be used to train a
+highly adaptive lasso model to obtain conditional density estimates:
 
 ``` r
 library(haldensify)
@@ -84,39 +82,59 @@ a <- rnorm(n_train, w, 0.25)
 
 # HAL-based density estimate of A|W
 haldensify_fit <- haldensify(
-  A = a, W = w, n_bins = c(3, 5),
-  grid_type = "equal_range",
+  A = a, W = w,
+  n_bins = 10, grid_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100)),
   # arguments passed to hal9001::fit_hal()
-  max_degree = 5, smoothness_orders = 0, reduce_basis = 0.05
+  max_degree = 5, smoothness_orders = 0,
+  num_knots = NULL, reduce_basis = 0.05
 )
 haldensify_fit
 #> HAL Conditional Density Estimation
 ```
 
-    #> CV-selected lambda: 0.0021
+    #> Number of bins over support of A: 10
+
+    #> CV-selected lambda: 0.0016
 
     #> Summary of fitted HAL:
     #> Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --
     #> Summarizing coefficients corresponding to minimum lambda.
     #>          coef            term
-    #>  1:  7.470486       Intercept
-    #>  2: 12.109242  I(bin_id >= 4)
-    #>  3: 11.704326  I(bin_id >= 2)
-    #>  4: 11.224550  I(bin_id >= 3)
-    #>  5: 10.255606  I(bin_id >= 1)
-    #>  6:  8.875856  I(W >= 2.5683)
-    #>  7:  8.627294 I(W >= -2.6251)
-    #>  8:  7.925230 I(W >= -2.3705)
-    #>  9:  7.340041  I(W >= 0.9043)
-    #> 10:  7.240336 I(W >= -2.2277)
+    #>  1:  5.977489       Intercept
+    #>  2: 10.481606  I(bin_id >= 1)
+    #>  3: 10.440778 I(W >= -2.3705)
+    #>  4:  8.965791  I(bin_id >= 5)
+    #>  5:  8.621709  I(bin_id >= 6)
+    #>  6:  8.621184  I(bin_id >= 4)
+    #>  7:  8.299777  I(bin_id >= 8)
+    #>  8:  8.091661  I(bin_id >= 3)
+    #>  9:  6.979343  I(bin_id >= 7)
+    #> 10:  6.718437 I(W >= -3.3144)
+
+We can also visualize the empirical risk (with respect to density loss)
+in terms of the solution path of the lasso regularization parameter:
+
+``` r
+# just use the built-in plot method
+plot(haldensify_fit)
+```
+
+<img src="README-example-plot-1.png" width="100%" />
+
+Finally, we can obtain conditional density estimates from the trained
+model on the training (or on new) data:
 
 ``` r
 # use the built-in predict method to get predictions
 pred_haldensify <- predict(haldensify_fit, new_A = a, new_W = w)
 head(pred_haldensify)
-#> [1] 0.1000000 0.4842927 0.2437531 0.5076716 0.4837654 0.3557309
+#> [1] 0.8677402 0.4276165 0.4430710 0.5334161 0.8721339 0.6149775
 ```
+
+For more details, check out the [package
+vignette](https://code.nimahejazi.org/haldensify/articles/iintro_haldensify.html)
+on the corresponding `pkgdown` site.
 
 -----
 
