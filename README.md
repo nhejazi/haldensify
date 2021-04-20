@@ -120,7 +120,7 @@ in terms of the solution path of the lasso regularization parameter:
 plot(haldensify_fit)
 ```
 
-<img src="README-example-plot-1.png" width="100%" />
+<img src="README-example-plot-1.png" width="80%" />
 
 Finally, we can obtain conditional density estimates from the trained
 model on the training (or on new) data:
@@ -133,7 +133,7 @@ head(pred_haldensify)
 ```
 
 For more details, check out the [package
-vignette](https://code.nimahejazi.org/haldensify/articles/iintro_haldensify.html)
+vignette](https://code.nimahejazi.org/haldensify/articles/intro_haldensify)
 on the corresponding `pkgdown` site.
 
 -----

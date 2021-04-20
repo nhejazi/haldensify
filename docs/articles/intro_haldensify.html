@@ -172,14 +172,26 @@
   num_knots <span class="op">=</span> <span class="cn">NULL</span>,
   smoothness_orders <span class="op">=</span> <span class="fl">0</span>,
   reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<span class="op">)</span>
+<span class="va">haldensify_fit</span></code></pre></div>
+<pre><code>##               coef            term
+##  1: 4.015834       Intercept
+##  2: 8.219963 I(W &gt;= -3.3048)
+##  3: 7.080282  I(bin_id &gt;= 9)
+##  4: 6.111346  I(bin_id &gt;= 7)
+##  5: 5.984919  I(W &gt;= 0.4741)
+##  6: 5.615845  I(bin_id &gt;= 2)
+##  7: 5.536335  I(bin_id &gt;= 4)
+##  8: 5.375681 I(bin_id &gt;= 13)
+##  9: 5.270633 I(W &gt;= -0.2667)
+## 10: 5.233379  I(bin_id &gt;= 5)</code></pre>
 <p>Having constructed the conditional density estimator, we can examine the empirical risk over the grid of choices of the <span class="math inline">\(L_1\)</span> regularization parameter <span class="math inline">\(\lambda\)</span>. To do this, we can simply call the available <code>plot</code> method, which uses the cross-validated conditional density fits in the <code>cv_tuning_results</code> slot of the <code>haldensify</code> object. For example,</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">haldensify_fit</span><span class="op">)</span>
 <span class="va">p_risk</span></code></pre></div>
 <p><img src="intro_haldensify_files/figure-html/plot_risk_haldensify-1.png" width="700"></p>
 <p>Finally, we can predict the conditional density over the grid of observed values <span class="math inline">\(A\)</span> across different elements of the support <span class="math inline">\(W\)</span>. We do this using the <code>predict</code> method of <code>haldensify</code> and plot the results below.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># predictions to recover conditional density of A|W</span>
 <span class="va">new_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span>, by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>
 <span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>

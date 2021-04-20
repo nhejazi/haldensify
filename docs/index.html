@@ -163,14 +163,14 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># just use the built-in plot method</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">haldensify_fit</span><span class="op">)</span></code></pre></div>
-<p><img src="README-example-plot-1.png" width="100%"></p>
+<p><img src="README-example-plot-1.png" width="80%"></p>
 <p>Finally, we can obtain conditional density estimates from the trained model on the training (or on new) data:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># use the built-in predict method to get predictions</span>
 <span class="va">pred_haldensify</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">haldensify_fit</span>, new_A <span class="op">=</span> <span class="va">a</span>, new_W <span class="op">=</span> <span class="va">w</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pred_haldensify</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.8677402 0.4276165 0.4430710 0.5334161 0.8721339 0.6149775</span></code></pre></div>
-<p>For more details, check out the <a href="https://code.nimahejazi.org/haldensify/articles/iintro_haldensify.html">package vignette</a> on the corresponding <code>pkgdown</code> site.</p>
+<p>For more details, check out the <a href="https://code.nimahejazi.org/haldensify/articles/intro_haldensify">package vignette</a> on the corresponding <code>pkgdown</code> site.</p>
 <hr>
 </div>
 <div id="issues" class="section level2">
