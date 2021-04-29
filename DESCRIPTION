@@ -31,7 +31,7 @@ Imports:
     matrixStats,
     future.apply,
     assertthat,
-    hal9001 (>= 0.3.0),
+    hal9001 (>= 0.4.0),
     origami (>= 1.0.3),
     latex2exp,
     Rdpack
@@ -41,7 +41,7 @@ Suggests:
     rmarkdown,
     future
 Remotes:
-    github::tlverse/hal9001@devel
+    github::tlverse/hal9001@v0.4.0
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues

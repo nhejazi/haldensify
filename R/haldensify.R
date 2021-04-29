@@ -49,17 +49,18 @@ cv_haldensify <- function(fold,
 
   # fit a HAL regression on the training set
   # NOTE: not selecting lambda by CV so no need to pass IDs for fold splitting
-  hal_fit_train <- hal9001::fit_hal(
-    X = as.matrix(train_set[, -c(1, 2)]),
-    Y = as.numeric(train_set$in_bin),
-    ...,
-    fit_type = "glmnet",
-    family = "binomial",
-    lambda = lambda_seq,
-    cv_select = FALSE,
-    weights = wts_train, # pass to glmnet
-    yolo = FALSE
-  )
+  fit_hal_args <- list(...)
+  if (!any(grepl("fit_control", names(fit_hal_args)))) {
+    fit_hal_args$fit_control <- list(cv_select = FALSE, weights = wts_train)
+  } else {
+    fit_hal_args$fit_control$cv_select <- FALSE
+    fit_hal_args$fit_control$weights <- wts_train
+  }
+  fit_hal_args$X <- as.matrix(train_set[, -c(1, 2)])
+  fit_hal_args$Y <- as.numeric(train_set$in_bin)
+  fit_hal_args$family <- "binomial"
+  fit_hal_args$lambda <- lambda_seq
+  hal_fit_train <- do.call(hal9001::fit_hal, fit_hal_args)
 
   # get intercept and coefficient fits for this value of lambda from glmnet
   alpha_hat <- hal_fit_train$lasso_fit$a0
@@ -259,19 +260,23 @@ haldensify <- function(A, W,
   # NOTE: no sample-splitting since there's no need to select among any of the
   #       tuning parameters -- advantage: simplifies working with re-sampled
   #       data (bootstrap); disadvantage: non-sample-split nuisance estimates
-  hal_fit <- hal9001::fit_hal(
-    X = as.matrix(long_data[, -c("obs_id", "in_bin", "wts")]),
-    Y = as.numeric(long_data$in_bin),
-    ...,
-    fit_type = "glmnet",
-    family = "binomial",
-    basis_list = hal_basis_list,
-    lambda = lambda_seq,
-    n_folds = 1,
-    cv_select = FALSE,
-    weights = as.numeric(long_data$wts), # passed to glmnet
-    yolo = FALSE
-  )
+  fit_hal_args <- list(...)
+  if (!any(grepl("fit_control", names(fit_hal_args)))) {
+    fit_hal_args$fit_control <- list(
+      cv_select = FALSE, weights = as.numeric(long_data$wts), n_folds = 1
+    )
+  } else {
+    fit_hal_args$fit_control$cv_select <- FALSE
+    fit_hal_args$fit_control$weights <- as.numeric(long_data$wts)
+    fit_hal_args$fit_control$n_folds <- 1
+  }
+  fit_hal_args$X <- as.matrix(long_data[, -c("obs_id", "in_bin", "wts")])
+  fit_hal_args$Y <- as.numeric(long_data$in_bin)
+  fit_hal_args$basis_list <- hal_basis_list
+  fit_hal_args$family <- "binomial"
+  fit_hal_args$lambda <- lambda_seq
+
+  hal_fit <- do.call(hal9001::fit_hal, fit_hal_args)
 
   # construct output
   out <- list(

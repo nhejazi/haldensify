@@ -79,7 +79,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="intro_haldensify_files/header-attrs-2.7.2/header-attrs.js"></script><script src="intro_haldensify_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Highly Adaptive Lasso Conditional Density Estimation</h1>
@@ -87,7 +87,7 @@
 <a href="https://nimahejazi.org">Nima Hejazi</a> and <a href="https://www.sph.emory.edu/faculty/profile/#!dbenkes">David Benkeser</a>
 </h4>
             
-            <h4 class="date">2021-04-19</h4>
+            <h4 class="date">2021-04-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nhejazi/haldensify/blob/master/vignettes/intro_haldensify.Rmd"><code>vignettes/intro_haldensify.Rmd</code></a></small>
       <div class="hidden name"><code>intro_haldensify.Rmd</code></div>
@@ -174,17 +174,17 @@
   reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="va">haldensify_fit</span></code></pre></div>
-<pre><code>##               coef            term
-##  1: 4.015834       Intercept
-##  2: 8.219963 I(W &gt;= -3.3048)
-##  3: 7.080282  I(bin_id &gt;= 9)
-##  4: 6.111346  I(bin_id &gt;= 7)
-##  5: 5.984919  I(W &gt;= 0.4741)
-##  6: 5.615845  I(bin_id &gt;= 2)
-##  7: 5.536335  I(bin_id &gt;= 4)
-##  8: 5.375681 I(bin_id &gt;= 13)
-##  9: 5.270633 I(W &gt;= -0.2667)
-## 10: 5.233379  I(bin_id &gt;= 5)</code></pre>
+<pre><code>##                coef                term
+##  1:  4.015834         (Intercept)
+##  2:  8.219963  [ I(W &gt;= -3.305) ]
+##  3:  7.080282  [ I(bin_id &gt;= 9) ]
+##  4: -6.906777  [ I(W &gt;= -3.393) ]
+##  5:  6.111346  [ I(bin_id &gt;= 7) ]
+##  6:  5.984919   [ I(W &gt;= 0.474) ]
+##  7:  5.615845  [ I(bin_id &gt;= 2) ]
+##  8:  5.536335  [ I(bin_id &gt;= 4) ]
+##  9:  5.375681 [ I(bin_id &gt;= 13) ]
+## 10:  5.270633  [ I(W &gt;= -0.267) ]</code></pre>
 <p>Having constructed the conditional density estimator, we can examine the empirical risk over the grid of choices of the <span class="math inline">\(L_1\)</span> regularization parameter <span class="math inline">\(\lambda\)</span>. To do this, we can simply call the available <code>plot</code> method, which uses the cross-validated conditional density fits in the <code>cv_tuning_results</code> slot of the <code>haldensify</code> object. For example,</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">haldensify_fit</span><span class="op">)</span>
@@ -231,7 +231,7 @@
 <div id="references" class="section level2 unnumbered">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 <div id="ref-diaz2011super">
 <p>Dı́az, Iván, and Mark J van der Laan. 2011. “Super Learner Based Conditional Density Estimation with Application to Marginal Structural Models.” <em>The International Journal of Biostatistics</em> 7 (1): 1–20.</p>
 </div>
