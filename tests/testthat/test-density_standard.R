@@ -39,11 +39,24 @@ test_that("Maximum predicted probability of p(A|W = +1) matches N(+1, 0.5)", {
   expect_equal(round(obs_a_max_prob_w_pos), unique(new_w_pos))
 })
 
-pred_w_pos_undersmooth <- predict(haldensify_fit,
+# supply fit_control additional arguments
+haldensify_fit2 <- haldensify(
+  A = a, W = w,
+  n_bins = c(3, 5, 10),
+  lambda_seq = exp(seq(-1, -13, length = 200)),
+  max_degree = 2, smoothness_orders = 0,
+  fit_control = list(nlambda = 50)
+)
+
+# prediction with lambda_select undersmooth
+pred_w_pos_undersmooth <- predict(haldensify_fit2,
   new_A = new_dat$a, new_W = new_dat$w_pos, lambda_select = "undersmooth"
 )
-pred_w_pos_all <- predict(haldensify_fit,
+
+# prediction with lambda_select all
+pred_w_pos_all <- predict(haldensify_fit2,
   new_A = new_dat$a, new_W = new_dat$w_pos, lambda_select = "all"
 )
 
-print(haldensify_fit)
+# print a fit
+print(haldensify_fit2)
