@@ -72,7 +72,7 @@ highly adaptive lasso model to obtain conditional density estimates:
 
 ``` r
 library(haldensify)
-#> haldensify v0.1.0: Highly Adaptive Lasso Conditional Density Estimation
+#> haldensify v0.1.5: Highly Adaptive Lasso Conditional Density Estimation
 set.seed(76924)
 
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)
@@ -100,17 +100,17 @@ haldensify_fit
     #> Summary of fitted HAL:
     #> Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --
     #> Summarizing coefficients corresponding to minimum lambda.
-    #>          coef            term
-    #>  1:  5.977489       Intercept
-    #>  2: 10.481606  I(bin_id >= 1)
-    #>  3: 10.440778 I(W >= -2.3705)
-    #>  4:  8.965791  I(bin_id >= 5)
-    #>  5:  8.621709  I(bin_id >= 6)
-    #>  6:  8.621184  I(bin_id >= 4)
-    #>  7:  8.299777  I(bin_id >= 8)
-    #>  8:  8.091661  I(bin_id >= 3)
-    #>  9:  6.979343  I(bin_id >= 7)
-    #> 10:  6.718437 I(W >= -3.3144)
+    #>          coef               term
+    #>  1:  5.977489        (Intercept)
+    #>  2: 10.481606 [ I(bin_id >= 1) ]
+    #>  3: 10.440778 [ I(W >= -2.371) ]
+    #>  4: -9.663779 [ I(W >= -3.546) ]
+    #>  5:  8.965791 [ I(bin_id >= 5) ]
+    #>  6:  8.621709 [ I(bin_id >= 6) ]
+    #>  7:  8.621184 [ I(bin_id >= 4) ]
+    #>  8:  8.299777 [ I(bin_id >= 8) ]
+    #>  9: -8.253294  [ I(W >= -3.12) ]
+    #> 10:  8.091661 [ I(bin_id >= 3) ]
 
 We can also visualize the empirical risk (with respect to density loss)
 in terms of the solution path of the lasso regularization parameter:

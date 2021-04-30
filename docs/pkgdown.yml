@@ -1,9 +1,9 @@
-pandoc: 2.9.2.1
+pandoc: '2.5'
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   intro_haldensify: intro_haldensify.html
-last_built: 2021-04-30T00:09Z
+last_built: 2021-04-30T06:02Z
 urls:
   reference: https://code.nimahejazi.org/haldensify/reference
   article: https://code.nimahejazi.org/haldensify/articles

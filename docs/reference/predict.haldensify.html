@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -216,7 +216,7 @@ regularization parameter on which the HAL model <code>object</code> was fitted.<
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='va'>w</span>, <span class='fl'>0.5</span><span class='op'>)</span>
 <span class='co'># HAL-based density estimator of A|W</span>
 <span class='va'>haldensify_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='haldensify.html'>haldensify</a></span><span class='op'>(</span>
-  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>500</span><span class='op'>)</span><span class='op'>)</span>,
+  A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fl'>10L</span>, lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span>,
   <span class='co'># the following arguments are passed to hal9001::fit_hal()</span>
   max_degree <span class='op'>=</span> <span class='fl'>5</span>, smoothness_orders <span class='op'>=</span> <span class='fl'>0</span>, num_knots <span class='op'>=</span> <span class='cn'>NULL</span>,
   reduce_basis <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>a</span><span class='op'>)</span><span class='op'>)</span>
