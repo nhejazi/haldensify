@@ -229,15 +229,15 @@ print.haldensify <- function(x, ...) {
   # construct and print output
   message("HAL Conditional Density Estimation")
   message(
-    cat("  "), "Number of bins over support of A: ",
+    "Number of bins over support of A: ",
     x$n_bins_cvselect
   )
   message(
-    cat("  "), "CV-selected lambda: ",
+    "CV-selected lambda: ",
     round(x$cv_tuning_results$lambda_loss_min, 4)
   )
   message(
-    cat("  "), "Summary of fitted HAL:"
+    "Summary of fitted HAL:"
   )
   print(utils::head(summary(x$hal_fit)$table, 10))
 }

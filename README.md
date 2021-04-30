@@ -12,6 +12,8 @@ Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](
 [![CRAN](http://www.r-pkg.org/badges/version/haldensify)](https://www.r-pkg.org/pkg/haldensify)
 [![CRAN
 downloads](https://cranlogs.r-pkg.org/badges/haldensify)](https://CRAN.R-project.org/package=haldensify)
+[![CRAN total
+downloads](http://cranlogs.r-pkg.org/badges/grand-total/haldensify)](https://CRAN.R-project.org/package=haldensify)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -91,26 +93,23 @@ haldensify_fit <- haldensify(
 )
 haldensify_fit
 #> HAL Conditional Density Estimation
+#> Number of bins over support of A: 10
+#> CV-selected lambda: 0.0016
+#> Summary of fitted HAL:
+#> Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --
+#> Summarizing coefficients corresponding to minimum lambda.
+#>          coef               term
+#>  1:  5.977489        (Intercept)
+#>  2: 10.481606 [ I(bin_id >= 1) ]
+#>  3: 10.440778 [ I(W >= -2.371) ]
+#>  4: -9.663779 [ I(W >= -3.546) ]
+#>  5:  8.965791 [ I(bin_id >= 5) ]
+#>  6:  8.621709 [ I(bin_id >= 6) ]
+#>  7:  8.621184 [ I(bin_id >= 4) ]
+#>  8:  8.299777 [ I(bin_id >= 8) ]
+#>  9: -8.253294  [ I(W >= -3.12) ]
+#> 10:  8.091661 [ I(bin_id >= 3) ]
 ```
-
-    #> Number of bins over support of A: 10
-
-    #> CV-selected lambda: 0.0016
-
-    #> Summary of fitted HAL:
-    #> Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --
-    #> Summarizing coefficients corresponding to minimum lambda.
-    #>          coef               term
-    #>  1:  5.977489        (Intercept)
-    #>  2: 10.481606 [ I(bin_id >= 1) ]
-    #>  3: 10.440778 [ I(W >= -2.371) ]
-    #>  4: -9.663779 [ I(W >= -3.546) ]
-    #>  5:  8.965791 [ I(bin_id >= 5) ]
-    #>  6:  8.621709 [ I(bin_id >= 6) ]
-    #>  7:  8.621184 [ I(bin_id >= 4) ]
-    #>  8:  8.299777 [ I(bin_id >= 8) ]
-    #>  9: -8.253294  [ I(W >= -3.12) ]
-    #> 10:  8.091661 [ I(bin_id >= 3) ]
 
 We can also visualize the empirical risk (with respect to density loss)
 in terms of the solution path of the lasso regularization parameter:
