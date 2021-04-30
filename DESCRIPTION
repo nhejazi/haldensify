@@ -31,7 +31,7 @@ Imports:
     matrixStats,
     future.apply,
     assertthat,
-    hal9001 (>= 0.3.0),
+    hal9001 (>= 0.4.0),
     origami (>= 1.0.3),
     latex2exp,
     Rdpack

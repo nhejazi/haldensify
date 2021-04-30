@@ -141,24 +141,24 @@
 <span class="op">)</span>
 <span class="va">haldensify_fit</span>
 <span class="co">#&gt; HAL Conditional Density Estimation</span></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#&gt; Number of bins over support of A: 10</span></a>
-<a class="sourceLine" id="cb4-2" title="2"></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; CV-selected lambda: 0.0016</span></a>
-<a class="sourceLine" id="cb4-4" title="4"></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; Summary of fitted HAL:</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; Summarizing coefficients corresponding to minimum lambda.</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt;          coef            term</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt;  1:  5.977489       Intercept</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt;  2: 10.481606  I(bin_id &gt;= 1)</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt;  3: 10.440778 I(W &gt;= -2.3705)</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;  4:  8.965791  I(bin_id &gt;= 5)</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt;  5:  8.621709  I(bin_id &gt;= 6)</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt;  6:  8.621184  I(bin_id &gt;= 4)</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt;  7:  8.299777  I(bin_id &gt;= 8)</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt;  8:  8.091661  I(bin_id &gt;= 3)</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt;  9:  6.979343  I(bin_id &gt;= 7)</span></a>
-<a class="sourceLine" id="cb4-18" title="18"><span class="co">#&gt; 10:  6.718437 I(W &gt;= -3.3144)</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#&gt; Number of bins over support of A: 10</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; CV-selected lambda: 0.0016</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; Summary of fitted HAL:</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt; Summarizing coefficients corresponding to minimum lambda.</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;          coef            term</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;  1:  5.977489       Intercept</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;  2: 10.481606  I(bin_id &gt;= 1)</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;  3: 10.440778 I(W &gt;= -2.3705)</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;  4:  8.965791  I(bin_id &gt;= 5)</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;  5:  8.621709  I(bin_id &gt;= 6)</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;  6:  8.621184  I(bin_id &gt;= 4)</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt;  7:  8.299777  I(bin_id &gt;= 8)</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt;  8:  8.091661  I(bin_id &gt;= 3)</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt;  9:  6.979343  I(bin_id &gt;= 7)</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt; 10:  6.718437 I(W &gt;= -3.3144)</span></span></code></pre></div>
 <p>We can also visualize the empirical risk (with respect to density loss) in terms of the solution path of the lasso regularization parameter:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># just use the built-in plot method</span>
@@ -216,27 +216,27 @@
 <a href="#license" class="anchor"></a>License</h2>
 <p>© 2019-2021 <a href="https://nimahejazi.org">Nima S. Hejazi</a></p>
 <p>The contents of this repository are distributed under the MIT license. See below for details:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">MIT License</a>
-<a class="sourceLine" id="cb8-2" title="2"></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="kw">Copyright</span> (c) <span class="dv">2019-2021</span> Nima S. Hejazi</a>
-<a class="sourceLine" id="cb8-4" title="4"></a>
-<a class="sourceLine" id="cb8-5" title="5">Permission is hereby granted, free of charge, to any person obtaining a copy</a>
-<a class="sourceLine" id="cb8-6" title="6">of this software and associated documentation <span class="kw">files</span> (the <span class="st">"Software"</span>), to deal</a>
-<a class="sourceLine" id="cb8-7" title="7"><span class="cf">in</span> the Software without restriction, including without limitation the rights</a>
-<a class="sourceLine" id="cb8-8" title="8">to use, copy, modify, merge, publish, distribute, sublicense, and<span class="op">/</span>or sell</a>
-<a class="sourceLine" id="cb8-9" title="9">copies of the Software, and to permit persons to whom the Software is</a>
-<a class="sourceLine" id="cb8-10" title="10">furnished to do so, subject to the following conditions<span class="op">:</span></a>
-<a class="sourceLine" id="cb8-11" title="11"></a>
-<a class="sourceLine" id="cb8-12" title="12">The above copyright notice and this permission notice shall be included <span class="cf">in</span> all</a>
-<a class="sourceLine" id="cb8-13" title="13">copies or substantial portions of the Software.</a>
-<a class="sourceLine" id="cb8-14" title="14"></a>
-<a class="sourceLine" id="cb8-15" title="15">THE SOFTWARE IS PROVIDED <span class="st">"AS IS"</span>, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</a>
-<a class="sourceLine" id="cb8-16" title="16">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</a>
-<a class="sourceLine" id="cb8-17" title="17">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</a>
-<a class="sourceLine" id="cb8-18" title="18">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</a>
-<a class="sourceLine" id="cb8-19" title="19">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</a>
-<a class="sourceLine" id="cb8-20" title="20">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</a>
-<a class="sourceLine" id="cb8-21" title="21">SOFTWARE.</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>MIT License</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="kw">Copyright</span> (c) <span class="dv">2019-2021</span> Nima S. Hejazi</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span id="cb8-6"><a href="#cb8-6"></a>of this software and associated documentation <span class="kw">files</span> (the <span class="st">"Software"</span>), to deal</span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="cf">in</span> the Software without restriction, including without limitation the rights</span>
+<span id="cb8-8"><a href="#cb8-8"></a>to use, copy, modify, merge, publish, distribute, sublicense, and<span class="op">/</span>or sell</span>
+<span id="cb8-9"><a href="#cb8-9"></a>copies of the Software, and to permit persons to whom the Software is</span>
+<span id="cb8-10"><a href="#cb8-10"></a>furnished to do so, subject to the following conditions<span class="op">:</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a>The above copyright notice and this permission notice shall be included <span class="cf">in</span> all</span>
+<span id="cb8-13"><a href="#cb8-13"></a>copies or substantial portions of the Software.</span>
+<span id="cb8-14"><a href="#cb8-14"></a></span>
+<span id="cb8-15"><a href="#cb8-15"></a>THE SOFTWARE IS PROVIDED <span class="st">"AS IS"</span>, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span id="cb8-16"><a href="#cb8-16"></a>IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span id="cb8-17"><a href="#cb8-17"></a>FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span id="cb8-18"><a href="#cb8-18"></a>AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span id="cb8-19"><a href="#cb8-19"></a>LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span id="cb8-20"><a href="#cb8-20"></a>OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
+<span id="cb8-21"><a href="#cb8-21"></a>SOFTWARE.</span></code></pre></div>
 <hr>
 </div>
 <div id="references" class="section level2">

@@ -127,13 +127,25 @@
 
 <div id="haldensify-development" class="section level1">
 
-<ul>
-<li>[x] Add <code>...</code> args to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow arbitrary arguments to be passed directly to <code>fit_hal()</code>.</li>
-<li>[x] Remove <code>use_future</code> argument to <code><a href="reference/haldensify.html">haldensify()</a></code>, instead reducing to calling <code>future_mapply()</code>, with sequential evaluation via <code>plan(sequential)</code>.</li>
-<li>[x] Add example of working with bootstrap samples, e.g., using <a href="https://rsample.tidymodels.org/reference/bootstraps.html"><code>rsample</code></a>.</li>
-<li>[x] Add a <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method to more easily visualize how empirical risk changes across the sequence of explored regularization parameter values.</li>
-<li>[ ] Add an <code>ipw_est()</code> function for constructing IPW estimators of the mean counterfactual outcome of a stochastic shift intervention via <code>haldensify</code>.</li>
-<li>[ ] Add an argument to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow normalization of the density estimates to improve estimation stability. Note that this normalized density is actually g(A|W)/g(A), instead of the currently estimated g(A|W).</li>
+<ul class="task-list">
+<li>
+<input type="checkbox" disabled checked>
+Add <code>...</code> args to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow arbitrary arguments to be passed directly to <code>fit_hal()</code>.</li>
+<li>
+<input type="checkbox" disabled checked>
+Remove <code>use_future</code> argument to <code><a href="reference/haldensify.html">haldensify()</a></code>, instead reducing to calling <code>future_mapply()</code>, with sequential evaluation via <code>plan(sequential)</code>.</li>
+<li>
+<input type="checkbox" disabled checked>
+Add example of working with bootstrap samples, e.g., using <a href="https://rsample.tidymodels.org/reference/bootstraps.html"><code>rsample</code></a>.</li>
+<li>
+<input type="checkbox" disabled checked>
+Add a <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method to more easily visualize how empirical risk changes across the sequence of explored regularization parameter values.</li>
+<li>
+<input type="checkbox" disabled>
+Add an <code>ipw_est()</code> function for constructing IPW estimators of the mean counterfactual outcome of a stochastic shift intervention via <code>haldensify</code>.</li>
+<li>
+<input type="checkbox" disabled>
+Add an argument to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow normalization of the density estimates to improve estimation stability. Note that this normalized density is actually g(A|W)/g(A), instead of the currently estimated g(A|W).</li>
 </ul>
 </div>
 
