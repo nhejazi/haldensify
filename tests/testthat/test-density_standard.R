@@ -38,3 +38,12 @@ test_that("Maximum predicted probability of p(A|W = +1) matches N(+1, 0.5)", {
   obs_a_max_prob_w_pos <- new_dat[which.max(new_dat$pred_w_pos), ]$a
   expect_equal(round(obs_a_max_prob_w_pos), unique(new_w_pos))
 })
+
+new_dat$pred_w_pos_undersmooth <- predict(haldensify_fit,
+  new_A = new_dat$a, new_W = new_dat$w_pos, lambda_select = "undersmooth"
+)
+new_dat$pred_w_pos_all <- predict(haldensify_fit,
+  new_A = new_dat$a, new_W = new_dat$w_pos, lambda_select = "all"
+)
+
+print(haldensify_fit)
