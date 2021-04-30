@@ -41,7 +41,7 @@ Suggests:
     rmarkdown,
     future
 Remotes:
-    github::tlverse/hal9001@v0.4.0
+    github::tlverse/hal9001@devel
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
