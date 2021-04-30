@@ -8,7 +8,7 @@ cv_haldensify(
   fold,
   long_data,
   wts = rep(1, nrow(long_data)),
-  lambda_seq = exp(seq(-1, -13, length = 100)),
+  lambda_seq = exp(seq(-1, -13, length = 1000L)),
   ...
 )
 }

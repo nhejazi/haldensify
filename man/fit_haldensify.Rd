@@ -9,9 +9,9 @@ fit_haldensify(
   W,
   wts = rep(1, length(A)),
   grid_type = "equal_range",
-  n_bins = ceiling(length(A)^(c(1/2, 2/3))),
-  cv_folds = 5,
-  lambda_seq = exp(seq(-1, -13, length = 1000)),
+  n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
+  cv_folds = 5L,
+  lambda_seq = exp(seq(-1, -13, length = 1000L)),
   ...
 )
 }
@@ -71,9 +71,9 @@ w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
 # fit cross-validated HAL-based density estimator of A|W
 haldensify_cvfit <- fit_haldensify(
-  A = a, W = w, lambda_seq = exp(seq(-1, -10, length = 100)),
+  A = a, W = w, n_bins = 10L, lambda_seq = exp(seq(-1, -10, length = 100)),
   # the following arguments are passed to hal9001::fit_hal()
-  max_degree = 5, smoothness_orders = 0, num_knots = NULL,
+  max_degree = 3, smoothness_orders = 0, num_knots = NULL,
   reduce_basis = 1 / sqrt(length(a))
 )
 }

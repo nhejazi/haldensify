@@ -37,7 +37,7 @@ utils::globalVariables(c("in_bin", "bin_id"))
 cv_haldensify <- function(fold,
                           long_data,
                           wts = rep(1, nrow(long_data)),
-                          lambda_seq = exp(seq(-1, -13, length = 100)),
+                          lambda_seq = exp(seq(-1, -13, length = 1000L)),
                           ...) {
   # make training and validation folds
   train_set <- origami::training(long_data)
@@ -188,22 +188,22 @@ cv_haldensify <- function(fold,
 #' @examples
 #' # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
 #' set.seed(429153)
-#' n_train <- 100
+#' n_train <- 50
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
 #' # learn relationship A|W using HAL-based density estimation procedure
 #' haldensify_fit <- haldensify(
-#'   A = a, W = w, lambda_seq = exp(seq(-1, -10, length = 500)),
+#'   A = a, W = w, n_bins = 10L, lambda_seq = exp(seq(-1, -10, length = 100)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 5, smoothness_orders = 0, num_knots = NULL,
+#'   max_degree = 3, smoothness_orders = 0, num_knots = NULL,
 #'   reduce_basis = 1 / sqrt(length(a))
 #' )
 haldensify <- function(A, W,
                        wts = rep(1, length(A)),
                        grid_type = "equal_range",
-                       n_bins = ceiling(length(A)^(c(1 / 2, 2 / 3))),
-                       cv_folds = 5,
-                       lambda_seq = exp(seq(-1, -13, length = 1000)),
+                       n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
+                       cv_folds = 5L,
+                       lambda_seq = exp(seq(-1, -13, length = 1000L)),
                        hal_basis_list = NULL,
                        ...) {
   # capture dot arguments
@@ -345,17 +345,17 @@ haldensify <- function(A, W,
 #' a <- rnorm(n_train, w, 0.5)
 #' # fit cross-validated HAL-based density estimator of A|W
 #' haldensify_cvfit <- fit_haldensify(
-#'   A = a, W = w, lambda_seq = exp(seq(-1, -10, length = 100)),
+#'   A = a, W = w, n_bins = 10L, lambda_seq = exp(seq(-1, -10, length = 100)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 5, smoothness_orders = 0, num_knots = NULL,
+#'   max_degree = 3, smoothness_orders = 0, num_knots = NULL,
 #'   reduce_basis = 1 / sqrt(length(a))
 #' )
 fit_haldensify <- function(A, W,
                            wts = rep(1, length(A)),
                            grid_type = "equal_range",
-                           n_bins = ceiling(length(A)^(c(1 / 2, 2 / 3))),
-                           cv_folds = 5,
-                           lambda_seq = exp(seq(-1, -13, length = 1000)),
+                           n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
+                           cv_folds = 5L,
+                           lambda_seq = exp(seq(-1, -13, length = 1000L)),
                            ...) {
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(

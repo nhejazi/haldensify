@@ -1,3 +1,11 @@
+# haldensify 0.1.5
+
+As of April 2021:
+* Changes to internal calls of `hal9001::fit_hal()` in order to correctly use
+  the pared-down interface introduced in v0.4.0, contributed by @rachaelvp.
+* The default for the grid of bins used for discretization of the variable `A`
+  has been altered to be multiples of `sqrt(length(A))`.
+
 # haldensify 0.1.0
 
 As of April 2021:

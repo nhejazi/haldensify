@@ -1,6 +1,6 @@
 Package: haldensify
 Title: Highly Adaptive Lasso Conditional Density Estimation
-Version: 0.1.0
+Version: 0.1.5
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),
@@ -10,7 +10,10 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-1019-8343")),
     person("Mark", "van der Laan", email = "laan@berkeley.edu",
            role = c("aut", "ths"),
-           comment = c(ORCID = "0000-0003-1432-5511"))
+           comment = c(ORCID = "0000-0003-1432-5511")),
+    person("Rachael", "Phillips", email = "rachaelvphillips@berkeley.edu",
+           role = "ctb",
+           comment = c(ORCID = "0000-0002-8474-591X"))
   )
 Maintainer: Nima Hejazi <nh@nimahejazi.org>
 Description: An algorithm for flexible conditional density estimation based on

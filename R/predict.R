@@ -53,7 +53,7 @@ utils::globalVariables(c("wts"))
 #' a <- rnorm(n_train, w, 0.5)
 #' # HAL-based density estimator of A|W
 #' haldensify_fit <- haldensify(
-#'   A = a, W = w, lambda_seq = exp(seq(-1, -10, length = 500)),
+#'   A = a, W = w, n_bins = 10L, lambda_seq = exp(seq(-1, -10, length = 100)),
 #'   # the following arguments are passed to hal9001::fit_hal()
 #'   max_degree = 5, smoothness_orders = 0, num_knots = NULL,
 #'   reduce_basis = 1 / sqrt(length(a))
