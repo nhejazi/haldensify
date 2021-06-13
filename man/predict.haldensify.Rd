@@ -9,8 +9,8 @@
   ...,
   new_A,
   new_W,
-  trim = FALSE,
-  trim_min = 1/sqrt(length(new_A)),
+  trim = TRUE,
+  trim_min = NULL,
   lambda_select = c("cv", "undersmooth", "all")
 )
 }
@@ -29,13 +29,16 @@ values of baseline covariates (potential confounders) for the conditioning
 set of the observed values \code{A}.}
 
 \item{trim}{A \code{logical} indicating whether estimates of the conditional
-density below the value indicated in \code{trim_min} should be truncated.}
+density below the value indicated in \code{trim_min} should be truncated.
+The default value of \code{TRUE} enforces truncation of any values below
+the cutoff specified in \code{trim_min} and similarly truncates predictions
+for any of \code{new_A} falling outside of the training support.}
 
 \item{trim_min}{A \code{numeric} indicating the minimum allowed value of the
 resultant density predictions. Any predicted density values below this
 tolerance threshold are set to the indicated minimum. The default is to use
-the inverse of the square root of the sample size of the prediction set,
-i.e., 1/sqrt(n); another notable choice is 1/sqrt(n)/log(n). If there are
+a scaled inverse square root of the sample size of the prediction set,
+i.e., 5/sqrt(n)/log(n) (another notable choice is 1/sqrt(n)). If there are
 observations in the prediction set with values of \code{new_A} outside of
 the support of the training set (i.e., provided in the argument \code{A} to
 \code{\link{haldensify}}), their predictions are similarly truncated.}
