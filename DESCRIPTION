@@ -1,6 +1,6 @@
 Package: haldensify
 Title: Highly Adaptive Lasso Conditional Density Estimation
-Version: 0.1.5
+Version: 0.2.0
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),
@@ -21,14 +21,21 @@ Description: An algorithm for flexible conditional density estimation based on
     dataset constructed by discretizing the support of the outcome variable. To
     facilitate non/semi-parametric estimation of the conditional density, the
     highly adaptive lasso, a nonparametric regression function shown to reliably
-    estimate a large class of functions at a provably fast convergence rate with
-    only mild assumptions, is utilized. The pooled hazards data augmentation
-    formulation implemented was first described by Díaz and van der Laan (2011)
-    <doi:10.2202/1557-4679.1356>.
+    estimate a large class of functions at a fast convergence rate, is utilized.
+    The pooled hazards data augmentation formulation implemented was first
+    described by Díaz and van der Laan (2011) <doi:10.2202/1557-4679.1356>. To
+    complement the conditional density estimation utilities, tools for efficient
+    nonparametric inverse probability weighted (IPW) estimation of the causal
+    effects of stochastic shift interventions (modified treatment policies),
+    directly utilizing the density estimation technique for construction of the
+    generalized propensity score, are provided. These IPW estimators accommodate
+    undersmoothing to achieve the nonparametric efficiency bound.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
     utils,
+    dplyr,
+    tibble,
     ggplot2,
     data.table,
     matrixStats,
@@ -36,12 +43,14 @@ Imports:
     assertthat,
     hal9001 (>= 0.4.0),
     origami (>= 1.0.3),
+    rsample,
     latex2exp,
     Rdpack
 Suggests:
     testthat,
     knitr,
     rmarkdown,
+    covr,
     future
 Remotes:
     github::tlverse/hal9001@devel

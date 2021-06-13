@@ -244,6 +244,63 @@ print.haldensify <- function(x, ...) {
 
 ###############################################################################
 
+#' Histogram Binning Procedures for Pooled Hazards Regression
+#'
+#' @param grid_var The \code{numeric} vector over which histogram-based binning
+#'  is to be performed.
+#' @param grid_type A \code{character} indicating the choice of binning rule,
+#'  with \code{"hist"} corresponding to the use of several rules proposed for
+#'  optimal histogram construction and \code{"scaled"} corresponding to the use
+#'  of multiple of the square root of the sample size.
+#' @param max_bins A \code{numeric} indicating the maximum number of bins that
+#'  are allowed in the grid for building the histogram based discretization.
+#'
+#' @importFrom stats IQR
+#' @importFrom dplyr case_when
+#'
+#' @keywords internal
+make_bins <- function(grid_var,
+                      grid_type = c("hist", "scaled"),
+                      max_bins = 40) {
+  # set default grid type
+  grid_type <- match.arg(grid_type)
+
+  # make bins based on sample size and binning rules
+  n_obs <- length(grid_var)
+  if (grid_type == "hist") {
+     # histogram binning rules for pooled hazards
+     ## 1) simplest rule, just based on the root-n
+     k_sqrt <- ceiling(sqrt(n_obs))
+     ## 2) Rice's rule looking at n^(1/3)
+     k_rice <- ceiling(2 * (n_obs ^ (1 / 3)))
+     ## 3) Freedman-Diaconis rule, also based on n^{1/3}
+     h_diaconis <- 2 * (stats::IQR(grid_var) / (n_obs ^ (1 / 3)))
+     k_diaconis <- ceiling((max(grid_var) - min(grid_var)) / h_diaconis)
+
+     # take multiples of each of the numbers of bins
+     max_k_bins <- round(c(1.5, 2, 2.5) * max(c(k_sqrt, k_rice, k_diaconis)))
+
+     # construct grid
+     bin_grid <- sort(unique(c(k_sqrt, k_rice, k_diaconis, max_k_bins)))
+  } else if (grid_type == "scaled") {
+    # set different multiplers for root-n based on sample size
+    bin_mult <- dplyr::case_when(
+      n_obs >= 900 ~ c(0.5, 0.75, 1.0, 1.25),
+      TRUE ~ c(0.5, 1.0, 1.5, 2.0)
+    )
+
+    # construct grid
+    bin_grid <- round(sqrt(n_obs) * bin_mult)
+  }
+
+  # return grid of bins
+  bin_grid <- bin_grid[bin_grid < max_bins]
+  return(bin_grid)
+}
+
+###############################################################################
+
 is.haldensify <- function(x) {
   class(x) == "haldensify"
 }
+
