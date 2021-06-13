@@ -25,7 +25,8 @@
 #' @importFrom matrixStats colMeans2
 #' @importFrom stats predict var weighted.mean
 #' @importFrom tibble as_tibble
-#' @importFrom dplyr "%>%"
+#' @importFrom dplyr "%>%" bind_rows
+#' @importFrom rlang set_names
 #'
 #' @keywords internal
 dcar_selector <- function(W, A, Y,
@@ -87,8 +88,8 @@ dcar_selector <- function(W, A, Y,
 
   # output simple list
   est <- lapply(dcar_est, `[[`, "est") %>%
-    set_names(c("dcar_tol", "dcar_min")) %>%
-    bind_rows(.id = "type")
+    rlang::set_names(c("dcar_tol", "dcar_min")) %>%
+    dplyr::bind_rows(.id = "type")
   eif_us <- do.call(cbind, lapply(dcar_est, `[[`, "eif"))
   colnames(eif_us) <- c("dcar_tol", "dcar_min")
   out <- list(est = est, eif = eif_us)

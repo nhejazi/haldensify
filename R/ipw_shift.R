@@ -42,7 +42,6 @@
 #'  be used in computing the mean squared error as part of the plateau selector
 #'  criterion. Ignored when \code{undersmooth_type} is not \code{"plateau"}.
 #'
-#' @importFrom haldensify haldensify
 #' @importFrom hal9001 fit_hal
 #' @importFrom stats predict
 #'
@@ -83,7 +82,7 @@ ipw_shift <- function(W, A, Y,
   n_obs <- length(Y)
 
   # fit haldensify for generalized propensity score
-  gn_fit_haldensify <- haldensify::haldensify(
+  gn_fit_haldensify <- haldensify(
     A = A, W = W,
     n_bins = n_bins,
     cv_folds = cv_folds,
@@ -95,9 +94,6 @@ ipw_shift <- function(W, A, Y,
   cv_lambda_idx <- gn_fit_haldensify$cv_tuning_results$lambda_loss_min_idx
   cv_n_bins <- gn_fit_haldensify$n_bins_cvselect
 
-  # set truncation level for density predictions
-  gn_trunc <- 5 / sqrt(n_obs) / log(n_obs)
-
   # generalized propensity score predictions for...
   ## 1) "natural" A
   gn_pred_natural <- stats::predict(
@@ -106,7 +102,6 @@ ipw_shift <- function(W, A, Y,
     new_W = W,
     lambda_select = "undersmooth"
   )
-  gn_pred_natural <- apply(gn_pred_natural, 2, pmax, gn_trunc)
 
   ## 2) counterfactual (down)shifted A
   gn_pred_shifted <- stats::predict(
@@ -115,7 +110,6 @@ ipw_shift <- function(W, A, Y,
     new_W = W,
     lambda_select = "undersmooth"
   )
-  gn_pred_shifted <- apply(gn_pred_shifted, 2, pmax, gn_trunc)
 
   # fit outcome mechanism Qn via CV-HAL
   Qn_fit <- hal9001::fit_hal(

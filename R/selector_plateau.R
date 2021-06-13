@@ -106,7 +106,7 @@ plateau_selector <- function(W, A, Y,
           data_boot <- tibble::as_tibble(boot_samp)
 
           # fit HAL model on bootstrap sample
-          haldensify_boot <- haldensify::haldensify(
+          haldensify_boot <- haldensify(
             A = data_boot$A,
             W = data_boot %>% dplyr::select(dplyr::contains("W")),
             cv_folds = cv_folds,
