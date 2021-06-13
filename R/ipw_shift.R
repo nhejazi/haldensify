@@ -60,12 +60,13 @@
 #' est_ipw <- ipw_shift(
 #'   W = cbind(W1, W2, W3), A = A, Y = Y, delta = 0.5,
 #'   lambda_seq = exp(seq(-1, -10, length = 500L)),
-#'   undersmooth_type = "dcar",
 #'   # arguments passed to hal9001::fit_hal()
 #'   max_degree = 3,
 #'   smoothness_orders = 0,
 #'   num_knots = NULL,
-#'   reduce_basis = 1 / sqrt(n_obs)
+#'   reduce_basis = 1 / sqrt(n_obs),
+#'   # ...continue arguments for IPW
+#'   undersmooth_type = "dcar"
 #' )
 ipw_shift <- function(W, A, Y,
                       delta = 0,
