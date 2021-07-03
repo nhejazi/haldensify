@@ -96,7 +96,7 @@ haldensify_fit
 #> Number of bins over support of A: 10
 #> CV-selected lambda: 0.0016
 #> Summary of fitted HAL:
-#> Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --
+#> Warning in summary.hal9001(x$hal_fit): Coefficients for many lambda exist --
 #> Summarizing coefficients corresponding to minimum lambda.
 #>          coef               term
 #>  1:  5.977489        (Intercept)
@@ -178,6 +178,17 @@ After using the `haldensify` R package, please cite the following:
   - [R/`hal9001`](https://github.com/tlverse/hal9001) – The highly
     adaptive lasso estimator used internally to constructed conditional
     density estimates.
+
+-----
+
+## Funding
+
+The development of this software was supported in part through grants
+from the National Library of Medicine (award number [T32
+LM012417](https://reporter.nih.gov/project-details/9248418)) and the
+National Institute of Allergy and Infectious Diseases (award number [R01
+AI074345](https://reporter.nih.gov/project-details/9926564)) of the
+National Institutess of Health.
 
 -----
 
