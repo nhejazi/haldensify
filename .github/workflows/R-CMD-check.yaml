@@ -32,13 +32,17 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: ${{ matrix.config.r }}
+      - uses: r-lib/actions/setup-pandoc@v1
+      - uses: r-lib/actions/setup-tinytex@v1
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
+          install.packages(c("remotes", "rcmdcheck", "covr", "sessioninfo"))
           remotes::install_deps(dependencies = TRUE)
+          remotes::install_github("tlverse/hal9001@devel")
         shell: Rscript {0}
       - name: Check
         run: |
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+          covr::codecov(line_exclusions = list("R/plots.R"))
         shell: Rscript {0}
