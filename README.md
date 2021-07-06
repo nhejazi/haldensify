@@ -3,6 +3,9 @@
 
 # R/`haldensify`
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/nhejazi/haldensify/workflows/R-CMD-check/badge.svg)](https://github.com/nhejazi/haldensify/actions)
 [![Travis-CI Build
 Status](https://travis-ci.com/nhejazi/haldensify.svg?branch=master)](https://travis-ci.com/nhejazi/haldensify)
 [![AppVeyor Build
@@ -20,6 +23,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![MIT
 license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg)](https://doi.org/10.5281/zenodo.3698329)
+<!-- badges: end -->
 
 > Highly Adaptive Lasso Conditional Density Estimation
 
