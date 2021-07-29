@@ -3,10 +3,9 @@
 
 # R/`haldensify`
 
-[![Travis-CI Build
-Status](https://travis-ci.com/nhejazi/haldensify.svg?branch=master)](https://travis-ci.com/nhejazi/haldensify)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/nhejazi/haldensify?branch=master&svg=true)](https://ci.appveyor.com/project/nhejazi/haldensify)
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/nhejazi/haldensify/workflows/R-CMD-check/badge.svg)](https://github.com/nhejazi/haldensify/actions)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/haldensify)](https://www.r-pkg.org/pkg/haldensify)
@@ -20,6 +19,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![MIT
 license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg)](https://doi.org/10.5281/zenodo.3698329)
+<!-- badges: end -->
 
 > Highly Adaptive Lasso Conditional Density Estimation
 
@@ -96,7 +96,7 @@ haldensify_fit
 #> Number of bins over support of A: 10
 #> CV-selected lambda: 0.0016
 #> Summary of fitted HAL:
-#> Warning in summary.hal9001(x$hal_fit): Coefficients for many lamdba exist --
+#> Warning in summary.hal9001(x$hal_fit): Coefficients for many lambda exist --
 #> Summarizing coefficients corresponding to minimum lambda.
 #>          coef               term
 #>  1:  5.977489        (Intercept)
@@ -178,6 +178,17 @@ After using the `haldensify` R package, please cite the following:
   - [R/`hal9001`](https://github.com/tlverse/hal9001) – The highly
     adaptive lasso estimator used internally to constructed conditional
     density estimates.
+
+-----
+
+## Funding
+
+The development of this software was supported in part through grants
+from the National Library of Medicine (award number [T32
+LM012417](https://reporter.nih.gov/project-details/9248418)) and the
+National Institute of Allergy and Infectious Diseases (award number [R01
+AI074345](https://reporter.nih.gov/project-details/9926564)) of the
+National Institutess of Health.
 
 -----
 

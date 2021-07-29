@@ -20,3 +20,4 @@
 ^docs$
 ^README-$
 ^CRAN-RELEASE$
+^\.github$
