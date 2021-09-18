@@ -369,9 +369,9 @@ print.ipw_haldensify <- function(x, ..., ci_level = 0.95) {
   # construct and print output
   message("Counterfactual Mean of Shifted Treatment")
   message("Intervention: ", "Treatment + ", x$.delta)
-  message("IPW Estimator Criterion: ", x$est$type)
-  message("Estimate: ", round(x$psi, 4))
-  message("Std. Error: ", round(x$se_est, 4))
+  #message("IPW Estimator Criterion: ", x$est$type)
+  message("Estimate: ", round(x_est$psi, 4))
+  message("Std. Error: ", round(x_est$se_est, 4))
   #message(paste0(
     #scales::percent(ci_level), " CI: [",
     #round(ci[1], 4), ", ", round(ci[3], 4), "]"

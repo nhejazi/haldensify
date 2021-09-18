@@ -79,7 +79,8 @@ ipw_shift <- function(W, A, Y,
                       bootstrap = FALSE,
                       n_boot = 1000L) {
   # outcome family for selectors that require outcome regression Qn
-  outcome_family <- ifelse(length(unique(Y)) > 2L, "gaussian", "binomial")
+  outcome_levels <- length(unique(Y))
+  outcome_family <- ifelse(outcome_levels > 2L, "gaussian", "binomial")
   n_obs <- length(Y)
 
   # fit haldensify for generalized propensity score
@@ -208,6 +209,7 @@ ipw_shift <- function(W, A, Y,
 
   # add hidden slots with useful diagnostics
   ipw_est$.delta <- delta
+  ipw_est$.outcome_levels <- outcome_levels
   class(ipw_est) <- "ipw_haldensify"
   return(ipw_est)
 }
