@@ -28,8 +28,9 @@ Description: An algorithm for flexible conditional density estimation based on
     nonparametric inverse probability weighted (IPW) estimation of the causal
     effects of stochastic shift interventions (modified treatment policies),
     directly utilizing the density estimation technique for construction of the
-    generalized propensity score, are provided. These IPW estimators accommodate
-    undersmoothing to achieve the nonparametric efficiency bound.
+    generalized propensity score, are provided. These IPW estimators utilize
+    undersmoothing of the conditional density estimation in order to achieve
+    the non/semi-parametric efficiency bound.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -46,6 +47,7 @@ Imports:
     rsample,
     rlang,
     latex2exp,
+    scales,
     Rdpack
 Suggests:
     testthat,

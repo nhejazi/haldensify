@@ -2,7 +2,7 @@
 #' Shift Interventions
 #'
 #' @details Compute confidence intervals for estimates produced by
-#'  \code{\link{ipw_haldensify}}.
+#'  \code{\link{ipw_shift}}.
 #'
 #' @param object An object of class \code{ipw_haldensify}, produced by invoking
 #'  the function \code{\link{ipw_shift}}, for which a confidence interval is to

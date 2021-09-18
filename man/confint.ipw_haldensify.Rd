@@ -31,7 +31,7 @@ Shift Interventions
 }
 \details{
 Compute confidence intervals for estimates produced by
- \code{\link{ipw_haldensify}}.
+ \code{\link{ipw_shift}}.
 }
 \examples{
 # simulate data
