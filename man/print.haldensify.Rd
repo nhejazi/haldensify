@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{print.haldensify}
 \alias{print.haldensify}
-\title{Print Method for Highly Adaptive Lasso Conditional Density Estimation}
+\title{Print: Highly Adaptive Lasso Conditional Density Estimates}
 \usage{
 \method{print}{haldensify}(x, ...)
 }
@@ -16,7 +16,7 @@ None. Called for the side effect of printing an informative summary
  of slots of objects of class \code{haldensify}.
 }
 \description{
-Print Method for Highly Adaptive Lasso Conditional Density Estimation
+Print: Highly Adaptive Lasso Conditional Density Estimates
 }
 \details{
 The \code{print} method for objects of class \code{haldensify}

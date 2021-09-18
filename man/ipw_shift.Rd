@@ -2,7 +2,7 @@
 % Please edit documentation in R/ipw_shift.R
 \name{ipw_shift}
 \alias{ipw_shift}
-\title{IPW Estimate of the Causal Effects of Stochatic Shift Interventions}
+\title{IPW Estimates of the Causal Effects of Stochatic Shift Interventions}
 \usage{
 ipw_shift(
   W,
@@ -74,7 +74,7 @@ be used in computing the mean squared error as part of the plateau selector
 criterion. Ignored when \code{undersmooth_type} is not \code{"plateau"}.}
 }
 \description{
-IPW Estimate of the Causal Effects of Stochatic Shift Interventions
+IPW Estimates of the Causal Effects of Stochatic Shift Interventions
 }
 \examples{
 # simulate data
@@ -86,7 +86,7 @@ A <- rnorm(n_obs, (2 * W1 - W2 - W1 * W2), 2)
 Y <- rbinom(n_obs, 1, plogis(3 * A + W1 + W2 - 2 * W3 - W1 * W3))
 
 # fit the IPW estimator
-est_ipw <- ipw_shift(
+est_ipw_shift <- ipw_shift(
   W = cbind(W1, W2, W3), A = A, Y = Y, delta = 0.5,
   lambda_seq = exp(seq(-1, -10, length = 500L)),
   # arguments passed to hal9001::fit_hal()
