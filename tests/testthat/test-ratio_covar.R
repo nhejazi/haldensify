@@ -20,8 +20,9 @@ pred_cats_haz <- predict(
   fit_cats, new_A = a_w2_cats, new_W = cbind(w1_norm, w2_cats)
 )
 emprisk_haz_cats <- mean(-log(pred_cats_haz))
-if (FALSE) {
-  library(sl3)
+
+
+if (require("sl3")) {
   cats_data <- as.data.table(list(W1 = w1_norm, W2 = w2_cats, A = a_w2_cats))
   cats_task <- sl3_Task$new(
     data = cats_data,
@@ -60,8 +61,8 @@ pred_cont_haz <- predict(
   fit_cont, new_A = a_w2_cont, new_W = cbind(w1_norm, w2_cont)
 )
 emprisk_haz_cont <- mean(-log(pred_cont_haz))
-if (FALSE) {
-  library(sl3)
+
+if (require("sl3")) {
   cont_data <- as.data.table(list(W1 = w1_norm, W2 = w2_cont, A = a_w2_cont))
   cont_task <- sl3_Task$new(
     data = cont_data,
