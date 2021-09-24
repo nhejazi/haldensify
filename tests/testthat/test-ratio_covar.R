@@ -12,15 +12,12 @@ a_w2_cats <- rnorm(n_train, w1_norm / w2_cats, 0.5)
 # learn density A|W based on categorical W2
 fit_cats <- haldensify(
   A = a_w2_cats, W = cbind(w1_norm, w2_cats),
-  lambda_seq = exp(seq(-1, -20, length = 500)),
-  # arguments passed to hal9001::fit_hal()
-  max_degree = NULL, num_knots = NULL, smoothness_orders = 0
+  lambda_seq = exp(seq(-1, -20, length = 500))
 )
 pred_cats_haz <- predict(
   fit_cats, new_A = a_w2_cats, new_W = cbind(w1_norm, w2_cats)
 )
 emprisk_haz_cats <- mean(-log(pred_cats_haz))
-
 
 if (require("sl3")) {
   cats_data <- as.data.table(list(W1 = w1_norm, W2 = w2_cats, A = a_w2_cats))
@@ -53,9 +50,7 @@ if (require("sl3")) {
 # learn density A|W based on continuous-valued W2
 fit_cont <- haldensify(
   A = a_w2_cont, W = cbind(w1_norm, w2_cont),
-  lambda_seq = exp(seq(-1, -20, length = 500)),
-  # arguments passed to hal9001::fit_hal()
-  max_degree = NULL, num_knots = NULL, smoothness_orders = 0
+  lambda_seq = exp(seq(-1, -20, length = 500))
 )
 pred_cont_haz <- predict(
   fit_cont, new_A = a_w2_cont, new_W = cbind(w1_norm, w2_cont)

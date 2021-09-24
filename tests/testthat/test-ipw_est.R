@@ -1,10 +1,9 @@
-library(here)
 library(data.table)
 library(stringr)
 set.seed(76924)
 
 # load data simulation helpers
-source(here("tests", "testthat", "helpers_dgp.R"))
+source("helpers_dgp.R")
 
 # simulate test data
 dgp <- "2a"

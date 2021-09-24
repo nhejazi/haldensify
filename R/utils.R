@@ -274,10 +274,11 @@ make_bins <- function(grid_var,
 #' n_train <- 50
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
+#'
 #' # learn relationship A|W using HAL-based density estimation procedure
 #' haldensify_fit <- haldensify(
 #'   A = a, W = w, n_bins = c(3, 5),
-#'   lambda_seq = exp(seq(-1, -10, length = 50)),
+#'   lambda_seq = exp(seq(-1, -15, length = 50L)),
 #'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 #' print(haldensify_fit)
@@ -332,14 +333,12 @@ print.haldensify <- function(x, ...) {
 #' # fit the IPW estimator
 #' est_ipw_shift <- ipw_shift(
 #'   W = cbind(W1, W2, W3), A = A, Y = Y, delta = 0.5,
-#'   lambda_seq = exp(seq(-1, -10, length = 500L)),
+#'   lambda_seq = exp(seq(-1, -5, length = 50L)),
 #'   # arguments passed to hal9001::fit_hal()
 #'   max_degree = 3,
-#'   smoothness_orders = 0,
-#'   num_knots = NULL,
 #'   reduce_basis = 1 / sqrt(n_obs),
 #'   # ...continue arguments for IPW
-#'   undersmooth_type = "all"
+#'   undersmooth_type = "dcar"
 #' )
 #' print(est_ipw_shift)
 print.ipw_haldensify <- function(x, ..., ci_level = 0.95) {
