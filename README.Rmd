@@ -58,8 +58,8 @@ ingredient in inverse probability weighted (IPW) methods, `haldensify` builds
 loosely on the advances of @ertefaie2021nonparametric to provide nonparametric
 IPW estimators of the causal effects of continuous treatments
 [@hejazi2021efficient], which can be made to achieve the non/semi-parametric
-efficiency bound by undersmoothing over a family of the HAL conditional density
-estimators.
+efficiency bound by undersmoothing (lowering regularization) over a family of
+the HAL conditional density estimators.
 
 ---
 
