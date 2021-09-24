@@ -28,13 +28,17 @@ est_ipw <- ipw_shift(
   undersmooth_type = "all"
 )
 
+# generate confidence intervals for IPW estimates
+ci_ipw <- confint(est_ipw)
+ci_ipw$type <- est_ipw$est$type
+
 # get approximately true TSM value for this DGP
 tsm_true <- get_truth(
   n_samp = 1e5, delta = delta, dgp_type = dgp, param_type = "tsm"
 )
 
 # extract IPW estimators of each type from output
-est_ipw_tbl <- as.data.table(est_ipw$est)
+est_ipw_tbl <- as.data.table(merge(est_ipw$est, ci_ipw, by = "type"))
 est_ipw_tbl[, bias := (psi - tsm_true$psi)]
 est_ipw_tbl[, mse := bias^2 + se_est^2]
 est_ipw_tbl[, nmse := (mse * n_samp) / tsm_true$eff_bound]
@@ -86,4 +90,10 @@ test_that("MSE of undersmoothed IPW is better than for cross-validated IPW", {
   mse_ipw_gcv <- est_ipw_tbl[type == "gcv", mse]
   mse_ipw_usm <- est_ipw_tbl[lambda_idx > 1, mse]
   expect_true(all(mse_ipw_usm < mse_ipw_gcv))
+})
+
+# test: confidence intervals cover truth for all IPW estimators
+test_that("Wald-style CIs cover truth for all IPW estimators", {
+  covers <- between(tsm_true$psi, est_ipw_tbl$lwr_ci, est_ipw_tbl$upr_ci)
+  expect_true(all(covers))
 })
