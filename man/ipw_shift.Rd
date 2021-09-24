@@ -14,6 +14,7 @@ ipw_shift(
   lambda_seq,
   ...,
   bin_type = c("equal_range", "equal_mass"),
+  trim_density = FALSE,
   undersmooth_type = c("dcar", "plateau", "gcv", "all"),
   bootstrap = FALSE,
   n_boot = 1000L
@@ -52,6 +53,11 @@ creating bins along the observed support of \code{A}. For bins of equal
 range, use \code{"equal_range"}; to ensure each bin has the same number of
 observations, use instead \code{"equal_mass"}. For more information, see
 documentation of \code{grid_type} in \code{\link[haldensify]{haldensify}}.}
+
+\item{trim_density}{A \code{logical} indicating whether estimates of the
+conditional density should be trimmed. Refer to the \code{trim} argument of
+the \code{predict} method of \code{haldensify} for details. The default is
+\code{FALSE} since propensity score truncation can lead to estimation bias.}
 
 \item{undersmooth_type}{A \code{character} indicating the selection strategy
 to be used in identifying an efficent IPW estimator. The choices include

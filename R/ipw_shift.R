@@ -24,6 +24,10 @@
 #'  range, use \code{"equal_range"}; to ensure each bin has the same number of
 #'  observations, use instead \code{"equal_mass"}. For more information, see
 #'  documentation of \code{grid_type} in \code{\link[haldensify]{haldensify}}.
+#' @param trim_density A \code{logical} indicating whether estimates of the
+#'  conditional density should be trimmed. Refer to the \code{trim} argument of
+#'  the \code{predict} method of \code{haldensify} for details. The default is
+#'  \code{FALSE} since propensity score truncation can lead to estimation bias.
 #' @param undersmooth_type A \code{character} indicating the selection strategy
 #'  to be used in identifying an efficent IPW estimator. The choices include
 #'  \code{"gcv"} for global cross-validation, \code{"dcar"} for solving the
@@ -75,9 +79,13 @@ ipw_shift <- function(W, A, Y,
                       lambda_seq,
                       ...,
                       bin_type = c("equal_range", "equal_mass"),
+                      trim_density = FALSE,
                       undersmooth_type = c("dcar", "plateau", "gcv", "all"),
                       bootstrap = FALSE,
                       n_boot = 1000L) {
+  # catch dot args for convenience
+  dot_args <- list(...)
+
   # outcome family for selectors that require outcome regression Qn
   outcome_levels <- length(unique(Y))
   outcome_family <- ifelse(outcome_levels > 2L, "gaussian", "binomial")
@@ -102,6 +110,7 @@ ipw_shift <- function(W, A, Y,
     gn_fit_haldensify,
     new_A = A,
     new_W = W,
+    trim = trim_density,
     lambda_select = "undersmooth"
   )
 
@@ -110,6 +119,7 @@ ipw_shift <- function(W, A, Y,
     gn_fit_haldensify,
     new_A = (A - delta),
     new_W = W,
+    trim = trim_density,
     lambda_select = "undersmooth"
   )
 

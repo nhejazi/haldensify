@@ -4,7 +4,7 @@
 \alias{make_bins}
 \title{Histogram Binning Procedures for Pooled Hazards Regression}
 \usage{
-make_bins(grid_var, grid_type = c("hist", "scaled"), max_bins = 40)
+make_bins(grid_var, grid_type = c("hist", "scaled"), max_bins = 30L)
 }
 \arguments{
 \item{grid_var}{The \code{numeric} vector over which histogram-based binning
@@ -13,7 +13,7 @@ is to be performed.}
 \item{grid_type}{A \code{character} indicating the choice of binning rule,
 with \code{"hist"} corresponding to the use of several rules proposed for
 optimal histogram construction and \code{"scaled"} corresponding to the use
-of multiple of the square root of the sample size.}
+of various pre-set multiples of the square root of the sample size.}
 
 \item{max_bins}{A \code{numeric} indicating the maximum number of bins that
 are allowed in the grid for building the histogram based discretization.}

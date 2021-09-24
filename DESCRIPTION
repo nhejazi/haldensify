@@ -29,8 +29,8 @@ Description: An algorithm for flexible conditional density estimation based on
     effects of stochastic shift interventions (modified treatment policies),
     directly utilizing the density estimation technique for construction of the
     generalized propensity score, are provided. These IPW estimators utilize
-    undersmoothing of the conditional density estimation in order to achieve
-    the non/semi-parametric efficiency bound.
+    undersmoothing (sieve estimation) of the conditional density estimators in
+    order to achieve the non/semi-parametric efficiency bound.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -53,10 +53,9 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
+    stringr,
     covr,
     future
-Remotes:
-    github::tlverse/hal9001@devel
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues

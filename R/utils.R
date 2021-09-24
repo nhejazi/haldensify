@@ -203,7 +203,7 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 #' @param grid_type A \code{character} indicating the choice of binning rule,
 #'  with \code{"hist"} corresponding to the use of several rules proposed for
 #'  optimal histogram construction and \code{"scaled"} corresponding to the use
-#'  of multiple of the square root of the sample size.
+#'  of various pre-set multiples of the square root of the sample size.
 #' @param max_bins A \code{numeric} indicating the maximum number of bins that
 #'  are allowed in the grid for building the histogram based discretization.
 #'
@@ -213,7 +213,7 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 #' @keywords internal
 make_bins <- function(grid_var,
                       grid_type = c("hist", "scaled"),
-                      max_bins = 40) {
+                      max_bins = 30L) {
   # set default grid type
   grid_type <- match.arg(grid_type)
 
