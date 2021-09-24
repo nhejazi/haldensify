@@ -22,7 +22,7 @@ est_ipw <- ipw_shift(
   lambda_seq = exp(seq(-1, -8, length = 500L)),
   ## arguments passed to hal9001::fit_hal()
   max_degree = 3,
-  #reduce_basis = 1 / n_samp,
+  # reduce_basis = 1 / n_samp,
   ## ...more non-hal9001 args
   bin_type = "equal_range",
   undersmooth_type = "all"

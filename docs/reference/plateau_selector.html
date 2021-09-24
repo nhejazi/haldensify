@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Map Predicted Hazard to Predicted Density for a Single Observation — map_hazard_to_density • haldensify</title>
+<title>IPW Estimator Selector Using Lepski's Plateau Method for the MSE — plateau_selector • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Map Predicted Hazard to Predicted Density for a Single Observation — map_hazard_to_density" />
-<meta property="og:description" content="Map Predicted Hazard to Predicted Density for a Single Observation" />
+<meta property="og:title" content="IPW Estimator Selector Using Lepski's Plateau Method for the MSE — plateau_selector" />
+<meta property="og:description" content="IPW Estimator Selector Using Lepski's Plateau Method for the MSE" />
 
 
 
@@ -123,45 +123,123 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Map Predicted Hazard to Predicted Density for a Single Observation</h1>
-    <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>map_hazard_to_density.Rd</code></div>
+    <h1>IPW Estimator Selector Using Lepski's Plateau Method for the MSE</h1>
+    <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/selector_plateau.R'><code>R/selector_plateau.R</code></a></small>
+    <div class="hidden name"><code>plateau_selector.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Map Predicted Hazard to Predicted Density for a Single Observation</p>
+    <p>IPW Estimator Selector Using Lepski's Plateau Method for the MSE</p>
     </div>
 
-    <pre class="usage"><span class='fu'>map_hazard_to_density</span><span class='op'>(</span><span class='va'>hazard_pred_single_obs</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plateau_selector</span><span class='op'>(</span>
+  <span class='va'>W</span>,
+  <span class='va'>A</span>,
+  <span class='va'>Y</span>,
+  delta <span class='op'>=</span> <span class='fl'>0</span>,
+  <span class='va'>gn_pred_natural</span>,
+  <span class='va'>gn_pred_shifted</span>,
+  <span class='va'>gn_fit_haldensify</span>,
+  <span class='va'>Qn_pred_natural</span>,
+  <span class='va'>Qn_pred_shifted</span>,
+  cv_folds <span class='op'>=</span> <span class='fl'>10L</span>,
+  gcv_mult <span class='op'>=</span> <span class='fl'>50L</span>,
+  bootstrap <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  n_boot <span class='op'>=</span> <span class='fl'>1000L</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>hazard_pred_single_obs</th>
-      <td><p>A <code>numeric</code> vector of predicted hazard of
-failure in a given bin (under a given partitioning of the support) for a
-single observational unit based on a long format data structure (from
-<code><a href='format_long_hazards.html'>format_long_hazards</a></code>). This is the probability that a given
-value falls in a corresponding bin, given that it has not yet failed
-(fallen in a preceding bin), as per D\'iaz I, van der Laan MJ (2011).
-&#8220;Super learner based conditional density estimation with application to marginal structural models.&#8221;
-<em>The International Journal of Biostatistics</em>, <b>7</b>(1), 1--20.
-.</p></td>
+      <th>W</th>
+      <td><p>A <code>matrix</code>, <code>data.frame</code>, or similar containing a set of
+baseline covariates.</p></td>
+    </tr>
+    <tr>
+      <th>A</th>
+      <td><p>A <code>numeric</code> vector corresponding to a exposure variable. The
+parameter of interest is defined as a location shift of this quantity.</p></td>
+    </tr>
+    <tr>
+      <th>Y</th>
+      <td><p>A <code>numeric</code> vector of the observed outcomes.</p></td>
+    </tr>
+    <tr>
+      <th>delta</th>
+      <td><p>A <code>numeric</code> value indicating the shift in the exposure to
+be used in defining the target parameter. This is defined with respect to
+the scale of the exposure (A).</p></td>
+    </tr>
+    <tr>
+      <th>gn_pred_natural</th>
+      <td><p>A <code>matrix</code> of conditional density estimates of
+the exposure mechanism g(A|W) along a grid of the regularization parameter,
+at the natural (observed, actual) values of the exposure.</p></td>
+    </tr>
+    <tr>
+      <th>gn_pred_shifted</th>
+      <td><p>A <code>matrix</code> of conditional density estimates of
+the exposure mechanism g(A+delta|W) along a grid of the regularization
+parameter, at the shifted (counterfactual) values of the exposure.</p></td>
+    </tr>
+    <tr>
+      <th>gn_fit_haldensify</th>
+      <td><p>An object of class <code>haldensify</code> of the fitted
+conditional density model for the natural exposure mechanism. This should
+be the fit object returned by <code><a href='haldensify.html'>haldensify</a>[haldensify]</code> as part
+of a call to <code><a href='ipw_shift.html'>ipw_shift</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>Qn_pred_natural</th>
+      <td><p>A <code>numeric</code> of the outcome mechanism estimate at
+the natural (i.e., observed) values of the exposure. HAL regression is used
+for the estimate, with the regularization term chosen by cross-validation.</p></td>
+    </tr>
+    <tr>
+      <th>Qn_pred_shifted</th>
+      <td><p>A <code>numeric</code> of the outcome mechanism estimate at
+the shifted (i.e., counterfactual) values of the exposure. HAL regression
+is used for the estimate, with the regularization term chosen by
+cross-validation.</p></td>
+    </tr>
+    <tr>
+      <th>cv_folds</th>
+      <td><p>A <code>numeric</code> giving the number of folds to be used for
+cross-validation. Note that this form of sample splitting is used for the
+selection of tuning parameters by empirical risk minimization, not for the
+estimation of nuisance parameters (i.e., to relax regularity conditions).</p></td>
+    </tr>
+    <tr>
+      <th>gcv_mult</th>
+      <td><p>TODO</p></td>
+    </tr>
+    <tr>
+      <th>bootstrap</th>
+      <td><p>A <code>logical</code> indicating whether the estimator variance
+should be approximated using the nonparametric bootstrap. The default is
+<code>FALSE</code>, in which case the empirical variances of the IPW estimating
+function and the EIF are used for for estimator selection and for variance
+estimation, respectively. When set to <code>TRUE</code>, the bootstrap variance
+is used for both of these purposes instead. Note that the bootstrap is very
+computationally intensive and scales relatively poorly.</p></td>
+    </tr>
+    <tr>
+      <th>n_boot</th>
+      <td><p>A <code>numeric</code> giving the number of bootstrap re-samples to
+be used in computing the plateau estimator selection criterion. The default
+uses 1000 bootstrap samples, though it may be appropriate to use fewer such
+samples for experimentation purposes. This is ignored when <code>bootstrap</code>
+is set to <code>FALSE</code> (its default).</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments for model fitting to be passed directly to
+<code><a href='haldensify.html'>haldensify</a></code>.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <code>matrix</code> composed of a single row and a number of columns
- specified by the grid of penalization parameters used in fitting of the
- highly adaptive lasso. This is the predicted conditional density for a
- given observation, re-mapped from the hazard scale.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>For a single observation, map a predicted hazard of failure (as an
- occurrence in a particular bin, under a given partitioning of the support)
- to a density.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

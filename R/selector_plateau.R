@@ -200,7 +200,8 @@ plateau_selector <- function(W, A, Y,
     # NOTE: use the conservative estimating equation variance (instead of the
     #       EIF variance) since we only need *changes in SE* for selectors
     psi_ipw_selector <- matrix(psi_ipw_lambda[, seq_along(lambda_usm_seq)],
-                               nrow = 1)
+      nrow = 1
+    )
     var_ipw_selector <- var_ipw_dipw[seq_along(lambda_usm_seq)]
   }
   se_ipw <- sqrt(var_ipw_selector)
@@ -212,7 +213,8 @@ plateau_selector <- function(W, A, Y,
   ## select IPW estimator and get SE + D_IPW
   psi_lepski <- psi_ipw_selector[1, lepski_idx]
   se_lepski <- ifelse(bootstrap, sqrt(var_ipw_boot)[lepski_idx],
-                      sqrt(var_ipw_eif)[lepski_idx])
+    sqrt(var_ipw_eif)[lepski_idx]
+  )
   lambda_lepski <- lambda_usm_seq[lepski_idx]
   ip_wts_lepski <- ip_wts_mat[, lepski_idx]
   eif_lepski <- eif_est_mat[, lepski_idx]
@@ -242,8 +244,10 @@ plateau_selector <- function(W, A, Y,
   ) %>% tibble::as_tibble()
 
   eif_mat <- cbind(eif_lepski, eif_plateau)
-  colnames(eif_mat) <- c("lepski_plateau",
-                         paste("psi_plateau", plateau_cutoff, sep = "_"))
+  colnames(eif_mat) <- c(
+    "lepski_plateau",
+    paste("psi_plateau", plateau_cutoff, sep = "_")
+  )
   eif_mat <- eif_mat %>% tibble::as_tibble()
 
   # output

@@ -50,10 +50,16 @@ the (conditional) support of the variable of interest. Such conditional density
 estimates are useful, for example, in causal inference problems in which the
 _generalized propensity score_ (for continuous-valued exposures) must be
 estimated [@diaz2012population; @diaz2018stochastic; @diaz2020causal].
-`haldensify` implements this condtional density estimation strategy
-specifically for use only with the highly adaptive lasso [@benkeser2016highly;
+`haldensify` implements this conditional density estimation strategy for use
+only with the highly adaptive lasso (HAL) [@benkeser2016highly;
 @vdl2017generally; @vdl2018highly; @coyle2020hal9001-rpkg;
-@hejazi2020hal9001-joss].
+@hejazi2020hal9001-joss]. As the (generalized) propensity score is the primary
+ingredient in inverse probability weighted (IPW) methods, `haldensify` builds
+loosely on the advances of @ertefaie2021nonparametric to provide nonparametric
+IPW estimators of the causal effects of continuous treatments
+[@hejazi2021efficient], which can be made to achieve the non/semi-parametric
+efficiency bound by undersmoothing over a family of the HAL conditional density
+estimators.
 
 ---
 
@@ -95,8 +101,7 @@ haldensify_fit <- haldensify(
   n_bins = 10, grid_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100)),
   # arguments passed to hal9001::fit_hal()
-  max_degree = 5, smoothness_orders = 0,
-  num_knots = NULL, reduce_basis = 0.05
+  max_degree = 3, smoothness_orders = 2
 )
 haldensify_fit
 ```
@@ -142,14 +147,14 @@ prior to submitting a pull request.
 
 After using the `haldensify` R package, please cite the following:
 
-        @software{hejazi2020haldensify,
+        @software{hejazi2021haldensify,
           author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
             Mark J},
           title = {{haldensify}: Highly adaptive lasso conditional density
-            estimation },
-          year  = {2020},
+            estimation},
+          year  = {2021},
           howpublished = {\url{https://github.com/nhejazi/haldensify}},
-          note = {{R} package version 0.0.5},
+          note = {{R} package version 0.2.0},
           url = {https://doi.org/10.5281/zenodo.3698329},
           doi = {10.5281/zenodo.3698329}
         }
@@ -167,10 +172,11 @@ After using the `haldensify` R package, please cite the following:
 
 The development of this software was supported in part through grants from the
 National Library of Medicine (award number [T32
-LM012417](https://reporter.nih.gov/project-details/9248418))
-and the National Institute of Allergy and Infectious Diseases (award number
+LM012417](https://reporter.nih.gov/project-details/9248418)), the
+National Institute of Allergy and Infectious Diseases (award number
 [R01 AI074345](https://reporter.nih.gov/project-details/9926564)) of the
-National Institutess of Health.
+National Institutes of Health, and the National Science Foundation (award
+number [DMS 2102840](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2102840)).
 
 ---
 

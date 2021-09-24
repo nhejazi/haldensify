@@ -40,7 +40,7 @@ make_sim_data <- function(n_samp = 1000, dgp_type) {
     # define treatment mechanism
     g0 <- function(W1, W2, W3) {
       mu <- W1 + 2 * W2 - 2 * (1 - W1) * W2
-      sigma2 <- (W1 * 2) + ((1 - W1) *  0.5) + W2
+      sigma2 <- (W1 * 2) + ((1 - W1) * 0.5) + W2
       return(list(mu = mu, sigma2 = sigma2))
     }
 
@@ -115,16 +115,20 @@ get_truth <- function(n_samp = 1e7,
   # compute likelihood factors
   if (dgp_type %in% c("1a", "1b")) {
     gn_Aminusdelta <- dnorm(wow_so_much_data$A - delta,
-                            mean = gn_mech$mu,
-                            sd = sqrt(gn_mech$sigma2))
+      mean = gn_mech$mu,
+      sd = sqrt(gn_mech$sigma2)
+    )
     gn_Anat <- dnorm(wow_so_much_data$A,
-                     mean = gn_mech$mu,
-                     sd = sqrt(gn_mech$sigma2))
+      mean = gn_mech$mu,
+      sd = sqrt(gn_mech$sigma2)
+    )
   } else if (dgp_type == "2a") {
-     gn_Aminusdelta <- dpois(wow_so_much_data$A - delta,
-                             lambda = gn_mech$rate)
-     gn_Anat <- dpois(wow_so_much_data$A,
-                      lambda = gn_mech$rate)
+    gn_Aminusdelta <- dpois(wow_so_much_data$A - delta,
+      lambda = gn_mech$rate
+    )
+    gn_Anat <- dpois(wow_so_much_data$A,
+      lambda = gn_mech$rate
+    )
   }
   Qbar_noshift <- with(wow_so_much_data, Q0(A, W1, W2, W3))
   Qbar_shift <- with(wow_so_much_data, Q0(A + delta, W1, W2, W3))
@@ -148,6 +152,8 @@ get_truth <- function(n_samp = 1e7,
   }
 
   # output
-  return(list(psi = true_psi,
-              eff_bound = eff_bound))
+  return(list(
+    psi = true_psi,
+    eff_bound = eff_bound
+  ))
 }

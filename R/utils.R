@@ -220,20 +220,20 @@ make_bins <- function(grid_var,
   # make bins based on sample size and binning rules
   n_obs <- length(grid_var)
   if (grid_type == "hist") {
-     # histogram binning rules for pooled hazards
-     ## 1) simplest rule, just based on the root-n
-     k_sqrt <- ceiling(sqrt(n_obs))
-     ## 2) Rice's rule looking at n^(1/3)
-     k_rice <- ceiling(2 * (n_obs ^ (1 / 3)))
-     ## 3) Freedman-Diaconis rule, also based on n^{1/3}
-     h_diaconis <- 2 * (stats::IQR(grid_var) / (n_obs ^ (1 / 3)))
-     k_diaconis <- ceiling((max(grid_var) - min(grid_var)) / h_diaconis)
+    # histogram binning rules for pooled hazards
+    ## 1) simplest rule, just based on the root-n
+    k_sqrt <- ceiling(sqrt(n_obs))
+    ## 2) Rice's rule looking at n^(1/3)
+    k_rice <- ceiling(2 * (n_obs^(1 / 3)))
+    ## 3) Freedman-Diaconis rule, also based on n^{1/3}
+    h_diaconis <- 2 * (stats::IQR(grid_var) / (n_obs^(1 / 3)))
+    k_diaconis <- ceiling((max(grid_var) - min(grid_var)) / h_diaconis)
 
-     # take multiples of each of the numbers of bins
-     max_k_bins <- round(c(1.5, 2, 2.5) * max(c(k_sqrt, k_rice, k_diaconis)))
+    # take multiples of each of the numbers of bins
+    max_k_bins <- round(c(1.5, 2, 2.5) * max(c(k_sqrt, k_rice, k_diaconis)))
 
-     # construct grid
-     bin_grid <- sort(unique(c(k_sqrt, k_rice, k_diaconis, max_k_bins)))
+    # construct grid
+    bin_grid <- sort(unique(c(k_sqrt, k_rice, k_diaconis, max_k_bins)))
   } else if (grid_type == "scaled") {
     # set different multiplers for root-n based on sample size
     bin_mult <- dplyr::case_when(
@@ -343,21 +343,21 @@ print.haldensify <- function(x, ...) {
 #' print(est_ipw_shift)
 print.ipw_haldensify <- function(x, ..., ci_level = 0.95) {
   # compute confidence interval
-  #ci <- stats::confint(x, level = ci_level)
+  # ci <- stats::confint(x, level = ci_level)
 
-  #browser()
+  # browser()
   # dictionary of human-readable names for estimator variants
   est_type_dict <- dplyr::case_when(
-      x$est$type == "gcv" ~ "Global CV",
-      x$est$type == "dcar_tol" ~ "D_CAR Minimizer (Tolerance)",
-      x$est$type == "dcar_min" ~ "D_CAR Minimizer (Absolute)",
-      x$est$type == "lepski_plateau" ~ "Plateau: Lepski's Method",
-      x$est$type == "psi_plateau_0.2" ~ "Plateau: Estimate Change < 0.20",
-      x$est$type == "psi_plateau_0.15" ~ "Plateau: Estimate Change < 0.15",
-      x$est$type == "psi_plateau_0.1" ~ "Plateau: Estimate Change < 0.10",
-      x$est$type == "psi_plateau_0.05" ~ "Plateau: Estimate Change < 0.05",
-      x$est$type == "psi_plateau_0.01" ~ "Plateau: Estimate Change < 0.01"
-    )
+    x$est$type == "gcv" ~ "Global CV",
+    x$est$type == "dcar_tol" ~ "D_CAR Minimizer (Tolerance)",
+    x$est$type == "dcar_min" ~ "D_CAR Minimizer (Absolute)",
+    x$est$type == "lepski_plateau" ~ "Plateau: Lepski's Method",
+    x$est$type == "psi_plateau_0.2" ~ "Plateau: Estimate Change < 0.20",
+    x$est$type == "psi_plateau_0.15" ~ "Plateau: Estimate Change < 0.15",
+    x$est$type == "psi_plateau_0.1" ~ "Plateau: Estimate Change < 0.10",
+    x$est$type == "psi_plateau_0.05" ~ "Plateau: Estimate Change < 0.05",
+    x$est$type == "psi_plateau_0.01" ~ "Plateau: Estimate Change < 0.01"
+  )
 
   # display only the _most efficient_ estimator
   idx_eff <- which.min(abs(colMeans(x$eif)))
@@ -368,13 +368,13 @@ print.ipw_haldensify <- function(x, ..., ci_level = 0.95) {
   # construct and print output
   message("Counterfactual Mean of Shifted Treatment")
   message("Intervention: ", "Treatment + ", x$.delta)
-  #message("IPW Estimator Criterion: ", x$est$type)
+  # message("IPW Estimator Criterion: ", x$est$type)
   message("Estimate: ", round(x_est$psi, 4))
   message("Std. Error: ", round(x_est$se_est, 4))
-  #message(paste0(
-    #scales::percent(ci_level), " CI: [",
-    #round(ci[1], 4), ", ", round(ci[3], 4), "]"
-  #))
+  # message(paste0(
+  # scales::percent(ci_level), " CI: [",
+  # round(ci[1], 4), ", ", round(ci[3], 4), "]"
+  # ))
   message("EIF Mean: ", round(mean(x_eif), 4))
 }
 

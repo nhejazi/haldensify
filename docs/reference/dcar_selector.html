@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>haldensify development notes • haldensify</title>
+<title>IPW Estimator Selector via Projection of Efficient Influence Function — dcar_selector • haldensify</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="haldensify development notes" />
+<meta property="og:title" content="IPW Estimator Selector via Projection of Efficient Influence Function — dcar_selector" />
+<meta property="og:description" content="IPW Estimator Selector via Projection of Efficient Influence Function" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">haldensify</a>
+        <a class="navbar-link" href="../index.html">haldensify</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
@@ -78,13 +79,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,12 +95,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/intro_haldensify.html">Highly Adaptive Lasso Conditional Density Estimation</a>
+      <a href="../articles/intro_haldensify.html">Highly Adaptive Lasso Conditional Density Estimation</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -120,33 +121,86 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>haldensify development notes</h1>
+    <h1>IPW Estimator Selector via Projection of Efficient Influence Function</h1>
+    <small class="dont-index">Source: <a href='https://github.com/nhejazi/haldensify/blob/master/R/selector_dcar.R'><code>R/selector_dcar.R</code></a></small>
+    <div class="hidden name"><code>dcar_selector.Rd</code></div>
     </div>
 
-<div id="haldensify-development-notes" class="section level1">
+    <div class="ref-description">
+    <p>IPW Estimator Selector via Projection of Efficient Influence Function</p>
+    </div>
 
-<ul>
-<li>[x] Add <code>...</code> args to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow arbitrary arguments to be passed directly to <code>fit_hal()</code>.</li>
-<li>[x] Remove <code>use_future</code> argument to <code><a href="reference/haldensify.html">haldensify()</a></code>, instead reducing to calling <code>future_mapply()</code>, with sequential evaluation via <code>plan(sequential)</code>.</li>
-<li>[x] Add example of working with bootstrap samples, e.g., using <a href="https://rsample.tidymodels.org/reference/bootstraps.html"><code>rsample</code></a>.</li>
-<li>[x] Add a <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method to more easily visualize how empirical risk changes across the sequence of explored regularization parameter values.</li>
-<li>[x] Add an <code>ipw_est()</code> function for constructing IPW estimators of the mean counterfactual outcome of a stochastic shift intervention via <code>haldensify</code>.</li>
-<li>[ ] Add an argument to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow normalization of the density estimates to improve estimation stability. Note that this normalized density is actually g(A|W)/g(A), instead of the currently estimated g(A|W).</li>
-</ul>
-</div>
+    <pre class="usage"><span class='fu'>dcar_selector</span><span class='op'>(</span>
+  <span class='va'>W</span>,
+  <span class='va'>A</span>,
+  <span class='va'>Y</span>,
+  delta <span class='op'>=</span> <span class='fl'>0</span>,
+  <span class='va'>gn_pred_natural</span>,
+  <span class='va'>gn_pred_shifted</span>,
+  <span class='va'>Qn_pred_natural</span>,
+  <span class='va'>Qn_pred_shifted</span>
+<span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>W</th>
+      <td><p>A <code>matrix</code>, <code>data.frame</code>, or similar containing a set of
+baseline covariates.</p></td>
+    </tr>
+    <tr>
+      <th>A</th>
+      <td><p>A <code>numeric</code> vector corresponding to a exposure variable. The
+parameter of interest is defined as a location shift of this quantity.</p></td>
+    </tr>
+    <tr>
+      <th>Y</th>
+      <td><p>A <code>numeric</code> vector of the observed outcomes.</p></td>
+    </tr>
+    <tr>
+      <th>delta</th>
+      <td><p>A <code>numeric</code> value indicating the shift in the exposure to
+be used in defining the target parameter. This is defined with respect to
+the scale of the exposure (A).</p></td>
+    </tr>
+    <tr>
+      <th>gn_pred_natural</th>
+      <td><p>A <code>matrix</code> of conditional density estimates of
+the exposure mechanism g(A|W) along a grid of the regularization parameter,
+at the natural (i.e., observed) values of the exposure.</p></td>
+    </tr>
+    <tr>
+      <th>gn_pred_shifted</th>
+      <td><p>A <code>matrix</code> of conditional density estimates of
+the exposure mechanism g(A+delta|W) along a grid of the regularization
+parameter, at the shifted (i.e., counterfactual) values of the exposure.</p></td>
+    </tr>
+    <tr>
+      <th>Qn_pred_natural</th>
+      <td><p>A <code>numeric</code> of the outcome mechanism estimate at
+the natural (i.e., observed) values of the exposure. HAL regression is used
+for the estimate, with the regularization term chosen by cross-validation.</p></td>
+    </tr>
+    <tr>
+      <th>Qn_pred_shifted</th>
+      <td><p>A <code>numeric</code> of the outcome mechanism estimate at
+the shifted (i.e., counterfactual) values of the exposure. HAL regression
+is used for the estimate, with the regularization term chosen by
+cross-validation.</p></td>
+    </tr>
+    </table>
+
 
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>

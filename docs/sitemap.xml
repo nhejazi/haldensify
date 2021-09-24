@@ -4,7 +4,13 @@
     <loc>https://code.nimahejazi.org/haldensify/index.html</loc>
   </url>
   <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/confint.ipw_haldensify.html</loc>
+  </url>
+  <url>
     <loc>https://code.nimahejazi.org/haldensify/reference/cv_haldensify.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/dcar_selector.html</loc>
   </url>
   <url>
     <loc>https://code.nimahejazi.org/haldensify/reference/fit_haldensify.html</loc>
@@ -13,10 +19,22 @@
     <loc>https://code.nimahejazi.org/haldensify/reference/format_long_hazards.html</loc>
   </url>
   <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/gcv_selector.html</loc>
+  </url>
+  <url>
     <loc>https://code.nimahejazi.org/haldensify/reference/haldensify.html</loc>
   </url>
   <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/ipw_shift.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/make_bins.html</loc>
+  </url>
+  <url>
     <loc>https://code.nimahejazi.org/haldensify/reference/map_hazard_to_density.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/plateau_selector.html</loc>
   </url>
   <url>
     <loc>https://code.nimahejazi.org/haldensify/reference/plot.haldensify.html</loc>
@@ -26,6 +44,9 @@
   </url>
   <url>
     <loc>https://code.nimahejazi.org/haldensify/reference/print.haldensify.html</loc>
+  </url>
+  <url>
+    <loc>https://code.nimahejazi.org/haldensify/reference/print.ipw_haldensify.html</loc>
   </url>
   <url>
     <loc>https://code.nimahejazi.org/haldensify/articles/intro_haldensify.html</loc>

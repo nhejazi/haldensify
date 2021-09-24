@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>haldensify development notes • haldensify</title>
+<title>MIT License • haldensify</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="haldensify development notes" />
+<meta property="og:title" content="MIT License" />
 
 
 
@@ -122,19 +122,15 @@
 <div class="row">
   <div class="contents col-md-9">
     <div class="page-header">
-      <h1>haldensify development notes</h1>
+      <h1>MIT License</h1>
     </div>
 
-<div id="haldensify-development-notes" class="section level1">
+<div id="mit-license" class="section level1">
 
-<ul>
-<li>[x] Add <code>...</code> args to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow arbitrary arguments to be passed directly to <code>fit_hal()</code>.</li>
-<li>[x] Remove <code>use_future</code> argument to <code><a href="reference/haldensify.html">haldensify()</a></code>, instead reducing to calling <code>future_mapply()</code>, with sequential evaluation via <code>plan(sequential)</code>.</li>
-<li>[x] Add example of working with bootstrap samples, e.g., using <a href="https://rsample.tidymodels.org/reference/bootstraps.html"><code>rsample</code></a>.</li>
-<li>[x] Add a <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method to more easily visualize how empirical risk changes across the sequence of explored regularization parameter values.</li>
-<li>[x] Add an <code>ipw_est()</code> function for constructing IPW estimators of the mean counterfactual outcome of a stochastic shift intervention via <code>haldensify</code>.</li>
-<li>[ ] Add an argument to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow normalization of the density estimates to improve estimation stability. Note that this normalized density is actually g(A|W)/g(A), instead of the currently estimated g(A|W).</li>
-</ul>
+<p>Copyright (c) 2021 Nima Hejazi</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 </div>
 
   </div>

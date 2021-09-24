@@ -15,7 +15,8 @@ fit_cats <- haldensify(
   lambda_seq = exp(seq(-1, -20, length = 500))
 )
 pred_cats_haz <- predict(
-  fit_cats, new_A = a_w2_cats, new_W = cbind(w1_norm, w2_cats)
+  fit_cats,
+  new_A = a_w2_cats, new_W = cbind(w1_norm, w2_cats)
 )
 emprisk_haz_cats <- mean(-log(pred_cats_haz))
 
@@ -53,7 +54,8 @@ fit_cont <- haldensify(
   lambda_seq = exp(seq(-1, -20, length = 500))
 )
 pred_cont_haz <- predict(
-  fit_cont, new_A = a_w2_cont, new_W = cbind(w1_norm, w2_cont)
+  fit_cont,
+  new_A = a_w2_cont, new_W = cbind(w1_norm, w2_cont)
 )
 emprisk_haz_cont <- mean(-log(pred_cont_haz))
 
