@@ -162,25 +162,26 @@
 <span class='va'>n_train</span> <span class='op'>&lt;-</span> <span class='fl'>50</span>
 <span class='va'>w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='op'>-</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>)</span>
 <span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='va'>n_train</span>, <span class='va'>w</span>, <span class='fl'>0.5</span><span class='op'>)</span>
+
 <span class='co'># learn relationship A|W using HAL-based density estimation procedure</span>
 <span class='va'>haldensify_fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='haldensify.html'>haldensify</a></span><span class='op'>(</span>
   A <span class='op'>=</span> <span class='va'>a</span>, W <span class='op'>=</span> <span class='va'>w</span>, n_bins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,
-  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>10</span>, length <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span><span class='op'>)</span>,
-  max_degree <span class='op'>=</span> <span class='fl'>3</span>, smoothness_orders <span class='op'>=</span> <span class='fl'>0</span>, reduce_basis <span class='op'>=</span> <span class='fl'>0.1</span>
+  lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>15</span>, length <span class='op'>=</span> <span class='fl'>50L</span><span class='op'>)</span><span class='op'>)</span>,
+  max_degree <span class='op'>=</span> <span class='fl'>3</span>, reduce_basis <span class='op'>=</span> <span class='fl'>0.1</span>
 <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='output co'>#&gt; <span class='message'>`smoothness_orders` set externally but overridden to 0.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>haldensify_fit</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>HAL Conditional Density Estimation</span></div><div class='output co'>#&gt; <span class='message'>Number of bins over support of A: 5</span></div><div class='output co'>#&gt; <span class='message'>CV-selected lambda: 0.0037</span></div><div class='output co'>#&gt; <span class='message'>Summary of fitted HAL:</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coefficients for many lambda exist --</span>
-#&gt; <span class='warning'>Summarizing coefficients corresponding to minimum lambda.</span></div><div class='output co'>#&gt;           coef               term
-#&gt;  1:   5.679759        (Intercept)
-#&gt;  2:  12.420725 [ I(bin_id &gt;= 2) ]
-#&gt;  3: -12.080531 [ I(W &gt;= -2.872) ]
-#&gt;  4:  11.667281 [ I(bin_id &gt;= 3) ]
-#&gt;  5: -10.939450 [ I(W &gt;= -0.964) ]
-#&gt;  6: -10.401103  [ I(W &gt;= 1.032) ]
-#&gt;  7: -10.391974 [ I(W &gt;= -1.353) ]
-#&gt;  8:  10.240475 [ I(bin_id &gt;= 4) ]
-#&gt;  9:  10.111291 [ I(W &gt;= -3.596) ]
-#&gt; 10:  -9.907410 [ I(W &gt;= -3.663) ]</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>haldensify_fit</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>HAL Conditional Density Estimation</span></div><div class='output co'>#&gt; <span class='message'>Number of bins over support of A: 5</span></div><div class='output co'>#&gt; <span class='message'>CV-selected lambda: 0.0038</span></div><div class='output co'>#&gt; <span class='message'>Summary of fitted HAL:</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Coefficients for many lambda exist --</span>
+#&gt; <span class='warning'>Summarizing coefficients corresponding to minimum lambda.</span></div><div class='output co'>#&gt;          coef               term
+#&gt;  1:  11.56263        (Intercept)
+#&gt;  2: -18.73900 [ I(W &gt;= -3.663) ]
+#&gt;  3: -17.78439 [ I(W &gt;= -2.872) ]
+#&gt;  4:  17.03175 [ I(W &gt;= -3.596) ]
+#&gt;  5: -15.83872 [ I(W &gt;= -0.964) ]
+#&gt;  6:  14.66159 [ I(bin_id &gt;= 2) ]
+#&gt;  7: -14.62246 [ I(W &gt;= -1.353) ]
+#&gt;  8:  14.20375 [ I(bin_id &gt;= 3) ]
+#&gt;  9: -13.58029   [ I(W &gt;= 1.35) ]
+#&gt; 10: -12.26224  [ I(W &gt;= 1.032) ]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

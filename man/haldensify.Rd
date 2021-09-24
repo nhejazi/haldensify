@@ -12,6 +12,7 @@ haldensify(
   n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
   cv_folds = 5L,
   lambda_seq = exp(seq(-1, -13, length = 1000L)),
+  smoothness_orders = 0L,
   hal_basis_list = NULL,
   ...
 )
@@ -50,6 +51,10 @@ folds to be used in fitting the sequence of HAL conditional density models.}
 \item{lambda_seq}{A \code{numeric} sequence of values of the regularization
 parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}} via
 its argument \code{lambda}, itself passed to \code{\link[glmnet]{glmnet}}.}
+
+\item{smoothness_orders}{A \code{integer} indicating the smoothness of the
+HAL basis functions; passed to \code{\link[hal9001]{fit_hal}}. The default
+is set to zero, for indicator basis functions.}
 
 \item{hal_basis_list}{A \code{list} consisting of a preconstructed set of
 HAL basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The
@@ -99,7 +104,6 @@ a <- rnorm(n_train, w, 0.5)
 haldensify_fit <- haldensify(
   A = a, W = w, n_bins = 10L, lambda_seq = exp(seq(-1, -10, length = 100)),
   # the following arguments are passed to hal9001::fit_hal()
-  max_degree = 3, smoothness_orders = 0, num_knots = NULL,
-  reduce_basis = 1 / sqrt(length(a))
+  max_degree = 3, reduce_basis = 1 / sqrt(length(a))
 )
 }

@@ -150,7 +150,7 @@
 <span class="va">haldensify_fit</span>
 <span class="co">#&gt; HAL Conditional Density Estimation</span>
 <span class="co">#&gt; Number of bins over support of A: 10</span>
-<span class="co">#&gt; CV-selected lambda: 0.3359</span>
+<span class="co">#&gt; CV-selected lambda: 0.0016</span>
 <span class="co">#&gt; Summary of fitted HAL:</span>
 <span class="co">#&gt; Warning in summary.hal9001(x$hal_fit): Coefficients for many lambda exist --</span>
 <span class="co">#&gt; Summarizing coefficients corresponding to minimum lambda.</span>
@@ -175,7 +175,7 @@
 <code class="sourceCode R"><span class="co"># use the built-in predict method to get predictions</span>
 <span class="va">pred_haldensify</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">haldensify_fit</span>, new_A <span class="op">=</span> <span class="va">a</span>, new_W <span class="op">=</span> <span class="va">w</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pred_haldensify</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.1085736 0.1085736 0.1085736 0.1085736 0.1906590 0.1085736</span></code></pre></div>
+<span class="co">#&gt; [1] 0.2818730 0.5513780 0.4449961 0.5329549 0.8722028 0.6150810</span></code></pre></div>
 <p>For more details, check out the <a href="https://code.nimahejazi.org/haldensify/articles/intro_haldensify">package vignette</a> on the corresponding <code>pkgdown</code> site.</p>
 <hr>
 </div>

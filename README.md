@@ -100,7 +100,7 @@ haldensify_fit <- haldensify(
 haldensify_fit
 #> HAL Conditional Density Estimation
 #> Number of bins over support of A: 10
-#> CV-selected lambda: 0.3359
+#> CV-selected lambda: 0.0016
 #> Summary of fitted HAL:
 #> Warning in summary.hal9001(x$hal_fit): Coefficients for many lambda exist --
 #> Summarizing coefficients corresponding to minimum lambda.
@@ -134,7 +134,7 @@ model on the training (or on new) data:
 # use the built-in predict method to get predictions
 pred_haldensify <- predict(haldensify_fit, new_A = a, new_W = w)
 head(pred_haldensify)
-#> [1] 0.1085736 0.1085736 0.1085736 0.1085736 0.1906590 0.1085736
+#> [1] 0.2818730 0.5513780 0.4449961 0.5329549 0.8722028 0.6150810
 ```
 
 For more details, check out the [package

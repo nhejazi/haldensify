@@ -16,9 +16,11 @@ utils::globalVariables(c("in_bin", "bin_id"))
 #' @param wts A \code{numeric} vector of observation-level weights, matching in
 #'  its length the number of records present in the long format data. Default
 #'  is to weight all observations equally.
-#' @param lambda_seq A \code{numeric} sequence of values of the tuning
-#'  parameter of the Lasso L1 regression passed to
-#'  \code{\link[hal9001]{fit_hal}}.
+#' @param lambda_seq A \code{numeric} sequence of values of the regularization
+#'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.
+#' @param smoothness_orders A \code{integer} indicating the smoothness of the
+#'  HAL basis functions; passed to \code{\link[hal9001]{fit_hal}}. The default
+#'  is set to zero, for indicator basis functions.
 #' @param ... Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
 #'  that may be used to control fitting of the HAL regression model. Possible
 #'  choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
@@ -38,6 +40,7 @@ cv_haldensify <- function(fold,
                           long_data,
                           wts = rep(1, nrow(long_data)),
                           lambda_seq = exp(seq(-1, -13, length = 1000L)),
+                          smoothness_orders = 0L,
                           ...) {
   # make training and validation folds
   train_set <- origami::training(long_data)
@@ -60,10 +63,7 @@ cv_haldensify <- function(fold,
   fit_hal_args$Y <- as.numeric(train_set$in_bin)
   fit_hal_args$family <- "binomial"
   fit_hal_args$lambda <- lambda_seq
-  if (any(grepl("smoothness_orders", names(fit_hal_args)))) {
-    message("`smoothness_orders` set externally but overridden to 0.")
-    fit_hal_args$smoothness_orders <- 0
-  }
+  fit_hal_args$smoothness_orders <- smoothness_orders
   hal_fit_train <- do.call(hal9001::fit_hal, fit_hal_args)
 
   # get intercept and coefficient fits for this value of lambda from glmnet
@@ -158,6 +158,9 @@ cv_haldensify <- function(fold,
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
 #'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}} via
 #'  its argument \code{lambda}, itself passed to \code{\link[glmnet]{glmnet}}.
+#' @param smoothness_orders A \code{integer} indicating the smoothness of the
+#'  HAL basis functions; passed to \code{\link[hal9001]{fit_hal}}. The default
+#'  is set to zero, for indicator basis functions.
 #' @param hal_basis_list A \code{list} consisting of a preconstructed set of
 #'  HAL basis functions, as produced by \code{\link[hal9001]{fit_hal}}. The
 #'  default of \code{NULL} results in creating such a set of basis functions.
@@ -207,6 +210,7 @@ haldensify <- function(A, W,
                        n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
                        cv_folds = 5L,
                        lambda_seq = exp(seq(-1, -13, length = 1000L)),
+                       smoothness_orders = 0L,
                        hal_basis_list = NULL,
                        ...) {
   # capture dot arguments to hal9001::fit_hal()
@@ -235,6 +239,7 @@ haldensify <- function(A, W,
       A = A, W = W, wts = wts,
       cv_folds = cv_folds,
       lambda_seq = lambda_seq,
+      smoothness_orders = smoothness_orders,
       ...
     ),
     SIMPLIFY = FALSE,
@@ -277,7 +282,7 @@ haldensify <- function(A, W,
   fit_hal_args$basis_list <- hal_basis_list
   fit_hal_args$family <- "binomial"
   fit_hal_args$lambda <- lambda_seq
-  fit_hal_args$smoothness_orders <- 0
+  fit_hal_args$smoothness_orders <- smoothness_orders
   hal_fit <- do.call(hal9001::fit_hal, fit_hal_args)
 
   # construct output
@@ -323,6 +328,9 @@ haldensify <- function(A, W,
 #'  folds to be used in fitting the sequence of HAL conditional density models.
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
 #'  parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.
+#' @param smoothness_orders A \code{integer} indicating the smoothness of the
+#'  HAL basis functions; passed to \code{\link[hal9001]{fit_hal}}. The default
+#'  is set to zero, for indicator basis functions.
 #' @param ... Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
 #'  that may be used to control fitting of the HAL regression model. Possible
 #'  choices include \code{use_min}, \code{reduce_basis}, \code{return_lasso},
@@ -357,6 +365,7 @@ fit_haldensify <- function(A, W,
                            n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
                            cv_folds = 5L,
                            lambda_seq = exp(seq(-1, -13, length = 1000L)),
+                           smoothness_orders = 0L,
                            ...) {
   # capture dot arguments for reference
   dot_args <- list(...)
@@ -386,6 +395,7 @@ fit_haldensify <- function(A, W,
     long_data = long_data,
     wts = wts_long,
     lambda_seq = lambda_seq,
+    smoothness_orders = smoothness_orders,
     ...,
     use_future = FALSE,
     .combine = FALSE

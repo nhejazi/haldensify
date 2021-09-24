@@ -137,6 +137,7 @@
   <span class='va'>long_data</span>,
   wts <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>long_data</span><span class='op'>)</span><span class='op'>)</span>,
   lambda_seq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>1</span>, <span class='op'>-</span><span class='fl'>13</span>, length <span class='op'>=</span> <span class='fl'>1000L</span><span class='op'>)</span><span class='op'>)</span>,
+  smoothness_orders <span class='op'>=</span> <span class='fl'>0L</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -165,9 +166,14 @@ is to weight all observations equally.</p></td>
     </tr>
     <tr>
       <th>lambda_seq</th>
-      <td><p>A <code>numeric</code> sequence of values of the tuning
-parameter of the Lasso L1 regression passed to
-<code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
+      <td><p>A <code>numeric</code> sequence of values of the regularization
+parameter of Lasso regression; passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>smoothness_orders</th>
+      <td><p>A <code>integer</code> indicating the smoothness of the
+HAL basis functions; passed to <code><a href='https://rdrr.io/pkg/hal9001/man/fit_hal.html'>fit_hal</a></code>. The default
+is set to zero, for indicator basis functions.</p></td>
     </tr>
     <tr>
       <th>...</th>

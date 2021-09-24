@@ -133,7 +133,7 @@
 <p>As of September 2021:</p>
 <ul>
 <li>Refinements of internal calls to <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html">hal9001::fit_hal()</a></code> in keeping with updates to that package, for compatibility with its v0.4.0 CRAN release.</li>
-<li>The <code>smoothness_orders</code> argument of <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html">hal9001::fit_hal()</a></code> previously was set through the <code>...</code> argument of <code>haldensify</code>; however, <code>cv_haldensify</code>, to which <code>smoothness_orders</code> was passed, now overrides this to <code>smoothness_orders = 0</code>, noting this change via an internal call to <code><a href="https://rdrr.io/r/base/message.html">message()</a></code>. This restrictive change is due to unexpected shapes of the cross-validated risk surface in cases where this value was set higher than zero.</li>
+<li>The <code>smoothness_orders</code> argument of <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html">hal9001::fit_hal()</a></code> previously was set through the <code>...</code> argument of <code>haldensify</code>; however, it has now been made a named argument to both <code>haldensify</code> and the internal <code>cv_haldensify</code> and <code>fit_haldensify</code> functions. The default is set to zero, for indicator basis functions, which differs from the default of <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html">hal9001::fit_hal()</a></code> as of its v0.4.0 release.</li>
 </ul>
 </div>
     <div id="haldensify-015" class="section level1">

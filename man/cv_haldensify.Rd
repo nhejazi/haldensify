@@ -9,6 +9,7 @@ cv_haldensify(
   long_data,
   wts = rep(1, nrow(long_data)),
   lambda_seq = exp(seq(-1, -13, length = 1000L)),
+  smoothness_orders = 0L,
   ...
 )
 }
@@ -24,9 +25,12 @@ as produced by \code{\link{format_long_hazards}}.}
 its length the number of records present in the long format data. Default
 is to weight all observations equally.}
 
-\item{lambda_seq}{A \code{numeric} sequence of values of the tuning
-parameter of the Lasso L1 regression passed to
-\code{\link[hal9001]{fit_hal}}.}
+\item{lambda_seq}{A \code{numeric} sequence of values of the regularization
+parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}}.}
+
+\item{smoothness_orders}{A \code{integer} indicating the smoothness of the
+HAL basis functions; passed to \code{\link[hal9001]{fit_hal}}. The default
+is set to zero, for indicator basis functions.}
 
 \item{...}{Additional (optional) arguments of \code{\link[hal9001]{fit_hal}}
 that may be used to control fitting of the HAL regression model. Possible

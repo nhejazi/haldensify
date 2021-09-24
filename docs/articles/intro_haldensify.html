@@ -172,17 +172,17 @@
   reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="va">haldensify_fit</span></code></pre></div>
-<pre><code>##          coef               term
-##  1:  5.638289        (Intercept)
-##  2:  9.383875 [ I(bin_id &gt;= 2) ]
-##  3:  8.673947 [ I(bin_id &gt;= 3) ]
-##  4: -8.124231 [ I(W &gt;= -2.955) ]
-##  5:  8.063998 [ I(bin_id &gt;= 5) ]
-##  6:  7.953559 [ I(bin_id &gt;= 4) ]
-##  7: -7.892902 [ I(W &gt;= -3.349) ]
-##  8: -7.652555 [ I(W &gt;= -1.087) ]
-##  9:  7.628103  [ I(W &gt;= 2.209) ]
-## 10:  7.439724 [ I(bin_id &gt;= 6) ]</code></pre>
+<pre><code>##          coef                term
+##  1:  4.017828         (Intercept)
+##  2:  8.952151  [ I(W &gt;= -3.298) ]
+##  3:  8.097832  [ I(W &gt;= -0.237) ]
+##  4:  7.802477   [ I(W &gt;= 0.496) ]
+##  5:  7.102027 [ I(bin_id &gt;= 10) ]
+##  6: -6.860819  [ I(W &gt;= -3.349) ]
+##  7:  6.804428  [ I(bin_id &gt;= 8) ]
+##  8:  6.321727   [ I(W &gt;= 0.773) ]
+##  9:  6.158991  [ I(bin_id &gt;= 3) ]
+## 10:  5.935410  [ I(bin_id &gt;= 5) ]</code></pre>
 <p>Having constructed the conditional density estimator, we can examine the empirical risk over the grid of choices of the <span class="math inline">\(L_1\)</span> regularization parameter <span class="math inline">\(\lambda\)</span>. To do this, we can simply call the available <code>plot</code> method, which uses the cross-validated conditional density fits in the <code>cv_tuning_results</code> slot of the <code>haldensify</code> object. For example,</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">haldensify_fit</span><span class="op">)</span>
