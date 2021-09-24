@@ -196,7 +196,63 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 
 ###############################################################################
 
-#' Print Method for Highly Adaptive Lasso Conditional Density Estimation
+#' Histogram Binning Procedures for Pooled Hazards Regression
+#'
+#' @param grid_var The \code{numeric} vector over which histogram-based binning
+#'  is to be performed.
+#' @param grid_type A \code{character} indicating the choice of binning rule,
+#'  with \code{"hist"} corresponding to the use of several rules proposed for
+#'  optimal histogram construction and \code{"scaled"} corresponding to the use
+#'  of various pre-set multiples of the square root of the sample size.
+#' @param max_bins A \code{numeric} indicating the maximum number of bins that
+#'  are allowed in the grid for building the histogram based discretization.
+#'
+#' @importFrom stats IQR
+#' @importFrom dplyr case_when
+#'
+#' @keywords internal
+make_bins <- function(grid_var,
+                      grid_type = c("hist", "scaled"),
+                      max_bins = 30L) {
+  # set default grid type
+  grid_type <- match.arg(grid_type)
+
+  # make bins based on sample size and binning rules
+  n_obs <- length(grid_var)
+  if (grid_type == "hist") {
+     # histogram binning rules for pooled hazards
+     ## 1) simplest rule, just based on the root-n
+     k_sqrt <- ceiling(sqrt(n_obs))
+     ## 2) Rice's rule looking at n^(1/3)
+     k_rice <- ceiling(2 * (n_obs ^ (1 / 3)))
+     ## 3) Freedman-Diaconis rule, also based on n^{1/3}
+     h_diaconis <- 2 * (stats::IQR(grid_var) / (n_obs ^ (1 / 3)))
+     k_diaconis <- ceiling((max(grid_var) - min(grid_var)) / h_diaconis)
+
+     # take multiples of each of the numbers of bins
+     max_k_bins <- round(c(1.5, 2, 2.5) * max(c(k_sqrt, k_rice, k_diaconis)))
+
+     # construct grid
+     bin_grid <- sort(unique(c(k_sqrt, k_rice, k_diaconis, max_k_bins)))
+  } else if (grid_type == "scaled") {
+    # set different multiplers for root-n based on sample size
+    bin_mult <- dplyr::case_when(
+      n_obs >= 900 ~ c(0.5, 0.75, 1.0, 1.25),
+      TRUE ~ c(0.5, 1.0, 1.5, 2.0)
+    )
+
+    # construct grid
+    bin_grid <- round(sqrt(n_obs) * bin_mult)
+  }
+
+  # return grid of bins
+  bin_grid <- bin_grid[bin_grid < max_bins]
+  return(bin_grid)
+}
+
+###############################################################################
+
+#' Print: Highly Adaptive Lasso Conditional Density Estimates
 #'
 #' @details The \code{print} method for objects of class \code{haldensify}
 #'
@@ -218,10 +274,11 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 #' n_train <- 50
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
+#'
 #' # learn relationship A|W using HAL-based density estimation procedure
 #' haldensify_fit <- haldensify(
 #'   A = a, W = w, n_bins = c(3, 5),
-#'   lambda_seq = exp(seq(-1, -10, length = 50)),
+#'   lambda_seq = exp(seq(-1, -15, length = 50L)),
 #'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 #' print(haldensify_fit)
@@ -244,6 +301,89 @@ print.haldensify <- function(x, ...) {
 
 ###############################################################################
 
+#' Print: IPW Estimates of the Causal Effects of Stochatic Shift Interventions
+#'
+#' @details The \code{print} method for objects of class \code{ipw_haldensify}
+#'
+#' @param x An object of class \code{ipw_haldensify}.
+#' @param ... Other options (not currently used).
+#' @param ci_level A \code{numeric} indicating the level of the confidence
+#'  interval to be computed.
+#'
+#' @method print ipw_haldensify
+#'
+#' @importFrom stats confint
+#' @importFrom scales percent
+#' @importFrom dplyr case_when
+#'
+#' @return None. Called for the side effect of printing an informative summary
+#'  of slots of objects of class \code{ipw_haldensify}.
+#'
+#' @export
+#'
+#' @examples
+#' # simulate data
+#' n_obs <- 50
+#' W1 <- rbinom(n_obs, 1, 0.6)
+#' W2 <- rbinom(n_obs, 1, 0.2)
+#' W3 <- rpois(n_obs, 3)
+#' A <- rnorm(n_obs, (2 * W1 - W2 - W1 * W2), 2)
+#' Y <- rbinom(n_obs, 1, plogis(3 * A + W1 + W2 - 2 * W3 - W1 * W3))
+#'
+#' # fit the IPW estimator
+#' est_ipw_shift <- ipw_shift(
+#'   W = cbind(W1, W2, W3), A = A, Y = Y, delta = 0.5,
+#'   lambda_seq = exp(seq(-1, -5, length = 50L)),
+#'   # arguments passed to hal9001::fit_hal()
+#'   max_degree = 3,
+#'   reduce_basis = 1 / sqrt(n_obs),
+#'   # ...continue arguments for IPW
+#'   undersmooth_type = "dcar"
+#' )
+#' print(est_ipw_shift)
+print.ipw_haldensify <- function(x, ..., ci_level = 0.95) {
+  # compute confidence interval
+  #ci <- stats::confint(x, level = ci_level)
+
+  #browser()
+  # dictionary of human-readable names for estimator variants
+  est_type_dict <- dplyr::case_when(
+      x$est$type == "gcv" ~ "Global CV",
+      x$est$type == "dcar_tol" ~ "D_CAR Minimizer (Tolerance)",
+      x$est$type == "dcar_min" ~ "D_CAR Minimizer (Absolute)",
+      x$est$type == "lepski_plateau" ~ "Plateau: Lepski's Method",
+      x$est$type == "psi_plateau_0.2" ~ "Plateau: Estimate Change < 0.20",
+      x$est$type == "psi_plateau_0.15" ~ "Plateau: Estimate Change < 0.15",
+      x$est$type == "psi_plateau_0.1" ~ "Plateau: Estimate Change < 0.10",
+      x$est$type == "psi_plateau_0.05" ~ "Plateau: Estimate Change < 0.05",
+      x$est$type == "psi_plateau_0.01" ~ "Plateau: Estimate Change < 0.01"
+    )
+
+  # display only the _most efficient_ estimator
+  idx_eff <- which.min(abs(colMeans(x$eif)))
+  x_est <- x$est[idx_eff, ]
+  x_eif <- x$eif[, idx_eff]
+
+
+  # construct and print output
+  message("Counterfactual Mean of Shifted Treatment")
+  message("Intervention: ", "Treatment + ", x$.delta)
+  #message("IPW Estimator Criterion: ", x$est$type)
+  message("Estimate: ", round(x_est$psi, 4))
+  message("Std. Error: ", round(x_est$se_est, 4))
+  #message(paste0(
+    #scales::percent(ci_level), " CI: [",
+    #round(ci[1], 4), ", ", round(ci[3], 4), "]"
+  #))
+  message("EIF Mean: ", round(mean(x_eif), 4))
+}
+
+###############################################################################
+
 is.haldensify <- function(x) {
   class(x) == "haldensify"
+}
+
+is.ipw_haldensify <- function(x) {
+  class(x) == "ipw_haldensify"
 }
