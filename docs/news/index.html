@@ -126,6 +126,16 @@
       <small>Source: <a href='https://github.com/nhejazi/haldensify/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="haldensify-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#haldensify-020" class="anchor"></a>haldensify 0.2.0<small> Unreleased </small>
+</h1>
+<p>As of September 2021:</p>
+<ul>
+<li>Refinements of internal calls to <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html">hal9001::fit_hal()</a></code> in keeping with updates to that package, for compatibility with its v0.4.0 CRAN release.</li>
+<li>The <code>smoothness_orders</code> argument of <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html">hal9001::fit_hal()</a></code> previously was set through the <code>...</code> argument of <code>haldensify</code>; however, <code>cv_haldensify</code>, to which <code>smoothness_orders</code> was passed, now overrides this to <code>smoothness_orders = 0</code>, noting this change via an internal call to <code><a href="https://rdrr.io/r/base/message.html">message()</a></code>. This restrictive change is due to unexpected shapes of the cross-validated risk surface in cases where this value was set higher than zero.</li>
+</ul>
+</div>
     <div id="haldensify-015" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.5">
 <a href="#haldensify-015" class="anchor"></a>haldensify 0.1.5<small> Unreleased </small>

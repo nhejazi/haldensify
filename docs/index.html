@@ -144,288 +144,9 @@
   n_bins <span class="op">=</span> <span class="fl">10</span>, grid_type <span class="op">=</span> <span class="st">"equal_range"</span>,
   lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,
   <span class="co"># arguments passed to hal9001::fit_hal()</span>
-  max_degree <span class="op">=</span> <span class="fl">3</span>, smoothness_orders <span class="op">=</span> <span class="fl">2</span>
+  max_degree <span class="op">=</span> <span class="fl">3</span>,
+  reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n_train</span><span class="op">)</span>
 <span class="op">)</span>
-<span class="co">#&gt; Warning: from glmnet Fortran code (error code -59); Convergence for 59th lambda</span>
-<span class="co">#&gt; value not reached after maxit=100000 iterations; solutions for larger lambdas</span>
-<span class="co">#&gt; returned</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [464] is not a sub-multiple or multiple of the number of rows [5]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [116] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [580] is not a sub-multiple or multiple of the number of rows [6]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [406] is not a sub-multiple or multiple of the number of rows [5]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [116] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [116] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [116] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [580] is not a sub-multiple or multiple of the number of rows [6]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [232] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [580] is not a sub-multiple or multiple of the number of rows [6]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [522] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [290] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [232] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [116] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [174] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [348] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [406] is not a sub-multiple or multiple of the number of rows [5]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [406] is not a sub-multiple or multiple of the number of rows [5]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [348] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [522] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning: from glmnet Fortran code (error code -71); Convergence for 71th lambda</span>
-<span class="co">#&gt; value not reached after maxit=100000 iterations; solutions for larger lambdas</span>
-<span class="co">#&gt; returned</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [350] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [140] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [140] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [140] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [630] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [490] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [490] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [350] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [560] is not a sub-multiple or multiple of the number of rows [6]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [630] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [630] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [490] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [280] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [490] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [280] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [210] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [140] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [420] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning: from glmnet Fortran code (error code -63); Convergence for 63th lambda</span>
-<span class="co">#&gt; value not reached after maxit=100000 iterations; solutions for larger lambdas</span>
-<span class="co">#&gt; returned</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [310] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [124] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [248] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [124] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [620] is not a sub-multiple or multiple of the number of rows [7]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [310] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [186] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [124] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [496] is not a sub-multiple or multiple of the number of rows [5]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [620] is not a sub-multiple or multiple of the number of rows [7]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [310] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [372] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [186] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [62] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [62] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [124] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [62] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [248] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [620] is not a sub-multiple or multiple of the number of rows [7]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [62] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning: from glmnet Fortran code (error code -43); Convergence for 43th lambda</span>
-<span class="co">#&gt; value not reached after maxit=100000 iterations; solutions for larger lambdas</span>
-<span class="co">#&gt; returned</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [378] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [252] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [42] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [42] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [378] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [210] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [378] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [42] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [126] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [126] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [168] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [252] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [84] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [42] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [42] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [84] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [126] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [336] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [84] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [210] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning: from glmnet Fortran code (error code -60); Convergence for 60th lambda</span>
-<span class="co">#&gt; value not reached after maxit=100000 iterations; solutions for larger lambdas</span>
-<span class="co">#&gt; returned</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [295] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [472] is not a sub-multiple or multiple of the number of rows [5]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [177] is not a sub-multiple or multiple of the number of rows [2]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [413] is not a sub-multiple or multiple of the number of rows [5]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [531] is not a sub-multiple or multiple of the number of rows [6]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [59] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [118] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [354] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [177] is not a sub-multiple or multiple of the number of rows [2]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [413] is not a sub-multiple or multiple of the number of rows [5]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [118] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [354] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [295] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [59] is not a sub-multiple or multiple of the number of columns</span>
-<span class="co">#&gt; [100]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [531] is not a sub-multiple or multiple of the number of rows [6]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [236] is not a sub-multiple or multiple of the number of rows [3]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [413] is not a sub-multiple or multiple of the number of rows [5]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [354] is not a sub-multiple or multiple of the number of rows [4]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [590] is not a sub-multiple or multiple of the number of rows [6]</span>
-<span class="co">#&gt; Warning in matrix(preds[valid_set$obs_id == id, ], ncol = length(lambda_seq)):</span>
-<span class="co">#&gt; data length [531] is not a sub-multiple or multiple of the number of rows [6]</span>
-<span class="co">#&gt; Warning: from glmnet Fortran code (error code -63); Convergence for 63th lambda</span>
-<span class="co">#&gt; value not reached after maxit=100000 iterations; solutions for larger lambdas</span>
-<span class="co">#&gt; returned</span>
 <span class="va">haldensify_fit</span>
 <span class="co">#&gt; HAL Conditional Density Estimation</span>
 <span class="co">#&gt; Number of bins over support of A: 10</span>
@@ -433,28 +154,17 @@
 <span class="co">#&gt; Summary of fitted HAL:</span>
 <span class="co">#&gt; Warning in summary.hal9001(x$hal_fit): Coefficients for many lambda exist --</span>
 <span class="co">#&gt; Summarizing coefficients corresponding to minimum lambda.</span>
-<span class="co">#&gt;            coef</span>
-<span class="co">#&gt;  1:  1.76163892</span>
-<span class="co">#&gt;  2:  2.68517952</span>
-<span class="co">#&gt;  3: -1.40776228</span>
-<span class="co">#&gt;  4: -1.34202437</span>
-<span class="co">#&gt;  5: -0.62758381</span>
-<span class="co">#&gt;  6:  0.59903623</span>
-<span class="co">#&gt;  7:  0.53335053</span>
-<span class="co">#&gt;  8:  0.51461988</span>
-<span class="co">#&gt;  9:  0.08844257</span>
-<span class="co">#&gt; 10:  0.06437966</span>
-<span class="co">#&gt;                                                                    term</span>
-<span class="co">#&gt;  1:                                                         (Intercept)</span>
-<span class="co">#&gt;  2:                                   [ I(bin_id &gt;= 1)*(bin_id - 1)^1 ]</span>
-<span class="co">#&gt;  3:                                     [ I(W &gt;= -3.91)*(W - -3.91)^2 ]</span>
-<span class="co">#&gt;  4:                                     [ I(W &gt;= -3.91)*(W - -3.91)^1 ]</span>
-<span class="co">#&gt;  5: [ I(bin_id &gt;= 1)*(bin_id - 1)^2 ] * [ I(W &gt;= 2.784)*(W - 2.784)^2 ]</span>
-<span class="co">#&gt;  6: [ I(bin_id &gt;= 7)*(bin_id - 7)^2 ] * [ I(W &gt;= 0.575)*(W - 0.575)^2 ]</span>
-<span class="co">#&gt;  7:   [ I(bin_id &gt;= 1)*(bin_id - 1)^2 ] * [ I(W &gt;= 3.19)*(W - 3.19)^2 ]</span>
-<span class="co">#&gt;  8: [ I(bin_id &gt;= 1)*(bin_id - 1)^1 ] * [ I(W &gt;= -3.91)*(W - -3.91)^1 ]</span>
-<span class="co">#&gt;  9: [ I(bin_id &gt;= 1)*(bin_id - 1)^1 ] * [ I(W &gt;= -3.91)*(W - -3.91)^2 ]</span>
-<span class="co">#&gt; 10: [ I(bin_id &gt;= 1)*(bin_id - 1)^2 ] * [ I(W &gt;= 2.034)*(W - 2.034)^2 ]</span></code></pre></div>
+<span class="co">#&gt;          coef                                    term</span>
+<span class="co">#&gt;  1:  5.989688                             (Intercept)</span>
+<span class="co">#&gt;  2: 10.498800                      [ I(bin_id &gt;= 2) ]</span>
+<span class="co">#&gt;  3: -9.673620                      [ I(W &gt;= -3.353) ]</span>
+<span class="co">#&gt;  4:  8.659440                      [ I(bin_id &gt;= 6) ]</span>
+<span class="co">#&gt;  5: -8.272041 [ I(bin_id &gt;= 2) ] * [ I(W &gt;= -2.371) ]</span>
+<span class="co">#&gt;  6: -8.261273                      [ I(W &gt;= -3.109) ]</span>
+<span class="co">#&gt;  7:  8.054827                      [ I(bin_id &gt;= 7) ]</span>
+<span class="co">#&gt;  8:  8.013383                      [ I(bin_id &gt;= 4) ]</span>
+<span class="co">#&gt;  9:  8.001995                      [ I(bin_id &gt;= 5) ]</span>
+<span class="co">#&gt; 10: -7.649731                      [ I(W &gt;= -2.157) ]</span></code></pre></div>
 <p>We can also visualize the empirical risk (with respect to density loss) in terms of the solution path of the lasso regularization parameter:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># just use the built-in plot method</span>
@@ -465,7 +175,7 @@
 <code class="sourceCode R"><span class="co"># use the built-in predict method to get predictions</span>
 <span class="va">pred_haldensify</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">haldensify_fit</span>, new_A <span class="op">=</span> <span class="va">a</span>, new_W <span class="op">=</span> <span class="va">w</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pred_haldensify</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0.8094529 0.5030817 0.3464728 0.2580761 0.2845352 0.2159286</span></code></pre></div>
+<span class="co">#&gt; [1] 0.1085736 0.1085736 0.1085736 0.1085736 0.1906590 0.1085736</span></code></pre></div>
 <p>For more details, check out the <a href="https://code.nimahejazi.org/haldensify/articles/intro_haldensify">package vignette</a> on the corresponding <code>pkgdown</code> site.</p>
 <hr>
 </div>
@@ -564,7 +274,7 @@
 <p>———. 2018. “Stochastic Treatment Regimes.” In <em>Targeted Learning in Data Science: Causal Inference for Complex Longitudinal Studies</em>, 167–80. Springer Science &amp; Business Media.</p>
 </div>
 <div id="ref-ertefaie2021nonparametric">
-<p>Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der Laan. 2021. “Nonparametric Inverse Probability Weighted Estimators Based on the Highly Adaptive Lasso.” <a href="https://arxiv.org/abs/2005.11303" class="uri">https://arxiv.org/abs/2005.11303</a>.</p>
+<p>Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der Laan. 2021. “Nonparametric Inverse Probability Weighted Estimators Based on the Highly Adaptive Lasso.” <em><span class="csl-no-emph">In Revision</span></em>. <a href="https://arxiv.org/abs/2005.11303" class="uri">https://arxiv.org/abs/2005.11303</a>.</p>
 </div>
 <div id="ref-hejazi2021efficient">
 <p>Hejazi, Nima S, David C Benkeser, Iván Dı́az, and Mark J van der Laan.</p>

@@ -279,7 +279,7 @@ make_bins <- function(grid_var,
 #' haldensify_fit <- haldensify(
 #'   A = a, W = w, n_bins = c(3, 5),
 #'   lambda_seq = exp(seq(-1, -15, length = 50L)),
-#'   max_degree = 3, smoothness_orders = 0, reduce_basis = 0.1
+#'   max_degree = 3, reduce_basis = 0.1
 #' )
 #' print(haldensify_fit)
 print.haldensify <- function(x, ...) {

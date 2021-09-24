@@ -60,6 +60,10 @@ cv_haldensify <- function(fold,
   fit_hal_args$Y <- as.numeric(train_set$in_bin)
   fit_hal_args$family <- "binomial"
   fit_hal_args$lambda <- lambda_seq
+  if (any(grepl("smoothness_orders", names(fit_hal_args)))) {
+    message("`smoothness_orders` set externally but overridden to 0.")
+    fit_hal_args$smoothness_orders <- 0
+  }
   hal_fit_train <- do.call(hal9001::fit_hal, fit_hal_args)
 
   # get intercept and coefficient fits for this value of lambda from glmnet
@@ -195,8 +199,7 @@ cv_haldensify <- function(fold,
 #' haldensify_fit <- haldensify(
 #'   A = a, W = w, n_bins = 10L, lambda_seq = exp(seq(-1, -10, length = 100)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, smoothness_orders = 0, num_knots = NULL,
-#'   reduce_basis = 1 / sqrt(length(a))
+#'   max_degree = 3, reduce_basis = 1 / sqrt(length(a))
 #' )
 haldensify <- function(A, W,
                        wts = rep(1, length(A)),
@@ -206,8 +209,8 @@ haldensify <- function(A, W,
                        lambda_seq = exp(seq(-1, -13, length = 1000L)),
                        hal_basis_list = NULL,
                        ...) {
-  # capture dot arguments
-  dots <- list(...)
+  # capture dot arguments to hal9001::fit_hal()
+  fit_hal_args <- list(...)
 
   # if W is set to NULL, create a constant conditioning set
   # NOTE: this essentially recovers the marginal density of A
@@ -260,7 +263,6 @@ haldensify <- function(A, W,
   # NOTE: no sample-splitting since there's no need to select among any of the
   #       tuning parameters -- advantage: simplifies working with re-sampled
   #       data (bootstrap); disadvantage: non-sample-split nuisance estimates
-  fit_hal_args <- list(...)
   if (!any(grepl("fit_control", names(fit_hal_args)))) {
     fit_hal_args$fit_control <- list(
       cv_select = FALSE, weights = as.numeric(long_data$wts), n_folds = 1
@@ -268,14 +270,14 @@ haldensify <- function(A, W,
   } else {
     fit_hal_args$fit_control$cv_select <- FALSE
     fit_hal_args$fit_control$weights <- as.numeric(long_data$wts)
-    fit_hal_args$fit_control$n_folds <- 1
+    fit_hal_args$fit_control$n_folds <- 1L
   }
   fit_hal_args$X <- as.matrix(long_data[, -c("obs_id", "in_bin", "wts")])
   fit_hal_args$Y <- as.numeric(long_data$in_bin)
   fit_hal_args$basis_list <- hal_basis_list
   fit_hal_args$family <- "binomial"
   fit_hal_args$lambda <- lambda_seq
-
+  fit_hal_args$smoothness_orders <- 0
   hal_fit <- do.call(hal9001::fit_hal, fit_hal_args)
 
   # construct output
@@ -347,8 +349,7 @@ haldensify <- function(A, W,
 #' haldensify_cvfit <- fit_haldensify(
 #'   A = a, W = w, n_bins = 10L, lambda_seq = exp(seq(-1, -10, length = 100)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, smoothness_orders = 0, num_knots = NULL,
-#'   reduce_basis = 1 / sqrt(length(a))
+#'   max_degree = 3, reduce_basis = 1 / sqrt(length(a))
 #' )
 fit_haldensify <- function(A, W,
                            wts = rep(1, length(A)),
@@ -357,6 +358,9 @@ fit_haldensify <- function(A, W,
                            cv_folds = 5L,
                            lambda_seq = exp(seq(-1, -13, length = 1000L)),
                            ...) {
+  # capture dot arguments for reference
+  dot_args <- list(...)
+
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(
     A = A, W = W, wts = wts,

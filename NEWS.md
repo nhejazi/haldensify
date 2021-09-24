@@ -1,3 +1,15 @@
+# haldensify 0.2.0
+
+As of September 2021:
+* Refinements of internal calls to `hal9001::fit_hal()` in keeping with updates
+  to that package, for compatibility with its v0.4.0 CRAN release.
+* The `smoothness_orders` argument of `hal9001::fit_hal()` previously was set
+  through the `...` argument of `haldensify`; however, `cv_haldensify`, to which
+  `smoothness_orders` was passed, now overrides this to `smoothness_orders = 0`,
+  noting this change via an internal call to `message()`. This restrictive
+  change is due to unexpected shapes of the cross-validated risk surface in
+  cases where this value was set higher than zero.
+
 # haldensify 0.1.5
 
 As of April 2021:

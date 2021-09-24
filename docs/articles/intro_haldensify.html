@@ -168,23 +168,21 @@
   grid_type <span class="op">=</span> <span class="st">"equal_range"</span>,
   lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">500</span><span class="op">)</span><span class="op">)</span>,
   <span class="co"># the following are passed to hal9001::fit_hal() internally</span>
-  max_degree <span class="op">=</span> <span class="fl">5</span>,
-  num_knots <span class="op">=</span> <span class="cn">NULL</span>,
-  smoothness_orders <span class="op">=</span> <span class="fl">0</span>,
+  max_degree <span class="op">=</span> <span class="fl">4</span>,
   reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span>
 <span class="op">)</span>
 <span class="va">haldensify_fit</span></code></pre></div>
-<pre><code>##          coef                term
-##  1:  4.015834         (Intercept)
-##  2:  8.219963  [ I(W &gt;= -3.298) ]
-##  3:  7.080282 [ I(bin_id &gt;= 10) ]
-##  4: -6.906777  [ I(W &gt;= -3.349) ]
-##  5:  6.111346  [ I(bin_id &gt;= 8) ]
-##  6:  5.984919   [ I(W &gt;= 0.496) ]
-##  7:  5.615845  [ I(bin_id &gt;= 3) ]
-##  8:  5.536335  [ I(bin_id &gt;= 5) ]
-##  9:  5.375681 [ I(bin_id &gt;= 14) ]
-## 10:  5.270633  [ I(W &gt;= -0.237) ]</code></pre>
+<pre><code>##          coef               term
+##  1:  5.638289        (Intercept)
+##  2:  9.383875 [ I(bin_id &gt;= 2) ]
+##  3:  8.673947 [ I(bin_id &gt;= 3) ]
+##  4: -8.124231 [ I(W &gt;= -2.955) ]
+##  5:  8.063998 [ I(bin_id &gt;= 5) ]
+##  6:  7.953559 [ I(bin_id &gt;= 4) ]
+##  7: -7.892902 [ I(W &gt;= -3.349) ]
+##  8: -7.652555 [ I(W &gt;= -1.087) ]
+##  9:  7.628103  [ I(W &gt;= 2.209) ]
+## 10:  7.439724 [ I(bin_id &gt;= 6) ]</code></pre>
 <p>Having constructed the conditional density estimator, we can examine the empirical risk over the grid of choices of the <span class="math inline">\(L_1\)</span> regularization parameter <span class="math inline">\(\lambda\)</span>. To do this, we can simply call the available <code>plot</code> method, which uses the cross-validated conditional density fits in the <code>cv_tuning_results</code> slot of the <code>haldensify</code> object. For example,</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">haldensify_fit</span><span class="op">)</span>
