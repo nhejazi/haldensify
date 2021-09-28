@@ -23,7 +23,7 @@ est_ipw <- ipw_shift(
   ## arguments passed to hal9001::fit_hal()
   max_degree = 3,
   smoothness_orders = 0,
-  #reduce_basis = 1 / n_samp,
+  # reduce_basis = 1 / n_samp,
   ## ...more non-hal9001 args
   bin_type = "equal_range",
   undersmooth_type = "all"
@@ -68,15 +68,15 @@ test_that("MSE of D_CAR-based IPW is very low", {
 })
 
 # test: scaled MSE is larger than efficiency bound (no super-efficiency)
-#test_that("Scaled MSE of IPW based on global CV exceeds efficiency bound", {
-  #expect_gt(est_ipw_tbl[str_detect(type, "gcv"), nmse], 1)
-#})
-#test_that("Scaled MSE of plateau-based IPW exceeds efficiency bound", {
-  #expect_true(all(est_ipw_tbl[str_detect(type, "plateau"), nmse] > 1))
-#})
-#test_that("Scaled MSE of D_CAR-based IPW exceeds efficiency bound", {
-  #expect_true(all(est_ipw_tbl[str_detect(type, "dcar"), nmse] > 1))
-#})
+# test_that("Scaled MSE of IPW based on global CV exceeds efficiency bound", {
+# expect_gt(est_ipw_tbl[str_detect(type, "gcv"), nmse], 1)
+# })
+# test_that("Scaled MSE of plateau-based IPW exceeds efficiency bound", {
+# expect_true(all(est_ipw_tbl[str_detect(type, "plateau"), nmse] > 1))
+# })
+# test_that("Scaled MSE of D_CAR-based IPW exceeds efficiency bound", {
+# expect_true(all(est_ipw_tbl[str_detect(type, "dcar"), nmse] > 1))
+# })
 
 # test: estimators further in lambda sequence (than GCV) have lower bias
 test_that("Bias of undersmoothed IPW no worse than of cross-validated IPW", {

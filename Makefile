@@ -26,4 +26,4 @@ buildfast:
 style:
 	Rscript -e "styler::style_pkg()"
 
-pr: style check site
+pr: style checkfast site

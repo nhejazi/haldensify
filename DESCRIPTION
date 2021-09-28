@@ -42,7 +42,7 @@ Imports:
     matrixStats,
     future.apply,
     assertthat,
-    hal9001 (>= 0.4.0),
+    hal9001 (>= 0.4.1),
     origami (>= 1.0.3),
     rsample,
     rlang,
