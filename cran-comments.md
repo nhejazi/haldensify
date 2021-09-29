@@ -15,3 +15,5 @@
 * This is an update to an existing CRAN package, submitted to correct build
   failures introduced by a very recent update to a dependency `hal9001`, per
   correspondence with CRAN maintainers.
+* The time-intensive nature of the unit testing has been reduced so that the
+  full suite of tests runs to completion in under the 10min allowance.

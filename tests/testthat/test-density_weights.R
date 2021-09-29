@@ -14,7 +14,7 @@ sim_data_set <- function(n_obs = 1000) {
   setnames(data_in, c("a", "w", "wts"))
   return(data_in)
 }
-data_in <- sim_data_set(n_obs = 500)
+data_in <- sim_data_set(n_obs = 100)
 
 # learn relationship A|W using HAL-based density estimation procedure
 dens_lrn <- with(
@@ -22,22 +22,26 @@ dens_lrn <- with(
   haldensify(
     A = a, W = w,
     wts = wts,
-    n_bins = c(3, 5, 10),
-    lambda_seq = exp(seq(-1, -10, length = 100)),
-    max_degree = 5, smoothness_orders = 0
+    n_bins = c(3, 5),
+    lambda_seq = exp(seq(-1, -8, length = 100)),
+    max_degree = 3, smoothness_orders = 0
   )
 )
 
 # predictions to recover conditional density of A, given W = 0 or W = 1
-new_a <- seq(-5, 5, by = 0.01)
+new_a <- seq(-4, 4, by = 0.1)
 new_w_neg <- rep(-2, length(new_a))
 new_w_pos <- rep(2, length(new_a))
-new_dat <- as.data.table(list(a = new_a, w_neg = new_w_neg, w_pos = new_w_pos))
+new_dat <- as.data.table(
+  list(a = new_a, w_neg = new_w_neg, w_pos = new_w_pos)
+)
 new_dat$pred_w_neg <- predict(dens_lrn,
-  new_A = new_dat$a, new_W = new_dat$w_neg
+  new_A = new_dat$a, new_W = new_dat$w_neg,
+  trim = FALSE
 )
 new_dat$pred_w_pos <- predict(dens_lrn,
-  new_A = new_dat$a, new_W = new_dat$w_pos
+  new_A = new_dat$a, new_W = new_dat$w_pos,
+  trim = FALSE
 )
 
 # test that maximum value of prediction happens at appropriate mean of the

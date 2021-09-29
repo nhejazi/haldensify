@@ -17,9 +17,9 @@ est_ipw <- ipw_shift(
   W = data_obs[, c("W1", "W2", "W3")],
   A = data_obs$A, Y = data_obs$Y,
   delta = delta,
-  n_bins = 10L,
-  cv_folds = 5L,
-  lambda_seq = exp(seq(-1, -8, length = 500L)),
+  n_bins = 5L,
+  cv_folds = 3L,
+  lambda_seq = exp(seq(-1, -8, length = 100L)),
   ## arguments passed to hal9001::fit_hal()
   max_degree = 3,
   smoothness_orders = 0,
@@ -35,7 +35,7 @@ ci_ipw$type <- est_ipw$est$type
 
 # get approximately true TSM value for this DGP
 tsm_true <- get_truth(
-  n_samp = 1e5, delta = delta, dgp_type = dgp, param_type = "tsm"
+  n_samp = 1e4, delta = delta, dgp_type = dgp, param_type = "tsm"
 )
 
 # extract IPW estimators of each type from output
