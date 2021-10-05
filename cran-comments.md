@@ -16,4 +16,11 @@
   failures introduced by a very recent update to a dependency `hal9001`, per
   correspondence with CRAN maintainers.
 * The time-intensive nature of the unit testing has been reduced so that the
-  full suite of tests runs to completion in under the 10min allowance.
+  full suite of tests runs to completion in under the 10min allowance. Note
+  that CRAN Windows machines seem to take longer than GitHub Actions instances
+  for running both examples and tests longer than expected; moreover, the time
+  taken on CRAN Windows instances exceeds that on CRAN Debian by about 3 times.
+  U. Ligges noted in e-mail that "We can disable regular tests on Windows if
+  the difference is that drastic, just let us know when you submitted with
+  shorter examples." (05 October)
+* This re-submission reduces the time-intensivity of three examples.

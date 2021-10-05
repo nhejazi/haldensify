@@ -56,22 +56,21 @@
 #' n_obs <- 50
 #' W1 <- rbinom(n_obs, 1, 0.6)
 #' W2 <- rbinom(n_obs, 1, 0.2)
-#' W3 <- rpois(n_obs, 3)
 #' A <- rnorm(n_obs, (2 * W1 - W2 - W1 * W2), 2)
-#' Y <- rbinom(n_obs, 1, plogis(3 * A + W1 + W2 - 2 * W3 - W1 * W3))
+#' Y <- rbinom(n_obs, 1, plogis(3 * A + W1 + W2 - W1 * W2))
 #'
 #' # fit the IPW estimator
 #' est_ipw_shift <- ipw_shift(
-#'   W = cbind(W1, W2, W3), A = A, Y = Y, delta = 0.5,
-#'   lambda_seq = exp(seq(-1, -5, length = 50L)),
+#'   W = cbind(W1, W2), A = A, Y = Y,
+#'   delta = 0.5, n_bins = 3L, cv_folds = 2L,
+#'   lambda_seq = exp(seq(-1, -10, length = 100L)),
 #'   # arguments passed to hal9001::fit_hal()
-#'   max_degree = 3,
-#'   reduce_basis = 1 / sqrt(n_obs),
+#'   max_degree = 1,
 #'   # ...continue arguments for IPW
-#'   undersmooth_type = "dcar"
+#'   undersmooth_type = "gcv"
 #' )
 ipw_shift <- function(W, A, Y,
-                      delta = 0,
+                      delta,
                       n_bins = make_bins(A, "hist"),
                       cv_folds = 10L,
                       lambda_seq,
