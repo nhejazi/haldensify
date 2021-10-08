@@ -50,7 +50,7 @@ folds to be used in fitting the sequence of HAL conditional density models.}
 
 \item{lambda_seq}{A \code{numeric} sequence of values of the regularization
 parameter of Lasso regression; passed to \code{\link[hal9001]{fit_hal}} via
-its argument \code{lambda}, itself passed to \code{\link[glmnet]{glmnet}}.}
+its argument \code{lambda}.}
 
 \item{smoothness_orders}{A \code{integer} indicating the smoothness of the
 HAL basis functions; passed to \code{\link[hal9001]{fit_hal}}. The default

@@ -1,3 +1,19 @@
+# haldensify 0.2.2
+
+As of October 2021:
+* Removed `LazyData` field in `DESCRIPTION` since no `data` directory present.
+* Removed reference to `glmnet` in documentation to avoid adding the package
+  to dependencies.
+
+# haldensify 0.2.1
+
+As of October 2021:
+* Reduced time-intensive nature of unit tests as per CRAN policies.
+* Added `smoothness_orders` as a named argument to `haldensify`,
+  `fit_haldensify`, and `cv_haldensify`, with a default of zero. This was
+  previously passed to `hal9001::fit_hal` via `...` arguments.
+* Submission accepted by and posted to CRAN.
+
 # haldensify 0.2.0
 
 As of September 2021:
