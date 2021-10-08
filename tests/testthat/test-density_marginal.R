@@ -9,7 +9,7 @@ haldensify_fit <- haldensify(
   A = a, W = NULL,
   n_bins = 5,
   lambda_seq = exp(seq(-1, -13, length = 100)),
-  max_degree = 3, smoothness_orders = 0
+  max_degree = 3
 )
 
 # estimate density via Gaussian kernel density
