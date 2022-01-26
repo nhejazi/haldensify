@@ -15,7 +15,6 @@ utils::globalVariables(c("lambda", "risk"))
 #' @importFrom data.table as.data.table data.table setnames
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line geom_vline xlab
 #'  ylab ggtitle theme_bw
-#' @importFrom latex2exp TeX
 #'
 #' @return Object of class \code{ggplot} containing a plot of the desired
 #'  \code{type}.
@@ -67,13 +66,11 @@ plot.haldensify <- function(x, ..., type = c("risk", "density")) {
         linetype = "dotted"
       ) +
       ggplot2::labs(
-        x = latex2exp::TeX("-log($\\lambda$)"),
+        x = "-log(L1 norm regularization)",
         y = "Empirical risk",
         title = "Empirical risk of HAL conditional density estimators",
-        subtitle = latex2exp::TeX(paste(
-          "(dotted line: $L_1$ regularization parameter", "$\\lambda$",
-          "minimizing empirical risk)"
-        ))
+        subtitle =
+          "(dotted line: L1 norm regularization minimizing CV empirical risk)"
       ) +
       ggplot2::theme_bw()
     return(p_emprisk)

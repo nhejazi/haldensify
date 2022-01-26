@@ -46,7 +46,6 @@ Imports:
     origami (>= 1.0.3),
     rsample,
     rlang,
-    latex2exp,
     scales,
     Rdpack
 Suggests:

@@ -166,9 +166,9 @@ binning strategy that accommodates creating such a large number of bins.
 haldensify_fit <- haldensify(
   A = example_data$A,
   W = example_data$W,
-  n_bins = c(10, 20),
+  n_bins = c(20, 30),
   grid_type = "equal_range",
-  lambda_seq = exp(seq(-0.1, -10, length = 500)),
+  lambda_seq = exp(seq(-0.1, -10, length = 250)),
   # the following are passed to hal9001::fit_hal() internally
   max_degree = 4,
   reduce_basis = 1 / sqrt(n_obs)
