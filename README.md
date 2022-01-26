@@ -44,13 +44,13 @@ exposures) must be estimated (Dı́az and van der Laan 2012, 2018; Dı́az
 and Hejazi 2020). `haldensify` implements this conditional density
 estimation strategy for use only with the highly adaptive lasso (HAL)
 (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and
-Benkeser 2018; Coyle, Hejazi, and van der Laan 2020; Hejazi, Coyle, and
-van der Laan 2020). As the (generalized) propensity score is the primary
-ingredient in inverse probability weighted (IPW) methods, `haldensify`
-builds loosely on the advances of Ertefaie, Hejazi, and van der Laan
-(2021) to provide nonparametric IPW estimators of the causal effects of
-continuous treatments (Hejazi et al. 2021), which can be made to achieve
-the non/semi-parametric efficiency bound by undersmoothing (lowering
+Benkeser 2018; Coyle et al. 2022; Hejazi, Coyle, and van der Laan 2020).
+As the (generalized) propensity score is the primary ingredient in
+inverse probability weighted (IPW) methods, `haldensify` builds loosely
+on the advances of Ertefaie, Hejazi, and van der Laan (2022) to provide
+nonparametric IPW estimators of the causal effects of continuous
+treatments (Hejazi et al. 2022), which can be made to achieve the
+non/semi-parametric efficiency bound by undersmoothing (lowering
 regularization) over a family of the HAL conditional density estimators.
 
 -----
@@ -80,7 +80,7 @@ highly adaptive lasso model to obtain conditional density estimates:
 
 ``` r
 library(haldensify)
-#> haldensify v0.2.1: Highly Adaptive Lasso Conditional Density Estimation
+#> haldensify v0.2.2: Highly Adaptive Lasso Conditional Density Estimation
 set.seed(76924)
 
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)
@@ -202,14 +202,14 @@ National Institutes of Health, and the National Science Foundation
 
 ## License
 
-© 2019-2021 [Nima S. Hejazi](https://nimahejazi.org)
+© 2019-2022 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license.
 See below for details:
 
     MIT License
     
-    Copyright (c) 2019-2021 Nima S. Hejazi
+    Copyright (c) 2019-2022 Nima S. Hejazi
     
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -239,16 +239,15 @@ See below for details:
 
 Benkeser, David, and Mark J van der Laan. 2016. “The Highly Adaptive
 Lasso Estimator.” In *Proceedings of the International Conference on
-Data Science and Advanced Analytics. IEEE International Conference on
 Data Science and Advanced Analytics*, 2016:689. NIH Public Access.
 
 </div>
 
-<div id="ref-coyle2020hal9001-rpkg">
+<div id="ref-coyle2022hal9001-rpkg">
 
-Coyle, Jeremy R, Nima S Hejazi, and Mark J van der Laan. 2020. *hal9001:
-The Scalable Highly Adaptive Lasso*.
-<https://doi.org/10.5281/zenodo.3558313>.
+Coyle, Jeremy R, Nima S Hejazi, Rachael V Phillips, Lars WP van der
+Laan, and Mark J van der Laan. 2022. *hal9001: The Scalable Highly
+Adaptive Lasso*. <https://doi.org/10.5281/zenodo.3558313>.
 
 </div>
 
@@ -256,7 +255,7 @@ The Scalable Highly Adaptive Lasso*.
 
 Dı́az, Iván, and Nima S Hejazi. 2020. “Causal Mediation Analysis for
 Stochastic Interventions.” *Journal of the Royal Statistical Society:
-Series B (Statistical Methodology)*.
+Series B (Statistical Methodology)* 82 (3): 661–83.
 <https://doi.org/10.1111/rssb.12362>.
 
 </div>
@@ -265,7 +264,7 @@ Series B (Statistical Methodology)*.
 
 Dı́az, Iván, and Mark J van der Laan. 2011. “Super Learner Based
 Conditional Density Estimation with Application to Marginal Structural
-Models.” *The International Journal of Biostatistics* 7 (1): 1–20.
+Models.” *International Journal of Biostatistics* 7 (1): 1–20.
 
 </div>
 
@@ -284,20 +283,20 @@ Springer Science & Business Media.
 
 </div>
 
-<div id="ref-ertefaie2021nonparametric">
+<div id="ref-ertefaie2022nonparametric">
 
-Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der Laan. 2021.
+Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der Laan. 2022.
 “Nonparametric Inverse Probability Weighted Estimators Based on the
-Highly Adaptive Lasso.” *<span class="csl-no-emph">In Revision</span>*.
-<https://arxiv.org/abs/2005.11303>.
+Highly Adaptive Lasso.” *<span class="csl-no-emph">Revision Invited
+at</span> Biometrics*. <https://arxiv.org/abs/2005.11303>.
 
 </div>
 
-<div id="ref-hejazi2021efficient">
+<div id="ref-hejazi2022efficient">
 
 Hejazi, Nima S, David C Benkeser, Iván Dı́az, and Mark J van der Laan.
-2021. “Efficient Inverse Probability Weighted Estimation of the Causal
-Effects of Continuous Treatments.”
+2022. “Efficient Estimation of Modified Treatment Policy Effects Based
+on the Generalized Propensity Score.”
 *<span class="csl-no-emph">Forthcoming</span>*.
 
 </div>
@@ -313,7 +312,7 @@ Software*. <https://doi.org/10.21105/joss.02526>.
 <div id="ref-vdl2017generally">
 
 van der Laan, Mark J. 2017. “A Generally Efficient Targeted Minimum Loss
-Based Estimator Based on the Highly Adaptive Lasso.” *The International
+Based Estimator Based on the Highly Adaptive Lasso.” *International
 Journal of Biostatistics* 13 (2).
 
 </div>
@@ -321,7 +320,8 @@ Journal of Biostatistics* 13 (2).
 <div id="ref-vdl2018highly">
 
 van der Laan, Mark J, and David Benkeser. 2018. “Highly Adaptive Lasso
-(HAL).” In *Targeted Learning in Data Science*, 77–94. Springer.
+(HAL).” In *Targeted Learning in Data Science: Causal Inference for
+Complex Longitudinal Studies*, 77–94. Springer.
 
 </div>
 

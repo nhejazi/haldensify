@@ -52,12 +52,12 @@ _generalized propensity score_ (for continuous-valued exposures) must be
 estimated [@diaz2012population; @diaz2018stochastic; @diaz2020causal].
 `haldensify` implements this conditional density estimation strategy for use
 only with the highly adaptive lasso (HAL) [@benkeser2016highly;
-@vdl2017generally; @vdl2018highly; @coyle2020hal9001-rpkg;
+@vdl2017generally; @vdl2018highly; @coyle2022hal9001-rpkg;
 @hejazi2020hal9001-joss]. As the (generalized) propensity score is the primary
 ingredient in inverse probability weighted (IPW) methods, `haldensify` builds
-loosely on the advances of @ertefaie2021nonparametric to provide nonparametric
+loosely on the advances of @ertefaie2022nonparametric to provide nonparametric
 IPW estimators of the causal effects of continuous treatments
-[@hejazi2021efficient], which can be made to achieve the non/semi-parametric
+[@hejazi2022efficient], which can be made to achieve the non/semi-parametric
 efficiency bound by undersmoothing (lowering regularization) over a family of
 the HAL conditional density estimators.
 
@@ -183,14 +183,14 @@ number [DMS 2102840](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2102840)).
 
 ## License
 
-&copy; 2019-2021 [Nima S. Hejazi](https://nimahejazi.org)
+&copy; 2019-2022 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license. See below
 for details:
 ```
 MIT License
 
-Copyright (c) 2019-2021 Nima S. Hejazi
+Copyright (c) 2019-2022 Nima S. Hejazi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
