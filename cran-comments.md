@@ -9,11 +9,10 @@
 * There were 0 NOTEs.
 
 ## Downstream dependencies
-* None at this time.
-* The downstream dependency `txshift` was removed from CRAN and will be
-  resubmitted after this package has been uploaded.
+* The `txshift` package relies upon this package.
 
 ## Additional notes
-* This is a resubmission of a package removed from CRAN due to a Solaris build
-  failure (no longer part of the CRAN build/check suite).
-* The upstream dependency `hal9001` was only very recently re-uploaded to CRAN.
+* This package was recently identified as being among a set of packages that
+  "have inst/CITATION files with persons using the deprecated 'first'
+  or 'middle' arguments instead of 'given'...Can you please change to use
+  'given' instead?" We have updated the inst/CITATION file accordingly.
