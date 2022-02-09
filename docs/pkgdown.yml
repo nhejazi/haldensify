@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   intro_haldensify: intro_haldensify.html
-last_built: 2022-01-26T23:51Z
+last_built: 2022-02-09T21:19Z
 urls:
   reference: https://code.nimahejazi.org/haldensify/reference
   article: https://code.nimahejazi.org/haldensify/articles

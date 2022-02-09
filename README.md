@@ -80,7 +80,7 @@ highly adaptive lasso model to obtain conditional density estimates:
 
 ``` r
 library(haldensify)
-#> haldensify v0.2.2: Highly Adaptive Lasso Conditional Density Estimation
+#> haldensify v0.2.3: Highly Adaptive Lasso Conditional Density Estimation
 set.seed(76924)
 
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)
