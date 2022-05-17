@@ -2,33 +2,33 @@
 title: "`haldensify`: Highly adaptive lasso conditional density estimation in `R`"
 tags:
   - machine learning
-  - density estimation
   - causal inference
-  - propensity score
+  - semiparametric estimation
+  - conditional density estimation
+  - generalized propensity score
+  - inverse probability weighting
   - R
 authors:
   - name: Nima S. Hejazi
     orcid: 0000-0002-7127-2789
-    affiliation: 1, 3
-  - name: David C. Benkeser
+    affiliation: 1
+  - name: David Benkeser
     orcid: 0000-0002-1019-8343
-    affiliation: 5
+    affiliation: 4
   - name: Mark J. van der Laan
     orcid: 0000-0002-1019-8343
-    affiliation: 2, 3, 4
+    affiliation: 2, 3
 affiliations:
-  - name: Graduate Group in Biostatistics, University of California, Berkeley
+  - name: Division of Biostatistics, Department of Population Health Sciences, Weill Cornell Medicine, USA
     index: 1
-  - name: Division of Epidemiology & Biostatistics, School of Public Health University of California, Berkeley
+  - name: Division of Biostatistics, School of Public Health, University of California, Berkeley, USA
     index: 2
-  - name: Center for Computational Biology, University of California, Berkeley
+  - name: Department of Statistics, University of California, Berkeley, USA
     index: 3
-  - name: Department of Statistics, University of California, Berkeley
+  - name: Department of Biostatistics and Bioinformatics, Rollins School of Public Health, Emory University, USA
     index: 4
-  - name: Department of Biostatistics and Bioinformatics, Rollins School of Public Health, Emory University
-    index: 5
-date: 24 June 2020
-bibliography: refs.bib
+date: 19 May 2022
+bibliography: ../inst/REFERENCES.bib
 ---
 
 # Summary
@@ -48,7 +48,11 @@ in evaluating causal effects defined by stochastic treatment regimes
 [@diaz2012population; @diaz2018stochastic; @diaz2020causal;
 @hejazi2020efficient].
 
-# Background
+# Statement of Need
+
+TODO
+
+# The Generalized Propensity Score
 
 Estimation of conditional density functions is a challenging problem in
 statistical learning theory, for, unlike a regression problem in which one
@@ -90,7 +94,11 @@ a nuisance function of the target parameter of interest [e.g.,
 computing [@R], implements zeroth order HAL regression, which relies upon
 indicator basis functions to construct a representation of the target function.
 
-# `haldensify`
+# Nonparametric IPW Estimation for Modified Treatment Policies
+
+TODO
+
+# `haldensify`'s Scope
 
 The `haldensify` `R` package combines the flexible binning and hazard estimation
 strategy of @diaz2011super with highly adaptive lasso regression. In order to
@@ -126,6 +134,8 @@ cross-validation, `cv_haldensify()` fits HAL models for the conditional hazard
 partitioning the the target variable into a specified number of bins over its
 support.
 
+# Availability
+
 Future software development efforts are intended to focus primarily upon
 improving computational aspects of the conditional density estimation procedure,
 including random sampling rows from the artificial repeated measures dataset,
@@ -136,6 +146,12 @@ made available on the Comprehensive `R` Archive Network at
 https://CRAN.R-project.org/package=haldensify, while both stable (branch
 `master`) and development (branch `devel`) versions of the package are hosted at
 https://github.com/nhejazi/haldensify.
+
+# Acknowledgments
+
+NSH's contributions to this work were supported in part by a grant from the
+National Science Foundation (award number [DMS
+2102840](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2102840)).
 
 # References
 
