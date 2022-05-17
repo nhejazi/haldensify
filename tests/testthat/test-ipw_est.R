@@ -26,7 +26,7 @@ est_ipw <- ipw_shift(
   # reduce_basis = 1 / n_samp,
   ## ...more non-hal9001 args
   bin_type = "equal_range",
-  undersmooth_type = "all"
+  selector_type = "all"
 )
 
 # generate confidence intervals for IPW estimates

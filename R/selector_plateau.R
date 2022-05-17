@@ -1,4 +1,4 @@
-#' IPW Estimator Selector Using Lepski's Plateau Method for the MSE
+#' Agnostic IPW Estimator Selector via Lepski's and Variance-Blind Methods
 #'
 #' @param W A \code{matrix}, \code{data.frame}, or similar containing a set of
 #'  baseline covariates.
@@ -17,7 +17,7 @@
 #' @param gn_fit_haldensify An object of class \code{haldensify} of the fitted
 #'  conditional density model for the natural exposure mechanism. This should
 #'  be the fit object returned by \code{\link{haldensify}[haldensify]} as part
-#'  of a call to \code{\link{ipw_shift}}.
+#'  of a call to \code{\link{est_shift}}.
 #' @param Qn_pred_natural A \code{numeric} of the outcome mechanism estimate at
 #'  the natural (i.e., observed) values of the exposure. HAL regression is used
 #'  for the estimate, with the regularization term chosen by cross-validation.
@@ -29,28 +29,17 @@
 #'  cross-validation. Note that this form of sample splitting is used for the
 #'  selection of tuning parameters by empirical risk minimization, not for the
 #'  estimation of nuisance parameters (i.e., to relax regularity conditions).
-#' @param gcv_mult TODO
-#' @param bootstrap A \code{logical} indicating whether the estimator variance
-#'  should be approximated using the nonparametric bootstrap. The default is
-#'  \code{FALSE}, in which case the empirical variances of the IPW estimating
-#'  function and the EIF are used for for estimator selection and for variance
-#'  estimation, respectively. When set to \code{TRUE}, the bootstrap variance
-#'  is used for both of these purposes instead. Note that the bootstrap is very
-#'  computationally intensive and scales relatively poorly.
-#' @param n_boot A \code{numeric} giving the number of bootstrap re-samples to
-#'  be used in computing the plateau estimator selection criterion. The default
-#'  uses 1000 bootstrap samples, though it may be appropriate to use fewer such
-#'  samples for experimentation purposes. This is ignored when \code{bootstrap}
-#'  is set to \code{FALSE} (its default).
-#' @param ... Additional arguments for model fitting to be passed directly to
-#'  \code{\link[haldensify]{haldensify}}.
+#' @param ci_level A \code{numeric} indicating the confidence level to be used
+#'  in determining the cutoff used by the Lepski-type selector. This is only
+#'  exposed for the sake of accommodating experimentation.
+#' @param l1norm_mult A \code{numeric} indicating the multipler to be used by
+#'  the plateau-based selector in reducing the candidate set of L1 norms
+#'  relative to the choice made by the cross-validation selector.
 #'
-#' @importFrom future.apply future_lapply
-#' @importFrom matrixStats colMeans2 colVars diff2
-#' @importFrom stats predict qnorm weighted.mean
-#' @importFrom dplyr "%>%" contains select
+#' @importFrom matrixStats colVars colMeans2 colSums2 diff2
+#' @importFrom stats predict qnorm weighted.mean loess
 #' @importFrom tibble tibble as_tibble
-#' @importFrom rsample bootstraps
+#' @importFrom dplyr between
 #'
 #' @keywords internal
 plateau_selector <- function(W, A, Y,
@@ -61,194 +50,143 @@ plateau_selector <- function(W, A, Y,
                              Qn_pred_natural,
                              Qn_pred_shifted,
                              cv_folds = 10L,
-                             gcv_mult = 50L,
-                             bootstrap = FALSE,
-                             n_boot = 1000L,
-                             ...) {
-  # useful constants and IP weights
+                             ci_level = 0.95,
+                             l1norm_mult = 10L) {
+  #   # constants and IP weights
   n_obs <- length(Y)
-  ip_wts_mat <- gn_pred_shifted / gn_pred_natural
-  ci_level <- 0.95 # NOTE: *hard-coded* :(
   ci_mult <- abs(stats::qnorm(p = (1 - ci_level) / 2))
-  plateau_cutoff <- c(0.20, 0.15, 0.10, 0.05, 0.01) # NOTE: *hard-coded* :(
 
   # shorten sequence of lambdas to just the undersmoothed values
-  cv_lambda_idx <- gn_fit_haldensify$cv_tuning_results$lambda_loss_min_idx
   cv_lambda <- gn_fit_haldensify$cv_tuning_results$lambda_loss_min
   lambda_seq <- gn_fit_haldensify$cv_tuning_results$lambda_seq
-  lambda_usm_seq <- lambda_seq[cv_lambda_idx:length(lambda_seq)]
-  lambda_usm_seq <- lambda_usm_seq[lambda_usm_seq > (cv_lambda / gcv_mult)]
+  lambda_usm_seq <- lambda_seq[lambda_seq <= cv_lambda]
+  nlambda_usm <- length(lambda_usm_seq)
+  l1norm_grid <- matrixStats::colSums2(abs(gn_fit_haldensify$hal_fit$coefs))
+  l1norm_usm_grid <- l1norm_grid[lambda_seq <= cv_lambda]
 
-  # compute the estimated EIF across the regularization sequence
-  score_eif_est <- apply(ip_wts_mat, 2, function(ipw_est) {
-    dcar_ipw_est <- (ipw_est * Qn_pred_natural) - Qn_pred_shifted
-    psi_ipw_est <- stats::weighted.mean(Y, ipw_est)
-    dipw_score_est <- ipw_est * (Y - psi_ipw_est)
-    eif_est <- dipw_score_est - dcar_ipw_est
-    return(list(psi = psi_ipw_est, dipw = dipw_score_est, eif = eif_est))
+  # compute IPW estimators for IP weights along the regularization sequence
+  ip_wts_mat <- gn_pred_shifted / gn_pred_natural
+  ipw_est <- apply(ip_wts_mat, 2, function(ipw) {
+    psi_ipw <- stats::weighted.mean(Y, ipw)
+    dipw_score <- ipw * (Y - psi_ipw)
+    return(list(psi = psi_ipw, dipw = dipw_score))
   })
-  psi_ipw_lambda <- do.call(cbind, lapply(score_eif_est, `[[`, "psi"))
-  dipw_est_mat <- do.call(cbind, lapply(score_eif_est, `[[`, "dipw"))
-  eif_est_mat <- do.call(cbind, lapply(score_eif_est, `[[`, "eif"))
+  psi_ipw_lambda <- do.call(c, lapply(ipw_est, `[[`, "psi"))
+  dipw_est_mat <- do.call(cbind, lapply(ipw_est, `[[`, "dipw"))
 
-  if (bootstrap) {
-    # construct bootstrap samples
-    data_obs <- tibble::tibble(W, A, Y)
-    boot_samples <- rsample::bootstraps(data = data_obs, times = n_boot)
+  # compute the estimated DCAR and EIF along the regularization sequence
+  dcar_est_mat <- est_dcar(psi_ipw_lambda, gn_pred_natural, gn_pred_shifted,
+                           Qn_pred_natural, Qn_pred_shifted)
+  eif_est_mat <- dipw_est_mat - dcar_est_mat
 
-    # fit haldensify on each of the bootstrap re-samples
-    # NOTE: pass in CV-selected tuning parameters and basis list to HAL
-    haldensify_pred_boot <-
-      future.apply::future_lapply(seq_along(boot_samples$splits),
-        function(boot_idx) {
-          # get bootstrap sample
-          boot_samp <- boot_samples$splits[[boot_idx]]
-          data_boot <- tibble::as_tibble(boot_samp)
+  # compute empirical mean of DCAR for the hybrid plateau selector
+  dcar_min_idx <- which.min(abs(matrixStats::colMeans2(dcar_est_mat)))
 
-          # fit HAL model on bootstrap sample
-          haldensify_boot <- haldensify(
-            A = data_boot$A,
-            W = data_boot %>% dplyr::select(dplyr::contains("W")),
-            cv_folds = cv_folds,
-            n_bins = gn_fit_haldensify$n_bins_cvselect,
-            grid_type = gn_fit_haldensify$grid_type_cvselect,
-            lambda_seq = gn_fit_haldensify$hal_fit$lambda_star,
-            hal_basis_list = gn_fit_haldensify$hal_fit$basis_list,
-            ## arguments passed to hal9001::fit_hal()
-            ...
-          )
+  # empirical variances of the estimating equation and EIF
+  var_ipw_dipw <- matrixStats::colVars(dipw_est_mat) / n_obs
+  var_ipw_eif <- matrixStats::colVars(eif_est_mat) / n_obs
 
-          # extract conditional density estimates on bootstrap sample
-          gn_pred_natural_boot <- stats::predict(
-            haldensify_boot,
-            new_A = data_boot$A,
-            new_W = data_boot %>% dplyr::select(dplyr::contains("W")),
-            lambda_select = "all"
-          )
-          gn_pred_shifted_boot <- stats::predict(
-            haldensify_boot,
-            new_A = (data_boot$A - delta),
-            new_W = data_boot %>% dplyr::select(dplyr::contains("W")),
-            lambda_select = "all"
-          )
-
-          # return predicted CDE from HAL model on given bootstrap resample
-          gn_preds_out <- list(
-            gn_natural = gn_pred_natural_boot,
-            gn_shifted = gn_pred_shifted_boot
-          )
-          return(gn_preds_out)
-        },
-        future.seed = TRUE
-      )
-
-    # reduce predicted CDE from HAL fits on bootstrap samples to only those
-    # lambdas selected as part of the undersmoothed sequence
-    trim_boot_preds <- function(hal_boot_preds, hal_orig_preds,
-                                type = c("natural", "shifted")) {
-      # extract predicted CDE
-      hal_boot_preds_typed <- hal_boot_preds[[paste("gn", type, sep = "_")]]
-
-      # get subset of lambdas by matching column names
-      lambda_col_idx <- which(colnames(hal_boot_preds_typed) %in%
-        colnames(hal_orig_preds))
-      return(hal_boot_preds_typed[, lambda_col_idx])
-    }
-    gn_pred_natural_boot <- lapply(
-      haldensify_pred_boot, trim_boot_preds, gn_pred_natural, "natural"
-    )
-    gn_pred_shifted_boot <- lapply(
-      haldensify_pred_boot, trim_boot_preds, gn_pred_shifted, "shifted"
-    )
-
-    # pack density estimates on original and bootstrap samples into a list
-    gn_pred_natural_all <- c(list(gn_pred_natural), gn_pred_natural_boot)
-    names(gn_pred_natural_all) <- c("original", boot_samples$id)
-    gn_pred_shifted_all <- c(list(gn_pred_shifted), gn_pred_shifted_boot)
-    names(gn_pred_shifted_all) <- c("original", boot_samples$id)
-
-    # IPW estimate for regularization sequence for each bootstrap sample
-    psi_ipw_lambda_boot <-
-      lapply(seq_along(gn_pred_natural_all), function(boot_idx) {
-        ip_wts <- gn_pred_shifted_all[[boot_idx]] /
-          gn_pred_natural_all[[boot_idx]]
-        psi_ipw_lambda <- apply(ip_wts, 2, function(ip_wts_lambda) {
-          weighted.mean(Y, ip_wts_lambda)
-        })
-        return(psi_ipw_lambda)
-      })
-    psi_ipw_lambda_boot <- do.call(rbind, psi_ipw_lambda_boot)
-    rownames(psi_ipw_lambda_boot) <- names(gn_pred_natural_all)
-
-    # compute bootstrap variance and MSE for each lambda in the sequence
-    var_ipw_boot <- matrixStats::colVars(psi_ipw_lambda_boot[-1, ])
-    mse_ipw_boot <- matrixStats::colMeans2(
-      (psi_ipw_lambda_boot[-1, ] - psi_ipw_lambda_boot[1, ])^2
-    )
-
-    # set bootstrap-based estimates to use in selectors
-    # NOTE: the bootstrap variance is closer to the true variance than its
-    #       faster analogs (e.g., the estimating equation variance)
-    psi_ipw_selector <- psi_ipw_lambda_boot[, seq_along(lambda_usm_seq)]
-    var_ipw_selector <- var_ipw_boot[seq_along(lambda_usm_seq)]
-  } else {
-    # empirical variances of the estimation equation and EIF
-    var_ipw_dipw <- matrixStats::colVars(dipw_est_mat) / n_obs
-    var_ipw_eif <- matrixStats::colVars(eif_est_mat) / n_obs
-
-    # set non-bootstrap-based estimates to use in selectors
-    # NOTE: use the conservative estimating equation variance (instead of the
-    #       EIF variance) since we only need *changes in SE* for selectors
-    psi_ipw_selector <- matrix(psi_ipw_lambda[, seq_along(lambda_usm_seq)],
-      nrow = 1
-    )
-    var_ipw_selector <- var_ipw_dipw[seq_along(lambda_usm_seq)]
-  }
+  # NOTE: use the conservative estimating equation variance (instead of the
+  #       EIF variance) since we only need *changes in SE* for selectors
+  psi_ipw_selector <- unname(psi_ipw_lambda[seq_along(lambda_usm_seq)])
+  var_ipw_selector <- var_ipw_dipw[seq_along(lambda_usm_seq)]
   se_ipw <- sqrt(var_ipw_selector)
 
   # NOTE: selector #1 -- Lepski-type plateau of changes in psi vs. SE
-  psi_ipw_diff <- matrixStats::diff2(psi_ipw_selector[1, ])
-  lepski_crit <- abs(psi_ipw_diff) <= ci_mult * matrixStats::diff2(se_ipw)
-  lepski_idx <- which.max(lepski_crit)
-  ## select IPW estimator and get SE + D_IPW
-  psi_lepski <- psi_ipw_selector[1, lepski_idx]
-  se_lepski <- ifelse(bootstrap, sqrt(var_ipw_boot)[lepski_idx],
-    sqrt(var_ipw_eif)[lepski_idx]
-  )
+  # trading off changes in psi vs. Z_{1-alpha/2}/log(n) * change in SE, where
+  # the inclusion of sqrt(n) allows optimal selection wrt MSE asymptotically
+  psi_ipw_diff <- matrixStats::diff2(psi_ipw_selector)
+  se_ipw_diff <- matrixStats::diff2(se_ipw)
+  lepski_crit <- abs(psi_ipw_diff) <=
+    (ci_mult / log10(n_obs)) * abs(se_ipw_diff)
+  lepski_idx <- which.max((lepski_crit))
+
+  # Lepski-select IPW estimator and get SE based on EIF
+  psi_lepski <- psi_ipw_selector[lepski_idx]
+  se_lepski <- sqrt(var_ipw_eif)[lepski_idx]
   lambda_lepski <- lambda_usm_seq[lepski_idx]
   ip_wts_lepski <- ip_wts_mat[, lepski_idx]
   eif_lepski <- eif_est_mat[, lepski_idx]
 
-  # NOTE: selector #2 -- plateau in the point estimate
-  #       defn of plateau *hard-coded* above :(
-  psi_ipw_diff_rel <- abs(psi_ipw_diff) / cummax(abs(psi_ipw_diff))
-  plateau_idx <- do.call(c, lapply(plateau_cutoff, function(cutoff) {
-    which.max(psi_ipw_diff_rel <= cutoff)
-  }))
-  psi_plateau <- psi_ipw_selector[1, plateau_idx]
-  if (bootstrap) {
-    se_plateau <- sqrt(var_ipw_boot)[plateau_idx]
-  } else {
-    se_plateau <- sqrt(var_ipw_eif)[plateau_idx]
+  # NOTE: selector #2 -- plateau in the point estimate, _loosely_ inspired by
+  # ideas for sieve variance estimation (cf. Molly Davies's dissertation ch 3)
+  # 1) narrow down to only those regions with L1 norm near CV-selected L1 norm
+  #    and within a standard error or so of the CV-selected IPW point estimate
+  cv_psi_bounds <- psi_ipw_selector[1] + c(-1, 1) * ci_mult * se_ipw[1]
+  cv_l1norm_check <- l1norm_usm_grid <= (l1norm_usm_grid[1] * l1norm_mult)
+  psi_bounds_check <- dplyr::between(
+    psi_ipw_selector, min(cv_psi_bounds), max(cv_psi_bounds)
+  )
+  psi_plateau_region <- as.logical(cv_l1norm_check * psi_bounds_check)
+
+  # add region for hybrid selector, using DCAR minimizer as stopping point
+  hybrid_plateau_region <- psi_plateau_region
+  if (dcar_min_idx > max(which(psi_plateau_region))) {
+    hybrid_plateau_region[seq_len(dcar_min_idx)] <- TRUE
   }
-  lambda_plateau <- lambda_usm_seq[plateau_idx]
-  ip_wts_plateau <- ip_wts_mat[, plateau_idx]
-  eif_plateau <- eif_est_mat[, plateau_idx]
+
+  # compute IPW selection for both psi-based and D_CAR-based plateau grids
+  plateau_region_grid <- cbind(psi_plateau_region, hybrid_plateau_region)
+  plateau_results <- apply(plateau_region_grid, 2, function(plateau_region) {
+    # 2) smoothen undersmoothing trajectory within selected window
+    loess_plateau_region <- stats::loess(
+      psi_ipw_selector[plateau_region] ~ l1norm_usm_grid[plateau_region],
+      span = 0.4, degree = 2L
+    )
+    psi_ipw_smooth <- stats::predict(loess_plateau_region)
+
+    # 3) select first inflection point of the smoothed regional trajectory
+    ddx_psi_ipw <- matrixStats::diff2(psi_ipw_smooth)
+    ddx2_psi_ipw <- matrixStats::diff2(psi_ipw_smooth, differences = 2L)
+    inflects <- intersect(
+      # NOTE: 1st derivative should change sign
+      which(matrixStats::diff2(sign(ddx_psi_ipw)) != 0),
+      # NOTE: 2nd derivative should be non-zero
+      which(abs(ddx2_psi_ipw) > 0)
+    )
+    # NOTE: if no inflection point in window, default to CV-selected choice
+    if (length(inflects) > 0) {
+      # set chosen L1-norm value to inflection point
+      plateau_idx <- min(inflects)
+
+      # plateau-select IPW estimator and get SE based on EIF
+      psi_plateau <- psi_ipw_selector[plateau_idx]
+      se_plateau <- sqrt(var_ipw_eif)[plateau_idx]
+    } else {
+      # set CV-selected value of L1-norm
+      plateau_idx <- 1L
+
+      # CV-selected point and SE estimates
+      psi_plateau <- psi_ipw_selector[plateau_idx]
+      se_plateau <- sqrt(var_ipw_eif)[plateau_idx]
+      #psi_plateau <- psi_plateau + ci_mult * se_plateau
+    }
+
+    # set regularization value, weights, and EIF based on plateau selection
+    lambda_plateau <- lambda_usm_seq[plateau_idx]
+    ip_wts_plateau <- ip_wts_mat[, plateau_idx]
+    eif_plateau <- eif_est_mat[, plateau_idx]
+
+    # organize and return output
+    out <- list(lambda = lambda_plateau, idx = plateau_idx, eif = eif_plateau,
+                ip_wts = ip_wts_plateau, psi = psi_plateau, se = se_plateau)
+    return(out)
+  })
+  psi_plateau_results <- plateau_results[["psi_plateau_region"]]
+  hybrid_plateau_results <- plateau_results[["hybrid_plateau_region"]]
 
   # bundle each selector's choice together for return object
-  est_mat <- list(
-    psi = c(psi_lepski, psi_plateau),
-    se_est = c(se_lepski, se_plateau),
-    lambda_idx = c(lepski_idx, plateau_idx),
-    type = c("lepski_plateau", paste("psi_plateau", plateau_cutoff, sep = "_"))
-  ) %>% tibble::as_tibble()
-
-  eif_mat <- cbind(eif_lepski, eif_plateau)
-  colnames(eif_mat) <- c(
-    "lepski_plateau",
-    paste("psi_plateau", plateau_cutoff, sep = "_")
-  )
-  eif_mat <- eif_mat %>% tibble::as_tibble()
+  est_mat <- tibble::as_tibble(list(
+    psi = c(psi_lepski, psi_plateau_results$psi, hybrid_plateau_results$psi),
+    se_est = c(se_lepski, psi_plateau_results$se, hybrid_plateau_results$se),
+    lambda_idx = c(lepski_idx, psi_plateau_results$idx,
+                   hybrid_plateau_results$idx),
+    type = c("lepski_plateau", "smooth_plateau", "hybrid_plateau")
+  ))
+  eif_mat <- cbind(eif_lepski, psi_plateau_results$eif,
+                   hybrid_plateau_results$eif)
+  colnames(eif_mat) <- c("lepski_plateau", "smooth_plateau", "hybrid_plateau")
+  eif_mat <- tibble::as_tibble(eif_mat)
 
   # output
   out <- list(est = est_mat, eif = eif_mat)

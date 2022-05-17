@@ -8,7 +8,7 @@
   [`rsample`](https://rsample.tidymodels.org/reference/bootstraps.html).
 - [x] Add a `plot()` method to more easily visualize how empirical risk changes
   across the sequence of explored regularization parameter values.
-- [x] Add an `ipw_est()` function for constructing IPW estimators of the mean
+- [x] Add an `ipw_shift()` function for constructing IPW estimators of the mean
   counterfactual outcome of a stochastic shift intervention via `haldensify`.
 - [ ] Add an argument to `haldensify()` to allow normalization of the density
   estimates to improve estimation stability. Note that this normalized density

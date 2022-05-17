@@ -16,7 +16,7 @@
 #' @method confint ipw_haldensify
 #'
 #' @importFrom stats qnorm plogis qlogis
-#' @importFrom tibble as_tibble
+#' @importFrom tibble as_tibble add_column
 #'
 #' @return A named \code{numeric} vector containing the parameter estimate from
 #'  a \code{ipw_haldensify} object, alongside lower/upper Wald-style confidence
@@ -29,20 +29,22 @@
 #' n_obs <- 50
 #' W1 <- rbinom(n_obs, 1, 0.6)
 #' W2 <- rbinom(n_obs, 1, 0.2)
-#' A <- rnorm(n_obs, (2 * W1 - W2 - W1 * W2), 2)
-#' Y <- rbinom(n_obs, 1, plogis(3 * A + W1 + W2 - W1 * W2))
+#' W3 <- rpois(n_obs, 3)
+#' A <- rpois(n_obs, 3 * W1 - W2 + 2 * W1 * W2 + 4)
+#' Y <- rbinom(n_obs, 1, plogis(A + W1 + W2 - W3 - W1 * W3))
 #'
 #' # fit the IPW estimator
-#' est_ipw_shift <- ipw_shift(
-#'   W = cbind(W1, W2), A = A, Y = Y,
-#'   delta = 0.5, n_bins = 3L, cv_folds = 2L,
-#'   lambda_seq = exp(seq(-1, -10, length = 100L)),
+#' est_ipw <- ipw_shift(
+#'   W = cbind(W1, W2, W3), A = A, Y = Y,
+#'   delta = 0.5, bin_type = "equal_range",
+#'   lambda_seq = exp(seq(-1, -10, length = 500L)),
 #'   # arguments passed to hal9001::fit_hal()
-#'   max_degree = 1,
-#'   # ...continue arguments for IPW
-#'   undersmooth_type = "gcv"
+#'   max_degree = 3,
+#'   smoothness_orders = 0,
+#'   num_knots = NULL,
+#'   reduce_basis = 1 / sqrt(n_obs)
 #' )
-#' confint(est_ipw_shift)
+#' confint(est_ipw)
 confint.ipw_haldensify <- function(object,
                                    parm = seq_len(object$psi),
                                    level = 0.95,
@@ -67,9 +69,15 @@ confint.ipw_haldensify <- function(object,
     stop("The outcome has fewer than 2 levels: this case is not supported.")
   }
 
-  # set up output CI object
-  ci_out <- cbind(ci_lwr_psi, object$est$psi, ci_upr_psi)
-  colnames(ci_out) <- c("lwr_ci", "est", "upr_ci")
-  ci_out <- tibble::as_tibble(ci_out)
-  return(ci_out)
+  # append computed CIs to custom class object
+  est_with_cis <- object$est %>%
+    tibble::add_column(
+      lwr_ci = ci_lwr_psi,
+      .before = "psi"
+    ) %>%
+    tibble::add_column(
+      upr_ci = ci_upr_psi,
+      .after = "psi"
+    )
+  return(est_with_cis)
 }

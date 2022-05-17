@@ -38,18 +38,20 @@ Compute confidence intervals for estimates produced by
 n_obs <- 50
 W1 <- rbinom(n_obs, 1, 0.6)
 W2 <- rbinom(n_obs, 1, 0.2)
-A <- rnorm(n_obs, (2 * W1 - W2 - W1 * W2), 2)
-Y <- rbinom(n_obs, 1, plogis(3 * A + W1 + W2 - W1 * W2))
+W3 <- rpois(n_obs, 3)
+A <- rpois(n_obs, 3 * W1 - W2 + 2 * W1 * W2 + 4)
+Y <- rbinom(n_obs, 1, plogis(A + W1 + W2 - W3 - W1 * W3))
 
 # fit the IPW estimator
-est_ipw_shift <- ipw_shift(
-  W = cbind(W1, W2), A = A, Y = Y,
-  delta = 0.5, n_bins = 3L, cv_folds = 2L,
-  lambda_seq = exp(seq(-1, -10, length = 100L)),
+est_ipw <- ipw_shift(
+  W = cbind(W1, W2, W3), A = A, Y = Y,
+  delta = 0.5, bin_type = "equal_range",
+  lambda_seq = exp(seq(-1, -10, length = 500L)),
   # arguments passed to hal9001::fit_hal()
-  max_degree = 1,
-  # ...continue arguments for IPW
-  undersmooth_type = "gcv"
+  max_degree = 3,
+  smoothness_orders = 0,
+  num_knots = NULL,
+  reduce_basis = 1 / sqrt(n_obs)
 )
-confint(est_ipw_shift)
+confint(est_ipw)
 }

@@ -1,6 +1,6 @@
 Package: haldensify
 Title: Highly Adaptive Lasso Conditional Density Estimation
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),
@@ -24,13 +24,14 @@ Description: An algorithm for flexible conditional density estimation based on
     estimate a large class of functions at a fast convergence rate, is utilized.
     The pooled hazards data augmentation formulation implemented was first
     described by Díaz and van der Laan (2011) <doi:10.2202/1557-4679.1356>. To
-    complement the conditional density estimation utilities, tools for efficient
-    nonparametric inverse probability weighted (IPW) estimation of the causal
-    effects of stochastic shift interventions (modified treatment policies),
-    directly utilizing the density estimation technique for construction of the
-    generalized propensity score, are provided. These IPW estimators utilize
-    undersmoothing (sieve estimation) of the conditional density estimators in
-    order to achieve the non/semi-parametric efficiency bound.
+    complement the conditional density estimation utilities, tools for
+    efficient nonparametric inverse probability weighted (IPW) estimation of
+    the causal effects of an additive modified treatment policy (stochastic
+    shift interventions), directly utilizing the density estimation technique
+    for construction of the generalized propensity score, are provided. These
+    flexible IPW estimators are coupled with sieve estimation via
+    undersmoothing of the generalized propensity score estimators in order to
+    allow them to achieve the non/semi-parametric efficiency bound.
 Depends: R (>= 3.2.0)
 Imports:
     stats,

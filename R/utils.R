@@ -1,4 +1,4 @@
-#' Generate Augmented (Long Format) Data for Pooled Hazards Regression
+#' Generate Augmented Repeated Measures Data for Pooled Hazards Regression
 #'
 #' @details Generates an augmented (long format, or repeated measures) dataset
 #'  that includes multiple records for each observation, a single record for
@@ -315,6 +315,7 @@ print.haldensify <- function(x, ...) {
 #' @importFrom stats confint
 #' @importFrom scales percent
 #' @importFrom dplyr case_when
+#' @importFrom matrixStats colVars
 #'
 #' @return None. Called for the side effect of printing an informative summary
 #'  of slots of objects of class \code{ipw_haldensify}.
@@ -337,48 +338,48 @@ print.haldensify <- function(x, ...) {
 #'   # arguments passed to hal9001::fit_hal()
 #'   max_degree = 1,
 #'   # ...continue arguments for IPW
-#'   undersmooth_type = "gcv"
+#'   selector_type = "gcv"
 #' )
 #' print(est_ipw_shift)
 print.ipw_haldensify <- function(x, ..., ci_level = 0.95) {
   # compute confidence interval
-  # ci <- stats::confint(x, level = ci_level)
+  ci_est <- stats::confint(x, level = ci_level)
 
-  # browser()
   # dictionary of human-readable names for estimator variants
-  est_type_dict <- dplyr::case_when(
-    x$est$type == "gcv" ~ "Global CV",
-    x$est$type == "dcar_tol" ~ "D_CAR Minimizer (Tolerance)",
-    x$est$type == "dcar_min" ~ "D_CAR Minimizer (Absolute)",
-    x$est$type == "lepski_plateau" ~ "Plateau: Lepski's Method",
-    x$est$type == "psi_plateau_0.2" ~ "Plateau: Estimate Change < 0.20",
-    x$est$type == "psi_plateau_0.15" ~ "Plateau: Estimate Change < 0.15",
-    x$est$type == "psi_plateau_0.1" ~ "Plateau: Estimate Change < 0.10",
-    x$est$type == "psi_plateau_0.05" ~ "Plateau: Estimate Change < 0.05",
-    x$est$type == "psi_plateau_0.01" ~ "Plateau: Estimate Change < 0.01"
-  )
+  x_est <- x$est %>%
+    dplyr::mutate(
+      name = dplyr::case_when(
+        x$est$type == "gcv" ~ "Global CV",
+        x$est$type == "dcar_tol" ~ "D_CAR Minimizer (Tolerance)",
+        x$est$type == "dcar_min" ~ "D_CAR Minimizer (Absolute)",
+        x$est$type == "lepski_plateau" ~ "Plateau (Lepski)",
+        x$est$type == "smooth_plateau" ~ "Plateau (Smoothed)",
+        x$est$type == "hybrid_plateau" ~ "Plateau (Hybrid)"
+      )
+    )
 
-  # display only the _most efficient_ estimator
-  if (nrow(x$est) > 1) {
-    idx_eff <- which.min(abs(colMeans(x$eif)))
+  # display only the _most efficient_ estimator (minimal variance)
+  if (nrow(x$est) > 1L) {
+    idx_eff <- which.min(matrixStats::colVars(as.matrix(x$eif)))
     x_eif <- x$eif[, idx_eff]
   } else {
     idx_eff <- 1L
     x_eif <- x$eif
   }
-  x_est <- x$est[idx_eff, ]
+  x_est <- x_est[idx_eff, ]
+  ci_est <- ci_est[idx_eff, ]
 
   # construct and print output
   message("Counterfactual Mean of Shifted Treatment")
   message("Intervention: ", "Treatment + ", x$.delta)
-  # message("IPW Estimator Criterion: ", x$est$type)
-  message("Estimate: ", round(x_est$psi, 4))
-  message("Std. Error: ", round(x_est$se_est, 4))
-  # message(paste0(
-  # scales::percent(ci_level), " CI: [",
-  # round(ci[1], 4), ", ", round(ci[3], 4), "]"
-  # ))
-  message("EIF Mean: ", round(mean(x_eif), 4))
+  message("IPW Estimator Criterion: ", x_est$name)
+  message("Estimate: ", round(x_est$psi, 4L))
+  message("Std. Error: ", round(x_est$se_est, 4L))
+  message(paste0(
+    scales::percent(ci_level), " CI: [",
+    round(ci_est$lwr_ci, 4L), ", ", round(ci_est$upr_ci, 4L), "]"
+  ))
+  message("EIF Mean: ", round(mean(x_eif), 4L))
 }
 
 ###############################################################################
