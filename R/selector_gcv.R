@@ -22,7 +22,7 @@
 #'  is used for the estimate, with the regularization term chosen by
 #'  cross-validation.
 #'
-#' @importFrom stats predict var weighted.mean
+#' @importFrom stats var weighted.mean
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr "%>%"
 #'
@@ -37,29 +37,34 @@ gcv_selector <- function(W, A, Y,
   n_obs <- length(Y)
   ip_wts <- gn_pred_shifted / gn_pred_natural
 
-  # compute IPW estimator from CV-selected HAL fits
-  psi_ipw_cv <- stats::weighted.mean(Y, ip_wts[, 1])
-  dipw_cv <- ip_wts[, 1] * (Y - psi_ipw_cv)
-  # NOTE: this is technically the variance of the IPW estimator based on its
-  #       estimating function, but we ignore and use instead the variance
-  #       estimate based on the EIF, which ought to be _conservative_ since the
-  #       undersmoothing procedure should improve efficiency.
-  # var_ipw_cv <- var(dipw_cv) / n_obs
+  # CV-selected HAL fit is the first by definition
+  cv_idx <- 1L
 
-  # compute D_CAR projection and find minimizing lambda
-  # D_CAR = Q(a+delta,w) - [g*/g]Q(a,w) - psi [(g-g*)/g]
-  gn_resid <- psi_ipw_cv * ((gn_pred_natural[, 1] - gn_pred_shifted[, 1]) /
-    gn_pred_natural[, 1])
-  dcar_cv <- Qn_pred_shifted - (ip_wts[, 1] * Qn_pred_natural) - gn_resid
+  # compute IPW estimator from CV-selected HAL fits
+  psi_ipw <- apply(ip_wts, 2, function(x) stats::weighted.mean(Y, x))
+  dipw_cv <- ip_wts[, cv_idx] * (Y - psi_ipw[cv_idx])
+
+  # NOTE: this is technically the variance of the IPW estimator based on its
+  #       estimating function, but we ignore it and use instead the variance
+  #       estimate based on the EIF, which ought to be _conservative_ since
+  #       undersmoothing debiases to improve efficiency
+  # var_ipw_cv <- stats::var(dipw_cv) / n_obs
+
+  # compute the D_CAR projection, the EIF, and variance from EIF
+  # NOTE: D_CAR = Q(a + delta, w) - [g* / g] Q(a, w) - psi [(g - g*) / g]
+  dcar_est <- est_dcar(
+    psi_ipw, gn_pred_natural, gn_pred_shifted,
+    Qn_pred_natural, Qn_pred_shifted
+  )
+  dcar_cv <- dcar_est[, cv_idx]
   eif_cv <- dipw_cv - dcar_cv
-  # NOTE: the EIF variance should be _conservative_ for the CV-IPW
   var_ipw_cv <- stats::var(eif_cv) / n_obs
 
   # organize output into tibble
   est <- list(
-    psi = psi_ipw_cv,
+    psi = psi_ipw[cv_idx],
     se_est = sqrt(var_ipw_cv),
-    lambda_idx = 1,
+    lambda_idx = cv_idx,
     type = "gcv"
   ) %>% tibble::as_tibble()
 

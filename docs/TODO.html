@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -56,13 +56,11 @@
       <h1>haldensify development notes</h1>
     </div>
 
-<div id="haldensify-development-notes" class="section level1">
-
-<ul><li>[x] Add <code>...</code> args to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow arbitrary arguments to be passed directly to <code>fit_hal()</code>.</li>
+<div id="haldensify-development-notes" class="section level1"><ul><li>[x] Add <code>...</code> args to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow arbitrary arguments to be passed directly to <code>fit_hal()</code>.</li>
 <li>[x] Remove <code>use_future</code> argument to <code><a href="reference/haldensify.html">haldensify()</a></code>, instead reducing to calling <code>future_mapply()</code>, with sequential evaluation via <code>plan(sequential)</code>.</li>
 <li>[x] Add example of working with bootstrap samples, e.g., using <a href="https://rsample.tidymodels.org/reference/bootstraps.html" class="external-link"><code>rsample</code></a>.</li>
 <li>[x] Add a <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method to more easily visualize how empirical risk changes across the sequence of explored regularization parameter values.</li>
-<li>[x] Add an <code>ipw_est()</code> function for constructing IPW estimators of the mean counterfactual outcome of a stochastic shift intervention via <code>haldensify</code>.</li>
+<li>[x] Add an <code><a href="reference/ipw_shift.html">ipw_shift()</a></code> function for constructing IPW estimators of the mean counterfactual outcome of a stochastic shift intervention via <code>haldensify</code>.</li>
 <li>[ ] Add an argument to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow normalization of the density estimates to improve estimation stability. Note that this normalized density is actually g(A|W)/g(A), instead of the currently estimated g(A|W).</li>
 </ul></div>
 
@@ -81,7 +79,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

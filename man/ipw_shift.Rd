@@ -2,22 +2,19 @@
 % Please edit documentation in R/ipw_shift.R
 \name{ipw_shift}
 \alias{ipw_shift}
-\title{IPW Estimates of the Causal Effects of Stochatic Shift Interventions}
+\title{IPW Estimator of the Causal Effects of Additive Modified Treatment Policies}
 \usage{
 ipw_shift(
   W,
   A,
   Y,
-  delta,
+  delta = 0,
   n_bins = make_bins(A, "hist"),
   cv_folds = 10L,
   lambda_seq,
   ...,
   bin_type = c("equal_range", "equal_mass"),
-  trim_density = FALSE,
-  undersmooth_type = c("dcar", "plateau", "gcv", "all"),
-  bootstrap = FALSE,
-  n_boot = 1000L
+  selector_type = c("dcar", "plateau", "gcv", "all")
 )
 }
 \arguments{
@@ -46,58 +43,45 @@ estimation of nuisance parameters (i.e., to relax regularity conditions).}
 (L1 norm of HAL coefficients) to be used in fitting HAL models.}
 
 \item{...}{Additional arguments for model fitting to be passed directly to
-\code{\link[haldensify]{haldensify}}.}
+\code{\link{haldensify}}.}
 
 \item{bin_type}{A \code{character} indicating the strategy to be used in
 creating bins along the observed support of \code{A}. For bins of equal
 range, use \code{"equal_range"}; to ensure each bin has the same number of
 observations, use instead \code{"equal_mass"}. For more information, see
-documentation of \code{grid_type} in \code{\link[haldensify]{haldensify}}.}
+documentation of \code{grid_type} in \code{\link{haldensify}}.}
 
-\item{trim_density}{A \code{logical} indicating whether estimates of the
-conditional density should be trimmed. Refer to the \code{trim} argument of
-the \code{predict} method of \code{haldensify} for details. The default is
-\code{FALSE} since propensity score truncation can lead to estimation bias.}
-
-\item{undersmooth_type}{A \code{character} indicating the selection strategy
-to be used in identifying an efficent IPW estimator. The choices include
-\code{"gcv"} for global cross-validation, \code{"dcar"} for solving the
-IPW representation of the EIF through, and \code{"plateau"} for an approach
-that balances changes in the parameter estimate and its mean squared error,
-based on Lepski's method. The option \code{"all"} produces results based on
-all three selection strategies, sharing redundant computation between each.}
-
-\item{bootstrap}{A \code{logical} indicating whether the estimator variance
-should be approximated using the nonparametric bootstrap. The default is
-\code{FALSE}, in which case the empirical variances of the IPW estimating
-function and the EIF are used for for estimator selection and for variance
-estimation, respectively. When set to \code{TRUE}, the bootstrap variance
-is used for both of these purposes instead. Note that the bootstrap is very
-computationally intensive and scales relatively poorly.}
-
-\item{n_boot}{A \code{numeric} giving the number of bootstrap re-samples to
-be used in computing the mean squared error as part of the plateau selector
-criterion. Ignored when \code{undersmooth_type} is not \code{"plateau"}.}
+\item{selector_type}{A \code{character} indicating the selection strategy
+for identifying an efficent IPW estimator. The choices include \code{"gcv"}
+for global cross-validation, \code{"dcar"} for solving the EIF equation,
+and \code{"plateau"} for agnostic approaches (1) balancing changes in the
+IPW estimate and its standard error (adapting Lepski's method) and (2) a
+plateau detector for inflection points in the IPW estimator's trajectory.
+The option \code{"all"} runs all three selection strategies while sharing
+redundant computation between each.}
 }
 \description{
-IPW Estimates of the Causal Effects of Stochatic Shift Interventions
+IPW Estimator of the Causal Effects of Additive Modified Treatment Policies
 }
 \examples{
 # simulate data
 n_obs <- 50
 W1 <- rbinom(n_obs, 1, 0.6)
 W2 <- rbinom(n_obs, 1, 0.2)
-A <- rnorm(n_obs, (2 * W1 - W2 - W1 * W2), 2)
-Y <- rbinom(n_obs, 1, plogis(3 * A + W1 + W2 - W1 * W2))
+W3 <- rpois(n_obs, 3)
+A <- rpois(n_obs, 3 * W1 - W2 + 2 * W1 * W2 + 4)
+Y <- rbinom(n_obs, 1, plogis(A + W1 + W2 - W3 - W1 * W3))
 
 # fit the IPW estimator
-est_ipw_shift <- ipw_shift(
-  W = cbind(W1, W2), A = A, Y = Y,
-  delta = 0.5, n_bins = 3L, cv_folds = 2L,
+est_ipw <- ipw_shift(
+  W = cbind(W1, W2, W3), A = A, Y = Y,
+  delta = 0.5, cv_folds = 2L,
+  n_bins = 5L, bin_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100L)),
   # arguments passed to hal9001::fit_hal()
-  max_degree = 1,
-  # ...continue arguments for IPW
-  undersmooth_type = "gcv"
+  max_degree = 3,
+  smoothness_orders = 0,
+  num_knots = NULL,
+  reduce_basis = 1 / sqrt(n_obs)
 )
 }

@@ -40,7 +40,7 @@ est_ipw_shift <- ipw_shift(
   # arguments passed to hal9001::fit_hal()
   max_degree = 1,
   # ...continue arguments for IPW
-  undersmooth_type = "gcv"
+  selector_type = "gcv"
 )
 print(est_ipw_shift)
 }

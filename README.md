@@ -45,13 +45,12 @@ and Hejazi 2020). `haldensify` implements this conditional density
 estimation strategy for use only with the highly adaptive lasso (HAL)
 (Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and
 Benkeser 2018; Coyle et al. 2022; Hejazi, Coyle, and van der Laan 2020).
-As the (generalized) propensity score is the primary ingredient in
-inverse probability weighted (IPW) methods, `haldensify` builds loosely
-on the advances of Ertefaie, Hejazi, and van der Laan (2022) to provide
-nonparametric IPW estimators of the causal effects of continuous
-treatments (Hejazi et al. 2022), which can be made to achieve the
-non/semi-parametric efficiency bound by undersmoothing (lowering
-regularization) over a family of the HAL conditional density estimators.
+Since the generalized propensity score is a key ingredient in inverse
+probability weighting (IPW) methods, `haldensify` builds on the advances
+of Ertefaie, Hejazi, and van der Laan (2022) and Hejazi et al. (2022) to
+provide nonparametric IPW estimators of the causal effects for
+continuous treatments, which achieve the semiparametric efficiency bound
+by undersmoothing along a family of HAL conditional density estimators.
 
 -----
 
@@ -164,16 +163,31 @@ prior to submitting a pull request.
 After using the `haldensify` R package, please cite the following:
 
 ``` 
-    @software{hejazi2021haldensify,
+    @article{hejazi2022efficient,
+      author = {Hejazi, Nima S and Benkeser, David and D{\'\i}az, Iv{\'a}n
+        and {van der Laan}, Mark J},
+      title = {Efficient estimation of modified treatment policy effects
+        based on the generalized propensity score},
+      year = {2022},
+      journal = {},
+      publisher = {},
+      volume = {},
+      number = {},
+      pages = {},
+      doi = {},
+      url = {https://arxiv.org/abs/2205.05777}
+    }
+
+    @software{hejazi2022haldensify,
       author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
         Mark J},
       title = {{haldensify}: Highly adaptive lasso conditional density
         estimation},
-      year  = {2021},
+      year  = {2022},
       howpublished = {\url{https://github.com/nhejazi/haldensify}},
-      note = {{R} package version 0.2.0},
+      doi = {10.5281/zenodo.3698329},
       url = {https://doi.org/10.5281/zenodo.3698329},
-      doi = {10.5281/zenodo.3698329}
+      note = {{R} package version 0.2.4}
     }
 ```
 
@@ -287,17 +301,17 @@ Springer Science & Business Media.
 
 Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der Laan. 2022.
 “Nonparametric Inverse Probability Weighted Estimators Based on the
-Highly Adaptive Lasso.” *<span class="csl-no-emph">Revision Invited
-at</span> Biometrics*. <https://arxiv.org/abs/2005.11303>.
+Highly Adaptive Lasso.” *Biometrics* (in press).
+<https://arxiv.org/abs/2005.11303>.
 
 </div>
 
 <div id="ref-hejazi2022efficient">
 
-Hejazi, Nima S, David C Benkeser, Iván Dı́az, and Mark J van der Laan.
+Hejazi, Nima S, David Benkeser, Iván Dı́az, and Mark J van der Laan.
 2022. “Efficient Estimation of Modified Treatment Policy Effects Based
-on the Generalized Propensity Score.”
-*<span class="csl-no-emph">Forthcoming</span>*.
+on the Generalized Propensity Score.” *<span class="csl-no-emph">Under
+Review at</span> Biometrika*. <https://arxiv.org/abs/2205.05777>.
 
 </div>
 

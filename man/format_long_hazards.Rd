@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{format_long_hazards}
 \alias{format_long_hazards}
-\title{Generate Augmented (Long Format) Data for Pooled Hazards Regression}
+\title{Generate Augmented Repeated Measures Data for Pooled Hazards Regression}
 \usage{
 format_long_hazards(
   A,
@@ -49,7 +49,7 @@ A \code{list} containing the break points used in dividing the
  observation, and observation-level weights.
 }
 \description{
-Generate Augmented (Long Format) Data for Pooled Hazards Regression
+Generate Augmented Repeated Measures Data for Pooled Hazards Regression
 }
 \details{
 Generates an augmented (long format, or repeated measures) dataset

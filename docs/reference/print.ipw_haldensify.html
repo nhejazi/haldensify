@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -104,14 +104,17 @@ interval to be computed.</p></dd>
 <span class="r-in">  <span class="co"># arguments passed to hal9001::fit_hal()</span></span>
 <span class="r-in">  max_degree <span class="op">=</span> <span class="fl">1</span>,</span>
 <span class="r-in">  <span class="co"># ...continue arguments for IPW</span></span>
-<span class="r-in">  undersmooth_type <span class="op">=</span> <span class="st">"gcv"</span></span>
+<span class="r-in">  selector_type <span class="op">=</span> <span class="st">"gcv"</span></span>
 <span class="r-in"><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2% of observations outside training support...predictions trimmed.</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">est_ipw_shift</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Counterfactual Mean of Shifted Treatment</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Intervention: Treatment + 0.5</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate: 0.6183</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Std. Error: 0.0654</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> EIF Mean: -0.0925</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> IPW Estimator Criterion: Global CV</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate: 0.6288</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Std. Error: 0.0687</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% CI: [0.4875, 0.751]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> EIF Mean: -0.0809</span>
 </code></pre></div>
     </div>
   </div>
@@ -126,7 +129,7 @@ interval to be computed.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

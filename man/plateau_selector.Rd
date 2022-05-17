@@ -2,7 +2,7 @@
 % Please edit documentation in R/selector_plateau.R
 \name{plateau_selector}
 \alias{plateau_selector}
-\title{IPW Estimator Selector Using Lepski's Plateau Method for the MSE}
+\title{Agnostic IPW Estimator Selector via Lepski's and Variance-Blind Methods}
 \usage{
 plateau_selector(
   W,
@@ -15,10 +15,8 @@ plateau_selector(
   Qn_pred_natural,
   Qn_pred_shifted,
   cv_folds = 10L,
-  gcv_mult = 50L,
-  bootstrap = FALSE,
-  n_boot = 1000L,
-  ...
+  ci_level = 0.95,
+  l1norm_mult = 10L
 )
 }
 \arguments{
@@ -61,26 +59,15 @@ cross-validation. Note that this form of sample splitting is used for the
 selection of tuning parameters by empirical risk minimization, not for the
 estimation of nuisance parameters (i.e., to relax regularity conditions).}
 
-\item{gcv_mult}{TODO}
+\item{ci_level}{A \code{numeric} indicating the confidence level to be used
+in determining the cutoff used by the Lepski-type selector. This is only
+exposed for the sake of accommodating experimentation.}
 
-\item{bootstrap}{A \code{logical} indicating whether the estimator variance
-should be approximated using the nonparametric bootstrap. The default is
-\code{FALSE}, in which case the empirical variances of the IPW estimating
-function and the EIF are used for for estimator selection and for variance
-estimation, respectively. When set to \code{TRUE}, the bootstrap variance
-is used for both of these purposes instead. Note that the bootstrap is very
-computationally intensive and scales relatively poorly.}
-
-\item{n_boot}{A \code{numeric} giving the number of bootstrap re-samples to
-be used in computing the plateau estimator selection criterion. The default
-uses 1000 bootstrap samples, though it may be appropriate to use fewer such
-samples for experimentation purposes. This is ignored when \code{bootstrap}
-is set to \code{FALSE} (its default).}
-
-\item{...}{Additional arguments for model fitting to be passed directly to
-\code{\link[haldensify]{haldensify}}.}
+\item{l1norm_mult}{A \code{numeric} indicating the multipler to be used by
+the plateau-based selector in reducing the candidate set of L1 norms
+relative to the choice made by the cross-validation selector.}
 }
 \description{
-IPW Estimator Selector Using Lepski's Plateau Method for the MSE
+Agnostic IPW Estimator Selector via Lepski's and Variance-Blind Methods
 }
 \keyword{internal}

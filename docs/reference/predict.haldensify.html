@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -146,6 +146,7 @@ regularization parameter on which the HAL model <code>object</code> was fitted.<
 <span class="r-in"><span class="va">new_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span>, by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">new_w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">pred_dens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">haldensify_fit</span>, new_A <span class="op">=</span> <span class="va">new_a</span>, new_W <span class="op">=</span> <span class="va">new_w</span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 1.23% of observations outside training support...predictions trimmed.</span>
 </code></pre></div>
     </div>
   </div>
@@ -160,7 +161,7 @@ regularization parameter on which the HAL model <code>object</code> was fitted.<
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
