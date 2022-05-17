@@ -48,7 +48,7 @@ gcv_selector <- function(W, A, Y,
   #       estimating function, but we ignore it and use instead the variance
   #       estimate based on the EIF, which ought to be _conservative_ since
   #       undersmoothing debiases to improve efficiency
-  #var_ipw_cv <- stats::var(dipw_cv) / n_obs
+  # var_ipw_cv <- stats::var(dipw_cv) / n_obs
 
   # compute the D_CAR projection, the EIF, and variance from EIF
   # NOTE: D_CAR = Q(a + delta, w) - [g* / g] Q(a, w) - psi [(g - g*) / g]

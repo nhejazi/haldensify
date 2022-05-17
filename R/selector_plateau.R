@@ -75,8 +75,10 @@ plateau_selector <- function(W, A, Y,
   dipw_est_mat <- do.call(cbind, lapply(ipw_est, `[[`, "dipw"))
 
   # compute the estimated DCAR and EIF along the regularization sequence
-  dcar_est_mat <- est_dcar(psi_ipw_lambda, gn_pred_natural, gn_pred_shifted,
-                           Qn_pred_natural, Qn_pred_shifted)
+  dcar_est_mat <- est_dcar(
+    psi_ipw_lambda, gn_pred_natural, gn_pred_shifted,
+    Qn_pred_natural, Qn_pred_shifted
+  )
   eif_est_mat <- dipw_est_mat - dcar_est_mat
 
   # compute empirical mean of DCAR for the hybrid plateau selector
@@ -159,7 +161,7 @@ plateau_selector <- function(W, A, Y,
       # CV-selected point and SE estimates
       psi_plateau <- psi_ipw_selector[plateau_idx]
       se_plateau <- sqrt(var_ipw_eif)[plateau_idx]
-      #psi_plateau <- psi_plateau + ci_mult * se_plateau
+      # psi_plateau <- psi_plateau + ci_mult * se_plateau
     }
 
     # set regularization value, weights, and EIF based on plateau selection
@@ -168,8 +170,10 @@ plateau_selector <- function(W, A, Y,
     eif_plateau <- eif_est_mat[, plateau_idx]
 
     # organize and return output
-    out <- list(lambda = lambda_plateau, idx = plateau_idx, eif = eif_plateau,
-                ip_wts = ip_wts_plateau, psi = psi_plateau, se = se_plateau)
+    out <- list(
+      lambda = lambda_plateau, idx = plateau_idx, eif = eif_plateau,
+      ip_wts = ip_wts_plateau, psi = psi_plateau, se = se_plateau
+    )
     return(out)
   })
   psi_plateau_results <- plateau_results[["psi_plateau_region"]]
@@ -179,12 +183,16 @@ plateau_selector <- function(W, A, Y,
   est_mat <- tibble::as_tibble(list(
     psi = c(psi_lepski, psi_plateau_results$psi, hybrid_plateau_results$psi),
     se_est = c(se_lepski, psi_plateau_results$se, hybrid_plateau_results$se),
-    lambda_idx = c(lepski_idx, psi_plateau_results$idx,
-                   hybrid_plateau_results$idx),
+    lambda_idx = c(
+      lepski_idx, psi_plateau_results$idx,
+      hybrid_plateau_results$idx
+    ),
     type = c("lepski_plateau", "smooth_plateau", "hybrid_plateau")
   ))
-  eif_mat <- cbind(eif_lepski, psi_plateau_results$eif,
-                   hybrid_plateau_results$eif)
+  eif_mat <- cbind(
+    eif_lepski, psi_plateau_results$eif,
+    hybrid_plateau_results$eif
+  )
   colnames(eif_mat) <- c("lepski_plateau", "smooth_plateau", "hybrid_plateau")
   eif_mat <- tibble::as_tibble(eif_mat)
 

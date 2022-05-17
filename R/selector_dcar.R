@@ -54,8 +54,10 @@ dcar_selector <- function(W, A, Y,
 
   # compute D_CAR projection and use this to compute the EIF
   # NOTE: D_CAR = Q(a+delta,w) - [g*/g]Q(a,w) - psi [(g-g*)/g]
-  dcar_est <- est_dcar(psi_ipw, gn_pred_natural, gn_pred_shifted,
-                       Qn_pred_natural, Qn_pred_shifted)
+  dcar_est <- est_dcar(
+    psi_ipw, gn_pred_natural, gn_pred_shifted,
+    Qn_pred_natural, Qn_pred_shifted
+  )
   eif_est <- dipw_est_eqn - dcar_est
   var_ipw_cv <- stats::var(eif_est[, 1]) / n_obs
 

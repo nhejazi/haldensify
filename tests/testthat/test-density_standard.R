@@ -30,15 +30,15 @@ new_dat$pred_w_pos <- predict(haldensify_fit,
 # NOTE: these tests are poorly thought out, so temporarily removing
 # test that maximum value of prediction happens at appropriate mean of the
 # conditional density N(mu = \pm 1, sd = 0.5)
-#test_that("Maximum predicted probability of p(A|W = -1) matches N(-1, 0.5)", {
-  #obs_a_max_prob_w_neg <- new_dat[which.max(new_dat$pred_w_neg), ]$a
-  #expect_equal(round(obs_a_max_prob_w_neg), unique(new_w_neg))
-#})
+# test_that("Maximum predicted probability of p(A|W = -1) matches N(-1, 0.5)", {
+# obs_a_max_prob_w_neg <- new_dat[which.max(new_dat$pred_w_neg), ]$a
+# expect_equal(round(obs_a_max_prob_w_neg), unique(new_w_neg))
+# })
 
-#test_that("Maximum predicted probability of p(A|W = +1) matches N(+1, 0.5)", {
-  #obs_a_max_prob_w_pos <- new_dat[which.max(new_dat$pred_w_pos), ]$a
-  #expect_equal(round(obs_a_max_prob_w_pos), unique(new_w_pos))
-#})
+# test_that("Maximum predicted probability of p(A|W = +1) matches N(+1, 0.5)", {
+# obs_a_max_prob_w_pos <- new_dat[which.max(new_dat$pred_w_pos), ]$a
+# expect_equal(round(obs_a_max_prob_w_pos), unique(new_w_pos))
+# })
 
 # supply fit_control additional arguments
 n_lambda <- 100L

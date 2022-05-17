@@ -137,10 +137,12 @@ ipw_shift <- function(W, A, Y,
 
   # outcome predictions for "natural" and counterfactual (shifted) A
   Qn_pred_natural <- stats::predict(
-    Qn_fit, new_data = cbind(A, W)
+    Qn_fit,
+    new_data = cbind(A, W)
   )
   Qn_pred_shifted <- stats::predict(
-    Qn_fit, new_data = cbind(A + delta, W)
+    Qn_fit,
+    new_data = cbind(A + delta, W)
   )
 
   if (selector_type == "dcar") {

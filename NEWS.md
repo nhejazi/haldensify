@@ -1,3 +1,10 @@
+# haldensify 0.2.5
+
+As of May 2021:
+* Updated nonparametric IPW estimation code to match the methods described in
+  https://arxiv.org/abs/2205.05777.
+* Updated tests, references, and `pkgdown` site in preparation for JOSS paper.
+
 # haldensify 0.2.2
 
 As of October 2021:
