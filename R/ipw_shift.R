@@ -1,3 +1,5 @@
+utils::globalVariables(c("lambda_idx", "se_est", "l1_norm", "type"))
+
 #' IPW Estimator of the Causal Effects of Additive Modified Treatment Policies
 #'
 #' @param W A \code{matrix}, \code{data.frame}, or similar containing a set of
@@ -55,8 +57,9 @@
 #' # fit the IPW estimator
 #' est_ipw <- ipw_shift(
 #'   W = cbind(W1, W2, W3), A = A, Y = Y,
-#'   delta = 0.5, bin_type = "equal_range",
-#'   lambda_seq = exp(seq(-1, -10, length = 500L)),
+#'   delta = 0.5, cv_folds = 2L,
+#'   n_bins = 5L, bin_type = "equal_range",
+#'   lambda_seq = exp(seq(-1, -10, length = 100L)),
 #'   # arguments passed to hal9001::fit_hal()
 #'   max_degree = 3,
 #'   smoothness_orders = 0,

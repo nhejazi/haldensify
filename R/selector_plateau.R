@@ -17,7 +17,7 @@
 #' @param gn_fit_haldensify An object of class \code{haldensify} of the fitted
 #'  conditional density model for the natural exposure mechanism. This should
 #'  be the fit object returned by \code{\link{haldensify}[haldensify]} as part
-#'  of a call to \code{\link{est_shift}}.
+#'  of a call to \code{\link{ipw_shift}}.
 #' @param Qn_pred_natural A \code{numeric} of the outcome mechanism estimate at
 #'  the natural (i.e., observed) values of the exposure. HAL regression is used
 #'  for the estimate, with the regularization term chosen by cross-validation.
