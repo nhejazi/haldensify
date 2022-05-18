@@ -170,7 +170,6 @@ haldensify_fit <- haldensify(
   max_degree = 4,
   reduce_basis = 1 / sqrt(n_obs)
 )
-haldensify_fit
 ```
 
 Having constructed the conditional density estimator, we can examine the
