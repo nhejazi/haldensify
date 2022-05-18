@@ -170,15 +170,15 @@ can be modified to accommodate data adaptive estimation of the (generalized)
 propensity score. Such nonparametric IPW estimators, based on HAL, have been
 studied by @ertefaie2020nonparametric in the context of binary treatments and by
 @hejazi2022efficient for continuous treatments. In the case of MTPs, the IPW
-estimator of $\psi$ is $\psi_{n}^{\text{IPW}} = 1/n \sum_{i=1}^n
+estimator of $\psi$ is $\psi_{n}^{\text{IPW}} = n^{-1} \sum_{i=1}^n
 \{\tilde{g}_{n,A}(A_i \mid W_i) / g_{n,A}(A_i \mid W_i)\} Y_i$, where $g_{n,A}$
-is generalized propensity score estimator (e.g., as produced by `haldensify()`)
+is a generalized propensity score estimator (e.g., produced by `haldensify()`)
 and $\tilde{g}_{n,A}$ is this same quantity evaluated at the post-intervention
 value of the treatment $A_{\delta}$. Usually, $g_{n,A}$ must be estimated via
 parametric modeling strategies in order for $\psi_{n}^{\text{IPW}}$ to exhibit
 desirable asymptotic properties (consistency, efficiency); in such cases, the
 IPW estimator is only unbiased if the parametric conditional density estimator
-is _correctly specified_. To limit chances for model misspecification, Flexible,
+is _correctly specified_. To limit chances for model misspecification, flexible,
 data adaptive strategies may be used in estimating $g_{n,A}$; however, IPW
 estimators are incompatible with such estimators "out of the box." Instead,
 sieve estimation strategies (undersmoothing) must be used to select an estimator
@@ -195,8 +195,9 @@ $g_{n,A,\lambda_n}$ will fail to yield an IPW estimator with desirable
 asymptotic properties, but undersmoothing may be used to select a more
 appropriate estimator. The `haldensify` package implements nonparametric IPW
 estimators that incorporate several undersmoothing selectors in the
-`ipw_shift()` function. For a formal description of the selectors and numerical
-experiments examining their performance, see @hejazi2022efficient.
+`ipw_shift()` function. For a formal description of these selectors and
+numerical experiments examining the performance of the resultant IPW estimators,
+see @hejazi2022efficient.
 
 # `haldensify`'s Scope
 
@@ -229,12 +230,13 @@ cross-validation) have been studied from a methodological perspective in
 conditional density to be evaluated at new values of the variable of interest
 and its conditioning set and the latter to visualize the resultant estimators
 along the regularization trajectory. The `ipw_shift()` function is accompanied
-by a corresponding `confint()` method to generate confidence intervals for the
-IPW estimates. The custom S3 classes returned by each of these functions have
-custom `print()` methods to allow for the results to be easily evaluated.
-Several internal utility functions, including, for example, `cv_haldensify()`,
-`map_hazard_to_density()`, and `selector_dcar()` implement core aspects of the
-conditional density estimation and nonparametric IPW estimation methodology.
+by a corresponding `confint()` method to easily generate confidence intervals
+around the IPW point estimates. The S3 classes returned by both of these
+functions have custom `print()` methods to allow for their results to be easily
+inspected. Several internal utility functions, including, for example,
+`cv_haldensify()`, `map_hazard_to_density()`, and `selector_dcar()`, implement
+core aspects of the conditional density estimation and nonparametric IPW
+estimation methodology.
 
 # Availability
 
