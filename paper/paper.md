@@ -103,8 +103,8 @@ position of the bin into which the observed value of the variable of interest
 falls). Then, the hazard probability, conditional on any covariates, of the
 variable of interest falling in a given bin along its discretized support is
 estimated by applying any machine learning algorithm for binary regression to
-this repeated measures data structure. This is merely an application of pooled
-hazards regression. Finally, the conditional hazard estimates are translated to
+this repeated measures data structure; this is merely an application of pooled
+hazard regression. Finally, the conditional hazard estimates are translated to
 the conditional density scale by dividing the estimated hazard probabilities by
 the respective bin widths. This approach is made particularly flexible by the
 fact that it may be readily applied to arbitrary data structures and
@@ -136,7 +136,7 @@ functions of a (usually low-dimensional) target parameter, common in the
 semiparametric estimation of quantities motivated by causal inference
 [@bang2005doubly; @vdl2006targeted; @vdl2011targeted]. In such cases,
 undersmoothing methods have been developed to allow for the formulation of
-regular, asymptotically linear and efficient inverse probability weighted
+regular, asymptotically linear and efficient inverse probability weighted (IPW)
 estimators of causal effects [e.g., @ertefaie2020nonparametric;
 @hejazi2022efficient].
 
@@ -157,11 +157,11 @@ mean of such an intervention may be expressed $\mathbb{E}[Y(A_{\delta})]$, where
 $Y(A_{\delta})$ is the potential outcome that would have been observed had the
 treatment taken the value $A_{\delta}$. Both @haneuse2013estimation and
 @diaz2018stochastic proposed classical substitution (G-computation), inverse
-probability weighted (IPW), and doubly robust estimators of a statistical
-functional $\psi$ that identifies this counterfactual mean under standard
-assumptions. Doubly robust estimators of $\psi$ have been implemented in the
-`txshift` `R` package [@hejazi2020txshift-joss; @hejazi2022txshift-rpkg], used
-in the estimation of the causal effects of MTPs in vaccine efficacy trials
+probability weighted, and doubly robust estimators of a statistical functional
+$\psi$ that identifies this counterfactual mean under standard assumptions.
+Doubly robust estimators of $\psi$ have been implemented in the `txshift` `R`
+package [@hejazi2020txshift-joss; @hejazi2022txshift-rpkg], used in the
+estimation of the causal effects of MTPs in vaccine efficacy trials
 [@hejazi2020efficient]; such estimation frameworks are usually necessary in
 order to take advantage of flexible estimators of nuisance parameters.
 
@@ -170,33 +170,33 @@ can be modified to accommodate data adaptive estimation of the (generalized)
 propensity score. Such nonparametric IPW estimators, based on HAL, have been
 studied by @ertefaie2020nonparametric in the context of binary treatments and by
 @hejazi2022efficient for continuous treatments. In the case of MTPs, the IPW
-estimator of $\psi$ is $\psi_{n,\text{IPW}} = \{\tilde{g}_{n,A}(A \mid W)
-/ g_{n,A}(A \mid W)\} Y$, where $g_{n,A}$ is an estimator of the generalized
-propensity score (e.g., as produced by `haldensify()`) and $\tilde{g}_{n,A}$ is
-this same quantity evaluated at the post-intervention value of the treatment
-$A_{\delta}$. Usually, $g_{n,A}$ must be estimated via parametric modeling
-strategies in order for $\psi_{n,\text{IPW}}$ to exhibit desirable asymptotic
-properties (consistency, efficiency); in such cases, the IPW estimator is only
-unbiased if the parametric conditional density estimator is _correctly
-specified_. Flexible, data adaptive strategies may be used to estimate $g_{n,A}$
-while increasing the chances of avoiding model misspecification; however, IPW
+estimator of $\psi$ is $\psi_{n}^{\text{IPW}} = 1/n \sum_{i=1}^n
+\{\tilde{g}_{n,A}(A_i \mid W_i) / g_{n,A}(A_i \mid W_i)\} Y_i$, where $g_{n,A}$
+is generalized propensity score estimator (e.g., as produced by `haldensify()`)
+and $\tilde{g}_{n,A}$ is this same quantity evaluated at the post-intervention
+value of the treatment $A_{\delta}$. Usually, $g_{n,A}$ must be estimated via
+parametric modeling strategies in order for $\psi_{n}^{\text{IPW}}$ to exhibit
+desirable asymptotic properties (consistency, efficiency); in such cases, the
+IPW estimator is only unbiased if the parametric conditional density estimator
+is _correctly specified_. To limit chances for model misspecification, Flexible,
+data adaptive strategies may be used in estimating $g_{n,A}$; however, IPW
 estimators are incompatible with such estimators "out of the box." Instead,
 sieve estimation strategies (undersmoothing) must be used to select an estimator
-$g_{n,A}$, from among an appropriate class, that allows for optimal estimation
+$g_{n,A}$, from among an appropriate family, that allows for optimal estimation
 of $\psi$. This issue arises in part because strategies for optimal selection of
 $g_{n,A}$ (e.g., cross-validation) optimize for estimation of the conditional
-density, ignoring the fact that it is only a nuisance parameter for the process
-of IPW estimation. When `haldensify()` is used for this purpose, a family of
-conditional density estimators $g_{n,A,\lambda}$, indexed by the $\ell_1$
-regularization term $\lambda$, are generated, with cross-validation usually used
-to select an optimal conditional density estimator along the trajectory in
-$\lambda$. Selected in this way, the estimator $g_{n,A,\lambda_n}$ will fail to
-yield an IPW estimator with desirable asymptotic properties, but undersmoothing
-may be used to select a more appropriate estimator. The `haldensify` package
-implements nonparametric IPW estimators that incorporate several undersmoothing
-selectors in the `ipw_shift()` function. For a formal description of the
-selectors and numerical experiments examining their performance, see
-@hejazi2022efficient.
+density function itself, ignoring the fact that it is only a nuisance parameter
+in the IPW estimation procedure. When `haldensify()` is used for this purpose,
+a family of conditional density estimators $g_{n,A,\lambda}$, indexed by the
+$\ell_1$ regularization term $\lambda$, are generated, with cross-validation
+usually used to select an optimal conditional density estimator along the
+trajectory in $\lambda$. When selected in this way, the estimator
+$g_{n,A,\lambda_n}$ will fail to yield an IPW estimator with desirable
+asymptotic properties, but undersmoothing may be used to select a more
+appropriate estimator. The `haldensify` package implements nonparametric IPW
+estimators that incorporate several undersmoothing selectors in the
+`ipw_shift()` function. For a formal description of the selectors and numerical
+experiments examining their performance, see @hejazi2022efficient.
 
 # `haldensify`'s Scope
 
