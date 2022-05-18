@@ -91,7 +91,7 @@ network models), avoid estimating the quantity altogether (opting instead to
 estimate a density ratio), or fail to achieve convergence rates necessary for
 semiparametric estimation and inference.
 
-@vdl2010targeted and @diaz2011super provided solutions to a subset of these
+Both @vdl2010targeted and @diaz2011super provided solutions to a subset of these
 issues by proposing a conditional density estimation algorithm that proceeds in
 three simple steps. First, the support of the variable of interest (e.g., the
 treatment) is partitioned into a user-specified number of bins, casting the
@@ -108,7 +108,7 @@ the respective bin widths. This approach is made particularly flexible by the
 fact that it may be readily applied to arbitrary data structures and
 straightforwardly incorporates machine learning at the hazard estimation step.
 @diaz2011super advocated for the use of the Super Learner algorithm
-[@vdl2007super], a theoretically principled version of ensemble machine learning
+[@vdl2007super], a theoretically principled variant of ensemble machine learning
 or model stacking [@wolpert1992stacked; @breiman1996stacked].
 
 Although Super Learning is both highly flexible and compatible with the
@@ -118,23 +118,76 @@ estimators with desirable rate-convergence properties. The highly adaptive lasso
 functions that are càdlàg (right-hand continuous with left-hand limits) and have
 bounded sectional variation norm [@vdl2017generally; @vdl2017uniform].
 Importantly, the HAL estimation procedure has been proven to reliably estimate
-target functionals at a suitable rate ($\approx n^{-1/3}$, per @bibaut2019fast)
-for standard semiparametric theory to be applied to resultant estimators.
+target functionals at a suitable rate (per @bibaut2019fast, $\approx~n^{-1/3}$)
+for standard semiparametric theory to be applied to the resultant estimators.
 A loss-based HAL estimator may be constructed by using $\ell_1$-penalized (i.e.,
 lasso) regression [@tibshirani1996regression] to select indicator basis
 functions that minimize the empirical risk with respect to an appropriately
 chosen loss function. Selection of the $\ell_1$ penalization term be based on
-a cross-validation selector [@vdl2003unified; @vdv2006oracle] or alternative
-selection criteria compatible with sieve estimation (via undersmoothing). This
-latter class of selection criteria are appropriate when HAL is used only to
-estimate nuisance function of a (usually low-dimensional) target parameter. In
-such cases, undersmoothing has been shown to allow for the formulation of
+cross-validation principles [@vdl2004asymptotic; @dudoit2005asymptotics] or
+alternative selection criteria compatible with sieve estimation techniques
+(e.g., undersmoothing). This latter class of selection criteria are appropriate when
+HAL is leveraged to estimate the nuisance functions of a (usually low-dimensional)
+target parameter, common in the semiparametric estimation of quantities that
+arise in causal inference [@bang2005doubly; @vdl2011targeted]. In such cases,
+undersmoothing methods have been developed to allow for the formulation of
 regular, asymptotically linear and efficient IPW estimators of causal effects
-[@ertefaie2020nonparametric; @hejazi2022efficient].
+[e.g., @ertefaie2020nonparametric; @hejazi2022efficient].
 
 # Nonparametric IPW Estimation with the Generalized Propensity Score
 
-TODO
+A popular framework for defining and evaluating the causal effects of continuous
+treatments is that of modified treatment policies [@haneuse2013estimation;
+@diaz2018stochastic; @hejazi2022efficient], which define interventions that
+shift (or modify) the natural value of the treatment. For example, in a setting
+with a continuous treatment $A$, in which we additionally collect baseline
+covariates $W$ and measure an outcome $Y$, we could consider a hypothetical
+intervention setting the value of $A$ via $d(A,W; \delta) = A + \delta(W)$, for
+a user-defined function $d(A,W;\delta)$ indexed by a scalar $\delta(W)$. This
+intervention regime is a simple example of a modified treatment policy (MTP); it
+can be thought of mapping the observed $A$ to a counterfactual $A_{\delta}$ that
+is itself an additive shift of the natural value of $A$. The counterfactual mean
+of such an intervention may be expressed $\mathbb{E}[Y(A_{\delta})]$, where
+$Y(A_{\delta})$ is the potential outcome that would be observed had the
+treatment taken the value $A_{\delta}$. Both @haneuse2013estimation and
+@diaz2018stochastic proposed substitution, inverse probability weighted (IPW),
+and doubly robust estimators of a statistical functional $\psi$ that identifies
+this counterfactual mean under standard assumptions. Doubly robust estimators of
+$\psi$ are implemented in the `txshift` `R` package [@hejazi2020txshift-joss;
+@hejazi2022txshift-rpkg]; such estimation frameworks are usually necessary in
+order to take advantage of flexible estimators of nuisance parameters.
+
+Despite the popularity of doubly robust estimation procedures, IPW estimators
+can be modified to accommodate data adaptive estimation of the (generalized)
+propensity score. Such nonparametric IPW estimators, based on HAL, have been
+studied by @ertefaie2020nonparametric in the context of binary treatments and by
+@hejazi2022efficient for continuous treatments. The IPW estimator of $\psi$ is
+$\psi_{n,\text{IPW}} = \{\tilde{g}_{n,A}(A \mid W) / g_{n,A}(A \mid W)\} Y$,
+where $g_{n,A}$ is an estimator of the generalized propensity score (e.g., as
+produced by `haldensify()`) and $\tilde{g}_{n,A}$ is this same quantity
+evaluated at the post-intervention value of the treatment $A_{\delta}$. Usually,
+$g_{n,A}$ must be estimated via parametric modeling strategies in order for
+$\psi_{n,\text{IPW}}$ to exhibit desirable asymptotic properties (unbiasedness,
+efficiency); in such cases, the IPW estimator is only unbiased if the parametric
+conditional density estimator is _correctly specified_. Flexible, data adaptive
+strategies may be used to estimate $g_{n,A}$; however, IPW estimators are not
+compatible with such estimators "out of the box." Instead, sieve estimation
+strategies (undersmoothing) must be used to select an estimator $g_{n,A}$, from
+among an appropriate class, that allows for optimal estimation of $\psi$. This
+issue arises in part because strategies for optimal selection of $g_{n,A}$
+(e.g., cross-validation) optimize for estimation of the conditional density,
+ignoring the fact that it is only a nuisance parameter in the process of IPW
+estimation. When `haldensify()` is used for this purpose, a family of
+conditional density estimators $g_{n,A,\lambda}$, indexed by the $\ell_1$
+regularization term $\lambda$, are generated, with cross-validation usually used
+to select an optimal conditional density estimator along the trajectory in
+$\lambda$. The estimator $g_{n,A,\lambda_n}$ selected in this way will fail to
+yield an IPW estimator with desirable asymptotic properties; undersmoothing must
+be used to select a more appropriate estimator. The `haldensify` package
+implements nonparametric IPW estimators that incorporate several undersmoothing
+selectors in the `ipw_shift()` function. For a formal description of the
+selectors and numerical experiments examining their performance, see
+@hejazi2022efficient.
 
 # `haldensify`'s Scope
 
@@ -151,22 +204,24 @@ regularization) so as to empirically minimize the negative log-density loss
 regression to the repeated measures data structure in a manner tailored for
 estimation on the hazard scale.
 
-The `haldensify` package exposes only a limited set of functions in order to
-ensure a simple API: (1) the `haldensify()` function, which facilitates the
-estimation of conditional (or marginal) densities as described above, and (2)
-the `ipw_shift()` function, which implements nonparametric IPW estimators of the
-causal effect of an additive modified treatment policy. As IPW estimation
-requires estimation of the generalized propensity score as an intermediate step,
-this latter function internally calls the former; moreover, the `ipw_shift()`
-function and the various selectors to which it provides access (e.g.,
-`selector_gcv()` for estimator selection based on "global" cross-validation)
-have been studied from a methodological perspective in @hejazi2022efficient. The
-`haldensify()` function is complemented by an appropriate `predict()` method, to
-allow for the estimated conditional density to be evaluated at new values of the
-variable of interest and its conditioning set, while the `ipw_shift()` function
-is accompanied by a corresponding `confint()` method to generate confidence
-intervals for the IPW estimates; the custom S3 classes returned by each function
-have custom `print()` methods to allow for the results to be easily evaluated.
+In order to ensure a simplified and minimal API, the `haldensify` package
+exposes only a limited set of functions: (1) the `haldensify()` function, which
+facilitates the estimation of conditional (or marginal) densities as described
+above, and (2) the `ipw_shift()` function, which implements nonparametric IPW
+estimators of the causal effect of an additive modified treatment policy. As IPW
+estimation requires estimation of the generalized propensity score as an
+intermediate step, this latter function internally calls the former; moreover,
+the `ipw_shift()` function and the various selectors to which it provides access
+(e.g., `selector_gcv()` for estimator selection based on "global"
+cross-validation) have been studied from a methodological perspective in
+@hejazi2022efficient. The `haldensify()` function is complemented by appropriate
+`predict()` and `plot()` methods, the former to allow for the estimated
+conditional density to be evaluated at new values of the variable of interest
+and its conditioning set and the latter to visualize the resultant estimators
+along the regularization trajectory. The `ipw_shift()` function is accompanied
+by a corresponding `confint()` method to generate confidence intervals for the
+IPW estimates. The custom S3 classes returned by each of these functions have
+custom `print()` methods to allow for the results to be easily evaluated.
 Several internal utility functions, including, for example, `cv_haldensify()`,
 `map_hazard_to_density()`, and `selector_dcar()` implement core aspects of the
 conditional density estimation and nonparametric IPW estimation methodology.
