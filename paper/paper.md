@@ -12,12 +12,12 @@ authors:
   - name: Nima S. Hejazi
     orcid: 0000-0002-7127-2789
     affiliation: 1
-  - name: David Benkeser
-    orcid: 0000-0002-1019-8343
-    affiliation: 4
   - name: Mark J. van der Laan
     orcid: 0000-0002-1019-8343
     affiliation: 2, 3
+  - name: David Benkeser
+    orcid: 0000-0002-1019-8343
+    affiliation: 4
 affiliations:
   - name: Division of Biostatistics, Department of Population Health Sciences, Weill Cornell Medicine
     index: 1
