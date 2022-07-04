@@ -19,7 +19,7 @@ authors:
     orcid: 0000-0002-1019-8343
     affiliation: 4
 affiliations:
-  - name: Division of Biostatistics, Department of Population Health Sciences, Weill Cornell Medicine
+  - name: Department of Biostatistics, T.H. Chan School of Public Health, Harvard University
     index: 1
   - name: Division of Biostatistics, School of Public Health, University of California, Berkeley
     index: 2
