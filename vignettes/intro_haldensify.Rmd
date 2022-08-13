@@ -55,7 +55,7 @@ conditional density estimator, built around the HAL regression function, may be
 quite useful in flexibly constructing such estimates. We note that proposals for
 the data adaptive estimation of such quantities are sparse in the literature
 (e.g., @zhu2015boosting). Notably, @diaz2011super gave a proposal for
-constructing semiparametric estimators of such a target quantity based on
+constructing a semiparametric estimator of such a target quantity based on
 exploiting the relationship between the hazard and density functions. Our
 proposal builds upon theirs in several key ways:
 
