@@ -55,7 +55,7 @@ conditional density estimator, built around the HAL regression function, may be
 quite useful in flexibly constructing such estimates. We note that proposals for
 the data adaptive estimation of such quantities are sparse in the literature
 (e.g., @zhu2015boosting). Notably, @diaz2011super gave a proposal for
-constructing semiparametric estimators of such a target quantity based on
+constructing a semiparametric estimator of such a target quantity based on
 exploiting the relationship between the hazard and density functions. Our
 proposal builds upon theirs in several key ways:
 
@@ -224,6 +224,23 @@ p_dens <- ggplot(dens_dat, aes(x = a, y = value, colour = variable)) +
 p_dens
 ```
 
+In the above example, we generate synthetic data along a grid of $A$ and three
+values of $W$ ($W \in \{-2, 0, +2\}$), representing distinct groups/strata with
+respect to the covariate $W$. Using this data, we use the trained `haldensify`
+model to predict the density of $A$, conditional on the paired value of $W$,
+yielding estimates of the conditional density for each of these three
+hypothetical strata of $W$. The resultant figure depicts the estimated
+conditional density as colored points (blue for $W = -2$, green for $W = 0$, and
+red for $W = +2$), and the theoretical density for each group as smooth curves
+(using `ggplot2`'s `stat_function()`). For each group, the differences between
+the estimated conditional densities and the theoretical densities can be taken
+as indicative of the quality of the `haldensify` estimator in this example.
+Overall, the `haldensify` estimator appears to recover the underlying density of
+$A$ best for the group $W = 0$, with slightly degraded performance for $W = -2$,
+which degrades further for $W = +2$. The `haldensify` conditional density
+estimator has been used to estimate the generalized propensity score in
+applications of the methodology described in @hejazi2020efficient.
+
 # Nonparametric inverse probability weighted estimation
 
 As mentioned above, the generalized propensity score is a critical ingredient
@@ -328,7 +345,7 @@ confint(est_ipw)
 The `confint()` method used above simply creates confidence intervals (95%, by
 default) for each of the IPW estimates returned. Examining the output, we can
 see that the IPW estimator based on cross-validation (`"gcv"`) differs from that
-based on minimization of an important critertion from semiparametric efficiency
+based on minimization of an important criterion from semiparametric efficiency
 theory (`"dcar_min"`). These estimators have different asymptotic properties,
 with the latter guaranteed to solve an estimating function required for the
 characterization of asymptotically efficient estimators.

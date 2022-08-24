@@ -296,7 +296,9 @@ print.haldensify <- function(x, ...) {
   message(
     "Summary of fitted HAL:"
   )
-  print(utils::head(summary(x$hal_fit)$table, 10))
+  suppressWarnings(
+    print(utils::head(summary(x$hal_fit)$table, 10))
+  )
 }
 
 ###############################################################################
