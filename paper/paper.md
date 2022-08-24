@@ -27,7 +27,7 @@ affiliations:
     index: 3
   - name: Department of Biostatistics and Bioinformatics, Rollins School of Public Health, Emory University
     index: 4
-date: 18 May 2022
+date: 24 August 2022
 bibliography: ../inst/REFERENCES.bib
 ---
 
