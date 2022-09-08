@@ -56,77 +56,76 @@ estimators of causal effects [@diaz2012population; @haneuse2013estimation;
 
 Conditional density estimation is an important fundamental problem in the
 computational sciences and statistics, having garnered (independent) attention
-in machine learning [@takeuchi2009nonparametric; @sugiyama2010conditional;
-@sugiyama2012density], semiparametric estimation [@qin1998inferences;
-@cheng2004semiparametric], and causal inference [@hirano2004propensity;
-@vdl2010targeted; @diaz2011super; @zhu2015boosting]. Techniques for the
-nonparametric estimation of this quantity, complete with asymptotic optimality
-guarantees, have received comparatively limited attention. Similarly, despite
-the critical role of the generalized propensity score in the estimation of the
-causal effects of continuous treatments, this nuisance parameter is usually
-estimated with restrictive parametric modeling strategies, ultimately sharply
-limiting the quality of downstream point estimates and corresponding statistical
-inference (e.g., hypothesis tests, confidence intervals). Approaches for
-flexibly estimating the generalized propensity score have received limited
-attention [@diaz2011super; @zhu2015boosting], and software implementations of
-these techniques are, to the best of our knowledge, exceedingly rare, compared
-to, for example, regression algorithms for estimating conditional means.
-`haldensify` aims to partially fill this gap by implementing a flexible,
-nonparametric estimator of a conditional (or marginal) density, appropriate for
-estimation of the generalized propensity score and useful for the construction
-of inverse probability weighted or doubly robust estimators of a class of causal
-effect parameters tailored to continuous treatments.
+in machine learning [@takeuchi2009nonparametric; @sugiyama2012density],
+semiparametric estimation [@qin1998inferences; @cheng2004semiparametric], and
+causal inference [@hirano2004propensity; @diaz2011super; @zhu2015boosting].
+Techniques for the nonparametric estimation of this quantity, complete with
+asymptotic optimality guarantees, have received comparatively limited attention.
+Similarly, despite the critical role of the generalized propensity score in the
+estimation of the causal effects of continuous treatments, this nuisance
+parameter is usually estimated with restrictive parametric modeling strategies,
+ultimately sharply limiting the quality of downstream point estimates and
+corresponding statistical inference (e.g., hypothesis tests, confidence
+intervals). Approaches for flexibly estimating the generalized propensity score
+have received limited attention [@diaz2011super; @zhu2015boosting], and software
+implementations of these techniques are, to the best of our knowledge,
+exceedingly rare, compared to, for example, regression algorithms for estimating
+conditional means. `haldensify` aims to partially fill this gap by implementing
+a flexible, nonparametric estimator of a conditional (or marginal) density,
+appropriate for estimation of the generalized propensity score and useful for
+the construction of inverse probability weighted or doubly robust estimators of
+a class of causal effect parameters tailored to continuous treatments.
 
-# Conditional Density Estimation and the Generalized Propensity Score
+# Conditional Density Estimation and Modern Causal Inference
 
 Conditional density estimation is a challenging and fundamental problem in
 statistical learning theory. Owing to the high frequency with which conditional
 density estimation arises in statistics and machine learning, a wide range of
 techniques have been proposed -- under a correspondingly wide range of
 assumptions. Some techniques are based in kernel smoothing [e.g.,
-@bashtannyk2001bandwidth; @takeuchi2009nonparametric], others in specialized
-neural network architectures [e.g., @neuneier1994estimation], and others still
-in the direct estimation of ratios of conditional densities [e.g.,
-@sugiyama2010conditional; @sugiyama2012density]. Most approaches make
-restrictive (parametric) assumptions about the form of the underlying density
-functional or fail to achieve convergence rates (of the estimator to the true,
-underlying conditional density) necessary for semiparametric inference. As such,
-analysts must often negotiate a difficult tradeoff between tractability, ease of
-implementation, and optimality properties of the chosen estimator. To partially
-resolve this open challenge, `haldensify` implements a nonparametric conditional
-density estimation procedure, making few assumptions regarding the underlying
-form of the density functional, with convergence-rate guarantees suitable for
-use in modern semiparametric inference and causal machine learning applications.
+@takeuchi2009nonparametric], others in specialized neural network architectures
+[e.g., @neuneier1994estimation], and others still in the direct estimation of
+ratios of conditional densities [e.g., @sugiyama2012density]. Most approaches
+make restrictive (parametric) assumptions about the form of the underlying
+density functional or fail to achieve convergence rates (of the estimator to the
+true, underlying conditional density) necessary for semiparametric inference. As
+such, analysts must often negotiate a difficult tradeoff between tractability,
+ease of implementation, and optimality properties of the chosen estimator. To
+partially resolve this open challenge, `haldensify` implements a nonparametric
+conditional density estimation procedure, making few assumptions regarding the
+underlying form of the density functional, with convergence-rate guarantees
+suitable for use in modern semiparametric inference and causal machine learning
+applications.
 
 The algorithm implemented in `haldensify` is an improved and tailored version of
-the proposal of @vdl2010targeted and @diaz2011super, who formulated
-a nonparametric conditional density estimator based on the relationship between
-the density and hazard functions. This algorithm proceeds by, first,
-partitioning the support of the dependent variable into a user-specified number
-of bins and recasting the input dataset into a repeated measures structure, in
-which each observational unit is represented by a variable number of records
-(with the last record corresponding to the position of the bin over the
-discretized support into which the observed value of the dependent variable
-falls). Next, the hazard probability, conditional on any covariates, of the
-dependent variable falling in a given bin along the discretized support is
-estimated by applying the highly adaptive lasso (HAL) algorithm
-[@vdl2015generally; @benkeser2016highly; @vdl2017generally] (in this case, for
-binary regression), via the `hal9001` package [@hejazi2020hal9001-joss;
-@coyle2022hal9001-rpkg]; this step is often labeled "pooled hazards" regression.
-Under plausible assumptions on the global variation of the target functional,
-HAL has been shown to converge at a suitable rate ($\approx n^{-1/3}$ per
-@bibaut2019fast) for standard semiparametric efficiency theory to apply to any
-estimators incorporating this conditional density estimator; however, in this
-application, the $\ell_1$ (i.e., lasso) penalty of the HAL estimator is updated
-to utilize a loss function suitable for density estimation [@vdl2004asymptotic;
-@dudoit2005asymptotics]. In a final step, the conditional hazard estimates are
-rescaled to conditional density estimates by dividing the estimated hazard
-probabilities by the respective widths of the bins along the support.
+the proposal of @diaz2011super, who formulated a nonparametric conditional
+density estimator based on the relationship between the density and hazard
+functions. This algorithm proceeds by, first, partitioning the support of the
+dependent variable into a user-specified number of bins and recasting the input
+dataset into a repeated measures structure, in which each observational unit is
+represented by a variable number of records (with the last record corresponding
+to the position of the bin over the discretized support into which the observed
+value of the dependent variable falls). Next, the hazard probability,
+conditional on any covariates, of the dependent variable falling in a given bin
+along the discretized support is estimated by applying the highly adaptive lasso
+(HAL) algorithm [@vdl2015generally; @benkeser2016highly; @vdl2017generally] (in
+this case, for binary regression), via the `hal9001` package
+[@hejazi2020hal9001-joss; @coyle2022hal9001-rpkg]; this step is often labeled
+"pooled hazards" regression. Under plausible assumptions on the global variation
+of the target functional, HAL has been shown to converge at a suitable rate
+($\approx n^{-1/3}$ per @bibaut2019fast) for standard semiparametric efficiency
+theory to apply to any estimators incorporating this conditional density
+estimator; however, in this application, the $\ell_1$ (i.e., lasso) penalty of
+the HAL estimator is updated to utilize a loss function suitable for density
+estimation [@vdl2004asymptotic; @dudoit2005asymptotics]. In a final step, the
+conditional hazard estimates are rescaled to conditional density estimates by
+dividing the estimated hazard probabilities by the respective widths of the bins
+along the support.
 
 The advantages derived from the flexibility and rate-convergence properties of
 this algorithm are especially apparent in causal inference problems with
 continuous-valued treatments. In such problems, a key nuisance parameter is the
-_generalized propensity score_ (GPS), the conditional density of the treatment,
+generalized propensity score (GPS), the conditional density of the treatment,
 given covariates. This nuisance parameter is required to be well-estimated (in
 a rate-convergence sense) for the construction of asymptotically efficient
 estimators (e.g., of treatment effects), which attain the minimal possible
@@ -141,8 +140,8 @@ Doubly robust estimators of this causal effect are implemented in the `txshift`
 `R` package [@hejazi2020txshift-joss; @hejazi2022txshift-rpkg], which relies
 upon `haldensify` for estimation of the GPS and has been used in estimating
 counterfactual vaccine efficacy based on MTPs interpretable as corresponding to
-hypothetical (next-generation) vaccines that increase or decrease the activity
-of target immunologic biomarkers in vaccine efficacy clinical trials
+hypothetical (next-generation) vaccines that modulate the activity of target
+immunologic biomarkers in vaccine efficacy clinical trials
 [@hejazi2020efficient]. Alternative, asymptotically efficient and nonparametric
 inverse probability weighted (IPW) estimators [@ertefaie2020nonparametric] of
 such a counterfactual mean parameter are implemented in `haldensify`'s
