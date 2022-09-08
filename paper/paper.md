@@ -93,9 +93,8 @@ such, analysts must often negotiate a difficult tradeoff between tractability,
 ease of implementation, and optimality properties of the chosen estimator. To
 partially resolve this open challenge, `haldensify` implements a nonparametric
 conditional density estimation procedure, making few assumptions regarding the
-underlying form of the density functional, with convergence-rate guarantees
-suitable for use in modern semiparametric inference and causal machine learning
-applications.
+underlying form of the density functional, with rate-convergence guarantees
+compatible with modern semiparametric inference and causal machine learning.
 
 The algorithm implemented in `haldensify` is an improved and tailored version of
 the proposal of @diaz2011super, who formulated a nonparametric conditional
@@ -103,54 +102,54 @@ density estimator based on the relationship between the density and hazard
 functions. This algorithm proceeds by, first, partitioning the support of the
 dependent variable into a user-specified number of bins and recasting the input
 dataset into a repeated measures structure, in which each observational unit is
-represented by a variable number of records (with the last record corresponding
-to the position of the bin over the discretized support into which the observed
-value of the dependent variable falls). Next, the hazard probability,
-conditional on any covariates, of the dependent variable falling in a given bin
-along the discretized support is estimated by applying the highly adaptive lasso
-(HAL) algorithm [@vdl2015generally; @benkeser2016highly; @vdl2017generally] (in
-this case, for binary regression), via the `hal9001` package
-[@hejazi2020hal9001-joss; @coyle2022hal9001-rpkg]; this step is often labeled
-"pooled hazards" regression. Under plausible assumptions on the global variation
-of the target functional, HAL has been shown to converge at a suitable rate
-($\approx n^{-1/3}$ per @bibaut2019fast) for standard semiparametric efficiency
-theory to apply to any estimators incorporating this conditional density
-estimator; however, in this application, the $\ell_1$ (i.e., lasso) penalty of
-the HAL estimator is updated to utilize a loss function suitable for density
-estimation [@vdl2004asymptotic; @dudoit2005asymptotics]. In a final step, the
-conditional hazard estimates are rescaled to conditional density estimates by
-dividing the estimated hazard probabilities by the respective widths of the bins
-along the support.
+represented by a variable number of records (with the terminal record
+corresponding to the position of the bin over the discretized support into which
+the observed value of the dependent variable falls). Next, the hazard
+probability, conditional on any covariates, of the dependent variable falling in
+a given bin along the discretized support is estimated by applying the highly
+adaptive lasso (HAL) algorithm [@vdl2015generally; @benkeser2016highly;
+@vdl2017generally] (in this case, for binary regression), via the `hal9001`
+package [@hejazi2020hal9001-joss; @coyle2022hal9001-rpkg]; this step is often
+labeled "pooled hazards" regression. Under plausible assumptions on the global
+variation of the target functional, HAL has been shown to converge at a suitable
+rate ($\approx n^{-1/3}$ per @bibaut2019fast) for standard semiparametric
+efficiency theory to apply to any estimators incorporating this conditional
+density estimator; however, in this application, the $\ell_1$ (i.e., lasso)
+penalty of the HAL estimator is updated to utilize a loss function suitable for
+density estimation [@vdl2004asymptotic; @dudoit2005asymptotics]. In a final
+step, the conditional hazard estimates are rescaled to conditional density
+estimates by dividing the estimated hazard probabilities by the respective bin
+widths.
 
 The advantages derived from the flexibility and rate-convergence properties of
 this algorithm are especially apparent in causal inference problems with
-continuous-valued treatments. In such problems, a key nuisance parameter is the
+continuous treatments. In such problems, a key nuisance parameter is the
 generalized propensity score (GPS), the conditional density of the treatment,
 given covariates. This nuisance parameter is required to be well-estimated (in
 a rate-convergence sense) for the construction of asymptotically efficient
 estimators (e.g., of treatment effects), which attain the minimal possible
 variance in a given regularity class. Such estimators are desirable since,
-theoretically speaking, they are admit the tightest confidence intervals and
-most sensitive hypothesis tests, making inference based upon these more
-informative for downstream decision making. For example, the GPS is a nuisance
-parameter required for the estimation of the counterfactual mean of a modified
-treatment policy (MTP) [@haneuse2013estimation; @diaz2018stochastic], a type of
+theoretically speaking, they admit the tightest confidence intervals and most
+sensitive hypothesis tests, making inference based upon these more informative
+for downstream decision making. For example, the GPS is a nuisance parameter
+required for estimation of the counterfactual mean of a modified treatment
+policy (MTP) [@haneuse2013estimation; @diaz2018stochastic], a type of
 intervention that perturbs the natural (or observed) value of the treatment.
-Doubly robust estimators of this causal effect are implemented in the `txshift`
-`R` package [@hejazi2020txshift-joss; @hejazi2022txshift-rpkg], which relies
-upon `haldensify` for estimation of the GPS and has been used in estimating
-counterfactual vaccine efficacy based on MTPs interpretable as corresponding to
-hypothetical (next-generation) vaccines that modulate the activity of target
-immunologic biomarkers in vaccine efficacy clinical trials
+Doubly robust estimators of this counterfactual quantity are implemented in the
+`txshift` `R` package [@hejazi2020txshift-joss; @hejazi2022txshift-rpkg], which
+relies upon `haldensify` for estimation of the GPS and has been used in
+estimating counterfactual vaccine efficacy based on MTPs interpretable as
+corresponding to hypothetical (next-generation) vaccines that modulate the
+activity of target immunologic biomarkers in vaccine efficacy clinical trials
 [@hejazi2020efficient]. Alternative, asymptotically efficient and nonparametric
 inverse probability weighted (IPW) estimators [@ertefaie2020nonparametric] of
-such a counterfactual mean parameter are implemented in `haldensify`'s
+such counterfactual mean parameters are implemented in `haldensify`'s
 `ipw_shift()` function, which constructs these IPW estimators by combining
 `haldensify`'s GPS estimator (implemented in the eponymous `haldensify()`
 function) with the sieve estimation framework to select an asymptotically
-optimal IPW estimator with respect to a criterion rooted in semiparametric
-efficiency theory; a formal description of these novel IPW estimators is given
-in @hejazi2022efficient.
+optimal IPW estimator with respect to criteria rooted in semiparametric
+efficiency theory; @hejazi2022efficient give a formal description of these novel
+IPW estimators.
 
 # `haldensify`'s Scope
 
