@@ -63,30 +63,36 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fit_haldensify</span><span class="op">(</span>
-  <span class="va">A</span>,
-  <span class="va">W</span>,
-  wts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>,
-  grid_type <span class="op">=</span> <span class="st">"equal_range"</span>,
-  n_bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
-  cv_folds <span class="op">=</span> <span class="fl">5L</span>,
-  lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">13</span>, length <span class="op">=</span> <span class="fl">1000L</span><span class="op">)</span><span class="op">)</span>,
-  smoothness_orders <span class="op">=</span> <span class="fl">0L</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fit_haldensify</span><span class="op">(</span></span>
+<span>  <span class="va">A</span>,</span>
+<span>  <span class="va">W</span>,</span>
+<span>  wts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  grid_type <span class="op">=</span> <span class="st">"equal_range"</span>,</span>
+<span>  n_bins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  cv_folds <span class="op">=</span> <span class="fl">5L</span>,</span>
+<span>  lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">13</span>, length <span class="op">=</span> <span class="fl">1000L</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  smoothness_orders <span class="op">=</span> <span class="fl">0L</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>A</dt>
 <dd><p>The <code>numeric</code> vector of observed values.</p></dd>
+
+
 <dt>W</dt>
 <dd><p>A <code>data.frame</code>, <code>matrix</code>, or similar giving the values of
 baseline covariates (potential confounders) for the observed units. These
 make up the conditioning set for the conditional density estimate.</p></dd>
+
+
 <dt>wts</dt>
 <dd><p>A <code>numeric</code> vector of observation-level weights. The default
 is to weight all observations equally.</p></dd>
+
+
 <dt>grid_type</dt>
 <dd><p>A <code>character</code> indicating the strategy to be used in
 creating bins along the observed support of <code>A</code>. For bins of equal
@@ -94,32 +100,45 @@ range, use <code>"equal_range"</code>; consult the documentation of
 <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" class="external-link">cut_interval</a></code> for more information. To ensure each
 bin has the same number of observations, use <code>"equal_mass"</code>; consult
 the documentation of <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" class="external-link">cut_number</a></code> for details.</p></dd>
+
+
 <dt>n_bins</dt>
 <dd><p>This <code>numeric</code> value indicates the number(s) of bins into
 which the support of <code>A</code> is to be divided. As with <code>grid_type</code>,
 multiple values may be specified, in which case cross-validation will be
 used to choose the optimal number of bins. The default sets the candidate
 choices of the number of bins based on heuristics tested in simulation.</p></dd>
+
+
 <dt>cv_folds</dt>
 <dd><p>A <code>numeric</code> indicating the number of cross-validation
 folds to be used in fitting the sequence of HAL conditional density models.</p></dd>
+
+
 <dt>lambda_seq</dt>
 <dd><p>A <code>numeric</code> sequence of values of the regularization
 parameter of Lasso regression; passed to <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html" class="external-link">fit_hal</a></code>.</p></dd>
+
+
 <dt>smoothness_orders</dt>
 <dd><p>A <code>integer</code> indicating the smoothness of the
 HAL basis functions; passed to <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html" class="external-link">fit_hal</a></code>. The default
 is set to zero, for indicator basis functions.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional (optional) arguments of <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html" class="external-link">fit_hal</a></code>
 that may be used to control fitting of the HAL regression model. Possible
 choices include <code>use_min</code>, <code>reduce_basis</code>, <code>return_lasso</code>,
 and <code>return_x_basis</code>, but this list is not exhaustive. Consult the
 documentation of <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html" class="external-link">fit_hal</a></code> for complete details.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>list</code>, containing density predictions for the sequence of
+    
+
+<p>A <code>list</code>, containing density predictions for the sequence of
  fitted HAL models; the index and value of the L1 regularization parameter
  minimizing the density loss; and the sequence of empirical risks for the
  sequence of fitted HAL models.</p>
@@ -133,16 +152,16 @@ documentation of <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html" cl
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span></span>
-<span class="r-in"><span class="va">n_train</span> <span class="op">&lt;-</span> <span class="fl">50</span></span>
-<span class="r-in"><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_train</span>, <span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n_train</span>, <span class="va">w</span>, <span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># fit cross-validated HAL-based density estimator of A|W</span></span>
-<span class="r-in"><span class="va">haldensify_cvfit</span> <span class="op">&lt;-</span> <span class="fu">fit_haldensify</span><span class="op">(</span></span>
-<span class="r-in">  A <span class="op">=</span> <span class="va">a</span>, W <span class="op">=</span> <span class="va">w</span>, n_bins <span class="op">=</span> <span class="fl">10L</span>, lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="co"># the following arguments are passed to hal9001::fit_hal()</span></span>
-<span class="r-in">  max_degree <span class="op">=</span> <span class="fl">3</span>, reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)</span></span></span>
+<span class="r-in"><span><span class="va">n_train</span> <span class="op">&lt;-</span> <span class="fl">50</span></span></span>
+<span class="r-in"><span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_train</span>, <span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n_train</span>, <span class="va">w</span>, <span class="fl">0.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># fit cross-validated HAL-based density estimator of A|W</span></span></span>
+<span class="r-in"><span><span class="va">haldensify_cvfit</span> <span class="op">&lt;-</span> <span class="fu">fit_haldensify</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  A <span class="op">=</span> <span class="va">a</span>, W <span class="op">=</span> <span class="va">w</span>, n_bins <span class="op">=</span> <span class="fl">10L</span>, lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="co"># the following arguments are passed to hal9001::fit_hal()</span></span></span>
+<span class="r-in"><span>  max_degree <span class="op">=</span> <span class="fl">3</span>, reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -157,7 +176,7 @@ documentation of <code><a href="https://rdrr.io/pkg/hal9001/man/fit_hal.html" cl
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

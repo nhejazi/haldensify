@@ -63,13 +63,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">est_dcar</span><span class="op">(</span>
-  <span class="va">psi_ipw</span>,
-  <span class="va">gn_pred_natural</span>,
-  <span class="va">gn_pred_shifted</span>,
-  <span class="va">Qn_pred_natural</span>,
-  <span class="va">Qn_pred_shifted</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">est_dcar</span><span class="op">(</span></span>
+<span>  <span class="va">psi_ipw</span>,</span>
+<span>  <span class="va">gn_pred_natural</span>,</span>
+<span>  <span class="va">gn_pred_shifted</span>,</span>
+<span>  <span class="va">Qn_pred_natural</span>,</span>
+<span>  <span class="va">Qn_pred_shifted</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,23 +78,32 @@
 <dd><p>A <code>numeric</code> vector of IPW point estimates corresponding
 to the conditional density estimates of the exposure mechanism provided in
 the arguments <code>gn_pred_natural</code> and <code>gn_pred_shifted</code>.</p></dd>
+
+
 <dt>gn_pred_natural</dt>
 <dd><p>A <code>matrix</code> of conditional density estimates of
 the exposure mechanism g(A|W) along a grid of the regularization parameter,
 at the natural (i.e., observed) values of the exposure.</p></dd>
+
+
 <dt>gn_pred_shifted</dt>
 <dd><p>A <code>matrix</code> of conditional density estimates of
 the exposure mechanism g(A+delta|W) along a grid of the regularization
 parameter, at the shifted (i.e., counterfactual) values of the exposure.</p></dd>
+
+
 <dt>Qn_pred_natural</dt>
 <dd><p>A <code>numeric</code> of the outcome mechanism estimate at
 the natural (i.e., observed) values of the exposure. HAL regression is used
 for the estimate, with the regularization term chosen by cross-validation.</p></dd>
+
+
 <dt>Qn_pred_shifted</dt>
 <dd><p>A <code>numeric</code> of the outcome mechanism estimate at
 the shifted (i.e., counterfactual) values of the exposure. HAL regression
 is used for the estimate, with the regularization term chosen by
 cross-validation.</p></dd>
+
 </dl></div>
 
   </div>
@@ -109,7 +118,7 @@ cross-validation.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -68,8 +68,8 @@ Shift Interventions</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for ipw_haldensify</span>
-<span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">object</span>, parm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">object</span><span class="op">$</span><span class="va">psi</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for ipw_haldensify</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">object</span>, parm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">object</span><span class="op">$</span><span class="va">psi</span><span class="op">)</span>, level <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,18 +78,27 @@ Shift Interventions</p>
 <dd><p>An object of class <code>ipw_haldensify</code>, produced by invoking
 the function <code><a href="ipw_shift.html">ipw_shift</a></code>, for which a confidence interval is to
 be computed.</p></dd>
+
+
 <dt>parm</dt>
 <dd><p>A <code>numeric</code> vector indicating indices of <code>object$est</code>
 for which to return confidence intervals.</p></dd>
+
+
 <dt>level</dt>
 <dd><p>A <code>numeric</code> indicating the nominal level of the confidence
 interval to be computed.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments. Not currently used.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A named <code>numeric</code> vector containing the parameter estimate from
+    
+
+<p>A named <code>numeric</code> vector containing the parameter estimate from
  a <code>ipw_haldensify</code> object, alongside lower/upper Wald-style confidence
  intervals at a specified coverage level.</p>
     </div>
@@ -101,33 +110,33 @@ interval to be computed.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># simulate data</span></span>
-<span class="r-in"><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="fl">50</span></span>
-<span class="r-in"><span class="va">W1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">1</span>, <span class="fl">0.6</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">W2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">1</span>, <span class="fl">0.2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">W3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">3</span> <span class="op">*</span> <span class="va">W1</span> <span class="op">-</span> <span class="va">W2</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">W1</span> <span class="op">*</span> <span class="va">W2</span> <span class="op">+</span> <span class="fl">4</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="va">A</span> <span class="op">+</span> <span class="va">W1</span> <span class="op">+</span> <span class="va">W2</span> <span class="op">-</span> <span class="va">W3</span> <span class="op">-</span> <span class="va">W1</span> <span class="op">*</span> <span class="va">W3</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># fit the IPW estimator</span></span>
-<span class="r-in"><span class="va">est_ipw</span> <span class="op">&lt;-</span> <span class="fu"><a href="ipw_shift.html">ipw_shift</a></span><span class="op">(</span></span>
-<span class="r-in">  W <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">W1</span>, <span class="va">W2</span>, <span class="va">W3</span><span class="op">)</span>, A <span class="op">=</span> <span class="va">A</span>, Y <span class="op">=</span> <span class="va">Y</span>,</span>
-<span class="r-in">  delta <span class="op">=</span> <span class="fl">0.5</span>, cv_folds <span class="op">=</span> <span class="fl">2L</span>,</span>
-<span class="r-in">  n_bins <span class="op">=</span> <span class="fl">5L</span>, bin_type <span class="op">=</span> <span class="st">"equal_range"</span>,</span>
-<span class="r-in">  lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">100L</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="co"># arguments passed to hal9001::fit_hal()</span></span>
-<span class="r-in">  max_degree <span class="op">=</span> <span class="fl">3</span>,</span>
-<span class="r-in">  smoothness_orders <span class="op">=</span> <span class="fl">0</span>,</span>
-<span class="r-in">  num_knots <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span class="r-in">  reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 2% of observations outside training support...predictions trimmed.</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">est_ipw</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># simulate data</span></span></span>
+<span class="r-in"><span><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="fl">50</span></span></span>
+<span class="r-in"><span><span class="va">W1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">1</span>, <span class="fl">0.6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">W2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">1</span>, <span class="fl">0.2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">W3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">3</span> <span class="op">*</span> <span class="va">W1</span> <span class="op">-</span> <span class="va">W2</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">W1</span> <span class="op">*</span> <span class="va">W2</span> <span class="op">+</span> <span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="va">A</span> <span class="op">+</span> <span class="va">W1</span> <span class="op">+</span> <span class="va">W2</span> <span class="op">-</span> <span class="va">W3</span> <span class="op">-</span> <span class="va">W1</span> <span class="op">*</span> <span class="va">W3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># fit the IPW estimator</span></span></span>
+<span class="r-in"><span><span class="va">est_ipw</span> <span class="op">&lt;-</span> <span class="fu"><a href="ipw_shift.html">ipw_shift</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  W <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">W1</span>, <span class="va">W2</span>, <span class="va">W3</span><span class="op">)</span>, A <span class="op">=</span> <span class="va">A</span>, Y <span class="op">=</span> <span class="va">Y</span>,</span></span>
+<span class="r-in"><span>  delta <span class="op">=</span> <span class="fl">0.5</span>, cv_folds <span class="op">=</span> <span class="fl">2L</span>,</span></span>
+<span class="r-in"><span>  n_bins <span class="op">=</span> <span class="fl">5L</span>, bin_type <span class="op">=</span> <span class="st">"equal_range"</span>,</span></span>
+<span class="r-in"><span>  lambda_seq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">10</span>, length <span class="op">=</span> <span class="fl">100L</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="co"># arguments passed to hal9001::fit_hal()</span></span></span>
+<span class="r-in"><span>  max_degree <span class="op">=</span> <span class="fl">3</span>,</span></span>
+<span class="r-in"><span>  smoothness_orders <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  num_knots <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
+<span class="r-in"><span>  reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 4% of observations outside training support...predictions trimmed.</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">est_ipw</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   lwr_ci   psi upr_ci se_est type     l1_norm lambda_idx gn_nbins</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  0.576 0.72   0.830 0.065<span style="text-decoration: underline;">7</span> dcar_tol    4.53         35        5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  0.578 0.719  0.828 0.064<span style="text-decoration: underline;">7</span> dcar_min   20.0          64        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  0.619 0.76   0.861 0.062<span style="text-decoration: underline;">1</span> dcar_tol    5.28         36        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  0.635 0.766  0.860 0.057<span style="text-decoration: underline;">7</span> dcar_min  117.          100        5</span>
 </code></pre></div>
     </div>
   </div>
@@ -142,7 +151,7 @@ interval to be computed.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

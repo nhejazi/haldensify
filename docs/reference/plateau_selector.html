@@ -63,20 +63,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plateau_selector</span><span class="op">(</span>
-  <span class="va">W</span>,
-  <span class="va">A</span>,
-  <span class="va">Y</span>,
-  delta <span class="op">=</span> <span class="fl">0</span>,
-  <span class="va">gn_pred_natural</span>,
-  <span class="va">gn_pred_shifted</span>,
-  <span class="va">gn_fit_haldensify</span>,
-  <span class="va">Qn_pred_natural</span>,
-  <span class="va">Qn_pred_shifted</span>,
-  cv_folds <span class="op">=</span> <span class="fl">10L</span>,
-  ci_level <span class="op">=</span> <span class="fl">0.95</span>,
-  l1norm_mult <span class="op">=</span> <span class="fl">10L</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plateau_selector</span><span class="op">(</span></span>
+<span>  <span class="va">W</span>,</span>
+<span>  <span class="va">A</span>,</span>
+<span>  <span class="va">Y</span>,</span>
+<span>  delta <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  <span class="va">gn_pred_natural</span>,</span>
+<span>  <span class="va">gn_pred_shifted</span>,</span>
+<span>  <span class="va">gn_fit_haldensify</span>,</span>
+<span>  <span class="va">Qn_pred_natural</span>,</span>
+<span>  <span class="va">Qn_pred_shifted</span>,</span>
+<span>  cv_folds <span class="op">=</span> <span class="fl">10L</span>,</span>
+<span>  ci_level <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  l1norm_mult <span class="op">=</span> <span class="fl">10L</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -84,50 +84,73 @@
     <dl><dt>W</dt>
 <dd><p>A <code>matrix</code>, <code>data.frame</code>, or similar containing a set of
 baseline covariates.</p></dd>
+
+
 <dt>A</dt>
 <dd><p>A <code>numeric</code> vector corresponding to a exposure variable. The
 parameter of interest is defined as a location shift of this quantity.</p></dd>
+
+
 <dt>Y</dt>
 <dd><p>A <code>numeric</code> vector of the observed outcomes.</p></dd>
+
+
 <dt>delta</dt>
 <dd><p>A <code>numeric</code> value indicating the shift in the exposure to
 be used in defining the target parameter. This is defined with respect to
 the scale of the exposure (A).</p></dd>
+
+
 <dt>gn_pred_natural</dt>
 <dd><p>A <code>matrix</code> of conditional density estimates of
 the exposure mechanism g(A|W) along a grid of the regularization parameter,
 at the natural (observed, actual) values of the exposure.</p></dd>
+
+
 <dt>gn_pred_shifted</dt>
 <dd><p>A <code>matrix</code> of conditional density estimates of
 the exposure mechanism g(A+delta|W) along a grid of the regularization
 parameter, at the shifted (counterfactual) values of the exposure.</p></dd>
+
+
 <dt>gn_fit_haldensify</dt>
 <dd><p>An object of class <code>haldensify</code> of the fitted
 conditional density model for the natural exposure mechanism. This should
 be the fit object returned by <code><a href="haldensify.html">haldensify</a>[haldensify]</code> as part
 of a call to <code><a href="ipw_shift.html">ipw_shift</a></code>.</p></dd>
+
+
 <dt>Qn_pred_natural</dt>
 <dd><p>A <code>numeric</code> of the outcome mechanism estimate at
 the natural (i.e., observed) values of the exposure. HAL regression is used
 for the estimate, with the regularization term chosen by cross-validation.</p></dd>
+
+
 <dt>Qn_pred_shifted</dt>
 <dd><p>A <code>numeric</code> of the outcome mechanism estimate at
 the shifted (i.e., counterfactual) values of the exposure. HAL regression
 is used for the estimate, with the regularization term chosen by
 cross-validation.</p></dd>
+
+
 <dt>cv_folds</dt>
 <dd><p>A <code>numeric</code> giving the number of folds to be used for
 cross-validation. Note that this form of sample splitting is used for the
 selection of tuning parameters by empirical risk minimization, not for the
 estimation of nuisance parameters (i.e., to relax regularity conditions).</p></dd>
+
+
 <dt>ci_level</dt>
 <dd><p>A <code>numeric</code> indicating the confidence level to be used
 in determining the cutoff used by the Lepski-type selector. This is only
 exposed for the sake of accommodating experimentation.</p></dd>
+
+
 <dt>l1norm_mult</dt>
 <dd><p>A <code>numeric</code> indicating the multipler to be used by
 the plateau-based selector in reducing the candidate set of L1 norms
 relative to the choice made by the cross-validation selector.</p></dd>
+
 </dl></div>
 
   </div>
@@ -142,7 +165,7 @@ relative to the choice made by the cross-validation selector.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

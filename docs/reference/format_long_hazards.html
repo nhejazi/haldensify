@@ -63,14 +63,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">format_long_hazards</span><span class="op">(</span>
-  <span class="va">A</span>,
-  <span class="va">W</span>,
-  wts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>,
-  grid_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"equal_range"</span>, <span class="st">"equal_mass"</span><span class="op">)</span>,
-  n_bins <span class="op">=</span> <span class="cn">NULL</span>,
-  breaks <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">format_long_hazards</span><span class="op">(</span></span>
+<span>  <span class="va">A</span>,</span>
+<span>  <span class="va">W</span>,</span>
+<span>  wts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">A</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  grid_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"equal_range"</span>, <span class="st">"equal_mass"</span><span class="op">)</span>,</span>
+<span>  n_bins <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,13 +78,19 @@
     <dl><dt>A</dt>
 <dd><p>The <code>numeric</code> vector or similar of the observed values of an
 intervention for a group of observational units of interest.</p></dd>
+
+
 <dt>W</dt>
 <dd><p>A <code>data.frame</code>, <code>matrix</code>, or similar giving the values of
 baseline covariates (potential confounders) for the observed units whose
 observed intervention values are provided in the previous argument.</p></dd>
+
+
 <dt>wts</dt>
 <dd><p>A <code>numeric</code> vector of observation-level weights. The default
 is to weight all observations equally.</p></dd>
+
+
 <dt>grid_type</dt>
 <dd><p>A <code>character</code> indicating the strategy (or strategies)
 to be used in creating bins along the observed support of the intervention
@@ -92,19 +98,26 @@ to be used in creating bins along the observed support of the intervention
 of <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" class="external-link">cut_interval</a></code> for more information. To ensure each
 bin has the same number of points, use "equal_mass"; consult documentation
 of <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" class="external-link">cut_number</a></code> for details.</p></dd>
+
+
 <dt>n_bins</dt>
 <dd><p>Only used if <code>grid_type</code> is set to <code>"equal_range"</code>
 or <code>"equal_mass"</code>. This <code>numeric</code> value indicates the number(s)
 of bins into which the support of <code>A</code> is to be divided.</p></dd>
+
+
 <dt>breaks</dt>
 <dd><p>A <code>numeric</code> vector of break points to be used in dividing
 up the support of <code>A</code>. This is passed through the <code>...</code> argument
 to <code><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut.default</a></code> by <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" class="external-link">cut_interval</a></code>
 or <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" class="external-link">cut_number</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>list</code> containing the break points used in dividing the
+    
+
+<p>A <code>list</code> containing the break points used in dividing the
  support of <code>A</code> into discrete bins, the length of each bin, and the
  reformatted data. The reformatted data is a <code>data.table</code> of
  repeated measures data, with an indicator for which bin an observation
@@ -134,7 +147,7 @@ or <code><a href="https://ggplot2.tidyverse.org/reference/cut_interval.html" cla
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

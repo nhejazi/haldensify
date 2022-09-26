@@ -14,3 +14,26 @@ bibentry(bibtype = "Manual",
          note = note,
          doi = "10.5281/zenodo.3698329",
          url = "https://github.com/nhejazi/haldensify")
+
+bibentry(bibtype = "Article",
+         title = "{haldensify}: Highly adaptive lasso conditional density estimation in {R}",
+         author = c(person("Nima S", "Hejazi"),
+                    person("Mark J", "van der Laan"),
+                    person("David", "Benkeser")),
+         year = "2022",
+         journal = "Journal of Open Source Software",
+         publisher = "The Open Journal",
+         doi = "10.21105/joss.04522",
+         url = "https://doi.org/10.21105/joss.04522")
+
+bibentry(bibtype = "Article",
+         title = "Efficient estimation of modified treatment policy effects based on the generalized propensity score",
+         author = c(person("Nima S", "Hejazi"),
+                    person("David", "Benkeser"),
+                    person("Iván", "Díaz"),
+                    person("Mark J", "van der Laan")),
+         year = "2022",
+         journal = "arXiv",
+         publisher = "",
+         doi = "",
+         url = "https://arxiv.org/abs/2205.05777")

@@ -28,6 +28,7 @@ knitr::opts_chunk$set(
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3698329.svg)](https://doi.org/10.5281/zenodo.3698329)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.04522/status.svg)](https://doi.org/10.21105/joss.04522)
 <!-- badges: end -->
 
 
@@ -162,7 +163,19 @@ After using the `haldensify` R package, please cite the following:
           url = {https://arxiv.org/abs/2205.05777}
         }
 
-        @software{hejazi2022haldensify,
+        @article{hejazi2022haldensify-joss,
+          author = {Hejazi, Nima S and {van der Laan}, Mark J and Benkeser,
+            David C},
+          title = {{haldensify}: Highly adaptive lasso conditional density
+            estimation in {R}},
+          year  = {2022},
+          doi = {10.21105/joss.04522},
+          url = {https://doi.org/10.21105/joss.04522},
+          journal = {Journal of Open Source Software},
+          publisher = {The Open Journal}
+        }
+
+        @software{hejazi2022haldensify-rpkg,
           author = {Hejazi, Nima S and Benkeser, David C and {van der Laan},
             Mark J},
           title = {{haldensify}: Highly adaptive lasso conditional density
@@ -171,7 +184,7 @@ After using the `haldensify` R package, please cite the following:
           howpublished = {\url{https://github.com/nhejazi/haldensify}},
           doi = {10.5281/zenodo.3698329},
           url = {https://doi.org/10.5281/zenodo.3698329},
-          note = {{R} package version 0.2.4}
+          note = {{R} package version 0.2.5}
         }
 
 ---
