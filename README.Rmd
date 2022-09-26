@@ -56,7 +56,7 @@ only with the highly adaptive lasso (HAL) [@benkeser2016highly;
 @vdl2017generally; @vdl2018highly; @coyle2022hal9001-rpkg;
 @hejazi2020hal9001-joss]. Since the generalized propensity score is a key
 ingredient in inverse probability weighting (IPW) methods, `haldensify` builds
-on the advances of @ertefaie2022nonparametric and @hejazi2022efficient to
+on the advances of @ertefaie2020nonparametric and @hejazi2022efficient to
 provide nonparametric IPW estimators of the causal effects for continuous
 treatments, which achieve the semiparametric efficiency bound by undersmoothing
 along a family of HAL conditional density estimators.

@@ -48,10 +48,10 @@ estimation strategy for use only with the highly adaptive lasso (HAL)
 Benkeser 2018; Coyle et al. 2022; Hejazi, Coyle, and van der Laan 2020).
 Since the generalized propensity score is a key ingredient in inverse
 probability weighting (IPW) methods, `haldensify` builds on the advances
-of (**ertefaie2022nonparametric?**) and Hejazi et al. (2022) to provide
-nonparametric IPW estimators of the causal effects for continuous
-treatments, which achieve the semiparametric efficiency bound by
-undersmoothing along a family of HAL conditional density estimators.
+of Ertefaie, Hejazi, and van der Laan (2022) and Hejazi et al. (2022) to
+provide nonparametric IPW estimators of the causal effects for
+continuous treatments, which achieve the semiparametric efficiency bound
+by undersmoothing along a family of HAL conditional density estimators.
 
 ------------------------------------------------------------------------
 
@@ -307,6 +307,15 @@ Interventions.” *Biometrics* 68 (2): 541–49.
 ———. 2018. “Stochastic Treatment Regimes.” In *Targeted Learning in Data
 Science: Causal Inference for Complex Longitudinal Studies*, 167–80.
 Springer. <https://doi.org/10.1007/978-3-319-65304-4_14>.
+
+</div>
+
+<div id="ref-ertefaie2020nonparametric" class="csl-entry">
+
+Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der Laan. 2022.
+“Nonparametric Inverse-Probability-Weighted Estimators Based on the
+Highly Adaptive Lasso.” *Biometrics* (in press).
+<https://doi.org/10.1111/biom.13719>.
 
 </div>
 
