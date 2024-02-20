@@ -210,14 +210,14 @@ number [DMS 2102840](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2102840)).
 
 ## License
 
-&copy; 2019-2022 [Nima S. Hejazi](https://nimahejazi.org)
+&copy; 2019-2024 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license. See below
 for details:
 ```
 MIT License
 
-Copyright (c) 2019-2022 Nima S. Hejazi
+Copyright (c) 2019-2024 Nima S. Hejazi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
