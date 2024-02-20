@@ -20,7 +20,7 @@ Shift Interventions"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/a
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.6</span>
       </span>
     </div>
 
@@ -130,13 +130,18 @@ interval to be computed.</p></dd>
 <span class="r-in"><span>  num_knots <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  reduce_basis <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 4% of observations outside training support...predictions trimmed.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some fit_control arguments are neither default nor glmnet/cv.glmnet arguments: n_folds; </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> They will be removed from fit_control</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 2% of observations outside training support...predictions trimmed.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Some fit_control arguments are neither default nor glmnet/cv.glmnet arguments: n_folds; </span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> They will be removed from fit_control</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Dropping reduce_basis; only applies if smoothness_orders = 0</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">est_ipw</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   lwr_ci   psi upr_ci se_est type     l1_norm lambda_idx gn_nbins</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  0.630  0.78  0.881 0.064<span style="text-decoration: underline;">0</span> dcar_tol    2.81         29        5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  0.630  0.78  0.881 0.064<span style="text-decoration: underline;">0</span> dcar_min    2.81         29        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  0.600 0.760  0.869 0.069<span style="text-decoration: underline;">3</span> dcar_tol    6.62         39        5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span>  0.600 0.760  0.869 0.069<span style="text-decoration: underline;">3</span> dcar_min    6.62         39        5</span>
 </code></pre></div>
     </div>
   </div>
@@ -151,7 +156,7 @@ interval to be computed.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

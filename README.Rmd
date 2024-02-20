@@ -109,7 +109,7 @@ haldensify_fit
 
 We can also visualize the empirical risk (with respect to density loss) in terms
 of the solution path of the lasso regularization parameter:
-```{r example-plot, out.width = "80%"}
+```{r example-plot, out.width = "80%", fig.path = "man/figures/"}
 # just use the built-in plot method
 plot(haldensify_fit)
 ```

@@ -1,3 +1,10 @@
+# haldensify 0.2.6
+
+As of February 2024:
+* Updated versions of `hal9001` and `origami`  in `DESCRIPTION` to match the
+  latest CRAN releases, resolving bugs related to `Matrix` v1.6-2 as reported
+  at <https://github.com/tlverse/hal9001/issues/109>.
+
 # haldensify 0.2.5
 
 As of May 2021:

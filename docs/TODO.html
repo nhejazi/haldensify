@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">haldensify</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.6</span>
       </span>
     </div>
 
@@ -58,24 +58,12 @@
 
 <div id="haldensify-development-notes" class="section level1">
 
-<ul class="task-list"><li>
-<input type="checkbox" disabled checked>
-Add <code>...</code> args to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow arbitrary arguments to be passed directly to <code>fit_hal()</code>.</li>
-<li>
-<input type="checkbox" disabled checked>
-Remove <code>use_future</code> argument to <code><a href="reference/haldensify.html">haldensify()</a></code>, instead reducing to calling <code>future_mapply()</code>, with sequential evaluation via <code>plan(sequential)</code>.</li>
-<li>
-<input type="checkbox" disabled checked>
-Add example of working with bootstrap samples, e.g., using <a href="https://rsample.tidymodels.org/reference/bootstraps.html" class="external-link"><code>rsample</code></a>.</li>
-<li>
-<input type="checkbox" disabled checked>
-Add a <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method to more easily visualize how empirical risk changes across the sequence of explored regularization parameter values.</li>
-<li>
-<input type="checkbox" disabled checked>
-Add an <code><a href="reference/ipw_shift.html">ipw_shift()</a></code> function for constructing IPW estimators of the mean counterfactual outcome of a stochastic shift intervention via <code>haldensify</code>.</li>
-<li>
-<input type="checkbox" disabled>
-Add an argument to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow normalization of the density estimates to improve estimation stability. Note that this normalized density is actually g(A|W)/g(A), instead of the currently estimated g(A|W).</li>
+<ul class="task-list"><li><label><input type="checkbox" checked>Add <code>...</code> args to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow arbitrary arguments to be passed directly to <code>fit_hal()</code>.</label></li>
+<li><label><input type="checkbox" checked>Remove <code>use_future</code> argument to <code><a href="reference/haldensify.html">haldensify()</a></code>, instead reducing to calling <code>future_mapply()</code>, with sequential evaluation via <code>plan(sequential)</code>.</label></li>
+<li><label><input type="checkbox" checked>Add example of working with bootstrap samples, e.g., using <a href="https://rsample.tidymodels.org/reference/bootstraps.html" class="external-link"><code>rsample</code></a>.</label></li>
+<li><label><input type="checkbox" checked>Add a <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method to more easily visualize how empirical risk changes across the sequence of explored regularization parameter values.</label></li>
+<li><label><input type="checkbox" checked>Add an <code><a href="reference/ipw_shift.html">ipw_shift()</a></code> function for constructing IPW estimators of the mean counterfactual outcome of a stochastic shift intervention via <code>haldensify</code>.</label></li>
+<li><label><input type="checkbox">Add an argument to <code><a href="reference/haldensify.html">haldensify()</a></code> to allow normalization of the density estimates to improve estimation stability. Note that this normalized density is actually g(A|W)/g(A), instead of the currently estimated g(A|W).</label></li>
 </ul></div>
 
   </div>
@@ -93,7 +81,7 @@ Add an argument to <code><a href="reference/haldensify.html">haldensify()</a></c
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

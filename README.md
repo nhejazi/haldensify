@@ -97,6 +97,8 @@ haldensify_fit <- haldensify(
   max_degree = 3,
   reduce_basis = 1 / sqrt(n_train)
 )
+#> Warning in (function (X, Y, formula = NULL, X_unpenalized = NULL, max_degree = ifelse(ncol(X) >= : Some fit_control arguments are neither default nor glmnet/cv.glmnet arguments: n_folds; 
+#> They will be removed from fit_control
 haldensify_fit
 #> HAL Conditional Density Estimation
 #> Number of bins over support of A: 10
@@ -123,7 +125,7 @@ in terms of the solution path of the lasso regularization parameter:
 plot(haldensify_fit)
 ```
 
-<img src="README-example-plot-1.png" width="80%" />
+<img src="man/figures/example-plot-1.png" width="80%" />
 
 Finally, we can obtain conditional density estimates from the trained
 model on the training (or on new) data:
@@ -204,9 +206,9 @@ After using the `haldensify` R package, please cite the following:
 
 ## Related
 
--   [R/`hal9001`](https://github.com/tlverse/hal9001) – The highly
-    adaptive lasso estimator used internally to constructed conditional
-    density estimates.
+- [R/`hal9001`](https://github.com/tlverse/hal9001) – The highly
+  adaptive lasso estimator used internally to constructed conditional
+  density estimates.
 
 ------------------------------------------------------------------------
 
@@ -225,14 +227,14 @@ National Institutes of Health, and the National Science Foundation
 
 ## License
 
-© 2019-2022 [Nima S. Hejazi](https://nimahejazi.org)
+© 2019-2024 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license.
 See below for details:
 
     MIT License
 
-    Copyright (c) 2019-2022 Nima S. Hejazi
+    Copyright (c) 2019-2024 Nima S. Hejazi
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -256,7 +258,8 @@ See below for details:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-benkeser2016highly" class="csl-entry">
 
@@ -270,9 +273,9 @@ Data Science and Advanced Analytics*, 2016:689. NIH Public Access.
 <div id="ref-coyle2022hal9001-rpkg" class="csl-entry">
 
 Coyle, Jeremy R, Nima S Hejazi, Rachael V Phillips, Lars WP van der
-Laan, and Mark J van der Laan. 2022. *<span
-class="nocase">hal9001</span>: The Scalable Highly Adaptive Lasso*.
-<https://doi.org/10.5281/zenodo.3558313>.
+Laan, and Mark J van der Laan. 2022.
+*<span class="nocase">hal9001</span>: The Scalable Highly Adaptive
+Lasso*. <https://doi.org/10.5281/zenodo.3558313>.
 
 </div>
 
@@ -323,16 +326,16 @@ Highly Adaptive Lasso.” *Biometrics* (in press).
 
 Hejazi, Nima S, David Benkeser, Iván Dı́az, and Mark J van der Laan.
 2022. “Efficient Estimation of Modified Treatment Policy Effects Based
-on the Generalized Propensity Score.”
+on the Generalized Propensity Score.” *arXiv*.
 <https://arxiv.org/abs/2205.05777>.
 
 </div>
 
 <div id="ref-hejazi2020hal9001-joss" class="csl-entry">
 
-Hejazi, Nima S, Jeremy R Coyle, and Mark J van der Laan. 2020. “<span
-class="nocase">hal9001</span>: Scalable Highly Adaptive Lasso Regression
-in R.” *Journal of Open Source Software*.
+Hejazi, Nima S, Jeremy R Coyle, and Mark J van der Laan. 2020.
+“<span class="nocase">hal9001</span>: Scalable Highly Adaptive Lasso
+Regression in R.” *Journal of Open Source Software*.
 <https://doi.org/10.21105/joss.02526>.
 
 </div>
