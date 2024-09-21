@@ -270,7 +270,7 @@ make_bins <- function(grid_var,
 #'
 #' @examples
 #' # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
-#' set.seed(429153)
+#' set.seed(11249)
 #' n_train <- 50
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
@@ -279,7 +279,7 @@ make_bins <- function(grid_var,
 #' haldensify_fit <- haldensify(
 #'   A = a, W = w, n_bins = c(3, 5),
 #'   lambda_seq = exp(seq(-1, -15, length = 50L)),
-#'   max_degree = 3, reduce_basis = 0.1
+#'   max_degree = 2, smoothness_orders = 0, reduce_basis = 0.1
 #' )
 #' print(haldensify_fit)
 print.haldensify <- function(x, ...) {
@@ -326,6 +326,7 @@ print.haldensify <- function(x, ...) {
 #'
 #' @examples
 #' # simulate data
+#' set.seed(11249)
 #' n_obs <- 50
 #' W1 <- rbinom(n_obs, 1, 0.6)
 #' W2 <- rbinom(n_obs, 1, 0.2)
@@ -335,7 +336,7 @@ print.haldensify <- function(x, ...) {
 #' # fit the IPW estimator
 #' est_ipw_shift <- ipw_shift(
 #'   W = cbind(W1, W2), A = A, Y = Y,
-#'   delta = 0.5, n_bins = 3L, cv_folds = 2L,
+#'   delta = 0.5, n_bins = 3L, cv_folds = 3L,
 #'   lambda_seq = exp(seq(-1, -10, length = 100L)),
 #'   # arguments passed to hal9001::fit_hal()
 #'   max_degree = 1,

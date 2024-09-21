@@ -1,6 +1,6 @@
 Package: haldensify
 Title: Highly Adaptive Lasso Conditional Density Estimation
-Version: 0.2.6
+Version: 0.2.7
 Authors@R: c(
     person("Nima", "Hejazi", email = "nh@nimahejazi.org",
            role = c("aut", "cre", "cph"),
@@ -31,7 +31,9 @@ Description: An algorithm for flexible conditional density estimation based on
     Hejazi, Benkeser, Díaz, and van der Laan <>10.48550/arXiv.2205.05777>,
     these nonparametric IPW estimators can be coupled with sieve estimation
     (undersmoothing) of the generalized propensity score estimators to attain
-    the non/semi-parametric efficiency bound.
+    the non/semi-parametric efficiency bound. This package is enhanced by the
+    Super Learner ensemble model in 'sl3', available for download from GitHub
+    using 'remotes::install_github("tlverse/sl3")'.
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -55,10 +57,12 @@ Suggests:
     rmarkdown,
     covr,
     future
+Enhances:
+    sl3 (>= 1.4.5)
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
 Encoding: UTF-8
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 RdMacros: Rdpack

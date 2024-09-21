@@ -96,7 +96,7 @@ Parallel evaluation of the cross-validation procedure to select tuning
 }
 \examples{
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
-set.seed(429153)
+set.seed(11249)
 n_train <- 50
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)

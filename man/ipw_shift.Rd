@@ -65,6 +65,7 @@ IPW Estimator of the Causal Effects of Additive Modified Treatment Policies
 }
 \examples{
 # simulate data
+set.seed(11249)
 n_obs <- 50
 W1 <- rbinom(n_obs, 1, 0.6)
 W2 <- rbinom(n_obs, 1, 0.2)
@@ -75,13 +76,12 @@ Y <- rbinom(n_obs, 1, plogis(A + W1 + W2 - W3 - W1 * W3))
 # fit the IPW estimator
 est_ipw <- ipw_shift(
   W = cbind(W1, W2, W3), A = A, Y = Y,
-  delta = 0.5, cv_folds = 2L,
-  n_bins = 5L, bin_type = "equal_range",
+  delta = 0.5, cv_folds = 3L,
+  n_bins = 4L, bin_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100L)),
   # arguments passed to hal9001::fit_hal()
-  max_degree = 3,
+  max_degree = 1L,
   smoothness_orders = 0,
-  num_knots = NULL,
   reduce_basis = 1 / sqrt(n_obs)
 )
 }

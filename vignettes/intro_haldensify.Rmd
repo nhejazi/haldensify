@@ -163,11 +163,11 @@ binning strategy that accommodates creating such a large number of bins.
 haldensify_fit <- haldensify(
   A = example_data$A,
   W = example_data$W,
-  n_bins = c(5, 10),
+  n_bins = c(4, 6, 8),
   grid_type = "equal_range",
   lambda_seq = exp(seq(-0.1, -10, length = 300)),
   # the following are passed to hal9001::fit_hal() internally
-  max_degree = 2,
+  max_degree = 1,
   reduce_basis = 1 / sqrt(n_obs)
 )
 ```
@@ -344,13 +344,13 @@ performance, see @hejazi2022efficient.
 est_ipw <- ipw_shift(
   W = dat_obs$W, A = dat_obs$A, Y = dat_obs$Y,
   delta = 2,
-  cv_folds = 2L,
-  n_bins = 5L,
+  cv_folds = 5L,
+  n_bins = 4L,
   bin_type = "equal_range",
   selector_type = "all",
   lambda_seq = exp(seq(-1, -10, length = 500L)),
   # arguments passed to hal9001::fit_hal()
-  max_degree = 2,
+  max_degree = 1,
   reduce_basis = 1 / sqrt(n_obs)
 )
 confint(est_ipw)
@@ -365,4 +365,3 @@ with the latter guaranteed to solve an estimating function required for the
 characterization of asymptotically efficient estimators.
 
 ## References
-
