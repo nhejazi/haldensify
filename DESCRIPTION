@@ -19,21 +19,19 @@ Maintainer: Nima Hejazi <nh@nimahejazi.org>
 Description: An algorithm for flexible conditional density estimation based on
     application of pooled hazard regression to an artificial repeated measures
     dataset constructed by discretizing the support of the outcome variable. To
-    facilitate non/semi-parametric estimation of the conditional density, the
-    highly adaptive lasso, a nonparametric regression function shown to
-    reliably estimate a large class of functions at a fast convergence rate, is
-    utilized.  The pooled hazards formulation implemented was first described
-    by Díaz and van der Laan (2011) <doi:10.2202/1557-4679.1356>. To complement
-    the conditional density estimation utilities, nonparametric inverse
-    probability weighted (IPW) estimators of the causal effects of additive
-    modified treatment policies are implemented, using the conditional density
-    estimation procedure to estimate the generalized propensity score. Per
-    Hejazi, Benkeser, Díaz, and van der Laan <>10.48550/arXiv.2205.05777>,
-    these nonparametric IPW estimators can be coupled with sieve estimation
-    (undersmoothing) of the generalized propensity score estimators to attain
-    the non/semi-parametric efficiency bound. This package is enhanced by the
-    Super Learner ensemble model in 'sl3', available for download from GitHub
-    using 'remotes::install_github("tlverse/sl3")'.
+    facilitate flexible estimation of the conditional density, the highly
+    adaptive lasso, a non-parametric regression function shown to estimate
+    cadlag (RCLL) functions at a suitably fast convergence rate, is used. The
+    use of pooled hazards regression for conditional density estimation as
+    implemented here was first described for by Díaz and van der Laan (2011)
+    <doi:10.2202/1557-4679.1356>. Building on the conditional density estimation
+    utilities, non-parametric inverse probability weighted (IPW) estimators of
+    the causal effects of additive modified treatment policies are implemented,
+    using conditional density estimation to estimate the generalized propensity
+    score. Non-parametric IPW estimators based on this can be coupled with sieve
+    estimation (undersmoothing) of the generalized propensity score to attain
+    the semi-parametric efficiency bound (per Hejazi, Benkeser, Díaz, and van
+    der Laan <doi:10.48550/arXiv.2205.05777>).
 Depends: R (>= 3.2.0)
 Imports:
     stats,
@@ -57,8 +55,6 @@ Suggests:
     rmarkdown,
     covr,
     future
-Enhances:
-    sl3 (>= 1.4.5)
 License: MIT + file LICENSE
 URL: https://github.com/nhejazi/haldensify
 BugReports: https://github.com/nhejazi/haldensify/issues
