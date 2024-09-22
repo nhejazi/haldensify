@@ -25,9 +25,9 @@
 #'  or \code{"equal_mass"}. This \code{numeric} value indicates the number(s)
 #'  of bins into which the support of \code{A} is to be divided.
 #' @param breaks A \code{numeric} vector of break points to be used in dividing
-#'  up the support of \code{A}. This is passed through the \code{...} argument
-#'  to \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}}
-#'  or \code{\link[ggplot2]{cut_number}}.
+#'  up the support of \code{A}. This is passed via \code{...} to
+#'  \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}} or
+#'  \code{\link[ggplot2]{cut_number}}.
 #'
 #' @importFrom data.table as.data.table setnames
 #' @importFrom ggplot2 cut_interval cut_number
@@ -44,37 +44,44 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
                                 grid_type = c(
                                   "equal_range", "equal_mass"
                                 ),
-                                n_bins = NULL, breaks = NULL) {
+                                n_bins = NULL,
+                                breaks = NULL) {
   # clean up arguments
   grid_type <- match.arg(grid_type)
 
   # set grid along A and find interval membership of observations along grid
   if (is.null(breaks) & !is.null(n_bins)) {
     if (grid_type == "equal_range") {
-      bins <- ggplot2::cut_interval(A, n_bins,
-        right = FALSE,
-        ordered_result = TRUE, dig.lab = 12
+      bins <- ggplot2::cut_interval(
+        x = A, n = n_bins,
+        right = FALSE, ordered_result = TRUE, dig.lab = 12
       )
     } else if (grid_type == "equal_mass") {
-      bins <- ggplot2::cut_number(A, n_bins,
-        right = FALSE,
-        ordered_result = TRUE, dig.lab = 12
+      bins <- ggplot2::cut_number(
+        x = A, n = n_bins,
+        right = FALSE, ordered_result = TRUE, dig.lab = 12
       )
     }
-    # https://stackoverflow.com/questions/36581075/extract-the-breakpoints-from-cut
-    breaks_left <- as.numeric(sub(".(.+),.+", "\\1", levels(bins)))
-    breaks_right <- as.numeric(sub(".+,(.+).", "\\1", levels(bins)))
-    bin_length <- round(breaks_right - breaks_left, 3)
-    bin_id <- as.numeric(bins)
-    all_bins <- matrix(seq_len(max(bin_id)), ncol = 1)
-    # for predict method, only need to assign observations to existing intervals
-  } else if (!is.null(breaks)) {
-    # NOTE: findInterval() and cut() might return slightly different results...
-    bin_id <- findInterval(A, breaks, all.inside = TRUE)
-    all_bins <- matrix(seq_along(breaks), ncol = 1)
+  } else if (!is.null(breaks) & is.null(n_bins)) {
+    # check that user-specified grid covers all of A
+    #assertthat::assert_that(min(breaks) <= min(A))
+    #assertthat::assert_that(max(breaks) >= max(A))
+
+    # cut based on user-specified grid
+    bins <- cut(
+      x = A, breaks = breaks,
+      right = FALSE, ordered_result = TRUE, dig.lab = 12
+    )
   } else {
-    stop("Combination of arguments `breaks`, `n_bins` incorrectly specified.")
+    stop("Invalid combination of `grid_type`, `n_bins`, and `breaks`.")
   }
+
+  # see https://stackoverflow.com/questions/36581075/extract-the-breakpoints-from-cut
+  breaks_left <- as.numeric(sub(".(.+),.+", "\\1", levels(bins)))
+  breaks_right <- as.numeric(sub(".+,(.+).", "\\1", levels(bins)))
+  bin_length <- round(breaks_right - breaks_left, 3)
+  bin_id <- as.numeric(bins)
+  all_bins <- matrix(seq_len(max(bin_id)), ncol = 1)
 
   # loop over observations to create expanded set of records for each
   reformat_each_obs <- future.apply::future_lapply(seq_along(A), function(i) {
@@ -184,8 +191,9 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
   }
 
   # sanity check of dimensions
-  assertthat::assert_that(all(dim(hazard_pred_single_obs) ==
-    dim(hazard_predicted)))
+  assertthat::assert_that(
+    all(dim(hazard_pred_single_obs) == dim(hazard_predicted))
+  )
 
   # multiply hazards across rows to construct the individual-level density
   density_pred_from_hazards <- matrix(apply(hazard_predicted, 2, prod),
@@ -235,7 +243,7 @@ make_bins <- function(grid_var,
     # construct grid
     bin_grid <- sort(unique(c(k_sqrt, k_rice, k_diaconis, max_k_bins)))
   } else if (grid_type == "scaled") {
-    # set different multiplers for root-n based on sample size
+    # set different multipliers for root-n based on sample size
     bin_mult <- dplyr::case_when(
       n_obs >= 900 ~ c(0.5, 0.75, 1.0, 1.25),
       TRUE ~ c(0.5, 1.0, 1.5, 2.0)
