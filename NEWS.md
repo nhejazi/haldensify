@@ -3,6 +3,8 @@
 As of September 2024
 * Continue fixing issues with incorrectly passing `n_folds` to `glmnet`, which
   has argument `nfolds` (https://github.com/nhejazi/haldensify/issues/41)
+* Simplify `format_long_hazards` by allowing use of `base::cut` with specified
+  break points when specifying argument `breaks` directly.
 
 # haldensify 0.2.6
 
