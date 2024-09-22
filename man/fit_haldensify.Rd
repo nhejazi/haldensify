@@ -2,7 +2,7 @@
 % Please edit documentation in R/haldensify.R
 \name{fit_haldensify}
 \alias{fit_haldensify}
-\title{Fit Conditional Density Estimation for a Sequence of HAL Models}
+\title{Fit Conditional Density Estimation over a Sequence of HAL Models}
 \usage{
 fit_haldensify(
   A,
@@ -62,7 +62,7 @@ A \code{list}, containing density predictions for the sequence of
  sequence of fitted HAL models.
 }
 \description{
-Fit Conditional Density Estimation for a Sequence of HAL Models
+Fit Conditional Density Estimation over a Sequence of HAL Models
 }
 \details{
 Estimation of the conditional density of A|W via a cross-validated
@@ -71,6 +71,7 @@ Estimation of the conditional density of A|W via a cross-validated
 }
 \examples{
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
+set.seed(11249)
 n_train <- 50
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)

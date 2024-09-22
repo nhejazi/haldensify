@@ -194,7 +194,7 @@ cv_haldensify <- function(fold,
 #'
 #' @examples
 #' # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
-#' set.seed(429153)
+#' set.seed(11249)
 #' n_train <- 50
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
@@ -248,7 +248,7 @@ haldensify <- function(A, W,
 
   # extract n_bins/grid_type index that is empirical loss minimizer
   emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
-  min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
+  #min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
   min_risk <- lapply(emp_risk_per_lambda, min)
   cv_selected_params <- tune_grid[which.min(min_risk), , drop = FALSE]
   cv_selected_fits <- select_out[[which.min(min_risk)]]
@@ -270,12 +270,12 @@ haldensify <- function(A, W,
   #       data (bootstrap); disadvantage: non-sample-split nuisance estimates
   if (!any(grepl("fit_control", names(fit_hal_args)))) {
     fit_hal_args$fit_control <- list(
-      cv_select = FALSE, weights = as.numeric(long_data$wts), n_folds = 1
+      cv_select = FALSE, weights = as.numeric(long_data$wts), nfolds = 1L
     )
   } else {
     fit_hal_args$fit_control$cv_select <- FALSE
     fit_hal_args$fit_control$weights <- as.numeric(long_data$wts)
-    fit_hal_args$fit_control$n_folds <- 1L
+    fit_hal_args$fit_control$nfolds <- 1L
   }
   fit_hal_args$X <- as.matrix(long_data[, -c("obs_id", "in_bin", "wts")])
   fit_hal_args$Y <- as.numeric(long_data$in_bin)
@@ -301,7 +301,7 @@ haldensify <- function(A, W,
 
 ###############################################################################
 
-#' Fit Conditional Density Estimation for a Sequence of HAL Models
+#' Fit Conditional Density Estimation over a Sequence of HAL Models
 #'
 #' @details Estimation of the conditional density of A|W via a cross-validated
 #'  highly adaptive lasso, used to estimate the conditional hazard of failure
@@ -350,6 +350,7 @@ haldensify <- function(A, W,
 #'
 #' @examples
 #' # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
+#' set.seed(11249)
 #' n_train <- 50
 #' w <- runif(n_train, -4, 4)
 #' a <- rnorm(n_train, w, 0.5)
@@ -368,7 +369,7 @@ fit_haldensify <- function(A, W,
                            smoothness_orders = 0L,
                            ...) {
   # capture dot arguments for reference
-  dot_args <- list(...)
+  #dot_args <- list(...)
 
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(

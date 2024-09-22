@@ -23,7 +23,7 @@ The \code{print} method for objects of class \code{haldensify}
 }
 \examples{
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.5)
-set.seed(429153)
+set.seed(11249)
 n_train <- 50
 w <- runif(n_train, -4, 4)
 a <- rnorm(n_train, w, 0.5)
@@ -32,7 +32,7 @@ a <- rnorm(n_train, w, 0.5)
 haldensify_fit <- haldensify(
   A = a, W = w, n_bins = c(3, 5),
   lambda_seq = exp(seq(-1, -15, length = 50L)),
-  max_degree = 3, reduce_basis = 0.1
+  max_degree = 2, smoothness_orders = 0, reduce_basis = 0.1
 )
 print(haldensify_fit)
 }

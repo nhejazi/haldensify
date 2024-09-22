@@ -17,7 +17,7 @@ est_ipw <- ipw_shift(
   W = data_obs[, c("W1", "W2", "W3")],
   A = data_obs$A, Y = data_obs$Y,
   delta = delta,
-  n_bins = 10L,
+  n_bins = 5L,
   cv_folds = 3L,
   lambda_seq = exp(seq(-1, -8, length = 100L)),
   ## arguments passed to hal9001::fit_hal()

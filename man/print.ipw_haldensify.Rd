@@ -26,6 +26,7 @@ The \code{print} method for objects of class \code{ipw_haldensify}
 }
 \examples{
 # simulate data
+set.seed(11249)
 n_obs <- 50
 W1 <- rbinom(n_obs, 1, 0.6)
 W2 <- rbinom(n_obs, 1, 0.2)
@@ -35,7 +36,7 @@ Y <- rbinom(n_obs, 1, plogis(3 * A + W1 + W2 - W1 * W2))
 # fit the IPW estimator
 est_ipw_shift <- ipw_shift(
   W = cbind(W1, W2), A = A, Y = Y,
-  delta = 0.5, n_bins = 3L, cv_folds = 2L,
+  delta = 0.5, n_bins = 3L, cv_folds = 3L,
   lambda_seq = exp(seq(-1, -10, length = 100L)),
   # arguments passed to hal9001::fit_hal()
   max_degree = 1,

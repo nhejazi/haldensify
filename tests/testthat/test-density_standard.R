@@ -46,8 +46,8 @@ haldensify_fit_cntrl <- haldensify(
   A = a, W = w,
   n_bins = c(3, 5),
   lambda_seq = exp(seq(-1, -13, length = n_lambda)),
-  max_degree = 2,
-  fit_control = list(cv_select = TRUE, n_folds = 3L, use_min = TRUE)
+  max_degree = 1L,
+  fit_control = list(cv_select = TRUE, nfolds = 3L, use_min = TRUE)
 )
 cv_lambda_idx <- haldensify_fit_cntrl$cv_tuning_results$lambda_loss_min_idx
 

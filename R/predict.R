@@ -58,7 +58,7 @@ utils::globalVariables(c("wts"))
 #' haldensify_fit <- haldensify(
 #'   A = a, W = w, n_bins = 10L, lambda_seq = exp(seq(-1, -10, length = 100)),
 #'   # the following arguments are passed to hal9001::fit_hal()
-#'   max_degree = 3, reduce_basis = 1 / sqrt(length(a))
+#'   max_degree = 2, smoothness_orders = 0L, reduce_basis = 1 / sqrt(length(a))
 #' )
 #' # predictions to recover conditional density of A|W
 #' new_a <- seq(-4, 4, by = 0.1)
