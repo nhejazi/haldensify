@@ -26,6 +26,7 @@
 #'
 #' @examples
 #' # simulate data
+#' set.seed(11249)
 #' n_obs <- 50
 #' W1 <- rbinom(n_obs, 1, 0.6)
 #' W2 <- rbinom(n_obs, 1, 0.2)

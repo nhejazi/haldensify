@@ -98,7 +98,7 @@ ipw_shift <- function(W, A, Y,
 
   # get L1 norms and lasso lambdas for all HAL fits + CV-selected bin number
   l1_norm_grid <- matrixStats::colSums2(abs(gn_fit_haldensify$hal_fit$coefs))
-  lambda_grid <- gn_fit_haldensify$cv_tuning_results$lambda_seq
+  #lambda_grid <- gn_fit_haldensify$cv_tuning_results$lambda_seq
   cv_lambda_idx <- gn_fit_haldensify$cv_tuning_results$lambda_loss_min_idx
   cv_nbins <- gn_fit_haldensify$n_bins_cvselect
 

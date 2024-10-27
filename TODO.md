@@ -1,4 +1,4 @@
-# `haldensify` development notes
+# development notes
 
 - [x] Add `...` args to `haldensify()` to allow arbitrary arguments to be
   passed directly to `fit_hal()`.
