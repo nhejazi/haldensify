@@ -153,6 +153,9 @@ cv_haldensify <- function(fold,
 #'  multiple values may be specified, in which case cross-validation will be
 #'  used to choose the optimal number of bins. The default sets the candidate
 #'  choices of the number of bins based on heuristics tested in simulation.
+#' @param breaks A \code{numeric} vector of break points to be used in dividing
+#'  up the support of \code{A}. Experimental and not recommended for use except
+#'  in cases where binning must be set externally; exercise care when using.
 #' @param cv_folds A \code{numeric} indicating the number of cross-validation
 #'  folds to be used in fitting the sequence of HAL conditional density models.
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
@@ -182,6 +185,7 @@ cv_haldensify <- function(fold,
 #' @importFrom data.table ":="
 #' @importFrom future.apply future_mapply
 #' @importFrom hal9001 fit_hal
+#' @importFrom assertthat assert_that
 #'
 #' @return Object of class \code{haldensify}, containing a fitted
 #'  \code{hal9001} object; a vector of break points used in binning \code{A}
@@ -207,7 +211,8 @@ cv_haldensify <- function(fold,
 haldensify <- function(A, W,
                        wts = rep(1, length(A)),
                        grid_type = "equal_range",
-                       n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
+                       n_bins = round(c(0.5, 1) * sqrt(length(A))),
+                       breaks = NULL,
                        cv_folds = 5L,
                        lambda_seq = exp(seq(-1, -13, length = 1000L)),
                        smoothness_orders = 0L,
@@ -223,12 +228,21 @@ haldensify <- function(A, W,
   }
 
   # run CV-HAL for all combinations of n_bins and grid_type
-  tune_grid <- expand.grid(
-    grid_type = grid_type, n_bins = n_bins,
-    stringsAsFactors = FALSE
-  )
+  if (!is.null(n_bins) && is.null(breaks)) {
+    tune_grid <- expand.grid(
+      grid_type = grid_type, n_bins = n_bins,
+      stringsAsFactors = FALSE
+    )
+  } else if (is.null(n_bins) && !is.null(breaks)) {
+    tune_grid <- expand.grid(
+      grid_type = grid_type, n_bins = length(breaks),
+      stringsAsFactors = FALSE
+    )
+  } else {
+    assertthat::assertthat(!is.null(n_bins) && !is.null(breaks))
+  }
 
-  # run procedure to select tuning parameters via cross-validation
+  # select tuning parameters via cross-validation
   # NOTE: even when the number of bins and discretization technique are fixed,
   #       this step is still required to produce a CV-selected choice of lambda
   select_out <- future.apply::future_mapply(
@@ -237,6 +251,7 @@ haldensify <- function(A, W,
     n_bins = tune_grid$n_bins,
     MoreArgs = list(
       A = A, W = W, wts = wts,
+      breaks = breaks,
       cv_folds = cv_folds,
       lambda_seq = lambda_seq,
       smoothness_orders = smoothness_orders,
@@ -247,27 +262,33 @@ haldensify <- function(A, W,
   )
 
   # extract n_bins/grid_type index that is empirical loss minimizer
-  emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
-  #min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
-  min_risk <- lapply(emp_risk_per_lambda, min)
-  cv_selected_params <- tune_grid[which.min(min_risk), , drop = FALSE]
-  cv_selected_fits <- select_out[[which.min(min_risk)]]
+  emprisk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
+  min_emprisk <- lapply(emprisk_per_lambda, min)
+  cv_selected_params <- tune_grid[which.min(min_emprisk), , drop = FALSE]
+  cv_selected_fits <- select_out[[which.min(min_emprisk)]]
   cv_selected_fits$density_pred <- NULL
 
   # re-format input data into long hazards structure
-  reformatted_output <- format_long_hazards(
-    A = A, W = W, wts = wts,
-    grid_type = cv_selected_params$grid_type,
-    n_bins = cv_selected_params$n_bins
-  )
+  if (!is.null(breaks)) {
+    reformatted_output <- format_long_hazards(
+      A = A, W = W, wts = wts,
+      grid_type = cv_selected_params$grid_type,
+      breaks = breaks
+    )
+  } else {
+    reformatted_output <- format_long_hazards(
+      A = A, W = W, wts = wts,
+      grid_type = cv_selected_params$grid_type,
+      n_bins = cv_selected_params$n_bins
+    )
+  }
   long_data <- reformatted_output$data
   breakpoints <- reformatted_output$breaks
   bin_sizes <- reformatted_output$bin_length
 
   # fit a HAL regression on the full data set across a sequence in lambda
   # NOTE: no sample-splitting since there's no need to select among any of the
-  #       tuning parameters -- advantage: simplifies working with re-sampled
-  #       data (bootstrap); disadvantage: non-sample-split nuisance estimates
+  #       tuning parameters
   if (!any(grepl("fit_control", names(fit_hal_args)))) {
     fit_hal_args$fit_control <- list(
       cv_select = FALSE, weights = as.numeric(long_data$wts), nfolds = 1L
@@ -324,6 +345,9 @@ haldensify <- function(A, W,
 #'  multiple values may be specified, in which case cross-validation will be
 #'  used to choose the optimal number of bins. The default sets the candidate
 #'  choices of the number of bins based on heuristics tested in simulation.
+#' @param breaks A \code{numeric} vector of break points to be used in dividing
+#'  up the support of \code{A}. Experimental and not recommended for use except
+#'  in cases where binning must be set externally; exercise care when using.
 #' @param cv_folds A \code{numeric} indicating the number of cross-validation
 #'  folds to be used in fitting the sequence of HAL conditional density models.
 #' @param lambda_seq A \code{numeric} sequence of values of the regularization
@@ -340,6 +364,7 @@ haldensify <- function(A, W,
 #' @importFrom data.table ":="
 #' @importFrom matrixStats colMeans2
 #' @importFrom origami make_folds cross_validate
+#' @importFrom assertthat assert_that
 #'
 #' @return A \code{list}, containing density predictions for the sequence of
 #'  fitted HAL models; the index and value of the L1 regularization parameter
@@ -363,19 +388,29 @@ haldensify <- function(A, W,
 fit_haldensify <- function(A, W,
                            wts = rep(1, length(A)),
                            grid_type = "equal_range",
-                           n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
+                           n_bins = round(c(0.5, 1) * sqrt(length(A))),
+                           breaks = NULL,
                            cv_folds = 5L,
                            lambda_seq = exp(seq(-1, -13, length = 1000L)),
                            smoothness_orders = 0L,
                            ...) {
-  # capture dot arguments for reference
-  #dot_args <- list(...)
+  # capture dot arguments for reference -- not used
+  dot_args <- list(...)
 
   # re-format input data into long hazards structure
-  reformatted_output <- format_long_hazards(
-    A = A, W = W, wts = wts,
-    grid_type = grid_type, n_bins = n_bins
-  )
+  if (!is.null(breaks)) {
+    reformatted_output <- format_long_hazards(
+      A = A, W = W, wts = wts,
+      grid_type = grid_type,
+      breaks = breaks
+    )
+  } else {
+    reformatted_output <- format_long_hazards(
+      A = A, W = W, wts = wts,
+      grid_type = grid_type,
+      n_bins = n_bins
+    )
+  }
   long_data <- reformatted_output$data
   bin_sizes <- reformatted_output$bin_length
 
@@ -420,17 +455,17 @@ fit_haldensify <- function(A, W,
   })
 
   # take column means to have average loss across sequence of lambdas
-  emp_risks_density_loss <- matrixStats::colMeans2(density_loss)
+  emprisks_density_loss <- matrixStats::colMeans2(density_loss)
 
   # find minimizer of loss in lambda sequence
-  lambda_loss_min_idx <- which.min(emp_risks_density_loss)
+  lambda_loss_min_idx <- which.min(emprisks_density_loss)
   lambda_loss_min <- lambda_seq[lambda_loss_min_idx]
 
-  # return loss minimizer in lambda, Pn losses, and all density estimates
+  # return risk minimizer in lambda, Pn(loss(O_i)), and density estimates
   out <- list(
     lambda_loss_min_idx = lambda_loss_min_idx,
     lambda_loss_min = lambda_loss_min,
-    emp_risks = emp_risks_density_loss,
+    emp_risks = emprisks_density_loss,
     density_pred = density_pred_scaled,
     lambda_seq = lambda_seq
   )

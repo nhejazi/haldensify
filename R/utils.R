@@ -25,13 +25,12 @@
 #'  or \code{"equal_mass"}. This \code{numeric} value indicates the number(s)
 #'  of bins into which the support of \code{A} is to be divided.
 #' @param breaks A \code{numeric} vector of break points to be used in dividing
-#'  up the support of \code{A}. This is passed via \code{...} to
-#'  \code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}} or
-#'  \code{\link[ggplot2]{cut_number}}.
+#'  up the support of \code{A}. This is passed to \code{\link[base]{cut}}. This
+#'  option is not recommended for use except in cases where the binning must be
+#'  set externally; exercise care when using.
 #'
 #' @importFrom data.table as.data.table setnames
 #' @importFrom ggplot2 cut_interval cut_number
-#' @importFrom future.apply future_lapply
 #' @importFrom assertthat assert_that
 #'
 #' @return A \code{list} containing the break points used in dividing the
@@ -40,7 +39,8 @@
 #'  repeated measures data, with an indicator for which bin an observation
 #'  fails in, the bin ID, observation ID, values of \code{W} for each given
 #'  observation, and observation-level weights.
-format_long_hazards <- function(A, W, wts = rep(1, length(A)),
+format_long_hazards <- function(A, W,
+                                wts = rep(1, length(A)),
                                 grid_type = c(
                                   "equal_range", "equal_mass"
                                 ),
@@ -63,9 +63,6 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
       )
     }
   } else if (!is.null(breaks)) {
-    # augment grid to cover all of A
-    breaks <- unique(c(min(A), breaks, max(A)))
-
     # cut based on user-specified grid
     bins <- cut(
       x = A, breaks = breaks, include.lowest = TRUE,
@@ -81,7 +78,7 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
   all_bins <- matrix(seq_len(max(bin_id)), ncol = 1L)
 
   # loop over observations to create expanded set of records for each
-  reformat_each_obs <- future.apply::future_lapply(seq_along(A), function(i) {
+  reformat_each_obs <- lapply(seq_along(A), function(i) {
     # create indicator and "turn on" indicator for interval membership
     bin_indicator <- rep(0, nrow(all_bins))
     bin_indicator[bin_id[i]] <- 1
@@ -134,18 +131,13 @@ format_long_hazards <- function(A, W, wts = rep(1, length(A)),
   reformatted_data <- do.call(rbind, reformat_each_obs)
   out <- list(
     data = reformatted_data,
-    breaks =
-      if (exists("breaks_left")) {
-        breaks_left
-      } else {
-        NULL
-      },
-    bin_length =
-      if (exists("bin_length")) {
-        bin_length
-      } else {
-        NULL
-      }
+    breaks = if (is.null(breaks)) {
+      breaks_left
+    } else {
+      breaks
+    },
+    bins = levels(bins),
+    bin_length = bin_length
   )
   return(out)
 }
@@ -176,9 +168,9 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
   n_records <- nrow(hazard_pred_single_obs)
 
   # NOTE: pred_hazard = (1 - pred) if 0 in this bin * pred if 1 in this bin
-  if (n_records > 1) {
+  if (n_records > 1L) {
     hazard_prefailure <- matrix(1 - hazard_pred_single_obs[-n_records, ],
-      nrow = (n_records - 1)
+      nrow = (n_records - 1L)
     )
     hazard_at_failure <- hazard_pred_single_obs[n_records, ]
     hazard_predicted <- rbind(hazard_prefailure, hazard_at_failure)
@@ -194,7 +186,7 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 
   # multiply hazards across rows to construct the individual-level density
   density_pred_from_hazards <- matrix(apply(hazard_predicted, 2, prod),
-    nrow = 1
+    nrow = 1L
   )
   return(density_pred_from_hazards)
 }
@@ -210,7 +202,7 @@ map_hazard_to_density <- function(hazard_pred_single_obs) {
 #'  optimal histogram construction and \code{"scaled"} corresponding to the use
 #'  of various pre-set multiples of the square root of the sample size.
 #' @param max_bins A \code{numeric} indicating the maximum number of bins that
-#'  are allowed in the grid for building the histogram based discretization.
+#'  are allowed in the grid for building the histogram-based discretization.
 #'
 #' @importFrom stats IQR
 #' @importFrom dplyr case_when

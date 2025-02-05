@@ -81,10 +81,10 @@ predict.haldensify <- function(object,
   # set default selection procedure to the cross-validation selector
   lambda_select <- match.arg(lambda_select)
   if (lambda_select %in% c("cv", "undersmooth")) {
-    # check existence of CV-selected lambda and extract from model object slot
+    # check existence of CV-selected lambda and extract from model object
     assertthat::assert_that(
       !is.na(object$cv_tuning_results$lambda_loss_min_idx),
-      msg = "No CV-selected lambda found in fitted haldensify model"
+      msg = "No CV-selected lambda found in fitted density model"
     )
     cv_lambda_idx <- object$cv_tuning_results$lambda_loss_min_idx
   }
@@ -93,7 +93,7 @@ predict.haldensify <- function(object,
   long_format_args <- list(
     A = new_A,
     W = new_W,
-    grid_type = object$call$grid_type,
+    grid_type = object$grid_type,
     breaks = object$breaks
   )
   reformatted_output <- do.call(format_long_hazards, long_format_args)
@@ -110,7 +110,9 @@ predict.haldensify <- function(object,
   # NOTE: we return hazard predictions for the loss minimizer and all lambda
   #       smaller than it, BUT if there are no such lambda, hazard_pred is only
   #       vector rather than the usually expected matrix
-  if (!is.matrix(hazard_pred)) hazard_pred <- as.matrix(hazard_pred, ncol = 1)
+  if (!is.matrix(hazard_pred)) {
+    hazard_pred <- as.matrix(hazard_pred, ncol = 1L)
+  }
 
   # estimate unscaled density for each observation and each lambda
   density_pred_rescaled <- apply(hazard_pred, 2, function(this_hazard_pred) {

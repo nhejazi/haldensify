@@ -36,9 +36,9 @@ or \code{"equal_mass"}. This \code{numeric} value indicates the number(s)
 of bins into which the support of \code{A} is to be divided.}
 
 \item{breaks}{A \code{numeric} vector of break points to be used in dividing
-up the support of \code{A}. This is passed via \code{...} to
-\code{\link[base]{cut.default}} by \code{\link[ggplot2]{cut_interval}} or
-\code{\link[ggplot2]{cut_number}}.}
+up the support of \code{A}. This is passed to \code{\link[base]{cut}}. This
+option is not recommended for use except in cases where the binning must be
+set externally; exercise care when using.}
 }
 \value{
 A \code{list} containing the break points used in dividing the

@@ -9,7 +9,8 @@ fit_haldensify(
   W,
   wts = rep(1, length(A)),
   grid_type = "equal_range",
-  n_bins = round(c(0.5, 1, 1.5, 2) * sqrt(length(A))),
+  n_bins = round(c(0.5, 1) * sqrt(length(A))),
+  breaks = NULL,
   cv_folds = 5L,
   lambda_seq = exp(seq(-1, -13, length = 1000L)),
   smoothness_orders = 0L,
@@ -38,6 +39,10 @@ which the support of \code{A} is to be divided. As with \code{grid_type},
 multiple values may be specified, in which case cross-validation will be
 used to choose the optimal number of bins. The default sets the candidate
 choices of the number of bins based on heuristics tested in simulation.}
+
+\item{breaks}{A \code{numeric} vector of break points to be used in dividing
+up the support of \code{A}. Experimental and not recommended for use except
+in cases where binning must be set externally; exercise care when using.}
 
 \item{cv_folds}{A \code{numeric} indicating the number of cross-validation
 folds to be used in fitting the sequence of HAL conditional density models.}

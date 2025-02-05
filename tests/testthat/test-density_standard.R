@@ -1,7 +1,7 @@
 library(data.table)
 set.seed(76924)
 
-# simulate data: W ~ Rademacher and A|W ~ N(mu = \pm 1, sd = 0.5)
+# simulate data: W ~ Rademacher and A|W ~ N(mu = ±1, sd = 0.5)
 n_train <- 100
 w <- rbinom(n_train, 1, 0.5)
 w[w == 0] <- -1

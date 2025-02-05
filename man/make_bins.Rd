@@ -16,7 +16,7 @@ optimal histogram construction and \code{"scaled"} corresponding to the use
 of various pre-set multiples of the square root of the sample size.}
 
 \item{max_bins}{A \code{numeric} indicating the maximum number of bins that
-are allowed in the grid for building the histogram based discretization.}
+are allowed in the grid for building the histogram-based discretization.}
 }
 \description{
 Histogram Binning Procedures for Pooled Hazards Regression
