@@ -128,7 +128,7 @@ in terms of the solution path of the lasso regularization parameter:
 plot(haldensify_fit)
 ```
 
-<img src="reference/figures/example-plot-1.png" alt="CV-risk of regularized conditional density estimators" width="80%" />
+<img src="man/figures/example-plot-1.png" alt="CV-risk of regularized conditional density estimators" width="80%" />
 
 Finally, we can obtain conditional density estimates from the trained
 model on the training (or on new) data:

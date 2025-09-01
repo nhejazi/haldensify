@@ -1,8 +1,8 @@
 ## Test environments
 
-* ubuntu 20.04 (GitHub Actions), R 4.1.1
-* macOS 10.15 (local + GitHub Actions), R 4.1.1
-* Windows 2019 (GitHub Actions), R 4.1.1
+* ubuntu 24.04.3 (GitHub Actions), R 4.5.1
+* macOS 15.5 (local + GitHub Actions), R 4.5.1
+* Windows 2022 10.0.20348 (GitHub Actions), R 4.5.1
 
 ## R CMD check results
 
