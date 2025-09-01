@@ -178,7 +178,7 @@ $\lambda$. To do this, we can simply call the available `plot` method, which
 uses the cross-validated conditional density fits in the `cv_tuning_results`
 slot of the `haldensify` object. For example,
 
-```{r plot_risk_haldensify, message=FALSE, warning=FALSE}
+```{r plot_risk_haldensify, fig.alt = "CV-risk of regularized conditional density estimators", message=FALSE, warning=FALSE}
 p_risk <- plot(haldensify_fit)
 p_risk
 ```
@@ -187,7 +187,7 @@ Finally, we can predict the conditional density over the grid of observed values
 $A$ across different elements of the support $W$. We do this using the `predict`
 method of `haldensify` and plot the results below.
 
-```{r plot_haldensify, message=FALSE, warning=FALSE}
+```{r plot_haldensify, fig.alt = "Estimated conditional density of A|W for several choices of W", message=FALSE, warning=FALSE}
 # predictions to recover conditional density of A|W
 new_a <- seq(-4, 4, by = 0.05)
 new_dat <- as.data.table(list(

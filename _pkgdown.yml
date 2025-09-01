@@ -1,6 +1,7 @@
 title: haldensify
-url: https://code.nimahejazi.org/haldensify
+url: https://codex.nimahejazi.org/haldensify
 template:
-  params:
-    bootswatch: readable
-
+  bootstrap: 5
+  light-switch: true
+  bslib:
+    bootswatch: simplex
