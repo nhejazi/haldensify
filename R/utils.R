@@ -36,10 +36,11 @@
 #'
 #' @return A \code{list} containing the break points used in dividing the
 #'  support of \code{A} into discrete bins, the length of each bin, and the
-#'  reformatted data. The reformatted data is a \code{\link{data.table}} of
-#'  repeated measures data, with an indicator for which bin an observation
-#'  fails in, the bin ID, observation ID, values of \code{W} for each given
-#'  observation, and observation-level weights.
+#'  reformatted, "repeated measures" dataset. The reformatted dataset is a
+#'  \code{\link[data.table]{data.table}} of repeated entries for observations
+#'  up until the bin in which their \code{A} falls, including an indicator for
+#'  which bin an observation falls in, the bin ID, observation ID, values of
+#'  \code{W} for each observation, and, possibly, observation-level weights.
 format_long_hazards <- function(A, W, wts = rep(1, length(A)),
                                 grid_type = c(
                                   "equal_range", "equal_mass"

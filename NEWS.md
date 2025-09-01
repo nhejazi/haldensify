@@ -1,12 +1,22 @@
+# haldensify 0.2.8
+
+As of September 2025:
+
+* Fix a documentation error in `format_long_hazards` per a CRAN warning that
+  package references should "use package anchors, i.e., use `\link[PKG]{FOO}`"
+  (see <https://github.com/nhejazi/haldensify/issues/44>).
+
 # haldensify 0.2.7
 
-As of September 2024
+As of September 2024:
+
 * Continue fixing issues with incorrectly passing `n_folds` to `glmnet`, which
-  has argument `nfolds` (https://github.com/nhejazi/haldensify/issues/41)
+  has argument `nfolds` (see <https://github.com/nhejazi/haldensify/issues/41>).
 
 # haldensify 0.2.6
 
 As of February 2024:
+
 * Updated versions of `hal9001` and `origami`  in `DESCRIPTION` to match the
   latest CRAN releases, resolving bugs related to `Matrix` v1.6-2 as reported
   at <https://github.com/tlverse/hal9001/issues/109>.
@@ -16,13 +26,15 @@ As of February 2024:
 # haldensify 0.2.5
 
 As of May 2021:
+
 * Updated nonparametric IPW estimation code to match the methods described in
-  https://arxiv.org/abs/2205.05777.
+  <https://arxiv.org/abs/2205.05777>.
 * Updated tests, references, and `pkgdown` site in preparation for JOSS paper.
 
 # haldensify 0.2.2
 
 As of October 2021:
+
 * Removed `LazyData` field in `DESCRIPTION` since no `data` directory present.
 * Removed reference to `glmnet` in documentation to avoid adding the package
   to dependencies.
@@ -30,6 +42,7 @@ As of October 2021:
 # haldensify 0.2.1
 
 As of October 2021:
+
 * Reduced time-intensive nature of unit tests as per CRAN policies.
 * Added `smoothness_orders` as a named argument to `haldensify`,
   `fit_haldensify`, and `cv_haldensify`, with a default of zero. This was
@@ -39,6 +52,7 @@ As of October 2021:
 # haldensify 0.2.0
 
 As of September 2021:
+
 * Refinements of internal calls to `hal9001::fit_hal()` in keeping with updates
   to that package, for compatibility with its v0.4.0 CRAN release.
 * The `smoothness_orders` argument of `hal9001::fit_hal()` previously was set
@@ -51,6 +65,7 @@ As of September 2021:
 # haldensify 0.1.5
 
 As of April 2021:
+
 * Changes to internal calls of `hal9001::fit_hal()` in order to correctly use
   the pared-down interface introduced in v0.4.0, contributed by @rachaelvp.
 * The default for the grid of bins used for discretization of the variable `A`
@@ -59,6 +74,7 @@ As of April 2021:
 # haldensify 0.1.0
 
 As of April 2021:
+
 * Updates to `haldensify` arguments (removal of `hal_max_degree` as a named
   argument) to simplify and better match use of `fit_hal` in `hal9001` v0.3.0+.
   This overhaul also included the addition of `...` arguments, now passed
@@ -82,6 +98,7 @@ As of April 2021:
 # haldensify 0.0.9
 
 As of February 2021:
+
 * Addition of a method `plot.haldensify` to simplify visualizing the empirical
   risks of the sequence of HAL-based conditional density estimators across the
   grid of the regularization parameter, and necessary changes to the vignette.
@@ -102,6 +119,7 @@ As of February 2021:
 # haldensify 0.0.8
 
 As of January 2021:
+
 * Addition of argument `hal_basis_list` to `haldensify()`, allowing for a HAL
   basis produced by `fit_hal()` to be passed into the HAL regression used for
   density estimation. This facilitates reduced computational overhead when
@@ -131,6 +149,7 @@ As of January 2021:
 # haldensify 0.0.7
 
 As of January 2021:
+
 * Adds support to facilitate convenient marginal density estimation by creating
   automatically a constant vector when `W = NULL` is set in `haldensify()`.
 * The `hal9001` dependency has been upgraded to v0.2.8 of that package, which
@@ -156,13 +175,16 @@ As of January 2021:
 # haldensify 0.0.6
 
 As of December 2020:
+
 * Use of `plan(transparent)` has been changed to `plan(sequential)` based on
   ongoing development in the `future` package ecosystem.
 
 As of June 2020:
+
 * A short software paper for inclusion in JOSS has been added.
 
 As of May 2020:
+
 * The core cross-validation routine in `haldensify` for fitting HAL models has
   been slightly abstracted and moved to the new function `fit_haldensify`.
 * The `haldensify()` wrapper function serves to cross-validate over choices of
