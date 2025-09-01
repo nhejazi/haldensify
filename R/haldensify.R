@@ -248,7 +248,7 @@ haldensify <- function(A, W,
 
   # extract n_bins/grid_type index that is empirical loss minimizer
   emp_risk_per_lambda <- lapply(select_out, `[[`, "emp_risks")
-  #min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
+  # min_loss_idx <- lapply(emp_risk_per_lambda, which.min)
   min_risk <- lapply(emp_risk_per_lambda, min)
   cv_selected_params <- tune_grid[which.min(min_risk), , drop = FALSE]
   cv_selected_fits <- select_out[[which.min(min_risk)]]
@@ -369,7 +369,7 @@ fit_haldensify <- function(A, W,
                            smoothness_orders = 0L,
                            ...) {
   # capture dot arguments for reference
-  #dot_args <- list(...)
+  # dot_args <- list(...)
 
   # re-format input data into long hazards structure
   reformatted_output <- format_long_hazards(

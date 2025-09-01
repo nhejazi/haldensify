@@ -49,9 +49,10 @@ Benkeser 2018; Coyle et al. 2022; Hejazi, Coyle, and van der Laan 2020).
 Since the generalized propensity score is a key ingredient in inverse
 probability weighting (IPW) methods, `haldensify` builds on the advances
 of Ertefaie, Hejazi, and van der Laan (2022) and Hejazi et al. (2022) to
-provide nonparametric IPW estimators of the causal effects for
-continuous treatments, which achieve the semiparametric efficiency bound
-by undersmoothing along a family of HAL conditional density estimators.
+provide non-parametric IPW estimators of the causal effects for
+continuous treatments, which achieve the semi-parametric efficiency
+bound by undersmoothing along a family of HAL conditional density
+estimators.
 
 ------------------------------------------------------------------------
 
@@ -80,7 +81,7 @@ highly adaptive lasso model to obtain conditional density estimates:
 
 ``` r
 library(haldensify)
-#> haldensify v0.2.5: Highly Adaptive Lasso Conditional Density Estimation
+#> haldensify v0.2.3: Highly Adaptive Lasso Conditional Density Estimation
 set.seed(76924)
 
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)
@@ -104,7 +105,10 @@ haldensify_fit
 #> Number of bins over support of A: 10
 #> CV-selected lambda: 0.0016
 #> Summary of fitted HAL:
+#> Warning in summary.hal9001(x$hal_fit): Coefficients for many lambda exist --
+#> Summarizing coefficients corresponding to minimum lambda.
 #>          coef                                    term
+#>         <num>                                  <char>
 #>  1:  5.989688                             (Intercept)
 #>  2: 10.498800                      [ I(bin_id >= 2) ]
 #>  3: -9.673620                      [ I(W >= -3.353) ]
@@ -121,11 +125,10 @@ We can also visualize the empirical risk (with respect to density loss)
 in terms of the solution path of the lasso regularization parameter:
 
 ``` r
-# just use the built-in plot method
 plot(haldensify_fit)
 ```
 
-<img src="man/figures/example-plot-1.png" width="80%" />
+<img src="reference/figures/example-plot-1.png" alt="CV-risk of regularized conditional density estimators" width="80%" />
 
 Finally, we can obtain conditional density estimates from the trained
 model on the training (or on new) data:
@@ -138,7 +141,7 @@ head(pred_haldensify)
 ```
 
 For more details, check out the [package
-vignette](https://code.nimahejazi.org/haldensify/articles/intro_haldensify)
+vignette](https://codex.nimahejazi.org/haldensify/articles/intro_haldensify)
 on the corresponding `pkgdown` site.
 
 ------------------------------------------------------------------------
@@ -227,14 +230,14 @@ National Institutes of Health, and the National Science Foundation
 
 ## License
 
-© 2019-2024 [Nima S. Hejazi](https://nimahejazi.org)
+© 2019-2025 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license.
 See below for details:
 
     MIT License
 
-    Copyright (c) 2019-2024 Nima S. Hejazi
+    Copyright (c) 2019-2025 Nima S. Hejazi
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

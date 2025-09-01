@@ -47,6 +47,7 @@ utils::globalVariables(c("wts"))
 #' @return A \code{numeric} vector of predicted conditional density values from
 #'  a fitted \code{haldensify} object.
 #'
+#' @export predict.haldensify
 #' @export
 #'
 #' @examples

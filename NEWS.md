@@ -5,6 +5,11 @@ As of September 2025:
 * Fix a documentation error in `format_long_hazards` per a CRAN warning that
   package references should "use package anchors, i.e., use `\link[PKG]{FOO}`"
   (see <https://github.com/nhejazi/haldensify/issues/44>).
+* Export the `predict` method of `haldensify` objects rather than registering
+  it solely as an S3 method for the generic, allowing other packages to easily
+  reference and export (see <https://github.com/nhejazi/haldensify/issues/45>).
+  See <https://github.com/r-lib/roxygen2/issues/1322> for a suggestion to export
+  the method `predict.xy` manually via a Roxygen2 export tag.
 
 # haldensify 0.2.7
 
