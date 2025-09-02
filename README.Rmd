@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/nhejazi/haldensify/workflows/R-CMD-check/badge.svg)](https://github.com/nhejazi/haldensify/actions)
-[![Coverage Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
+[![Coverage Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://app.codecov.io/github/nhejazi/haldensify?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/haldensify)](https://www.r-pkg.org/pkg/haldensify)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/haldensify)](https://CRAN.R-project.org/package=haldensify)
 [![CRAN total downloads](http://cranlogs.r-pkg.org/badges/grand-total/haldensify)](https://CRAN.R-project.org/package=haldensify)
@@ -34,7 +34,7 @@ knitr::opts_chunk$set(
 > Highly Adaptive Lasso Conditional Density Estimation
 
 __Authors:__ [Nima Hejazi](https://nimahejazi.org), [David
-Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes), and [Mark
+Benkeser](https://sph.emory.edu/profile/faculty/david-benkeser), and Mark
 van der Laan](https://vanderlaan-lab.org/about/)
 
 ---

@@ -7,7 +7,7 @@
 
 [![R-CMD-check](https://github.com/nhejazi/haldensify/workflows/R-CMD-check/badge.svg)](https://github.com/nhejazi/haldensify/actions)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://codecov.io/github/nhejazi/haldensify?branch=master)
+Status](https://img.shields.io/codecov/c/github/nhejazi/haldensify/master.svg)](https://app.codecov.io/github/nhejazi/haldensify?branch=master)
 [![CRAN](http://www.r-pkg.org/badges/version/haldensify)](https://www.r-pkg.org/pkg/haldensify)
 [![CRAN
 downloads](https://cranlogs.r-pkg.org/badges/haldensify)](https://CRAN.R-project.org/package=haldensify)
@@ -25,8 +25,8 @@ license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opens
 > Highly Adaptive Lasso Conditional Density Estimation
 
 **Authors:** [Nima Hejazi](https://nimahejazi.org), [David
-Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes), and
-[Mark van der Laan](https://vanderlaan-lab.org/about/)
+Benkeser](https://sph.emory.edu/profile/faculty/david-benkeser), and
+Mark van der Laan\](<https://vanderlaan-lab.org/about/>)
 
 ------------------------------------------------------------------------
 

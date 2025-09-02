@@ -56,7 +56,7 @@ Suggests:
     covr,
     future
 License: MIT + file LICENSE
-URL: https://codex.nimahejazi.org/haldensify
+URL: https://codex.nimahejazi.org/haldensify/
 BugReports: https://github.com/nhejazi/haldensify/issues
 Encoding: UTF-8
 VignetteBuilder: knitr

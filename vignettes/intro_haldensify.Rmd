@@ -1,7 +1,7 @@
 ---
 title: "Highly Adaptive Lasso Conditional Density Estimation"
 author: "[Nima Hejazi](https://nimahejazi.org) and [David
-  Benkeser](https://www.sph.emory.edu/faculty/profile/#!dbenkes)"
+  Benkeser](https://sph.emory.edu/profile/faculty/david-benkeser)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: ../inst/REFERENCES.bib
