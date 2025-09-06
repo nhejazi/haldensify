@@ -26,7 +26,7 @@ license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opens
 
 **Authors:** [Nima Hejazi](https://nimahejazi.org), [David
 Benkeser](https://sph.emory.edu/profile/faculty/david-benkeser), and
-Mark van der Laan\](<https://vanderlaan-lab.org/about/>)
+[Mark van der Laan](https://vanderlaan-lab.org/about/)
 
 ------------------------------------------------------------------------
 
@@ -66,7 +66,7 @@ install.packages("haldensify")
 ```
 
 To contribute, install the *development version* of `haldensify` from
-GitHub via [`remotes`](https://CRAN.R-project.org/package=remotes):
+GitHub:
 
 ``` r
 remotes::install_github("nhejazi/haldensify")
@@ -81,7 +81,7 @@ highly adaptive lasso model to obtain conditional density estimates:
 
 ``` r
 library(haldensify)
-#> haldensify v0.2.3: Highly Adaptive Lasso Conditional Density Estimation
+#> haldensify v0.2.8: Highly Adaptive Lasso Conditional Density Estimation
 set.seed(76924)
 
 # simulate data: W ~ U[-4, 4] and A|W ~ N(mu = W, sd = 0.25)
@@ -98,15 +98,11 @@ haldensify_fit <- haldensify(
   max_degree = 3,
   reduce_basis = 1 / sqrt(n_train)
 )
-#> Warning in (function (X, Y, formula = NULL, X_unpenalized = NULL, max_degree = ifelse(ncol(X) >= : Some fit_control arguments are neither default nor glmnet/cv.glmnet arguments: n_folds; 
-#> They will be removed from fit_control
 haldensify_fit
 #> HAL Conditional Density Estimation
 #> Number of bins over support of A: 10
 #> CV-selected lambda: 0.0016
 #> Summary of fitted HAL:
-#> Warning in summary.hal9001(x$hal_fit): Coefficients for many lambda exist --
-#> Summarizing coefficients corresponding to minimum lambda.
 #>          coef                                    term
 #>         <num>                                  <char>
 #>  1:  5.989688                             (Intercept)

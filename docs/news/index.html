@@ -43,7 +43,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.8" id="haldensify-028">haldensify 0.2.8<a class="anchor" aria-label="anchor" href="#haldensify-028"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.2.8" id="haldensify-028">haldensify 0.2.8<a class="anchor" aria-label="anchor" href="#haldensify-028"></a></h2><p class="text-muted">CRAN release: 2025-09-02</p>
 <p>As of September 2025:</p>
 <ul><li>Fix a documentation error in <code>format_long_hazards</code> per a CRAN warning that package references should “use package anchors, i.e., use <code>\link[PKG]{FOO}</code>” (see <a href="https://github.com/nhejazi/haldensify/issues/44" class="external-link uri">https://github.com/nhejazi/haldensify/issues/44</a>).</li>
 <li>Export the <code>predict</code> method of <code>haldensify</code> objects rather than registering it solely as an S3 method for the generic, allowing other packages to easily reference and export (see <a href="https://github.com/nhejazi/haldensify/issues/45" class="external-link uri">https://github.com/nhejazi/haldensify/issues/45</a>). See <a href="https://github.com/r-lib/roxygen2/issues/1322" class="external-link uri">https://github.com/r-lib/roxygen2/issues/1322</a> for a suggestion to export the method <code>predict.xy</code> manually via a Roxygen2 export tag.</li>

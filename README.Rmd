@@ -34,7 +34,7 @@ knitr::opts_chunk$set(
 > Highly Adaptive Lasso Conditional Density Estimation
 
 __Authors:__ [Nima Hejazi](https://nimahejazi.org), [David
-Benkeser](https://sph.emory.edu/profile/faculty/david-benkeser), and Mark
+Benkeser](https://sph.emory.edu/profile/faculty/david-benkeser), and [Mark
 van der Laan](https://vanderlaan-lab.org/about/)
 
 ---
@@ -71,8 +71,7 @@ For standard use, we recommend installing the package from
 install.packages("haldensify")
 ```
 
-To contribute, install the _development version_ of `haldensify` from GitHub
-via [`remotes`](https://CRAN.R-project.org/package=remotes):
+To contribute, install the *development version* of `haldensify` from GitHub:
 
 ```{r gh-master-installation, eval = FALSE}
 remotes::install_github("nhejazi/haldensify")
