@@ -1,0 +1,49 @@
+// Adapted from the lab website's (Quarto) theme for pkgdown's Bootstrap 5.
+// Theme variables (e.g., link color) live under `template: bslib:` in
+// _pkgdown.yml, since pkgdown adds this file after variables are resolved.
+
+thead th {
+  background-color: #BD666D !important;
+  color: white !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.navbar {
+  background-color: #BD666D !important;
+
+  .navbar-brand,
+  .nav-link,
+  .navbar-toggler {
+    color: white !important;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: white !important;
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+
+  .navbar-toggler-icon {
+    filter: invert(1);
+  }
+}
+
+@media print {
+  .navbar {
+    display: none !important;
+  }
+
+  // remove href printing
+  a[href]:after {
+    content: none !important;
+  }
+}
+
+// Force inline code to use light colors in light mode only
+[data-bs-theme="light"] :not(pre) > code {
+  color: #0969da;
+  background-color: rgba(175, 184, 193, 0.2);
+}

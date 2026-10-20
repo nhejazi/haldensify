@@ -1,7 +1,9 @@
-title: haldensify
-url: https://codex.nimahejazi.org/haldensify
+title: txshift
+url: https://codex.nimahejazi.org/txshift
 template:
   bootstrap: 5
   light-switch: true
   bslib:
     bootswatch: simplex
+    link-color: "#006DAE"
+    link-color-dark: "#66A7CE"

@@ -5,10 +5,10 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Highly Adaptive Lasso Conditional Density Estimation • haldensify</title>
+<title>Highly Adaptive Lasso Conditional Density Estimation • txshift</title>
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Highly Adaptive Lasso Conditional Density Estimation">
 </head>
@@ -18,7 +18,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">haldensify</a>
+    <a class="navbar-brand me-2" href="../index.html">txshift</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.8</small>
 
@@ -70,7 +70,7 @@
 Benkeser</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2025-09-06</h4>
+            <h4 data-toc-skip class="date">2026-10-20</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/nhejazi/haldensify/blob/HEAD/vignettes/intro_haldensify.Rmd" class="external-link"><code>vignettes/intro_haldensify.Rmd</code></a></small>
       <div class="d-none name"><code>intro_haldensify.Rmd</code></div>
@@ -156,12 +156,11 @@ continuous treatments, our conditional density estimator, built around
 the HAL regression function, may be quite useful in flexibly
 constructing such estimates. We note that proposals for the data
 adaptive estimation of such quantities are sparse in the literature
-(e.g., <span class="citation">Zhu, Coffman, and Ghosh (2015)</span>).
-Notably, <span class="citation">Dı́az and van der Laan (2011)</span> gave
-a proposal for constructing a semiparametric estimator of such a target
-quantity based on exploiting the relationship between the hazard and
-density functions. Our proposal builds upon theirs in several key
-ways:</p>
+(e.g., <span class="citation">Zhu et al. (2015)</span>). Notably, <span class="citation"><span class="nocase">Dı́az and van der Laan</span>
+(2011)</span> gave a proposal for constructing a semiparametric
+estimator of such a target quantity based on exploiting the relationship
+between the hazard and density functions. Our proposal builds upon
+theirs in several key ways:</p>
 <ol style="list-style-type: decimal">
 <li>we adjust their algorithm so as to incorporate sample-level weights,
 necessary for making use of sample-level weights (e.g., inverse
@@ -170,12 +169,13 @@ probability of censoring weighting); and</li>
 HAL regression function.</li>
 </ol>
 <p>While our first modification is general and may be applied to the
-estimation strategy of <span class="citation">Dı́az and van der Laan
-(2011)</span>, our latter contribution requires adjusting the
-penalization aspect of HAL regression so as to respect the use of a loss
-function appropriate for density estimation on the hazard scale.</p>
-<p>To build an estimator of a conditional density, <span class="citation">Dı́az and van der Laan (2011)</span> considered
-discretizing the observed
+estimation strategy of <span class="citation"><span class="nocase">Dı́az
+and van der Laan</span> (2011)</span>, our latter contribution requires
+adjusting the penalization aspect of HAL regression so as to respect the
+use of a loss function appropriate for density estimation on the hazard
+scale.</p>
+<p>To build an estimator of a conditional density, <span class="citation"><span class="nocase">Dı́az and van der Laan</span>
+(2011)</span> considered discretizing the observed
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>∈</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">a \in A</annotation></semantics></math>
 based on a number of bins
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
@@ -193,7 +193,7 @@ falling in a given bin may be evaluated via standard classification
 techniques. In fact, this proposal may be viewed as a re-formulation of
 the classification problem into a corresponding set of hazard
 regressions:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>A</mi><mo>≥</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>×</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><munderover><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></munderover><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>−</mo><mi>ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>A</mi><mo>≥</mo><msub><mi>α</mi><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>A</mi><mo>≥</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>×</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><munderover><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></munderover><mo stretchy="false" form="prefix">{</mo><mn>1</mn><mo>−</mo><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>j</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>A</mi><mo>≥</mo><msub><mi>α</mi><mrow><mi>j</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo><mo>,</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{align*}
    \mathbb{P} (a \in [\alpha_{t-1}, \alpha_t) \mid W) =&amp; \mathbb{P} (a \in
    [\alpha_{t-1}, \alpha_t) \mid A \geq \alpha_{t-1}, W) \times  \\ &amp;
    \prod_{j = 1}^{t -1} \{1 - \mathbb{P} (a \in [\alpha_{j-1}, \alpha_j)
@@ -221,7 +221,7 @@ part of this new data structure. With the re-formatted data, a pooled
 hazard regression, spanning the support of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
 is then executed. Finally, the conditional density estimator
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mrow><mi>n</mi><mo>,</mo><mi>α</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi>ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>α</mi><mi>t</mi></msub><mo>−</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation*}
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>g</mi><mrow><mi>n</mi><mo>,</mo><mi>α</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mrow><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>α</mi><mi>t</mi></msub><mo>−</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo stretchy="false" form="postfix">)</mo></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">\begin{equation*}
    g_{n, \alpha}(a \mid W) = \frac{\mathbb{P}(a \in [\alpha_{t-1}, \alpha_t)
       \mid W)}{(\alpha_t - \alpha_{t-1})},
 \end{equation*}</annotation></semantics></math> for
@@ -232,13 +232,13 @@ bin size
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mi>t</mi></msub><mo>−</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">\alpha_t - \alpha_{t-1}</annotation></semantics></math>).</p>
 <p>In its original proposal, a key element of this procedure was the use
 of any arbitrary classification procedure for estimating
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathbb{P}(a \in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathbb{P}(a \in
 [\alpha_{t-1}, \alpha_t) \mid W)</annotation></semantics></math>,
 facilitating the incorporation of flexible, data adaptive estimators. We
 alter this proposal in two ways,</p>
 <ol style="list-style-type: decimal">
 <li>replacing the arbitrary estimator of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathbb{P}(a \in [\alpha_{t-1},
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">ℙ</mi><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>∈</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>α</mi><mrow><mi>t</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>,</mo><msub><mi>α</mi><mi>t</mi></msub><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\mathbb{P}(a \in [\alpha_{t-1},
 \alpha_t) \mid W)</annotation></semantics></math> with HAL regression,
 and</li>
 <li>accommodating the use of sample-level weights, making it possible
@@ -258,7 +258,7 @@ in a manner consistent with this loss.</p>
 <p>First, let’s load a few required packages and set a seed for our
 example.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://codex.nimahejazi.org/haldensify/">haldensify</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://codex.nimahejazi.org/haldensify/" class="external-link">haldensify</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">75681</span><span class="op">)</span></span></code></pre></div>
@@ -274,7 +274,7 @@ whose mean is a function of
 <code class="sourceCode R"><span><span class="va">make_example_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span>  <span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n_obs</span>, mean <span class="op">=</span> <span class="va">W</span>, sd <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span></span>
-<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A <span class="op">=</span> <span class="va">A</span>, W <span class="op">=</span> <span class="va">W</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A <span class="op">=</span> <span class="va">A</span>, W <span class="op">=</span> <span class="va">W</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>Now, let’s simulate our data and take a quick look at it:</p>
@@ -323,7 +323,7 @@ object. For example,</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p_risk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">haldensify_fit</span><span class="op">)</span></span>
 <span><span class="va">p_risk</span></span></code></pre></div>
-<p><img src="intro_haldensify_files/figure-html/plot_risk_haldensify-1.png" alt="CV-risk of regularized conditional density estimators" width="700"></p>
+<p><img src="intro_haldensify_files/figure-html/plot_risk_haldensify-1.png" class="r-plt" alt="CV-risk of regularized conditional density estimators" width="700"></p>
 <p>Finally, we can predict the conditional density over the grid of
 observed values
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
@@ -334,7 +334,7 @@ We do this using the <code>predict</code> method of
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># predictions to recover conditional density of A|W</span></span>
 <span><span class="va">new_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span>, by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
-<span><span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span><span class="va">new_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  a <span class="op">=</span> <span class="va">new_a</span>,</span>
 <span>  w_neg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  w_zero <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">new_a</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -353,7 +353,7 @@ We do this using the <code>predict</code> method of
 <span>  new_W <span class="op">=</span> <span class="va">new_dat</span><span class="op">$</span><span class="va">w_pos</span></span>
 <span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co"># visualize results</span></span>
-<span><span class="va">dens_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/melt.data.table.html" class="external-link">melt</a></span><span class="op">(</span><span class="va">new_dat</span>,</span>
+<span><span class="va">dens_dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/melt.data.table.html" class="external-link">melt</a></span><span class="op">(</span><span class="va">new_dat</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span><span class="op">)</span>,</span>
 <span>  measure.vars <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pred_w_pos"</span>, <span class="st">"pred_w_zero"</span>, <span class="st">"pred_w_neg"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -380,7 +380,7 @@ We do this using the <code>predict</code> method of
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="va">p_dens</span></span></code></pre></div>
-<p><img src="intro_haldensify_files/figure-html/plot_haldensify-1.png" alt="Estimated conditional density of A|W for several choices of W" width="700"></p>
+<p><img src="intro_haldensify_files/figure-html/plot_haldensify-1.png" class="r-plt" alt="Estimated conditional density of A|W for several choices of W" width="700"></p>
 <p>In the above example, we generate synthetic data along a grid of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
 and three values of
@@ -419,8 +419,7 @@ which degrades further for
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><mi>+</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">W = +2</annotation></semantics></math>.
 The <code>haldensify</code> conditional density estimator has been used
 to estimate the generalized propensity score in applications of the
-methodology described in <span class="citation">Hejazi et al.
-(2020)</span>.</p>
+methodology described in <span class="citation"><span class="nocase">Hejazi et al.</span> (2020)</span>.</p>
 </div>
 <div class="section level2">
 <h2 id="nonparametric-inverse-probability-weighted-estimation">Nonparametric inverse probability weighted estimation<a class="anchor" aria-label="anchor" href="#nonparametric-inverse-probability-weighted-estimation"></a>
@@ -429,9 +428,10 @@ methodology described in <span class="citation">Hejazi et al.
 ingredient in evaluating causal effects for continuous treatments. A
 popular framework for defining and evaluating such causal effects is
 that of modified treatment policies <span class="citation">(Haneuse and
-Rotnitzky 2013; Dı́az and van der Laan 2018; Hejazi et al. 2022)</span>,
-which define interventions that shift (or modify) the treatment. For
-example, in a setting with a continuous treatment
+Rotnitzky 2013; <span class="nocase">Dı́az and van der Laan</span> 2018;
+<span class="nocase">Hejazi et al.</span> 2022)</span>, which define
+interventions that shift (or modify) the treatment. For example, in a
+setting with a continuous treatment
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>,
 in which we additionally collect baseline covariates
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
@@ -455,16 +455,16 @@ to a counterfactual
 that is itself an additive shift of the natural value of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>.
 The counterfactual mean of such an intervention would be expressed
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>𝔼</mi><mo stretchy="false" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>A</mi><mi>δ</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\mathbb{E}[Y(A_{\delta})]</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="double-struck">𝔼</mi><mo stretchy="false" form="prefix">[</mo><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>A</mi><mi>δ</mi></msub><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\mathbb{E}[Y(A_{\delta})]</annotation></semantics></math>,
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>A</mi><mi>δ</mi></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">Y(A_{\delta})</annotation></semantics></math>
 is the potential outcome that would be observed had the treatment taken
 the value
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>A</mi><mi>δ</mi></msub><annotation encoding="application/x-tex">A_{\delta}</annotation></semantics></math>.
 Both <span class="citation">Haneuse and Rotnitzky (2013)</span> and
-<span class="citation">Dı́az and van der Laan (2018)</span> proposed
-substitution, inverse probability weighted (IPW), and doubly robust
-estimators of a statistical functional
+<span class="citation"><span class="nocase">Dı́az and van der Laan</span>
+(2018)</span> proposed substitution, inverse probability weighted (IPW),
+and doubly robust estimators of a statistical functional
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>
 that identifies this counterfactual mean under standard assumptions.
 Doubly robust estimators of
@@ -475,10 +475,9 @@ of flexible estimators of nuisance parameters.</p>
 <p>Despite the popularity of doubly robust estimation procedures, IPW
 estimators can be modified to accommodate data adaptive estimation of
 the (generalized) propensity score. Such nonparametric IPW estimators,
-based on HAL, have been described by <span class="citation">Ertefaie,
-Hejazi, and van der Laan (2022)</span> in the context of binary
-treatments, and by <span class="citation">Hejazi et al. (2022)</span>
-for continuous treatments. The IPW estimator of
+based on HAL, have been described by <span class="citation"><span class="nocase">Ertefaie et al.</span> (2022)</span> in the context of
+binary treatments, and by <span class="citation"><span class="nocase">Hejazi et al.</span> (2022)</span> for continuous
+treatments. The IPW estimator of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>
 is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ψ</mi><mrow><mi>n</mi><mo>,</mo><mtext mathvariant="normal">IPW</mtext></mrow></msub><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msub><mover><mi>g</mi><mo accent="true">̃</mo></mover><mrow><mi>n</mi><mo>,</mo><mi>A</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mi>/</mi><msub><mi>g</mi><mrow><mi>n</mi><mo>,</mo><mi>A</mi></mrow></msub><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∣</mo><mi>W</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">\psi_{n,\text{IPW}} = \{\tilde{g}_{n,A}(A \mid W) / g_{n,A}(A \mid
@@ -546,7 +545,7 @@ by
 <span>  <span class="va">W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">1</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span>  <span class="va">A</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">2</span> <span class="op">*</span> <span class="va">W</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
 <span>  <span class="va">Y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Logistic.html" class="external-link">plogis</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">-</span> <span class="va">A</span> <span class="op">+</span> <span class="va">W</span> <span class="op">+</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, A <span class="op">=</span> <span class="va">A</span>, W <span class="op">=</span> <span class="va">W</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Y <span class="op">=</span> <span class="va">Y</span>, A <span class="op">=</span> <span class="va">A</span>, W <span class="op">=</span> <span class="va">W</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span></span>
@@ -577,7 +576,8 @@ among a sequence in
 setting the option <code>selector_type = "all"</code> simply returns IPW
 estimators for each of the selectors implemented. For a formal
 description of the selectors and numerical experiments examining their
-performance, see <span class="citation">Hejazi et al. (2022)</span>.</p>
+performance, see <span class="citation"><span class="nocase">Hejazi et
+al.</span> (2022)</span>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est_ipw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ipw_shift.html">ipw_shift</a></span><span class="op">(</span></span>
 <span>  W <span class="op">=</span> <span class="va">dat_obs</span><span class="op">$</span><span class="va">W</span>, A <span class="op">=</span> <span class="va">dat_obs</span><span class="op">$</span><span class="va">A</span>, Y <span class="op">=</span> <span class="va">dat_obs</span><span class="op">$</span><span class="va">Y</span>,</span>
@@ -613,22 +613,24 @@ estimators.</p>
 <div class="section level3">
 <h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h3>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-diaz2011super" class="csl-entry">
-Dı́az, Iván, and Mark J van der Laan. 2011. <span>“Super Learner Based
-Conditional Density Estimation with Application to Marginal Structural
-Models.”</span> <em>International Journal of Biostatistics</em> 7 (1):
-1–20. <a href="https://doi.org/10.2202/1557-4679.1356" class="external-link">https://doi.org/10.2202/1557-4679.1356</a>.
+<span class="nocase">Dı́az, Iván, and Mark J van der Laan</span>. 2011.
+<span>“Super Learner Based Conditional Density Estimation with
+Application to Marginal Structural Models.”</span> <em>International
+Journal of Biostatistics</em> 7 (1): 1–20. <a href="https://doi.org/10.2202/1557-4679.1356" class="external-link">https://doi.org/10.2202/1557-4679.1356</a>.
 </div>
 <div id="ref-diaz2018stochastic" class="csl-entry">
-———. 2018. <span>“Stochastic Treatment Regimes.”</span> In <em>Targeted
-Learning in Data Science: Causal Inference for Complex Longitudinal
-Studies</em>, 167–80. Springer. <a href="https://doi.org/10.1007/978-3-319-65304-4_14" class="external-link">https://doi.org/10.1007/978-3-319-65304-4_14</a>.
+<span class="nocase">Dı́az, Iván, and Mark J van der Laan</span>. 2018.
+<span>“Stochastic Treatment Regimes.”</span> In <em>Targeted Learning in
+Data Science: Causal Inference for Complex Longitudinal Studies</em>.
+Springer. <a href="https://doi.org/10.1007/978-3-319-65304-4_14" class="external-link">https://doi.org/10.1007/978-3-319-65304-4_14</a>.
 </div>
 <div id="ref-ertefaie2020nonparametric" class="csl-entry">
-Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der Laan. 2022.
-<span>“Nonparametric Inverse-Probability-Weighted Estimators Based on
-the Highly Adaptive Lasso.”</span> <em>Biometrics</em> (in press). <a href="https://doi.org/10.1111/biom.13719" class="external-link">https://doi.org/10.1111/biom.13719</a>.
+<span class="nocase">Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der
+Laan</span>. 2022. <span>“Nonparametric Inverse-Probability-Weighted
+Estimators Based on the Highly Adaptive Lasso.”</span>
+<em>Biometrics</em> (in press). <a href="https://doi.org/10.1111/biom.13719" class="external-link">https://doi.org/10.1111/biom.13719</a>.
 </div>
 <div id="ref-haneuse2013estimation" class="csl-entry">
 Haneuse, Sebastian, and A Rotnitzky. 2013. <span>“Estimation of the
@@ -641,20 +643,22 @@ Effects of Stochastic Interventions in <span>R</span>.”</span>
 <em>Journal of Open Source Software</em> 5 (54): 2447. <a href="https://doi.org/10.21105/joss.02447" class="external-link">https://doi.org/10.21105/joss.02447</a>.
 </div>
 <div id="ref-hejazi2022txshift-rpkg" class="csl-entry">
-———. 2022. <em><span><code>txshift</code></span>: Efficient Estimation
-of the Causal Effects of Stochastic Interventions</em>. <a href="https://doi.org/10.5281/zenodo.4070042" class="external-link">https://doi.org/10.5281/zenodo.4070042</a>.
+Hejazi, Nima S, and David C Benkeser. 2022.
+<em><span><code>txshift</code></span>: Efficient Estimation of the
+Causal Effects of Stochastic Interventions</em>. <a href="https://doi.org/10.5281/zenodo.4070042" class="external-link">https://doi.org/10.5281/zenodo.4070042</a>.
 </div>
 <div id="ref-hejazi2022efficient" class="csl-entry">
-Hejazi, Nima S, David Benkeser, Iván Dı́az, and Mark J van der Laan.
-2022. <span>“Efficient Estimation of Modified Treatment Policy Effects
-Based on the Generalized Propensity Score.”</span> <em>arXiv</em>. <a href="https://arxiv.org/abs/2205.05777" class="external-link">https://arxiv.org/abs/2205.05777</a>.
+<span class="nocase">Hejazi, Nima S, David Benkeser, Iván Dı́az, and Mark
+J van der Laan</span>. 2022. <span>“Efficient Estimation of Modified
+Treatment Policy Effects Based on the Generalized Propensity
+Score.”</span> <em>arXiv</em>. <a href="https://arxiv.org/abs/2205.05777" class="external-link">https://arxiv.org/abs/2205.05777</a>.
 </div>
 <div id="ref-hejazi2020efficient" class="csl-entry">
-Hejazi, Nima S, Mark J van der Laan, Holly E Janes, Peter B Gilbert, and
-David C Benkeser. 2020. <span>“Efficient Nonparametric Inference on the
-Effects of Stochastic Interventions Under Two-Phase Sampling, with
-Applications to Vaccine Efficacy Trials.”</span> <em>Biometrics</em> 77
-(4): 1241–53. <a href="https://doi.org/10.1111/biom.13375" class="external-link">https://doi.org/10.1111/biom.13375</a>.
+<span class="nocase">Hejazi, Nima S, Mark J van der Laan, Holly E Janes,
+Peter B Gilbert, and David C Benkeser</span>. 2020. <span>“Efficient
+Nonparametric Inference on the Effects of Stochastic Interventions Under
+Two-Phase Sampling, with Applications to Vaccine Efficacy
+Trials.”</span> <em>Biometrics</em> 77 (4): 1241–53. <a href="https://doi.org/10.1111/biom.13375" class="external-link">https://doi.org/10.1111/biom.13375</a>.
 </div>
 <div id="ref-hirano2004propensity" class="csl-entry">
 Hirano, Keisuke, and Guido W Imbens. 2004. <span>“The Propensity Score
@@ -687,7 +691,7 @@ Continuous Treatments.”</span> <em>Journal of Causal Inference</em> 3
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

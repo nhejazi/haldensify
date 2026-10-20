@@ -60,5 +60,5 @@ URL: https://codex.nimahejazi.org/haldensify/
 BugReports: https://github.com/nhejazi/haldensify/issues
 Encoding: UTF-8
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
 RdMacros: Rdpack
+Config/roxygen2/version: 8.1.0

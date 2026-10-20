@@ -34,25 +34,28 @@ Benkeser](https://sph.emory.edu/profile/faculty/david-benkeser), and
 
 The `haldensify` R package is designed to provide facilities for
 nonparametric conditional density estimation based on a flexible
-procedure proposed initially by Dı́az and van der Laan (2011). The core
-of the implemented methodology involves recovering conditional density
-estimates by performing pooled hazards regressions so as to assess the
-conditional hazard that an observed value falls in a given bin over the
-(conditional) support of the variable of interest. Such conditional
-density estimates are useful, for example, in causal inference problems
-in which the *generalized propensity score* (for continuous-valued
-exposures) must be estimated (Dı́az and van der Laan 2012, 2018; Dı́az and
+procedure proposed initially by <span class="nocase">Dı́az and van der
+Laan</span> (2011). The core of the implemented methodology involves
+recovering conditional density estimates by performing pooled hazards
+regressions so as to assess the conditional hazard that an observed
+value falls in a given bin over the (conditional) support of the
+variable of interest. Such conditional density estimates are useful, for
+example, in causal inference problems in which the *generalized
+propensity score* (for continuous-valued exposures) must be estimated
+(<span class="nocase">Dı́az and van der Laan</span> 2012, 2018; Dı́az and
 Hejazi 2020). `haldensify` implements this conditional density
 estimation strategy for use only with the highly adaptive lasso (HAL)
-(Benkeser and van der Laan 2016; van der Laan 2017; van der Laan and
-Benkeser 2018; Coyle et al. 2022; Hejazi, Coyle, and van der Laan 2020).
-Since the generalized propensity score is a key ingredient in inverse
+(<span class="nocase">Benkeser and van der Laan</span> 2016;
+<span class="nocase">van der Laan</span> 2017; <span class="nocase">van
+der Laan and Benkeser</span> 2018; <span class="nocase">Coyle et
+al.</span> 2022; <span class="nocase">Hejazi et al.</span> 2020). Since
+the generalized propensity score is a key ingredient in inverse
 probability weighting (IPW) methods, `haldensify` builds on the advances
-of Ertefaie, Hejazi, and van der Laan (2022) and Hejazi et al. (2022) to
-provide non-parametric IPW estimators of the causal effects for
-continuous treatments, which achieve the semi-parametric efficiency
-bound by undersmoothing along a family of HAL conditional density
-estimators.
+of <span class="nocase">Ertefaie et al.</span> (2022) and
+<span class="nocase">Hejazi et al.</span> (2022) to provide
+non-parametric IPW estimators of the causal effects for continuous
+treatments, which achieve the semi-parametric efficiency bound by
+undersmoothing along a family of HAL conditional density estimators.
 
 ------------------------------------------------------------------------
 
@@ -91,8 +94,10 @@ a <- rnorm(n_train, w, 0.25)
 
 # HAL-based density estimate of A|W
 haldensify_fit <- haldensify(
-  A = a, W = w,
-  n_bins = 10, grid_type = "equal_range",
+  A = a,
+  W = w,
+  n_bins = 10,
+  grid_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100)),
   # arguments passed to hal9001::fit_hal()
   max_degree = 3,
@@ -226,14 +231,14 @@ National Institutes of Health, and the National Science Foundation
 
 ## License
 
-© 2019-2025 [Nima S. Hejazi](https://nimahejazi.org)
+© 2019-2026 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license.
 See below for details:
 
     MIT License
 
-    Copyright (c) 2019-2025 Nima S. Hejazi
+    Copyright (c) 2019-2026 Nima S. Hejazi
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -257,22 +262,21 @@ See below for details:
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-benkeser2016highly" class="csl-entry">
 
-Benkeser, David, and Mark J van der Laan. 2016. “The Highly Adaptive
-Lasso Estimator.” In *Proceedings of the International Conference on
-Data Science and Advanced Analytics*, 2016:689. NIH Public Access.
-<https://doi.org/10.1109/dsaa.2016.93>.
+<span class="nocase">Benkeser, David, and Mark J van der Laan</span>.
+2016. “The Highly Adaptive Lasso Estimator.” *Proceedings of the
+International Conference on Data Science and Advanced Analytics* 2016:
+689. <https://doi.org/10.1109/dsaa.2016.93>.
 
 </div>
 
 <div id="ref-coyle2022hal9001-rpkg" class="csl-entry">
 
-Coyle, Jeremy R, Nima S Hejazi, Rachael V Phillips, Lars WP van der
-Laan, and Mark J van der Laan. 2022.
+<span class="nocase">Coyle, Jeremy R, Nima S Hejazi, Rachael V Phillips,
+Lars WP van der Laan, and Mark J van der Laan</span>. 2022.
 *<span class="nocase">hal9001</span>: The Scalable Highly Adaptive
 Lasso*. <https://doi.org/10.5281/zenodo.3558313>.
 
@@ -289,16 +293,17 @@ Series B (Statistical Methodology)* 82 (3): 661–83.
 
 <div id="ref-diaz2011super" class="csl-entry">
 
-Dı́az, Iván, and Mark J van der Laan. 2011. “Super Learner Based
-Conditional Density Estimation with Application to Marginal Structural
-Models.” *International Journal of Biostatistics* 7 (1): 1–20.
-<https://doi.org/10.2202/1557-4679.1356>.
+<span class="nocase">Dı́az, Iván, and Mark J van der Laan</span>. 2011.
+“Super Learner Based Conditional Density Estimation with Application to
+Marginal Structural Models.” *International Journal of Biostatistics* 7
+(1): 1–20. <https://doi.org/10.2202/1557-4679.1356>.
 
 </div>
 
 <div id="ref-diaz2012population" class="csl-entry">
 
-———. 2012. “Population Intervention Causal Effects Based on Stochastic
+<span class="nocase">Dı́az, Iván, and Mark J van der Laan</span>. 2012.
+“Population Intervention Causal Effects Based on Stochastic
 Interventions.” *Biometrics* 68 (2): 541–49.
 <https://doi.org/10.1111/j.1541-0420.2011.01685.x>.
 
@@ -306,53 +311,54 @@ Interventions.” *Biometrics* 68 (2): 541–49.
 
 <div id="ref-diaz2018stochastic" class="csl-entry">
 
-———. 2018. “Stochastic Treatment Regimes.” In *Targeted Learning in Data
-Science: Causal Inference for Complex Longitudinal Studies*, 167–80.
-Springer. <https://doi.org/10.1007/978-3-319-65304-4_14>.
+<span class="nocase">Dı́az, Iván, and Mark J van der Laan</span>. 2018.
+“Stochastic Treatment Regimes.” In *Targeted Learning in Data Science:
+Causal Inference for Complex Longitudinal Studies*. Springer.
+<https://doi.org/10.1007/978-3-319-65304-4_14>.
 
 </div>
 
 <div id="ref-ertefaie2020nonparametric" class="csl-entry">
 
-Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der Laan. 2022.
-“Nonparametric Inverse-Probability-Weighted Estimators Based on the
-Highly Adaptive Lasso.” *Biometrics* (in press).
+<span class="nocase">Ertefaie, Ashkan, Nima S Hejazi, and Mark J van der
+Laan</span>. 2022. “Nonparametric Inverse-Probability-Weighted
+Estimators Based on the Highly Adaptive Lasso.” *Biometrics* (in press).
 <https://doi.org/10.1111/biom.13719>.
 
 </div>
 
 <div id="ref-hejazi2022efficient" class="csl-entry">
 
-Hejazi, Nima S, David Benkeser, Iván Dı́az, and Mark J van der Laan.
-2022. “Efficient Estimation of Modified Treatment Policy Effects Based
-on the Generalized Propensity Score.” *arXiv*.
+<span class="nocase">Hejazi, Nima S, David Benkeser, Iván Dı́az, and Mark
+J van der Laan</span>. 2022. “Efficient Estimation of Modified Treatment
+Policy Effects Based on the Generalized Propensity Score.” *arXiv*.
 <https://arxiv.org/abs/2205.05777>.
 
 </div>
 
 <div id="ref-hejazi2020hal9001-joss" class="csl-entry">
 
-Hejazi, Nima S, Jeremy R Coyle, and Mark J van der Laan. 2020.
-“<span class="nocase">hal9001</span>: Scalable Highly Adaptive Lasso
-Regression in R.” *Journal of Open Source Software*.
-<https://doi.org/10.21105/joss.02526>.
+<span class="nocase">Hejazi, Nima S, Jeremy R Coyle, and Mark J van der
+Laan</span>. 2020. “<span class="nocase">hal9001</span>: Scalable Highly
+Adaptive Lasso Regression in R.” *Journal of Open Source Software*,
+ahead of print. <https://doi.org/10.21105/joss.02526>.
 
 </div>
 
 <div id="ref-vdl2017generally" class="csl-entry">
 
-van der Laan, Mark J. 2017. “A Generally Efficient Targeted Minimum
-Loss-Based Estimator Based on the Highly Adaptive Lasso.” *International
-Journal of Biostatistics* 13 (2).
+<span class="nocase">van der Laan, Mark J</span>. 2017. “A Generally
+Efficient Targeted Minimum Loss-Based Estimator Based on the Highly
+Adaptive Lasso.” *International Journal of Biostatistics* 13 (2).
 <https://doi.org/10.1515/ijb-2015-0097>.
 
 </div>
 
 <div id="ref-vdl2018highly" class="csl-entry">
 
-van der Laan, Mark J, and David Benkeser. 2018. “Highly Adaptive Lasso
-(HAL).” In *Targeted Learning in Data Science: Causal Inference for
-Complex Longitudinal Studies*, 77–94. Springer.
+<span class="nocase">van der Laan, Mark J, and David Benkeser</span>.
+2018. “Highly Adaptive Lasso (HAL).” In *Targeted Learning in Data
+Science: Causal Inference for Complex Longitudinal Studies*. Springer.
 <https://doi.org/10.1007/978-3-319-65304-4_6>.
 
 </div>

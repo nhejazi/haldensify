@@ -9,6 +9,7 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^_pkgdown\.yml$
+^pkgdown$
 ^TODO\.md$
 
 # Extra miscellaneous support files/directories.

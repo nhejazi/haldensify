@@ -95,8 +95,10 @@ a <- rnorm(n_train, w, 0.25)
 
 # HAL-based density estimate of A|W
 haldensify_fit <- haldensify(
-  A = a, W = w,
-  n_bins = 10, grid_type = "equal_range",
+  A = a,
+  W = w,
+  n_bins = 10,
+  grid_type = "equal_range",
   lambda_seq = exp(seq(-1, -10, length = 100)),
   # arguments passed to hal9001::fit_hal()
   max_degree = 3,
@@ -207,14 +209,14 @@ number [DMS 2102840](https://www.nsf.gov/awardsearch/showAward?AWD_ID=2102840)).
 
 ## License
 
-&copy; 2019-2025 [Nima S. Hejazi](https://nimahejazi.org)
+&copy; 2019-2026 [Nima S. Hejazi](https://nimahejazi.org)
 
 The contents of this repository are distributed under the MIT license. See below
 for details:
 ```
 MIT License
 
-Copyright (c) 2019-2025 Nima S. Hejazi
+Copyright (c) 2019-2026 Nima S. Hejazi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

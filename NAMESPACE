@@ -11,53 +11,69 @@ export(ipw_shift)
 export(predict.haldensify)
 importFrom(Rdpack,reprompt)
 importFrom(assertthat,assert_that)
-importFrom(data.table,":=")
-importFrom(data.table,as.data.table)
-importFrom(data.table,data.table)
-importFrom(data.table,setnames)
-importFrom(dplyr,"%>%")
-importFrom(dplyr,between)
-importFrom(dplyr,bind_rows)
-importFrom(dplyr,case_when)
-importFrom(dplyr,mutate)
-importFrom(dplyr,relocate)
-importFrom(future.apply,future_lapply)
-importFrom(future.apply,future_mapply)
-importFrom(ggplot2,aes_string)
-importFrom(ggplot2,cut_interval)
-importFrom(ggplot2,cut_number)
-importFrom(ggplot2,geom_line)
-importFrom(ggplot2,geom_point)
-importFrom(ggplot2,geom_vline)
-importFrom(ggplot2,ggplot)
-importFrom(ggplot2,ggtitle)
-importFrom(ggplot2,theme_bw)
-importFrom(ggplot2,xlab)
-importFrom(ggplot2,ylab)
+importFrom(data.table,
+  ":=",
+  as.data.table,
+  data.table,
+  setnames
+)
+importFrom(dplyr,
+  "%>%",
+  between,
+  bind_rows,
+  case_when,
+  mutate,
+  relocate
+)
+importFrom(future.apply,
+  future_lapply,
+  future_mapply
+)
+importFrom(ggplot2,
+  aes_string,
+  cut_interval,
+  cut_number,
+  geom_line,
+  geom_point,
+  geom_vline,
+  ggplot,
+  ggtitle,
+  theme_bw,
+  xlab,
+  ylab
+)
 importFrom(hal9001,fit_hal)
-importFrom(matrixStats,colMeans2)
-importFrom(matrixStats,colSums2)
-importFrom(matrixStats,colVars)
-importFrom(matrixStats,diff2)
-importFrom(origami,cross_validate)
-importFrom(origami,fold_index)
-importFrom(origami,make_folds)
-importFrom(origami,training)
-importFrom(origami,validation)
+importFrom(matrixStats,
+  colMeans2,
+  colSums2,
+  colVars,
+  diff2
+)
+importFrom(origami,
+  cross_validate,
+  fold_index,
+  make_folds,
+  training,
+  validation
+)
 importFrom(rlang,set_names)
 importFrom(scales,percent)
-importFrom(stats,IQR)
-importFrom(stats,aggregate)
-importFrom(stats,confint)
-importFrom(stats,loess)
-importFrom(stats,plogis)
-importFrom(stats,predict)
-importFrom(stats,qlogis)
-importFrom(stats,qnorm)
-importFrom(stats,var)
-importFrom(stats,weighted.mean)
+importFrom(stats,
+  IQR,
+  aggregate,
+  confint,
+  loess,
+  plogis,
+  predict,
+  qlogis,
+  qnorm,
+  var,
+  weighted.mean
+)
 importFrom(stringr,str_remove)
-importFrom(tibble,add_column)
-importFrom(tibble,as_tibble)
-importFrom(tibble,tibble)
+importFrom(tibble,
+  add_column,
+  as_tibble,
+  tibble
+)
 importFrom(utils,head)
