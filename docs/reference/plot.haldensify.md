@@ -15,7 +15,7 @@ plot(x, ..., type = c("risk", "density"))
 
   Object of class `haldensify`, containing conditional density
   estimates, as produced by
-  [`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md).
+  [`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md).
 
 - ...:
 

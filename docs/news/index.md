@@ -140,15 +140,15 @@ As of February 2021:
   `dplyr`.
 - Limit re-fitting of HAL model (after CV-selection of tuning
   parameters) in
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   to full-data fit by explicitly passing `n_folds = 1`.
 - Avoid cross-validation procedure conditionally when the arguments
   `n_bin` and `grid_type` are fixed; add related assertion check in
   [`predict()`](https://rdrr.io/r/stats/predict.html) when
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   skips cross-validation (since lambda selection skipped).
 - Change how long-format repeated measures data is passed around in both
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   and [`predict()`](https://rdrr.io/r/stats/predict.html) to clarify
   variable passing.
 - Correct [`predict()`](https://rdrr.io/r/stats/predict.html) method to
@@ -160,19 +160,19 @@ As of February 2021:
 As of January 2021:
 
 - Addition of argument `hal_basis_list` to
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md),
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md),
   allowing for a HAL basis produced by `fit_hal()` to be passed into the
   HAL regression used for density estimation. This facilitates reduced
   computational overhead when requiring external cross-validation of
   nuisance functions (e.g., CV-TMLE) as well as working with bootstrap
   samples.
 - Addition of argument `hal_max_degree` to
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md),
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md),
   allowing for control of the highest degree of interactions considered
   in the HAL model for density estimation. Like the above, this can
   reduce computational overhead.
 - Fix a minor bug in
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   by passing `cv_folds` to the `n_folds` argument of `fit_hal()` when
   fitting HAL regression for density estimation. Previously, `cv_folds`
   was only used in constructing cross-validation (CV) folds for choosing
@@ -182,10 +182,10 @@ As of January 2021:
   Now, both CV to choose density estimation tuning parameters and CV to
   choose the lasso tuning parameter use the same number of folds.
 - Addition of argument `...` to
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   so that arbitrary arguments can be passed to `fit_hal()` for density
   estimation, when not already specified as other arguments of the
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   constructor.
 - Remove the unnecessary argument `use_future`, specifying parallel
   evaluation in a note instead.
@@ -203,7 +203,7 @@ As of January 2021:
 
 - Adds support to facilitate convenient marginal density estimation by
   creating automatically a constant vector when `W = NULL` is set in
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md).
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md).
 - The `hal9001` dependency has been upgraded to v0.2.8 of that package,
   which introduced breaking changes in the names of slots in fitted
   model objects.
@@ -249,14 +249,14 @@ As of May 2020:
   models has been slightly abstracted and moved to the new function
   `fit_haldensify`.
 - The
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   wrapper function serves to cross-validate over choices of the
   histogram binning strategy and the number of bins.
 - The defaults of
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   have been changed based on results of simulation experiments.
 - The unnecessary argument `seed_int` in
-  [`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+  [`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
   has been removed.
 - Fixes a bug introduced by returning predicted hazards as a vector
   instead of a matrix.

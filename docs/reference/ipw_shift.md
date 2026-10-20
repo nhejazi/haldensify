@@ -64,7 +64,7 @@ ipw_shift(
 - ...:
 
   Additional arguments for model fitting to be passed directly to
-  [`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md).
+  [`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md).
 
 - bin_type:
 
@@ -73,7 +73,7 @@ ipw_shift(
   `"equal_range"`; to ensure each bin has the same number of
   observations, use instead `"equal_mass"`. For more information, see
   documentation of `grid_type` in
-  [`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md).
+  [`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md).
 
 - selector_type:
 

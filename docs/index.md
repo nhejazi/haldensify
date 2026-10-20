@@ -65,7 +65,7 @@ highly adaptive lasso model to obtain conditional density estimates:
 `a`` ``<-`` `[`rnorm`](https://rdrr.io/r/stats/Normal.html)`(``n_train``, ``w``, ``0.25``)`\
 \
 `# HAL-based density estimate of A|W`\
-`haldensify_fit`` ``<-`` `[`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)`(`\
+`haldensify_fit`` ``<-`` `[`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)`(`\
 `  A ``=`` ``a``,`\
 `  W ``=`` ``w``,`\
 `  n_bins ``=`` ``10``,`\

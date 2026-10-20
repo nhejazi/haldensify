@@ -15,7 +15,7 @@ confint(object, parm = seq_len(object$psi), level = 0.95, ...)
 - object:
 
   An object of class `ipw_haldensify`, produced by invoking the function
-  [`ipw_shift`](https://codex.nimahejazi.org/txshift/reference/ipw_shift.md),
+  [`ipw_shift`](https://codex.nimahejazi.org/haldensify/reference/ipw_shift.md),
   for which a confidence interval is to be computed.
 
 - parm:
@@ -41,7 +41,7 @@ intervals at a specified coverage level.
 ## Details
 
 Compute confidence intervals for estimates produced by
-[`ipw_shift`](https://codex.nimahejazi.org/txshift/reference/ipw_shift.md).
+[`ipw_shift`](https://codex.nimahejazi.org/haldensify/reference/ipw_shift.md).
 
 ## Examples
 

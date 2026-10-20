@@ -22,10 +22,10 @@ predict(
 - object:
 
   An object of class
-  [`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md),
+  [`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md),
   containing the results of fitting the highly adaptive lasso for
   conditional density estimation, as produced by a call to
-  [`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md).
+  [`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md).
 
 - ...:
 
@@ -60,7 +60,7 @@ predict(
   are observations in the prediction set with values of `new_A` outside
   of the support of the training set (i.e., provided in the argument `A`
   to
-  [`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)),
+  [`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)),
   their predictions are similarly truncated.
 
 - lambda_select:
@@ -88,7 +88,7 @@ A `numeric` vector of predicted conditional density values from a fitted
 Method for computing and extracting predictions of the conditional
 density estimates based on the highly adaptive lasso estimator, returned
 as an S3 object of class `haldensify` from
-[`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md).
+[`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md).
 
 ## Examples
 

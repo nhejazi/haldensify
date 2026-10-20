@@ -179,7 +179,7 @@ using a binning strategy that accommodates creating such a large number
 of bins.
 
 \
-`haldensify_fit`` ``<-`` `[`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)`(`\
+`haldensify_fit`` ``<-`` `[`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)`(`\
 `  A ``=`` ``example_data``$``A``,`\
 `  W ``=`` ``example_data``$``W``,`\
 `  n_bins ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``4``, ``6``, ``8``)``,`\
@@ -319,7 +319,7 @@ treatments. The IPW estimator of $`\psi`$ is
 $`\psi_{n,\text{IPW}} = \{\tilde{g}_{n,A}(A \mid W) / g_{n,A}(A \mid
 W)\} Y`$, where $`g_{n,A}`$ is an estimator of the generalized
 propensity score (e.g., as produced by
-[`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md))
+[`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md))
 and $`\tilde{g}_{n,A}`$ is this quantity evaluated at the
 post-intervention value of the treatment $`A_{\delta}`$. Usually,
 $`g_{n,A}`$ must be estimated via parametric modeling strategies in
@@ -332,7 +332,7 @@ in part because strategies for optimal selection of $`g_{n,A}`$ (e.g.,
 cross-validation) optimize for estimation of the conditional density,
 ignoring the fact that it is only a nuisance parameter in the process of
 IPW estimation. When
-[`haldensify()`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)
+[`haldensify()`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)
 is used for this purpose, a family of conditional density estimators
 $`g_{n,A,\lambda}`$, indexed by the $`\ell_1`$ regularization term
 $`\lambda`$, are generated, with cross-validation used to select an
@@ -345,7 +345,7 @@ fail to yield an IPW estimator with desirable asymptotic properties;
 undersmoothing must be used to select a more appropriate estimator. The
 `haldensify` package implements nonparametric IPW estimators that
 incorporate undersmoothing in the
-[`ipw_shift()`](https://codex.nimahejazi.org/txshift/reference/ipw_shift.md)
+[`ipw_shift()`](https://codex.nimahejazi.org/haldensify/reference/ipw_shift.md)
 function, the use of which we demonstrate below.
 
 ## Example: Nonparametric IPW estimation
@@ -383,7 +383,7 @@ $`Y`$ under an MTP that shifts $`A`$ by $`\delta = 2`$.
     ## 200:     1     5 2.183518
 
 With this dataset, we can now simply call the
-[`ipw_shift()`](https://codex.nimahejazi.org/txshift/reference/ipw_shift.md)
+[`ipw_shift()`](https://codex.nimahejazi.org/haldensify/reference/ipw_shift.md)
 function, providing arguments that specify the causal effect of interest
 (`delta = 2`) and tuning parameters for estimating the generalized
 propensity score (`lambda_seq`, `cv_folds`, `n_bins`). The
@@ -395,7 +395,7 @@ description of the selectors and numerical experiments examining their
 performance, see Hejazi et al. (2022).
 
 \
-`est_ipw`` ``<-`` `[`ipw_shift`](https://codex.nimahejazi.org/txshift/reference/ipw_shift.md)`(`\
+`est_ipw`` ``<-`` `[`ipw_shift`](https://codex.nimahejazi.org/haldensify/reference/ipw_shift.md)`(`\
 `  W ``=`` ``dat_obs``$``W``, A ``=`` ``dat_obs``$``A``, Y ``=`` ``dat_obs``$``Y``,`\
 `  delta ``=`` ``2``,`\
 `  cv_folds ``=`` ``5L``,`\

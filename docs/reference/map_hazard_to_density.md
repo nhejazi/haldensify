@@ -15,7 +15,7 @@ map_hazard_to_density(hazard_pred_single_obs)
   A `numeric` vector of predicted hazard of failure in a given bin
   (under a given partitioning of the support) for a single observational
   unit based on a long format data structure (from
-  [`format_long_hazards`](https://codex.nimahejazi.org/txshift/reference/format_long_hazards.md)).
+  [`format_long_hazards`](https://codex.nimahejazi.org/haldensify/reference/format_long_hazards.md)).
   This is the probability that a given value falls in a corresponding
   bin, given that it has not yet failed (fallen in a preceding bin), as
   per Díaz I, van der Laan MJ (2011). “Super learner based conditional

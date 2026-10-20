@@ -60,9 +60,9 @@ plateau_selector(
   An object of class `haldensify` of the fitted conditional density
   model for the natural exposure mechanism. This should be the fit
   object returned by
-  [`haldensify`](https://codex.nimahejazi.org/txshift/reference/haldensify.md)`[haldensify]`
+  [`haldensify`](https://codex.nimahejazi.org/haldensify/reference/haldensify.md)`[haldensify]`
   as part of a call to
-  [`ipw_shift`](https://codex.nimahejazi.org/txshift/reference/ipw_shift.md).
+  [`ipw_shift`](https://codex.nimahejazi.org/haldensify/reference/ipw_shift.md).
 
 - Qn_pred_natural:
 
